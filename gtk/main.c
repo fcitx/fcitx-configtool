@@ -11,7 +11,7 @@ main(int argc, char **argv)
     setlocale(LC_ALL, "");
     bindtextdomain("fcitx-config", LOCALEDIR); 
     bindtextdomain("fcitx", LOCALEDIR); 
-    textdomain("fcitx-config");
+    textdomain("fcitx");
 
     GtkWidget *window;
     gtk_init(&argc, &argv);
