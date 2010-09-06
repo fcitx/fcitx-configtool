@@ -1,2 +1,16 @@
 # List of source files which contain translatable strings.
+gtk/main_window.c
+gtk/configdesc.h
+gtk/table_stuff.h
+gtk/uthash.h
+gtk/table_stuff.c
+gtk/xdg.h
+gtk/xdg.c
+gtk/config_widget.c
 gtk/main.c
+gtk/utarray.h
+gtk/skin_stuff.h
+gtk/main_window.h
+gtk/skin_stuff.c
+gtk/configdesc.c
+gtk/config_widget.h

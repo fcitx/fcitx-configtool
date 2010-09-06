@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-06 11:20+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../gtk/main_window.c:112
+msgid "Config"
+msgstr ""
+
+#: ../gtk/main_window.c:135
+msgid "Profile"
+msgstr ""
+
+#: ../gtk/main_window.c:141
+msgid "Skin Configuration"
+msgstr ""
+
+#: ../gtk/main_window.c:141
+msgid "Skin"
+msgstr ""
+
+#: ../gtk/main_window.c:184
+msgid "Table Configuration"
+msgstr ""
+
+#: ../gtk/main_window.c:184
+msgid "Table"
+msgstr ""
+
+#: ../gtk/config_widget.c:36
+msgid "Save"
+msgstr ""
+
+#: ../gtk/config_widget.c:37
+msgid "Reset"
+msgstr ""
+
+#: ../gtk/config_widget.c:99
+msgid "Clear font setting"
+msgstr ""

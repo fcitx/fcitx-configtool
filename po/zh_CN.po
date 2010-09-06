@@ -1,1 +1,53 @@
+# Header entry was created by Lokalize.
+#
+#: ../gtk/main_window.c:112
+# Weng Xuetian <wengxt@gmail.com>, 2010.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Mime-Version: 1.0"
+"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
+"PO-Revision-Date: 2010-09-06 11:22+0800\n"
+"Project-Id-Version: \n"
+"Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
+"X-Generator: Lokalize 1.1\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: ../gtk/main_window.c:112
+msgid "Config"
+msgstr "配置"
+
+#: ../gtk/main_window.c:135
+msgid "Profile"
+msgstr "预置文件"
+
+#: ../gtk/main_window.c:141
+msgid "Skin Configuration"
+msgstr "皮肤配置"
+
+#: ../gtk/main_window.c:141
+msgid "Skin"
+msgstr "皮肤"
+
+#: ../gtk/main_window.c:184
+msgid "Table Configuration"
+msgstr "码表配置"
+
+#: ../gtk/main_window.c:184
+msgid "Table"
+msgstr "码表"
+
+#: ../gtk/config_widget.c:36
+msgid "Save"
+msgstr "保存"
+
+#: ../gtk/config_widget.c:37
+msgid "Reset"
+msgstr "重置"
+
+#: ../gtk/config_widget.c:99
+msgid "Clear font setting"
+msgstr "清除字体设置"
 
