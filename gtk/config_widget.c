@@ -89,7 +89,12 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
             codesc = (ConfigOptionDesc*)codesc->hh.next)
         {
             GtkWidget* hbox = gtk_hbox_new(FALSE, 5);
-            GtkWidget* label = gtk_label_new(_(codesc->optionName));
+            const char *s;
+            if (codesc->desc && strlen(codesc->desc) != 0)
+                s = _(codesc->desc);
+            else
+                s = _(codesc->optionName);
+            GtkWidget* label = gtk_label_new(s);
             gtk_widget_set_size_request(label, 220, -1);
             g_object_set(label, "xalign", 0.0f, NULL);
 
