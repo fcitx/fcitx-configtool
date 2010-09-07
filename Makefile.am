@@ -1,4 +1,4 @@
-SUBDIRS=gtk po 
+SUBDIRS=gtk data po 
 
 ACLOCAL_AMFLAGS = -I m4
 

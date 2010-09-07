@@ -1,0 +1,17 @@
+[Desktop Entry]
+Exec=fcitx-config
+GenericName[zh_CN]=Fcitx配置工具
+GenericName=Fcitx Configuration Tool
+Icon=fcitx-config
+MimeType=
+Name[zh_CN]=Fcitx配置
+Name=Fcitx Config
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
