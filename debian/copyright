@@ -1,0 +1,25 @@
+This work was packaged for Debian by:
+
+    Weng Xuetian <wengxt@gmail.com> on Tue, 07 Sep 2010 18:01:01 +0800
+
+It was downloaded from <url://example.com>
+
+Upstream Author(s):
+
+    Weng Xuetian <wengxt@gmail.com>
+
+Copyright:
+
+    Weng Xuetian <wengxt@gmail.com>
+
+License:
+License: GPL-2
+    On Debian systems the full text of the GNU General Public License can be found
+    in the `/usr/share/common-licenses/GPL-2' file.
+
+The Debian packaging is:
+
+    Copyright (C) 2010 Weng Xuetian <wengxt@gmail.com>
+
+and is licensed under the GPL version 2, 
+see `/usr/share/common-licenses/GPL-2'.

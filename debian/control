@@ -1,0 +1,13 @@
+Source: fcitx-config
+Section: utils
+Priority: optional
+Maintainer: Weng Xuetian <wengxt@gmail.com>
+Build-Depends: debhelper (>= 7), autotools-dev, libgtk2.0-dev (>= 2.10), fcitx (>= 4.0-beta1-r421)
+Standards-Version: 3.8.3
+Homepage: http://code.google.com/p/fcitx
+
+Package: fcitx-config
+Architecture: any
+Depends: libgtk2.0-0 (>= 2.10), fcitx (>= 4.0-beta1-r421)
+Description: Fcitx Config Tool
+ Fcitx Config Tool with GTK Based GUI
