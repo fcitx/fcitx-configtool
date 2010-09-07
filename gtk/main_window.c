@@ -250,11 +250,13 @@ GtkWidget* fcitx_config_main_window_new()
     gtk_container_add(GTK_CONTAINER(mainWnd), hpaned);
 
     GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(configTreeView));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 
     gtk_signal_connect(GTK_OBJECT(mainWnd), "destroy", GTK_SIGNAL_FUNC(main_window_close), NULL);
     g_signal_connect(G_OBJECT(selection), "changed",
             G_CALLBACK(selection_changed), NULL);
 
     gtk_tree_view_expand_all(GTK_TREE_VIEW(configTreeView));
+    gtk_tree_selection_select_iter(selection, &configPage->iter);
     return mainWnd;
 }
