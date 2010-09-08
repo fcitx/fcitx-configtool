@@ -6,6 +6,7 @@
 
 #include "xdg.h"
 #include "main_window.h"
+#include "menu.h"
 #include "config_widget.h"
 #include "skin_stuff.h"
 #include "table_stuff.h"
@@ -219,6 +220,10 @@ GtkWidget* fcitx_config_main_window_new()
 {
     if (mainWnd != NULL)
         return mainWnd;
+
+    GtkWidget *menu = fcitx_config_menu_new();
+    GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
+    
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
 
@@ -227,10 +232,12 @@ GtkWidget* fcitx_config_main_window_new()
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(
-            "Config", renderer,
+            _("Config"), renderer,
             "text", 0,
             NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW (configTreeView), column);
+
+    gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(configTreeView), FALSE);
 
     add_config_file_page();
     add_profile_file_page();
@@ -247,7 +254,10 @@ GtkWidget* fcitx_config_main_window_new()
     gtk_container_add(GTK_CONTAINER(treescroll), configTreeView);
     gtk_paned_add1(GTK_PANED(hpaned), treescroll);
 
-    gtk_container_add(GTK_CONTAINER(mainWnd), hpaned);
+    gtk_box_pack_start(GTK_BOX(vbox), menu, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), hpaned, TRUE, TRUE, 0);
+
+    gtk_container_add(GTK_CONTAINER(mainWnd), vbox);
 
     GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(configTreeView));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
@@ -258,5 +268,8 @@ GtkWidget* fcitx_config_main_window_new()
 
     gtk_tree_view_expand_all(GTK_TREE_VIEW(configTreeView));
     gtk_tree_selection_select_iter(selection, &configPage->iter);
+
+    gtk_window_set_icon_name(GTK_WINDOW(mainWnd), "fcitx-config");
+    gtk_window_set_title(GTK_WINDOW(mainWnd), _("Fcitx Config"));
     return mainWnd;
 }

@@ -8,6 +8,7 @@
 #include "config_widget.h"
 
 #define _(s) gettext(s)
+#define D_(x) dgettext ("fcitx", x)
 static void sync_filter(ConfigGroup *group, ConfigOption *option, void *value, ConfigSync sync, void *arg);
 
 static void set_none_font_clicked(GtkWidget *button, gpointer arg)
@@ -74,7 +75,7 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
             continue;
 
         GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
-        GtkWidget *plabel = gtk_label_new(_(cgdesc->groupName));
+        GtkWidget *plabel = gtk_label_new(D_(cgdesc->groupName));
         GtkWidget *scrollwnd = gtk_scrolled_window_new(NULL, NULL);
 
         gtk_box_set_spacing(GTK_BOX(vbox), 4);
@@ -91,9 +92,9 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
             GtkWidget* hbox = gtk_hbox_new(FALSE, 5);
             const char *s;
             if (codesc->desc && strlen(codesc->desc) != 0)
-                s = _(codesc->desc);
+                s = D_(codesc->desc);
             else
-                s = _(codesc->optionName);
+                s = D_(codesc->optionName);
             GtkWidget* label = gtk_label_new(s);
             gtk_widget_set_size_request(label, 220, -1);
             g_object_set(label, "xalign", 0.0f, NULL);
@@ -135,7 +136,7 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
                         inputWidget = gtk_combo_box_new_text();
                         for (i = 0; i < e->enumCount; i ++)
                         {
-                            gtk_combo_box_append_text(GTK_COMBO_BOX(inputWidget), _(e->enumDesc[i]));
+                            gtk_combo_box_append_text(GTK_COMBO_BOX(inputWidget), D_(e->enumDesc[i]));
                         }
                         argWidget = inputWidget;
                     }

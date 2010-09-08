@@ -51,6 +51,7 @@ AC_CONFIG_FILES([
                  Makefile
                  gtk/Makefile
                  data/Makefile
+                 icons/Makefile
                  po/Makefile.in
                  ])
 
