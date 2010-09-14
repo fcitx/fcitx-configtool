@@ -1,10 +1,10 @@
 #include "uthash.h"
 #include <fcitx-config/fcitx-config.h>
+#include <fcitx-config/xdg.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "configdesc.h"
-#include "xdg.h"
 
 typedef struct ConfigDescSet
 {

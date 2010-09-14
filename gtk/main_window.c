@@ -1,10 +1,10 @@
 #include <gtk/gtk.h>
 #include <fcitx-config/fcitx-config.h>
+#include <fcitx-config/xdg.h>
 #include <stdlib.h>
 #include <libintl.h>
 #include <errno.h>
 
-#include "xdg.h"
 #include "main_window.h"
 #include "menu.h"
 #include "config_widget.h"

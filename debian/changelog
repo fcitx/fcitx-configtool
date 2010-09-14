@@ -1,3 +1,9 @@
+fcitx-config (0.1.2-1) unstable; urgency=low
+
+  * Not so much update, but update for compatible with newer fcitx.
+
+ -- Weng Xuetian <wengxt@gmail.com>  Tue, 07 Sep 2010 18:01:01 +0800
+
 fcitx-config (0.1.1-1) unstable; urgency=low
 
   * Initial release

@@ -8,6 +8,6 @@ Homepage: http://code.google.com/p/fcitx
 
 Package: fcitx-config
 Architecture: any
-Depends: libgtk2.0-0 (>= 2.10), fcitx (>= 4.0-beta1-r421)
+Depends: ${shlibs:Depends}
 Description: Fcitx Config Tool
  Fcitx Config Tool with GTK Based GUI

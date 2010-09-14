@@ -2,7 +2,8 @@
 #include <sys/stat.h>
 #include "utarray.h"
 #include "skin_stuff.h"
-#include "xdg.h"
+#include <fcitx-config/fcitx-config.h>
+#include <fcitx-config/xdg.h>
 
 static UT_array* skinBuf = NULL;
 

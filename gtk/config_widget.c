@@ -4,11 +4,42 @@
 #include <libintl.h>
 #include <stdlib.h>
 #include <libgen.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "config_widget.h"
 
 #define _(s) gettext(s)
 #define D_(x) dgettext ("fcitx", x)
+
+static void make_path (const char *path);
+
+void
+make_path (const char *path)
+{
+    char opath[PATH_MAX];
+    char *p;
+    size_t len;
+    
+    strncpy(opath, path, sizeof(opath));
+    opath[PATH_MAX - 1] = '\0';
+    len = strlen(opath);
+    while(opath[len - 1] == '/')
+    {
+        opath[len - 1] = '\0';
+        len --;
+    }
+    for(p = opath; *p; p++)
+        if(*p == '/') {
+            *p = '\0';
+            if(access(opath, F_OK))
+                mkdir(opath, S_IRWXU);
+            *p = '/';
+        }
+    if(access(opath, F_OK))         /* if path is not terminated with / */
+        mkdir(opath, S_IRWXU);
+}
+
 static void sync_filter(ConfigGroup *group, ConfigOption *option, void *value, ConfigSync sync, void *arg);
 
 static void set_none_font_clicked(GtkWidget *button, gpointer arg)

@@ -2,10 +2,11 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <fcitx-config/xdg.h>
 
 #include "utarray.h"
 #include "uthash.h"
-#include "xdg.h"
 #include "table_stuff.h"
 
 typedef struct StringHashSet {
