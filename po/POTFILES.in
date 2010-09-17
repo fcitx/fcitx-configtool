@@ -4,8 +4,8 @@ gtk/configdesc.h
 gtk/table_stuff.h
 gtk/uthash.h
 gtk/table_stuff.c
-gtk/xdg.h
-gtk/xdg.c
+gtk/menu.h
+gtk/menu.c
 gtk/config_widget.c
 gtk/main.c
 gtk/utarray.h
