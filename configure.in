@@ -3,7 +3,7 @@
 
 AC_INIT
 AC_CONFIG_SRCDIR([gtk/main.c])
-AM_INIT_AUTOMAKE(fcitx-config, "0.1.1")
+AM_INIT_AUTOMAKE(fcitx-config, "0.1.2")
 
 AC_CANONICAL_HOST
 AC_CONFIG_HEADERS([config.h])
@@ -52,6 +52,7 @@ AC_CONFIG_FILES([
                  gtk/Makefile
                  data/Makefile
                  icons/Makefile
+                 debian/Makefile
                  po/Makefile.in
                  ])
 

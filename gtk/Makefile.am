@@ -6,7 +6,7 @@ fcitx_config_gtk_SOURCES= main.c \
 						  table_stuff.c table_stuff.h \
 						  configdesc.c configdesc.h \
 						  menu.c menu.h \
-						  utarray.h
+						  utarray.h uthash.h
 
 DEFS = -DPKGDATADIR=\"$(pkgdatadir)\" -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\"
 
