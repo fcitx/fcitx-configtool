@@ -4,6 +4,7 @@ fcitx_config_gtk_SOURCES= main.c \
 						  config_widget.c config_widget.h \
 						  skin_stuff.c skin_stuff.h \
 						  table_stuff.c table_stuff.h \
+						  addon_stuff.c addon_stuff.h \
 						  configdesc.c configdesc.h \
 						  menu.c menu.h \
 						  utarray.h
