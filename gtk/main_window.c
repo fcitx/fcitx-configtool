@@ -9,6 +9,7 @@
 #include "menu.h"
 #include "config_widget.h"
 #include "skin_stuff.h"
+#include "addon_stuff.h"
 #include "table_stuff.h"
 #include "utarray.h"
 #include "configdesc.h"
@@ -20,7 +21,7 @@ static GtkWidget *configTreeView = NULL;
 static GtkWidget *configNotebook = NULL;
 static GtkTreeStore *store = NULL;
 static GtkWidget *hpaned = NULL;
-static ConfigPage *configPage, *profilePage, *tablePage, *skinPage, *lastPage = NULL;
+static ConfigPage *configPage, *profilePage, *tablePage, *skinPage, *lastPage = NULL, *addonPage;
 
 static int main_window_close(GtkWidget *theWindow, gpointer data);
 static GtkTreeModel *fcitx_config_create_model();
@@ -167,7 +168,8 @@ void add_skin_page()
                 continue;
             }
             path = GetXDGPath(&len, "XDG_CONFIG_HOME", ".config", "fcitx/skin" , NULL, NULL );
-            GetXDGFile(buf, path, NULL, len, &file);
+            FILE * fp = GetXDGFile(buf, path, NULL, len, &file);
+            if (fp) fclose(fp);
             FreeXDGPath(path);
         }
         else
@@ -176,6 +178,49 @@ void add_skin_page()
         main_window_add_page("skin.desc", *sskin, file, cfile, skinPage);
         free(file);
     }
+
+}
+
+void add_addon_page()
+{
+    int i, j;
+    addonPage = main_window_add_page(_("Addon Configuration"), _("Addon"), NULL, NULL, NULL);
+    UT_array *addonBuf = LoadAddonInfo();
+    
+    size_t len;
+    char **addonPath = GetXDGPath(&len, "XDG_CONFIG_HOME", ".config", "fcitx/addon" , DATADIR, "fcitx/data/addon" );
+    char **paths = malloc(sizeof(char*) *len);
+    for (i = 0;i < len ;i ++)
+        paths[i] = malloc(sizeof(char) *PATH_MAX);
+
+    for(j=0;j<addonBuf->i;j++)
+    {
+        char *file;
+        ConfigFile *cfile;
+        char **saddon = (char**)utarray_eltptr(addonBuf, j);
+        for (i = len -1; i >= 0; i--)
+            snprintf(paths[i], PATH_MAX, "%s/%s", addonPath[len - i - 1], *saddon);
+
+        cfile = ParseMultiConfigFile(paths, len, get_config_desc("addon.desc"));
+
+        if (!cfile)
+            continue;
+    
+        {
+            size_t l;
+            char **path = GetXDGPath(&l, "XDG_CONFIG_HOME", ".config", "fcitx/addon" , DATADIR, "fcitx/data/addon" );
+            FILE *fp =GetXDGFile(*saddon, path, "r", l, &file);
+            if (fp) fclose(fp);
+            FreeXDGPath(path);
+        }
+        main_window_add_page("addon.desc", *saddon, file, cfile, addonPage);
+        free(file);
+    }
+
+    for (i = 0;i < len ;i ++)
+        free(paths[i]);
+    free(paths);
+    FreeXDGPath(addonPath);
 
 }
 
@@ -204,7 +249,8 @@ void add_table_page()
         if (!cfile)
             continue;
         
-        GetXDGFileTable(*stable, "r", &file, True);
+        FILE *fp = GetXDGFileTable(*stable, "r", &file, True);
+        if (fp) fclose(fp);
         main_window_add_page("table.desc", *stable, file, cfile, tablePage);
         free(file);
     }
@@ -243,6 +289,7 @@ GtkWidget* fcitx_config_main_window_new()
     add_profile_file_page();
     add_table_page();
     add_skin_page();
+    add_addon_page();
 
     gtk_widget_set_size_request(configTreeView, 220, -1);
     gtk_widget_set_size_request(mainWnd, -1, 400);
