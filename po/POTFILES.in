@@ -1,4 +1,6 @@
 # List of source files which contain translatable strings.
+gtk/addon_stuff.c
+gtk/addon_stuff.h
 gtk/main_window.c
 gtk/configdesc.h
 gtk/table_stuff.h

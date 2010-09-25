@@ -9,7 +9,7 @@ fcitx_config_gtk_SOURCES= main.c \
 						  menu.c menu.h \
 						  utarray.h uthash.h
 
-DEFS = -DPKGDATADIR=\"$(pkgdatadir)\" -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\"
+DEFS = -DPKGDATADIR=\"$(pkgdatadir)\" -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" -DBINDIR=\"$(bindir)\"
 
 INCLUDES = \
 	@GTK2_CFLAGS@ \

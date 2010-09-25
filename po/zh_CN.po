@@ -1,53 +1,74 @@
 # Header entry was created by Lokalize.
 #
-#: ../gtk/main_window.c:112
 # Weng Xuetian <wengxt@gmail.com>, 2010.
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-25 07:50+0800\n"
+"PO-Revision-Date: 2010-09-25 07:52+0800\n"
+"Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Mime-Version: 1.0"
-"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
-"PO-Revision-Date: 2010-09-06 11:22+0800\n"
-"Project-Id-Version: \n"
-"Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
 "X-Generator: Lokalize 1.1\n"
-"MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 
-#: ../gtk/main_window.c:112
+#: ../gtk/main_window.c:114 ../gtk/main_window.c:281
 msgid "Config"
 msgstr "配置"
 
-#: ../gtk/main_window.c:135
+#: ../gtk/main_window.c:137
 msgid "Profile"
 msgstr "预置文件"
 
-#: ../gtk/main_window.c:141
+#: ../gtk/main_window.c:143
 msgid "Skin Configuration"
 msgstr "皮肤配置"
 
-#: ../gtk/main_window.c:141
+#: ../gtk/main_window.c:143
 msgid "Skin"
 msgstr "皮肤"
 
-#: ../gtk/main_window.c:184
+#: ../gtk/main_window.c:187
+msgid "Addon Configuration"
+msgstr "附加组件配置"
+
+#: ../gtk/main_window.c:187
+msgid "Addon"
+msgstr "附加组件"
+
+#: ../gtk/main_window.c:230
 msgid "Table Configuration"
 msgstr "码表配置"
 
-#: ../gtk/main_window.c:184
+#: ../gtk/main_window.c:230
 msgid "Table"
 msgstr "码表"
 
-#: ../gtk/config_widget.c:36
+#: ../gtk/main_window.c:320
+msgid "Fcitx Config"
+msgstr "Fcitx配置"
+
+#: ../gtk/menu.c:10
+msgid "_File"
+msgstr "文件(_F)"
+
+#: ../gtk/menu.c:17
+msgid "_Exit"
+msgstr "退出(_E)"
+
+#: ../gtk/config_widget.c:87
 msgid "Save"
 msgstr "保存"
 
-#: ../gtk/config_widget.c:37
+#: ../gtk/config_widget.c:88
 msgid "Reset"
 msgstr "重置"
 
-#: ../gtk/config_widget.c:99
+#: ../gtk/config_widget.c:155
 msgid "Clear font setting"
 msgstr "清除字体设置"
 
