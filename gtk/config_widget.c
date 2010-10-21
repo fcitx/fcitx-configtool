@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 #include "config_widget.h"
+#include "keygrab.h"
 
 #define _(s) gettext(s)
 #define D_(x) dgettext ("fcitx", x)
@@ -79,22 +80,26 @@ static void save_config_clicked(GtkWidget* button, gpointer arg)
     }
 }
 
-GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPage *page)
+GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPage *page, gboolean readonly)
 {
     GtkWidget *cvbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget *chbox = gtk_hbox_new(FALSE, 0);
+    GtkWidget *chbox = NULL;
     GtkWidget *configNotebook = gtk_notebook_new();
-    GtkWidget *saveButton = gtk_button_new_with_label(_("Save"));
-    GtkWidget *resetButton = gtk_button_new_with_label(_("Reset"));
-                        
+    GtkWidget *saveButton = NULL;
+    GtkWidget *resetButton = NULL;
+    
+    gtk_box_pack_start(GTK_BOX(cvbox), configNotebook, TRUE, TRUE, 0);
+    saveButton = gtk_button_new_with_label(_("Save"));
+    resetButton = gtk_button_new_with_label(_("Reset"));
+    chbox = gtk_hbox_new(FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(chbox), saveButton, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(chbox), resetButton, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(cvbox), chbox, FALSE, FALSE, 0);
+    
     gtk_signal_connect(GTK_OBJECT(resetButton), "clicked", GTK_SIGNAL_FUNC(reset_config_clicked), page);
     gtk_signal_connect(GTK_OBJECT(saveButton), "clicked", GTK_SIGNAL_FUNC(save_config_clicked), page);
         
-    gtk_box_pack_start(GTK_BOX(cvbox), configNotebook, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(cvbox), chbox, FALSE, FALSE, 0);
 
-    gtk_box_pack_start(GTK_BOX(chbox), saveButton, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(chbox), resetButton, FALSE, FALSE, 0);
     ConfigGroupDesc *cgdesc = NULL;
     ConfigOptionDesc *codesc = NULL;
     for(cgdesc = cfdesc->groupsDesc;
@@ -172,10 +177,15 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
                         argWidget = inputWidget;
                     }
                     break;
+                case T_Hotkey:
+                    {
+                        inputWidget = keygrab_button_new();
+                        argWidget = inputWidget;
+                    }
+                    break;
                 case T_File:
                 case T_Char:
                 case T_Image:
-                case T_Hotkey:
                 case T_String:
                     inputWidget = gtk_entry_new();
                     argWidget = inputWidget;
@@ -183,6 +193,10 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
             }
             gtk_box_pack_start(GTK_BOX(hbox), inputWidget, TRUE, TRUE, 0);
             gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+            if (readonly && strcmp(codesc->optionName, "Enabled") != 0)
+            {
+                gtk_widget_set_sensitive(GTK_WIDGET(argWidget), FALSE);
+            }
             ConfigBindValue(cfile, cgdesc->groupName, codesc->optionName, NULL, sync_filter, argWidget);
         }
     }
@@ -251,10 +265,13 @@ void sync_filter(ConfigGroup *group, ConfigOption *option, void *value, ConfigSy
                     gtk_combo_box_set_active(GTK_COMBO_BOX(arg), index);
                 }
                 break;
+            case T_Hotkey:
+                {
+                }
+                break;
             case T_File:
             case T_Char:
             case T_Image:
-            case T_Hotkey:
             case T_String:
                 {
                     gtk_entry_set_text(GTK_ENTRY(arg), option->rawValue);
@@ -324,10 +341,13 @@ void sync_filter(ConfigGroup *group, ConfigOption *option, void *value, ConfigSy
                     option->rawValue = strdup(cenum->enumDesc[index]);
                 }
                 break;
+            case T_Hotkey:
+                {
+                }
+                break;
             case T_File:
             case T_Char:
             case T_Image:
-            case T_Hotkey:
             case T_String:
                 {
                     option->rawValue = strdup(gtk_entry_get_text(GTK_ENTRY(arg)));

@@ -7,6 +7,7 @@ fcitx_config_gtk_SOURCES= main.c \
 						  addon_stuff.c addon_stuff.h \
 						  configdesc.c configdesc.h \
 						  menu.c menu.h \
+						  keygrab.c keygrab.h \
 						  utarray.h uthash.h
 
 DEFS = -DPKGDATADIR=\"$(pkgdatadir)\" -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" -DBINDIR=\"$(bindir)\"
