@@ -45,6 +45,7 @@ GtkType keygrab_button_get_type(void)
 
 static void keygrab_button_init(KeyGrabButton *keygrabbutton)
 {
+    set_label(keygrabbutton, 0, 0);
     gtk_signal_connect(GTK_OBJECT(keygrabbutton), "clicked", GTK_SIGNAL_FUNC(begin_key_grab), NULL);
 }
 
@@ -148,10 +149,15 @@ void set_label(KeyGrabButton* self, guint key, GdkModifierType mods)
     label = gtk_accelerator_get_label(key, mods);
 
     if (strlen(label) == 0)
-        label = _("Disabled");
-    gchar* lb = accelerator_to_fcitx_hotkey(label);
-    gtk_button_set_label(GTK_BUTTON(b), lb);
-    free(lb);
+    {
+        gtk_button_set_label(GTK_BUTTON(b), _("Disabled"));
+    }
+    else
+    {
+        gchar* lb = accelerator_to_fcitx_hotkey(label);
+        gtk_button_set_label(GTK_BUTTON(b), lb);
+        free(lb);
+    }
 }
 
 GtkWidget* popup_new(GtkWidget* parent, const gchar* text, gboolean mouse)

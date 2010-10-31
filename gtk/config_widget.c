@@ -110,34 +110,35 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
         if (codesc == NULL)
             continue;
 
-        GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
+        GtkWidget *table = gtk_table_new(2, HASH_COUNT(codesc), FALSE);
         GtkWidget *plabel = gtk_label_new(D_(cgdesc->groupName));
         GtkWidget *scrollwnd = gtk_scrolled_window_new(NULL, NULL);
+        GtkWidget *viewport = gtk_viewport_new(NULL, NULL);
 
-        gtk_box_set_spacing(GTK_BOX(vbox), 4);
-        gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
+        gtk_container_set_border_width(GTK_CONTAINER(table), 4);
         gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwnd), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-        gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwnd), vbox);
+        gtk_container_add(GTK_CONTAINER(scrollwnd), viewport);
+        gtk_container_add(GTK_CONTAINER(viewport), table);
         gtk_notebook_append_page(GTK_NOTEBOOK(configNotebook),
                 scrollwnd,
                 plabel);
         
+        int i = 0;
         for ( ; codesc != NULL;
-            codesc = (ConfigOptionDesc*)codesc->hh.next)
+            codesc = (ConfigOptionDesc*)codesc->hh.next, i++)
         {
-            GtkWidget* hbox = gtk_hbox_new(FALSE, 5);
             const char *s;
             if (codesc->desc && strlen(codesc->desc) != 0)
                 s = D_(codesc->desc);
             else
                 s = D_(codesc->optionName);
             GtkWidget* label = gtk_label_new(s);
-            gtk_widget_set_size_request(label, 220, -1);
             g_object_set(label, "xalign", 0.0f, NULL);
 
-            gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
             GtkWidget *inputWidget = NULL;
             GtkWidget *argWidget = NULL;
+            
+            gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1, GTK_FILL, GTK_SHRINK, 5, 5);
 
             switch(codesc->type)
             {
@@ -191,8 +192,7 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
                     argWidget = inputWidget;
                     break;
             }
-            gtk_box_pack_start(GTK_BOX(hbox), inputWidget, TRUE, TRUE, 0);
-            gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+            gtk_table_attach(GTK_TABLE(table), inputWidget, 1, 2, i, i+1, GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 4);
             if (readonly && strcmp(codesc->optionName, "Enabled") != 0)
             {
                 gtk_widget_set_sensitive(GTK_WIDGET(argWidget), FALSE);

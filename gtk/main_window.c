@@ -291,8 +291,8 @@ GtkWidget* fcitx_config_main_window_new()
     add_skin_page();
     add_addon_page();
 
-    gtk_widget_set_size_request(configTreeView, 220, -1);
-    gtk_widget_set_size_request(mainWnd, -1, 400);
+    gtk_widget_set_size_request(configTreeView, 170, -1);
+    gtk_widget_set_size_request(mainWnd, -1, 660);
 
     hpaned = gtk_hpaned_new();
     GtkWidget *treescroll = gtk_scrolled_window_new(NULL, NULL);
