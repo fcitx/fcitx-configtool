@@ -1,1 +1,1 @@
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/fcitx-config.desktop DESTINATION share/applications/)
+install(FILES fcitx-config.desktop DESTINATION share/applications/)
