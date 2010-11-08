@@ -7,6 +7,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-25 07:50+0800\n"
 "PO-Revision-Date: 2010-09-25 07:52+0800\n"
+"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -14,61 +15,64 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 
-#: ../gtk/main_window.c:114 ../gtk/main_window.c:281
-msgid "Config"
-msgstr "配置"
-
-#: ../gtk/main_window.c:137
-msgid "Profile"
-msgstr "预置文件"
-
-#: ../gtk/main_window.c:143
-msgid "Skin Configuration"
-msgstr "皮肤配置"
-
-#: ../gtk/main_window.c:143
-msgid "Skin"
-msgstr "皮肤"
-
-#: ../gtk/main_window.c:187
-msgid "Addon Configuration"
-msgstr "附加组件配置"
-
-#: ../gtk/main_window.c:187
+#: gtk/main_window.c:187
 msgid "Addon"
 msgstr "附加组件"
 
-#: ../gtk/main_window.c:230
-msgid "Table Configuration"
-msgstr "码表配置"
+#: gtk/main_window.c:187
+msgid "Addon Configuration"
+msgstr "附加组件配置"
 
-#: ../gtk/main_window.c:230
-msgid "Table"
-msgstr "码表"
-
-#: ../gtk/main_window.c:320
-msgid "Fcitx Config"
-msgstr "Fcitx配置"
-
-#: ../gtk/menu.c:10
-msgid "_File"
-msgstr "文件(_F)"
-
-#: ../gtk/menu.c:17
-msgid "_Exit"
-msgstr "退出(_E)"
-
-#: ../gtk/config_widget.c:87
-msgid "Save"
-msgstr "保存"
-
-#: ../gtk/config_widget.c:88
-msgid "Reset"
-msgstr "重置"
-
-#: ../gtk/config_widget.c:155
+#: gtk/config_widget.c:161
 msgid "Clear font setting"
 msgstr "清除字体设置"
 
+#: gtk/main_window.c:114 gtk/main_window.c:281
+msgid "Config"
+msgstr "配置"
+
+#: gtk/main_window.c:320
+msgid "Fcitx Config"
+msgstr "Fcitx配置"
+
+#: gtk/main_window.c:137
+msgid "Profile"
+msgstr "预置文件"
+
+#: gtk/config_widget.c:93
+msgid "Reset"
+msgstr "重置"
+
+#: gtk/config_widget.c:92
+msgid "Save"
+msgstr "保存"
+
+#: gtk/main_window.c:143
+msgid "Skin"
+msgstr "皮肤"
+
+#: gtk/main_window.c:143
+msgid "Skin Configuration"
+msgstr "皮肤配置"
+
+#: gtk/main_window.c:230
+msgid "Table"
+msgstr "码表"
+
+#: gtk/main_window.c:230
+msgid "Table Configuration"
+msgstr "码表配置"
+
+#: gtk/menu.c:24
+msgid "_Exit"
+msgstr "退出(_E)"
+
+#: gtk/menu.c:11
+msgid "_File"
+msgstr "文件(_F)"
+
+#: gtk/menu.c:18
+#, fuzzy
+msgid "_Reload Config"
+msgstr "配置"

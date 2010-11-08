@@ -1,4 +1,5 @@
 # List of source files which contain translatable strings.
+SET(FCITX_CONFIG_SRCS
 gtk/addon_stuff.c
 gtk/addon_stuff.h
 gtk/main_window.c
@@ -16,3 +17,4 @@ gtk/main_window.h
 gtk/skin_stuff.c
 gtk/configdesc.c
 gtk/config_widget.h
+)
