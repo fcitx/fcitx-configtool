@@ -72,17 +72,24 @@ gboolean selection_changed(GtkTreeSelection *selection, gpointer data) {
     GtkTreeModel *model = gtk_tree_view_get_model(treeView);
     GtkTreeIter iter;
     ConfigPage *page;
-    gtk_tree_selection_get_selected(selection, &model, &iter);
-    gtk_tree_model_get(model, &iter,
-            1, &page,
-            -1);
+    
+    if (gtk_tree_selection_get_selected(selection, &model, &iter))
+    {
+        gtk_tree_model_get(model, &iter,
+                1, &page,
+                -1);
 
-    if (lastPage)
-        gtk_container_remove(GTK_CONTAINER(hpaned), lastPage->page);
-    gtk_paned_add2(GTK_PANED(hpaned), page->page);
-    gtk_widget_show_all(mainWnd);
+        if (lastPage)
+            gtk_container_remove(GTK_CONTAINER(hpaned), lastPage->page);
+        gtk_paned_add2(GTK_PANED(hpaned), page->page);
+        gtk_widget_show_all(mainWnd);
 
-    lastPage = page;
+        lastPage = page;
+    }
+    else
+    {
+        gtk_tree_selection_select_iter(selection, &configPage->iter);
+    }
 }
 
 GtkTreeModel *fcitx_config_create_model()
