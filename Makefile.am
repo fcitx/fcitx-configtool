@@ -1,3 +1,3 @@
-SUBDIRS=gtk data icons po debian
+SUBDIRS=gtk data icons po
 
 EXTRA_DIST = config.rpath autogen.sh
