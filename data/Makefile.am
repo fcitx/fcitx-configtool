@@ -1,5 +1,7 @@
-desktopfiledir = $(datadir)/applications
+desktopdir = $(datadir)/applications
+desktop_in_files = fcitx-configtool.desktop.in
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
-desktopfile_DATA = fcitx-config.desktop
+EXTRA_DIST = fcitx-configtool.desktop.in
 
-EXTRA_DIST = fcitx-config.desktop
+@INTLTOOL_DESKTOP_RULE@

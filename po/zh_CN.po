@@ -5,8 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-25 07:50+0800\n"
-"PO-Revision-Date: 2010-09-25 07:52+0800\n"
+"POT-Creation-Date: 2010-11-24 15:46+0800\n"
+"PO-Revision-Date: 2010-11-24 15:47+0800\n"
+"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -14,7 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 
 #: ../gtk/main_window.c:114 ../gtk/main_window.c:281
 msgid "Config"
@@ -52,11 +52,15 @@ msgstr "码表"
 msgid "Fcitx Config"
 msgstr "Fcitx配置"
 
-#: ../gtk/menu.c:10
+#: ../gtk/menu.c:11
 msgid "_File"
 msgstr "文件(_F)"
 
-#: ../gtk/menu.c:17
+#: ../gtk/menu.c:18
+msgid "_Reload Config"
+msgstr "重新加载配置"
+
+#: ../gtk/menu.c:24
 msgid "_Exit"
 msgstr "退出(_E)"
 
@@ -71,4 +75,16 @@ msgstr "重置"
 #: ../gtk/config_widget.c:155
 msgid "Clear font setting"
 msgstr "清除字体设置"
+
+#: ../data/fcitx-configtool.desktop.in.h:1
+msgid "Fcitx Config Tool"
+msgstr "Fcitx配置工具"
+
+#: ../data/fcitx-configtool.desktop.in.h:2
+msgid "Fcitx Configuration Tool"
+msgstr "Fcitx配置工具"
+
+#: ../data/fcitx-configtool.desktop.in.h:3
+msgid "Fcitx GUI Config Tool"
+msgstr "Fcitx图形化配置工具"
 

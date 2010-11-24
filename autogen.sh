@@ -8,8 +8,9 @@ autoconf || exit 1
 
 if [ -z "$1" ] ; then
   echo
-  echo 'fcitx-config now prepared to build. Run:'
+  echo 'fcitx-configtool now prepared to build. Run:'
   echo " ./configure && make"
+  echo " make install"
 else
   ./configure "$@" || exit 1
   make || exit 1
