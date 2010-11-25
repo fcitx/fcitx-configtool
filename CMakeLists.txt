@@ -1,9 +1,11 @@
 cmake_minimum_required (VERSION 2.6)
 
-project(fcitx-config)
+project(fcitx-configtool)
 
 FIND_PACKAGE(Gettext REQUIRED)
-FIND_PROGRAM(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
+FIND_PROGRAM(INTLTOOL_EXTRACT intltool-extract)
+FIND_PROGRAM(INTLTOOL_UPDATE intltool-update)
+FIND_PROGRAM(INTLTOOL_MERGE intltool-merge)
 
 add_subdirectory(gtk)
 add_subdirectory(data)

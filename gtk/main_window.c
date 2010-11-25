@@ -323,7 +323,7 @@ GtkWidget* fcitx_config_main_window_new()
     gtk_tree_view_expand_all(GTK_TREE_VIEW(configTreeView));
     gtk_tree_selection_select_iter(selection, &configPage->iter);
 
-    gtk_window_set_icon_name(GTK_WINDOW(mainWnd), "fcitx-config");
+    gtk_window_set_icon_name(GTK_WINDOW(mainWnd), "fcitx-configtool");
     gtk_window_set_title(GTK_WINDOW(mainWnd), _("Fcitx Config"));
     return mainWnd;
 }

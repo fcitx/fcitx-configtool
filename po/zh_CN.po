@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-25 07:50+0800\n"
+"POT-Creation-Date: 2010-11-25 17:04+0800\n"
 "PO-Revision-Date: 2010-09-25 07:52+0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
@@ -16,63 +16,75 @@ msgstr ""
 "X-Generator: Lokalize 1.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: gtk/main_window.c:187
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:194
 msgid "Addon"
 msgstr "附加组件"
 
-#: gtk/main_window.c:187
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:194
 msgid "Addon Configuration"
 msgstr "附加组件配置"
 
-#: gtk/config_widget.c:161
+#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:161
 msgid "Clear font setting"
 msgstr "清除字体设置"
 
-#: gtk/main_window.c:114 gtk/main_window.c:281
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:121
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:288
 msgid "Config"
 msgstr "配置"
 
-#: gtk/main_window.c:320
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:327
 msgid "Fcitx Config"
 msgstr "Fcitx配置"
 
-#: gtk/main_window.c:137
+#: ../data/fcitx-configtool.desktop.in.h:1
+msgid "Fcitx Config Tool"
+msgstr "Fcitx配置工具"
+
+#: ../data/fcitx-configtool.desktop.in.h:2
+msgid "Fcitx Configuration Tool"
+msgstr "Fcitx配置工具"
+
+#: ../data/fcitx-configtool.desktop.in.h:3
+msgid "Fcitx GUI Config Tool"
+msgstr "Fcitx图形化配置工具"
+
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:144
 msgid "Profile"
 msgstr "预置文件"
 
-#: gtk/config_widget.c:93
+#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:93
 msgid "Reset"
 msgstr "重置"
 
-#: gtk/config_widget.c:92
+#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:92
 msgid "Save"
 msgstr "保存"
 
-#: gtk/main_window.c:143
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:150
 msgid "Skin"
 msgstr "皮肤"
 
-#: gtk/main_window.c:143
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:150
 msgid "Skin Configuration"
 msgstr "皮肤配置"
 
-#: gtk/main_window.c:230
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:237
 msgid "Table"
 msgstr "码表"
 
-#: gtk/main_window.c:230
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:237
 msgid "Table Configuration"
 msgstr "码表配置"
 
-#: gtk/menu.c:24
+#: /home/saber/Develop/fcitx-config/po/../gtk/menu.c:24
 msgid "_Exit"
 msgstr "退出(_E)"
 
-#: gtk/menu.c:11
+#: /home/saber/Develop/fcitx-config/po/../gtk/menu.c:11
 msgid "_File"
 msgstr "文件(_F)"
 
-#: gtk/menu.c:18
-#, fuzzy
+#: /home/saber/Develop/fcitx-config/po/../gtk/menu.c:18
 msgid "_Reload Config"
-msgstr "配置"
+msgstr "重新加载配置"
