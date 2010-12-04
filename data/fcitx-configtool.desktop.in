@@ -1,5 +1,5 @@
 [Desktop Entry]
-Exec=fcitx-config
+Exec=fcitx-config-gtk
 _GenericName=Fcitx Configuration Tool
 _Comment=Fcitx GUI Config Tool
 _Name=Fcitx Config Tool
