@@ -50,8 +50,6 @@ AC_CHECK_FUNCS([memmove memset mkdir setlocale strcasecmp strstr strtol asprintf
 AC_CONFIG_FILES([
                  Makefile
                  gtk/Makefile
-                 data/Makefile
-                 icons/Makefile
                  po/Makefile.in
                  ])
 
