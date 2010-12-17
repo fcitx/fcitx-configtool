@@ -48,8 +48,8 @@ ConfigPage* main_window_add_page(char *cdesc, char* name, char *filename, Config
         page->config.configFile = cfile;
         page->cfdesc = get_config_desc(cdesc);
         page->parent = parent;
-        page->page = config_widget_new(page->cfdesc, cfile, page, readonly);
         page->domain = domain;
+        page->page = config_widget_new(page->cfdesc, cfile, page, readonly);
         ConfigBindSync(&page->config);
     }
     else
