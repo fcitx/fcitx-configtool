@@ -31,7 +31,7 @@ int main_window_close(GtkWidget *theWindow, gpointer data)
     gtk_main_quit();
 }
 
-ConfigPage* main_window_add_page(char *cdesc, char* name, char *filename, ConfigFile *cfile, ConfigPage* parent, gboolean readonly)
+ConfigPage* main_window_add_page(char *cdesc, char* name, char *filename, ConfigFile *cfile, ConfigPage* parent, const char* domain, gboolean readonly)
 {
     GtkTreeIter *p;
     if (parent)
@@ -49,6 +49,7 @@ ConfigPage* main_window_add_page(char *cdesc, char* name, char *filename, Config
         page->cfdesc = get_config_desc(cdesc);
         page->parent = parent;
         page->page = config_widget_new(page->cfdesc, cfile, page, readonly);
+        page->domain = domain;
         ConfigBindSync(&page->config);
     }
     else
@@ -118,7 +119,7 @@ reload_config:
     ConfigFile *cfile = ParseConfigFileFp(fp, configDesc);
     fclose(fp);
 
-    configPage = main_window_add_page("config.desc", _("Config"), file, cfile, NULL, FALSE);
+    configPage = main_window_add_page("config.desc", _("Config"), file, cfile, NULL, "fcitx", FALSE);
 }
 
 void add_profile_file_page()
@@ -141,13 +142,13 @@ reload_profile:
     ConfigFile *cfile = ParseConfigFileFp(fp, configDesc);
     fclose(fp);
 
-    profilePage = main_window_add_page("profile.desc", _("Profile"), file, cfile, NULL, FALSE);
+    profilePage = main_window_add_page("profile.desc", _("Profile"), file, cfile, NULL, "fcitx", FALSE);
 
 }
 
 void add_skin_page()
 {
-    skinPage = main_window_add_page(_("Skin Configuration"), _("Skin"), NULL, NULL, NULL, FALSE);
+    skinPage = main_window_add_page(_("Skin Configuration"), _("Skin"), NULL, NULL, NULL, NULL, FALSE);
     UT_array *skinBuf = loadSkinDir();
     int j = 0;
     char buf[PATH_MAX];
@@ -182,7 +183,7 @@ void add_skin_page()
         else
             continue;
         
-        main_window_add_page("skin.desc", *sskin, file, cfile, skinPage, FALSE);
+        main_window_add_page("skin.desc", *sskin, file, cfile, skinPage, "fcitx", FALSE);
         free(file);
     }
 
@@ -191,7 +192,7 @@ void add_skin_page()
 void add_addon_page()
 {
     int i, j;
-    addonPage = main_window_add_page(_("Addon Configuration"), _("Addon"), NULL, NULL, NULL, FALSE);
+    addonPage = main_window_add_page(_("Addon Configuration"), _("Addon"), NULL, NULL, NULL, NULL, FALSE);
     UT_array *addonBuf = LoadAddonInfo();
     
     size_t len;
@@ -212,7 +213,7 @@ void add_addon_page()
 
         if (!cfile)
             continue;
-    
+
         {
             size_t l;
             char **path = GetXDGPath(&l, "XDG_CONFIG_HOME", ".config", "fcitx/addon" , DATADIR, "fcitx/data/addon" );
@@ -220,7 +221,41 @@ void add_addon_page()
             if (fp) fclose(fp);
             FreeXDGPath(path);
         }
-        main_window_add_page("addon.desc", *saddon, file, cfile, addonPage, TRUE);
+        ConfigPage *page = main_window_add_page("addon.desc", *saddon, file, cfile, addonPage, "fcitx", TRUE);
+        {
+            /* add addon config page */
+            size_t len = strlen(*saddon) - strlen(".conf");
+            char *name = malloc(len * sizeof(char));
+            char *descfilename = malloc((len + strlen("addon/.desc")) * sizeof(char));
+            char *filename = malloc((len + strlen("addon/.config")) * sizeof(char));
+            char *rfile = NULL;
+            ConfigFileDesc* addonConfigDesc = get_config_desc(descfilename);
+            FILE *fp = NULL;
+            gboolean reload = FALSE;
+            strncpy(name ,*saddon ,len);
+            sprintf(descfilename, "addon/%s.desc", name);
+            sprintf(filename, "addon/%s.config", name);
+reload_config:
+            fp = GetXDGFileUser(filename, "rt", &rfile);
+            if (!fp && !reload) {
+                if (errno == ENOENT)
+                {
+                    fp = GetXDGFileUser(filename, "wt", NULL);
+                    SaveConfigFileFp(fp, NULL, addonConfigDesc);
+                    fclose(fp);
+                    fp = NULL;
+                    reload = TRUE;
+                }
+            }
+            if (fp)
+            {
+                ConfigFile *addoncfile = ParseConfigFileFp(fp, addonConfigDesc);
+                main_window_add_page(filename, _("Configure"), rfile, addoncfile, page, strdup(name), FALSE);
+            }
+            free(name);
+            free(descfilename);
+            free(filename);
+        }
         free(file);
     }
 
@@ -234,7 +269,7 @@ void add_addon_page()
 void add_table_page()
 {
     int i, j;
-    tablePage = main_window_add_page(_("Table Configuration"), _("Table"), NULL, NULL, NULL, FALSE);
+    tablePage = main_window_add_page(_("Table Configuration"), _("Table"), NULL, NULL, NULL, NULL, FALSE);
     UT_array *tableBuf = LoadTableInfo();
     
     size_t len;
@@ -258,7 +293,7 @@ void add_table_page()
         
         FILE *fp = GetXDGFileTable(*stable, "r", &file, True);
         if (fp) fclose(fp);
-        main_window_add_page("table.desc", *stable, file, cfile, tablePage, FALSE);
+        main_window_add_page("table.desc", *stable, file, cfile, tablePage, "fcitx", FALSE);
         free(file);
     }
 

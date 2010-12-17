@@ -12,6 +12,7 @@ typedef struct ConfigPage
     struct ConfigPage* parent;
     GenericConfig config;
     char *filename;
+    const char *domain;
     GtkTreeIter iter;
 } ConfigPage;
 

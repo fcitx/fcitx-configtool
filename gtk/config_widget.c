@@ -11,7 +11,7 @@
 #include "keygrab.h"
 
 #define _(s) gettext(s)
-#define D_(x) dgettext ("fcitx", x)
+#define D_(x) dgettext (page->domain, x)
 
 static void make_path (const char *path);
 
@@ -72,7 +72,9 @@ static void save_config_clicked(GtkWidget* button, gpointer arg)
     }
     if (fp)
     {
+        CHANGE_DOMAIN_BEGIN(page->domain);
         SaveConfigFileFp(fp, page->config.configFile, page->cfdesc);
+        CHANGE_DOMAIN_END();
         fclose(fp);
         fp = fopen(page->filename, "rt");
         page->config.configFile = ParseIniFp(fp, page->config.configFile);
