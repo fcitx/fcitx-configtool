@@ -8,6 +8,4 @@ FIND_PROGRAM(INTLTOOL_UPDATE intltool-update)
 FIND_PROGRAM(INTLTOOL_MERGE intltool-merge)
 
 add_subdirectory(gtk)
-add_subdirectory(data)
-add_subdirectory(icons)
 add_subdirectory(po)

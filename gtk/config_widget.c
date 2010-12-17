@@ -136,7 +136,7 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
             g_object_set(label, "xalign", 0.0f, NULL);
 
             GtkWidget *inputWidget = NULL;
-            GtkWidget *argWidget = NULL;
+            void *argument = NULL;
             
             gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1, GTK_FILL, GTK_SHRINK, 5, 5);
 
@@ -144,26 +144,26 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
             {
                 case T_Integer:
                     inputWidget = gtk_spin_button_new_with_range(-1.0, 10000.0, 1.0);
-                    argWidget = inputWidget;
+                    argument = inputWidget;
                     break;
                 case T_Color:
                     inputWidget = gtk_color_button_new();
-                    argWidget = inputWidget;
+                    argument = inputWidget;
                     break;
                 case T_Boolean:
                     inputWidget = gtk_check_button_new();
-                    argWidget = inputWidget;
+                    argument = inputWidget;
                     break;
                 case T_Font:
                     {
                         inputWidget = gtk_hbox_new(FALSE, 0);
-                        argWidget = gtk_font_button_new();
+                        argument = gtk_font_button_new();
                         GtkWidget *button = gtk_button_new_with_label(_("Clear font setting"));
-                        gtk_box_pack_start(GTK_BOX(inputWidget), argWidget, TRUE, TRUE, 0);
+                        gtk_box_pack_start(GTK_BOX(inputWidget), argument, TRUE, TRUE, 0);
                         gtk_box_pack_start(GTK_BOX(inputWidget), button, FALSE, FALSE, 0);
-                        gtk_font_button_set_use_size(GTK_FONT_BUTTON(argWidget), FALSE);
-                        gtk_font_button_set_show_size(GTK_FONT_BUTTON(argWidget), FALSE);
-                        gtk_signal_connect(GTK_OBJECT(button), "clicked", GTK_SIGNAL_FUNC(set_none_font_clicked), argWidget);
+                        gtk_font_button_set_use_size(GTK_FONT_BUTTON(argument), FALSE);
+                        gtk_font_button_set_show_size(GTK_FONT_BUTTON(argument), FALSE);
+                        gtk_signal_connect(GTK_OBJECT(button), "clicked", GTK_SIGNAL_FUNC(set_none_font_clicked), argument);
                     }
                     break;
                 case T_Enum:
@@ -175,13 +175,20 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
                         {
                             gtk_combo_box_append_text(GTK_COMBO_BOX(inputWidget), D_(e->enumDesc[i]));
                         }
-                        argWidget = inputWidget;
+                        argument = inputWidget;
                     }
                     break;
                 case T_Hotkey:
                     {
-                        inputWidget = keygrab_button_new();
-                        argWidget = inputWidget;
+                        GtkWidget *button[2];
+                        button[0] = keygrab_button_new();
+                        button[1] = keygrab_button_new();
+                        inputWidget = gtk_hbox_new(FALSE, 0);
+                        gtk_box_pack_start(GTK_BOX(inputWidget), button[0], TRUE, TRUE, 0);
+                        gtk_box_pack_start(GTK_BOX(inputWidget), button[1], TRUE, TRUE, 0);
+                        argument = g_array_new(FALSE, FALSE, sizeof(void*));
+                        g_array_append_val(argument, button[0]);
+                        g_array_append_val(argument, button[1]);
                     }
                     break;
                 case T_File:
@@ -189,15 +196,15 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
                 case T_Image:
                 case T_String:
                     inputWidget = gtk_entry_new();
-                    argWidget = inputWidget;
+                    argument = inputWidget;
                     break;
             }
             gtk_table_attach(GTK_TABLE(table), inputWidget, 1, 2, i, i+1, GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 4);
             if (readonly && strcmp(codesc->optionName, "Enabled") != 0)
             {
-                gtk_widget_set_sensitive(GTK_WIDGET(argWidget), FALSE);
+                gtk_widget_set_sensitive(GTK_WIDGET(argument), FALSE);
             }
-            ConfigBindValue(cfile, cgdesc->groupName, codesc->optionName, NULL, sync_filter, argWidget);
+            ConfigBindValue(cfile, cgdesc->groupName, codesc->optionName, NULL, sync_filter, argument);
         }
     }
     gtk_widget_set_size_request(configNotebook, 500, -1);
@@ -267,6 +274,18 @@ void sync_filter(ConfigGroup *group, ConfigOption *option, void *value, ConfigSy
                 break;
             case T_Hotkey:
                 {
+                    HOTKEYS hotkey[2];
+                    int j;
+                    SetHotKey(option->rawValue, hotkey);
+                    GArray *array = (GArray*) arg;
+
+                    for (j = 0; j < 2; j ++)
+                    {
+                        GtkWidget *button = g_array_index(array, GtkWidget*, j);
+                        keygrab_button_set_key(KEYGRAB_BUTTON(button), hotkey[j].sym, hotkey[j].state);
+                        if (hotkey[j].desc)
+                            free(hotkey[j].desc);
+                    }
                 }
                 break;
             case T_File:
@@ -343,6 +362,33 @@ void sync_filter(ConfigGroup *group, ConfigOption *option, void *value, ConfigSy
                 break;
             case T_Hotkey:
                 {
+                    GArray *array = (GArray*) arg;
+                    GtkWidget *button;
+                    guint key;
+                    GdkModifierType mods;
+                    char *strkey[2] = { NULL, NULL };
+                    int j = 0, k = 0;
+
+                    for (j = 0; j < 2 ; j ++)
+                    {
+                        button = g_array_index(array, GtkWidget*, j);
+                        keygrab_button_get_key(KEYGRAB_BUTTON(button), &key, &mods);
+                        strkey[k] = GetKeyString(key, mods);
+                        if (strkey[k])
+                            k ++;
+                    }
+                    if (strkey[1])
+                        asprintf(&option->rawValue, "%s %s", strkey[0], strkey[1]);
+                    else if (strkey[0])
+                    {
+                        option->rawValue = strdup(strkey[0]);
+                    }
+                    else
+                        option->rawValue = strdup("");
+
+                    for (j = 0 ; j < k ; j ++)
+                        free(strkey[j]);
+
                 }
                 break;
             case T_File:

@@ -5,12 +5,14 @@ find_package (GTK2 REQUIRED gtk)
 message (STATUS "GTK2 includes:" ${GTK2_INCLUDE_DIRS})
 message (STATUS "GTK2 libraries:" ${GTK2_LIBRARIES})
 
-PKG_CHECK_MODULES(FCITX_CONFIG REQUIRED "fcitx-config >= 0.95" )
+PKG_CHECK_MODULES(FCITX_CONFIG REQUIRED "fcitx-config >= 1.0" )
 PKG_CHECK_MODULES(FCITX REQUIRED "fcitx" )
+PKG_CHECK_MODULES(UNIQUE REQUIRED "unique-1.0" )
 
 include_directories (${GTK2_INCLUDE_DIRS})
 include_directories (${FCITX_CONFIG_INCLUDE_DIRS})
 include_directories (${FCITX_INCLUDE_DIRS})
+include_directories (${UNIQUE_INCLUDE_DIRS})
 
 set( fcitx_config_gtk_sources
     addon_stuff.c
@@ -38,3 +40,4 @@ install(TARGETS fcitx-config-gtk RUNTIME DESTINATION bin)
 target_link_libraries (fcitx-config-gtk ${GTK2_LIBRARIES})
 target_link_libraries (fcitx-config-gtk ${FCITX_CONFIG_LIBRARIES})
 target_link_libraries (fcitx-config-gtk ${FCITX_LIBRARIES})
+target_link_libraries (fcitx-config-gtk ${UNIQUE_LIBRARIES})

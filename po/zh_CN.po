@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-25 17:04+0800\n"
+"POT-Creation-Date: 2010-12-16 07:56+0800\n"
 "PO-Revision-Date: 2010-09-25 07:52+0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
@@ -36,18 +36,6 @@ msgstr "配置"
 #: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:327
 msgid "Fcitx Config"
 msgstr "Fcitx配置"
-
-#: ../data/fcitx-configtool.desktop.in.h:1
-msgid "Fcitx Config Tool"
-msgstr "Fcitx配置工具"
-
-#: ../data/fcitx-configtool.desktop.in.h:2
-msgid "Fcitx Configuration Tool"
-msgstr "Fcitx配置工具"
-
-#: ../data/fcitx-configtool.desktop.in.h:3
-msgid "Fcitx GUI Config Tool"
-msgstr "Fcitx图形化配置工具"
 
 #: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:144
 msgid "Profile"
@@ -88,3 +76,12 @@ msgstr "文件(_F)"
 #: /home/saber/Develop/fcitx-config/po/../gtk/menu.c:18
 msgid "_Reload Config"
 msgstr "重新加载配置"
+
+#~ msgid "Fcitx Config Tool"
+#~ msgstr "Fcitx配置工具"
+
+#~ msgid "Fcitx Configuration Tool"
+#~ msgstr "Fcitx配置工具"
+
+#~ msgid "Fcitx GUI Config Tool"
+#~ msgstr "Fcitx图形化配置工具"

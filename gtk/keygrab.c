@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "keygrab.h"
+#include <fcitx-config/hotkey.h>
 
 #define _(s) gettext(s)
 //定义枚举类型，说明信号的名称和次序
@@ -21,7 +22,6 @@ static void begin_key_grab(KeyGrabButton* self, gpointer v);
 static void end_key_grab(KeyGrabButton *self);
 static GtkWidget* popup_new(GtkWidget* parent, const gchar* text, gboolean mouse);
 static void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v);
-static void set_label(KeyGrabButton* self, guint key, GdkModifierType mods);
 
 //注册自定义控件
 GtkType keygrab_button_get_type(void)
@@ -45,7 +45,7 @@ GtkType keygrab_button_get_type(void)
 
 static void keygrab_button_init(KeyGrabButton *keygrabbutton)
 {
-    set_label(keygrabbutton, 0, 0);
+    keygrab_button_set_key(keygrabbutton, 0, 0);
     gtk_signal_connect(GTK_OBJECT(keygrabbutton), "clicked", GTK_SIGNAL_FUNC(begin_key_grab), NULL);
 }
 
@@ -107,18 +107,18 @@ void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v)
         if (event->keyval == GDK_KEY_Escape)
             gtk_signal_emit_by_name(GTK_OBJECT(b), "changed", b->key, b->mods);
         end_key_grab(b);
-        set_label(b, 0, 0);
+        keygrab_button_set_key(b, 0, 0);
         return;
     }
 
-    key = gdk_keyval_to_lower(event->keyval);
+    key = gdk_keyval_to_upper(event->keyval);
     if (key == GDK_KEY_ISO_Left_Tab)
         key = GDK_KEY_Tab;
 
     if (gtk_accelerator_valid(key, mods)
             || (key == GDK_KEY_Tab && mods))
     {
-        set_label(b, key, mods);
+        keygrab_button_set_key(b, key, mods);
         end_key_grab(b);
         b->key = key;
         b->mods = mods;
@@ -126,38 +126,38 @@ void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v)
         return;
     }
 
-    set_label(b, key, mods);
+    keygrab_button_set_key(b, key, mods);
 }
 
-void set_label(KeyGrabButton* self, guint key, GdkModifierType mods)
+void keygrab_button_set_key(KeyGrabButton* self, guint key, GdkModifierType mods)
 {
     KeyGrabButton* b = KEYGRAB_BUTTON(self);
     gchar *label;
-    if (b->label)
-    {
-        if (key != 0 && mods != 0)
-            gtk_signal_emit_by_name(GTK_OBJECT(b), "current-changed", key, mods);
-        gtk_button_set_label(GTK_BUTTON(b), b->label);
-        return;
-    }
-    if (key == 0 && mods == 0)
-    {
-        key = b->key;
-        mods = b->mods;
-    }
+    b->key = key;
+    b->mods = mods;
 
-    label = gtk_accelerator_get_label(key, mods);
+    label = GetKeyString(key, mods);
 
-    if (strlen(label) == 0)
+    if (label == NULL || strlen(label) == 0)
     {
         gtk_button_set_label(GTK_BUTTON(b), _("Disabled"));
     }
     else
     {
-        gchar* lb = accelerator_to_fcitx_hotkey(label);
+        gchar* lb = label;
         gtk_button_set_label(GTK_BUTTON(b), lb);
-        free(lb);
     }
+
+    if (label)
+        free(label);
+}
+
+void keygrab_button_get_key(KeyGrabButton* self, guint* key, GdkModifierType* mods)
+{
+    if (key)
+        *key = self->key;
+    if (mods)
+        *mods = self->mods;
 }
 
 GtkWidget* popup_new(GtkWidget* parent, const gchar* text, gboolean mouse)
@@ -180,35 +180,4 @@ GtkWidget* popup_new(GtkWidget* parent, const gchar* text, gboolean mouse)
     }
 
     return w;
-}
-
-gchar *accelerator_to_fcitx_hotkey(const gchar* str)
-{
-    char buffer[128];
-    memset(buffer, 0, sizeof(buffer));
-    if (strstr(str, "Ctrl+"))
-        strcat(buffer,"CTRL_");
-    if (strstr(str, "Alt+"))
-        strcat(buffer,"ALT_");
-    if (strstr(str, "Shift+"))
-        strcat(buffer,"SHIFT_");
-    size_t l = strlen(str);
-    size_t i = strlen(str) - 1;
-    while(i > 0 && str[i] != '+')
-        i --;
-    if (str[i] == '+')
-        i ++;
-    size_t lb = strlen(buffer);
-    while(i < l && lb < sizeof(buffer) - 1)
-    {
-        buffer[lb] = toupper(str[i]);
-        i ++;
-        lb ++;
-    }
-    
-    return strdup(buffer);
-}
-
-gchar *fcitx_hotkey_to_accelerator(const gchar* str)
-{
 }

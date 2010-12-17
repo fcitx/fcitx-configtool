@@ -13,7 +13,6 @@ struct _KeyGrabButton {
     gulong handler;
     guint key;
     GdkModifierType mods;
-    gchar* label;
 };
 struct _KeyGrabButtonClass {
     GtkButtonClass parent_class;
@@ -24,7 +23,7 @@ struct _KeyGrabButtonClass {
 GtkType keygrab_button_get_type(void);
 GtkWidget* keygrab_button_new(void);
 gchar *accelerator_to_fcitx_hotkey(const gchar* str);
-//void keygrab_button_set_label(GtkWidget* item, gchar* label);
-//GtkWidget* keygrab_button_new_with_label(gchar* label);
+void keygrab_button_set_key(KeyGrabButton* self, guint key, GdkModifierType mods);
+void keygrab_button_get_key(KeyGrabButton* self, guint* key, GdkModifierType* mods);
 #endif //__OUR_ITEM_H__
 

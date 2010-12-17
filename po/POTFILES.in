@@ -15,4 +15,3 @@ gtk/main_window.h
 gtk/skin_stuff.c
 gtk/configdesc.c
 gtk/config_widget.h
-data/fcitx-configtool.desktop.in
