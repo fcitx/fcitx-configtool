@@ -185,8 +185,8 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
                         button[0] = keygrab_button_new();
                         button[1] = keygrab_button_new();
                         inputWidget = gtk_hbox_new(FALSE, 0);
-                        gtk_box_pack_start(GTK_BOX(inputWidget), button[0], TRUE, TRUE, 0);
-                        gtk_box_pack_start(GTK_BOX(inputWidget), button[1], TRUE, TRUE, 0);
+                        gtk_box_pack_start(GTK_BOX(inputWidget), button[0], FALSE, TRUE, 0);
+                        gtk_box_pack_start(GTK_BOX(inputWidget), button[1], FALSE, TRUE, 0);
                         argument = g_array_new(FALSE, FALSE, sizeof(void*));
                         g_array_append_val(argument, button[0]);
                         g_array_append_val(argument, button[1]);
