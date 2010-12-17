@@ -51,8 +51,8 @@ main(int argc, char **argv)
     }
 
     setlocale(LC_ALL, "");
-    bindtextdomain("fcitx-configtool", LOCALEDIR); 
-    bindtextdomain("fcitx", LOCALEDIR); 
+    bindtextdomain("fcitx-configtool", LOCALEDIR);
+    bindtextdomain("fcitx", LOCALEDIR);
     textdomain("fcitx-configtool");
 
     window = fcitx_config_main_window_new (GTK_WINDOW_TOPLEVEL);

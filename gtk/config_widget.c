@@ -89,7 +89,7 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
     GtkWidget *configNotebook = gtk_notebook_new();
     GtkWidget *saveButton = NULL;
     GtkWidget *resetButton = NULL;
-    
+
     gtk_box_pack_start(GTK_BOX(cvbox), configNotebook, TRUE, TRUE, 0);
     saveButton = gtk_button_new_with_label(_("Save"));
     resetButton = gtk_button_new_with_label(_("Reset"));
@@ -97,10 +97,9 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
     gtk_box_pack_start(GTK_BOX(chbox), saveButton, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(chbox), resetButton, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(cvbox), chbox, FALSE, FALSE, 0);
-    
+
     gtk_signal_connect(GTK_OBJECT(resetButton), "clicked", GTK_SIGNAL_FUNC(reset_config_clicked), page);
     gtk_signal_connect(GTK_OBJECT(saveButton), "clicked", GTK_SIGNAL_FUNC(save_config_clicked), page);
-        
 
     ConfigGroupDesc *cgdesc = NULL;
     ConfigOptionDesc *codesc = NULL;

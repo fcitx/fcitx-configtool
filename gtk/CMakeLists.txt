@@ -26,12 +26,13 @@ set( fcitx_config_gtk_sources
     table_stuff.c
     )
 
-set(datadir "\${prefix}/share")
-set(localedir "\${prefix}/locale")
+set(exec_prefix "${CMAKE_INSTALL_PREFIX}/bin")
+set(datadir "${CMAKE_INSTALL_PREFIX}/share")
+set(localedir "${datadir}/locale")
 
-add_definitions(-DDATADIR="\${datadir}")
-add_definitions(-DLOCALEDIR="\${localedir}")
-add_definitions(-DBINDIR="\${exec_prefix}")
+add_definitions(-DDATADIR="${datadir}")
+add_definitions(-DLOCALEDIR="${localedir}")
+add_definitions(-DBINDIR="${exec_prefix}")
 
 add_executable( fcitx-config-gtk ${fcitx_config_gtk_sources} )
 

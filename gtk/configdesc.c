@@ -17,7 +17,7 @@ static ConfigDescSet* cdset = NULL;
 
 ConfigFileDesc *get_config_desc(char *filename)
 {
-    ConfigDescSet *desc;
+    ConfigDescSet *desc = NULL;
     HASH_FIND_STR(cdset, filename, desc);
     if (!desc)
     {

@@ -225,16 +225,17 @@ void add_addon_page()
         {
             /* add addon config page */
             size_t len = strlen(*saddon) - strlen(".conf");
-            char *name = malloc(len * sizeof(char));
-            char *descfilename = malloc((len + strlen("addon/.desc")) * sizeof(char));
-            char *filename = malloc((len + strlen("addon/.config")) * sizeof(char));
+            char *name = malloc((len + 1) * sizeof(char));
+            char *descfilename = malloc((1 + len + strlen("addon/.desc")) * sizeof(char));
+            char *filename = malloc((1 + len + strlen("addon/.config")) * sizeof(char));
             char *rfile = NULL;
-            ConfigFileDesc* addonConfigDesc = get_config_desc(descfilename);
             FILE *fp = NULL;
             gboolean reload = FALSE;
             strncpy(name ,*saddon ,len);
+            name[len] = '\0';
             sprintf(descfilename, "addon/%s.desc", name);
             sprintf(filename, "addon/%s.config", name);
+            ConfigFileDesc* addonConfigDesc = get_config_desc(descfilename);
 reload_config:
             fp = GetXDGFileUser(filename, "rt", &rfile);
             if (!fp && !reload) {
@@ -250,7 +251,8 @@ reload_config:
             if (fp)
             {
                 ConfigFile *addoncfile = ParseConfigFileFp(fp, addonConfigDesc);
-                main_window_add_page(filename, _("Configure"), rfile, addoncfile, page, strdup(name), FALSE);
+                bindtextdomain(name, LOCALEDIR);
+                main_window_add_page(descfilename, _("Configure"), rfile, addoncfile, page, strdup(name), FALSE);
             }
             free(name);
             free(descfilename);
