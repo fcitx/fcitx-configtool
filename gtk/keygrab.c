@@ -101,10 +101,10 @@ void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v)
     guint key;
     GdkModifierType mods = event->state & gtk_accelerator_get_default_mod_mask();
 
-    if ((event->keyval == GDK_KEY_Escape
-            || event->keyval == GDK_KEY_Return) && !mods)
+    if ((event->keyval == GDK_Escape
+            || event->keyval == GDK_Return) && !mods)
     {
-        if (event->keyval == GDK_KEY_Escape)
+        if (event->keyval == GDK_Escape)
             gtk_signal_emit_by_name(GTK_OBJECT(b), "changed", b->key, b->mods);
         end_key_grab(b);
         keygrab_button_set_key(b, 0, 0);
@@ -112,11 +112,11 @@ void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v)
     }
 
     key = gdk_keyval_to_upper(event->keyval);
-    if (key == GDK_KEY_ISO_Left_Tab)
-        key = GDK_KEY_Tab;
+    if (key == GDK_ISO_Left_Tab)
+        key = GDK_Tab;
 
     if (gtk_accelerator_valid(key, mods)
-            || (key == GDK_KEY_Tab && mods))
+            || (key == GDK_Tab && mods))
     {
         keygrab_button_set_key(b, key, mods);
         end_key_grab(b);
