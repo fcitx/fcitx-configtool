@@ -252,6 +252,7 @@ reload_config:
             {
                 ConfigFile *addoncfile = ParseConfigFileFp(fp, addonConfigDesc);
                 bindtextdomain(name, LOCALEDIR);
+                bind_textdomain_codeset(name, "UTF-8");
                 main_window_add_page(descfilename, _("Configure"), rfile, addoncfile, page, strdup(name), FALSE);
             }
             free(name);
