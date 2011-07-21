@@ -1,13 +1,7 @@
-include(FindPkgConfig)
-
-find_package (GTK2 REQUIRED gtk)
-
+PKG_CHECK_MODULES (GTK2 "gtk+-2.0" )
+PKG_CHECK_MODULES(UNIQUE "unique-1.0" )
 message (STATUS "GTK2 includes:" ${GTK2_INCLUDE_DIRS})
 message (STATUS "GTK2 libraries:" ${GTK2_LIBRARIES})
-
-PKG_CHECK_MODULES(FCITX_CONFIG REQUIRED "fcitx-config >= 1.0" )
-PKG_CHECK_MODULES(FCITX REQUIRED "fcitx" )
-PKG_CHECK_MODULES(UNIQUE REQUIRED "unique-1.0" )
 
 include_directories (${GTK2_INCLUDE_DIRS})
 include_directories (${FCITX_CONFIG_INCLUDE_DIRS})
@@ -25,14 +19,6 @@ set( fcitx_config_gtk_sources
     skin_stuff.c
     table_stuff.c
     )
-
-set(exec_prefix "${CMAKE_INSTALL_PREFIX}/bin")
-set(datadir "${CMAKE_INSTALL_PREFIX}/share")
-set(localedir "${datadir}/locale")
-
-add_definitions(-DDATADIR="${datadir}")
-add_definitions(-DLOCALEDIR="${localedir}")
-add_definitions(-DBINDIR="${exec_prefix}")
 
 add_executable( fcitx-config-gtk ${fcitx_config_gtk_sources} )
 

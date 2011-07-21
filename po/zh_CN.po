@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-17 14:00+0800\n"
+"POT-Creation-Date: 2011-06-08 22:36+0800\n"
 "PO-Revision-Date: 2010-12-17 14:02+0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
@@ -29,15 +29,15 @@ msgid "Clear font setting"
 msgstr "清除字体设置"
 
 #: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:122
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:325
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:326
 msgid "Config"
 msgstr "配置"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:255
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:256
 msgid "Configure"
 msgstr "配置 "
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:364
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:365
 msgid "Fcitx Config"
 msgstr "Fcitx配置"
 
@@ -61,11 +61,11 @@ msgstr "皮肤"
 msgid "Skin Configuration"
 msgstr "皮肤配置"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:274
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:275
 msgid "Table"
 msgstr "码表"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:274
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:275
 msgid "Table Configuration"
 msgstr "码表配置"
 

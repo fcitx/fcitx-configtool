@@ -1,4 +1,22 @@
-#include "uthash.h"
+/***************************************************************************
+ *   Copyright (C) 2010~2011 by CSSlayer                                   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+
 #include <gtk/gtk.h>
 #include <fcitx-config/fcitx-config.h>
 #include <libintl.h>
@@ -6,9 +24,11 @@
 #include <libgen.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <fcitx-utils/uthash.h>
 
 #include "config_widget.h"
 #include "keygrab.h"
+#include <fcitx-config/hotkey.h>
 
 #define _(s) gettext(s)
 #define D_(x) dgettext (page->domain, x)
@@ -41,7 +61,7 @@ make_path (const char *path)
         mkdir(opath, S_IRWXU);
 }
 
-static void sync_filter(ConfigGroup *group, ConfigOption *option, void *value, ConfigSync sync, void *arg);
+static void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *option, void *value, ConfigSync sync, void *arg);
 
 static void set_none_font_clicked(GtkWidget *button, gpointer arg)
 {
@@ -73,7 +93,7 @@ static void save_config_clicked(GtkWidget* button, gpointer arg)
     if (fp)
     {
         CHANGE_DOMAIN_BEGIN(page->domain);
-        SaveConfigFileFp(fp, page->config.configFile, page->cfdesc);
+        SaveConfigFileFp(fp, &page->config, page->cfdesc);
         CHANGE_DOMAIN_END();
         fclose(fp);
         fp = fopen(page->filename, "rt");
@@ -194,7 +214,6 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
                     break;
                 case T_File:
                 case T_Char:
-                case T_Image:
                 case T_String:
                     inputWidget = gtk_entry_new();
                     argument = inputWidget;
@@ -214,7 +233,7 @@ GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPa
     return cvbox;
 }
 
-void sync_filter(ConfigGroup *group, ConfigOption *option, void *value, ConfigSync sync, void *arg)
+void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *option, void *value, ConfigSync sync, void *arg)
 {
     ConfigOptionDesc *codesc = option->optionDesc;
     if (!codesc)
@@ -291,7 +310,6 @@ void sync_filter(ConfigGroup *group, ConfigOption *option, void *value, ConfigSy
                 break;
             case T_File:
             case T_Char:
-            case T_Image:
             case T_String:
                 {
                     gtk_entry_set_text(GTK_ENTRY(arg), option->rawValue);
@@ -394,7 +412,6 @@ void sync_filter(ConfigGroup *group, ConfigOption *option, void *value, ConfigSy
                 break;
             case T_File:
             case T_Char:
-            case T_Image:
             case T_String:
                 {
                     option->rawValue = strdup(gtk_entry_get_text(GTK_ENTRY(arg)));

@@ -1,17 +1,37 @@
+/***************************************************************************
+ *   Copyright (C) 2010~2011 by CSSlayer                                   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+
 #include <gtk/gtk.h>
 #include <fcitx-config/fcitx-config.h>
 #include <fcitx-config/xdg.h>
 #include <stdlib.h>
 #include <libintl.h>
 #include <errno.h>
+#include <fcitx-utils/utarray.h>
 
+#include "config.h"
 #include "main_window.h"
 #include "menu.h"
 #include "config_widget.h"
 #include "skin_stuff.h"
 #include "addon_stuff.h"
 #include "table_stuff.h"
-#include "utarray.h"
 #include "configdesc.h"
 
 #define _(s) gettext(s)
@@ -105,11 +125,11 @@ void add_config_file_page()
     char *file;
     ConfigFileDesc* configDesc = get_config_desc("config.desc");
 reload_config:
-    fp = GetXDGFileUser( "config", "rt", &file);
+    fp = GetXDGFileUserWithPrefix("", "config", "rt", &file);
     if (!fp) {
         if (errno == ENOENT)
         {
-            fp = GetXDGFileUser("config", "wt", NULL);
+            fp = GetXDGFileUserWithPrefix("", "config", "wt", NULL);
             SaveConfigFileFp(fp, NULL, configDesc);
             fclose(fp);
             fp = NULL;
@@ -128,11 +148,11 @@ void add_profile_file_page()
     char *file;
     ConfigFileDesc* configDesc = get_config_desc("profile.desc");
 reload_profile:
-    fp = GetXDGFileUser( "profile", "rt", &file);
+    fp = GetXDGFileUserWithPrefix("", "profile", "rt", &file);
     if (!fp) {
         if (errno == ENOENT)
         {
-            fp = GetXDGFileUser("profile", "wt", NULL);
+            fp = GetXDGFileUserWithPrefix("", "profile", "wt", NULL);
             SaveConfigFileFp(fp, NULL, configDesc);
             fclose(fp);
             fp = NULL;
@@ -196,7 +216,7 @@ void add_addon_page()
     UT_array *addonBuf = LoadAddonInfo();
     
     size_t len;
-    char **addonPath = GetXDGPath(&len, "XDG_CONFIG_HOME", ".config", "fcitx/addon" , DATADIR, "fcitx/data/addon" );
+    char **addonPath = GetXDGPath(&len, "XDG_CONFIG_HOME", ".config", "fcitx/addon" , DATADIR, "fcitx/addon" );
     char **paths = malloc(sizeof(char*) *len);
     for (i = 0;i < len ;i ++)
         paths[i] = malloc(sizeof(char) *PATH_MAX);
@@ -226,34 +246,37 @@ void add_addon_page()
             /* add addon config page */
             size_t len = strlen(*saddon) - strlen(".conf");
             char *name = malloc((len + 1) * sizeof(char));
-            char *descfilename = malloc((1 + len + strlen("addon/.desc")) * sizeof(char));
-            char *filename = malloc((1 + len + strlen("addon/.config")) * sizeof(char));
+            char *descfilename = malloc((1 + len + strlen(".desc")) * sizeof(char));
+            char *filename = malloc((1 + len + strlen(".config")) * sizeof(char));
             char *rfile = NULL;
             FILE *fp = NULL;
             gboolean reload = FALSE;
             strncpy(name ,*saddon ,len);
             name[len] = '\0';
-            sprintf(descfilename, "addon/%s.desc", name);
-            sprintf(filename, "addon/%s.config", name);
+            sprintf(descfilename, "%s.desc", name);
+            sprintf(filename, "%s.config", name);
             ConfigFileDesc* addonConfigDesc = get_config_desc(descfilename);
-reload_config:
-            fp = GetXDGFileUser(filename, "rt", &rfile);
-            if (!fp && !reload) {
-                if (errno == ENOENT)
-                {
-                    fp = GetXDGFileUser(filename, "wt", NULL);
-                    SaveConfigFileFp(fp, NULL, addonConfigDesc);
-                    fclose(fp);
-                    fp = NULL;
-                    reload = TRUE;
-                }
-            }
-            if (fp)
+            if (addonConfigDesc)
             {
-                ConfigFile *addoncfile = ParseConfigFileFp(fp, addonConfigDesc);
-                bindtextdomain(name, LOCALEDIR);
-                bind_textdomain_codeset(name, "UTF-8");
-                main_window_add_page(descfilename, _("Configure"), rfile, addoncfile, page, strdup(name), FALSE);
+    reload_config:
+                fp = GetXDGFileUserWithPrefix("conf", filename, "rt", &rfile);
+                if (!fp && !reload) {
+                    if (errno == ENOENT)
+                    {
+                        fp = GetXDGFileUserWithPrefix("conf", filename, "wt", NULL);
+                        SaveConfigFileFp(fp, NULL, addonConfigDesc);
+                        fclose(fp);
+                        fp = NULL;
+                        reload = TRUE;
+                    }
+                }
+                if (fp)
+                {
+                    ConfigFile *addoncfile = ParseConfigFileFp(fp, addonConfigDesc);
+                    bindtextdomain(name, LOCALEDIR);
+                    bind_textdomain_codeset(name, "UTF-8");
+                    main_window_add_page(descfilename, _("Configure"), rfile, addoncfile, page, strdup(name), FALSE);
+                }
             }
             free(name);
             free(descfilename);
@@ -276,7 +299,7 @@ void add_table_page()
     UT_array *tableBuf = LoadTableInfo();
     
     size_t len;
-    char **tablePath = GetXDGPath(&len, "XDG_CONFIG_HOME", ".config", "fcitx/table" , DATADIR, "fcitx/data/table" );
+    char **tablePath = GetXDGPath(&len, "XDG_CONFIG_HOME", ".config", "fcitx/table" , DATADIR, "fcitx/table" );
     char **paths = malloc(sizeof(char*) *len);
     for (i = 0;i < len ;i ++)
         paths[i] = malloc(sizeof(char) *PATH_MAX);
@@ -294,7 +317,7 @@ void add_table_page()
         if (!cfile)
             continue;
         
-        FILE *fp = GetXDGFileTable(*stable, "r", &file, True);
+        FILE *fp = GetXDGFileWithPrefix("table", *stable, "r", &file);
         if (fp) fclose(fp);
         main_window_add_page("table.desc", *stable, file, cfile, tablePage, "fcitx", FALSE);
         free(file);
