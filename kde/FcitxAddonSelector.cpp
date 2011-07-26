@@ -13,6 +13,9 @@
 #include <fcitx-config/fcitx-config.h>
 #include "FcitxAddonSelector.h"
 #include "FcitxAddonSelector_p.h"
+#include "FcitxConfigPage.h"
+#include "Module.h"
+#include "ConfigDescManager.h"
 
 #define MARGIN 5
 
@@ -65,7 +68,14 @@ QVariant FcitxAddonSelector::Private::AddonModel::data(const QModelIndex& index,
 
         switch (role) {
         case Qt::DisplayRole:
-            return addonEntry->name;
+            return QString::fromUtf8(addonEntry->generalname);
+        case CommentRole:
+            return QString::fromUtf8(addonEntry->comment);
+        case ConfigurableRole:
+            {
+                ConfigFileDesc* cfdesc = this->addonSelector_d->parent->parent->configDescManager()->GetConfigDesc(QString::fromUtf8(addonEntry->name).append(".desc"));
+                return (bool)(cfdesc != NULL);
+            }
         case Qt::DecorationRole:
             return QVariant();
         case Qt::CheckStateRole:
@@ -189,11 +199,14 @@ void FcitxAddonSelector::Private::AddonDelegate::paint(QPainter *painter, const 
         contentsRect.translate(lessHorizontalSpace, 0);
     }
  
+    painter->save();
     QFont font = titleFont(option.font);
     QFontMetrics fmTitle(font);
     painter->setFont(font);
-    painter->drawText(contentsRect, Qt::AlignLeft | Qt::AlignVCenter, fmTitle.elidedText(index.model()->data(index, Qt::DisplayRole).toString(), Qt::ElideRight, contentsRect.width()));
+    painter->drawText(contentsRect, Qt::AlignLeft | Qt::AlignTop, fmTitle.elidedText(index.model()->data(index, Qt::DisplayRole).toString(), Qt::ElideRight, contentsRect.width()));
+    painter->restore();
  
+    painter->drawText(contentsRect, Qt::AlignLeft | Qt::AlignBottom, option.fontMetrics.elidedText(index.model()->data(index, CommentRole).toString(), Qt::ElideRight, contentsRect.width()));
     painter->restore();
 }
  
@@ -254,6 +267,7 @@ void FcitxAddonSelector::Private::AddonDelegate::updateItemWidgets(const QList<Q
     } else {
         checkBox->setChecked(index.model()->data(index, Qt::CheckStateRole).toBool());
         configurePushButton->setEnabled(index.model()->data(index, Qt::CheckStateRole).toBool());
+        configurePushButton->setVisible(index.model()->data(index, ConfigurableRole).toBool());
     }
 }
 
@@ -271,6 +285,23 @@ void FcitxAddonSelector::Private::AddonDelegate::emitChanged()
 
 void FcitxAddonSelector::Private::AddonDelegate::slotConfigureClicked()
 {
+    KDialog configDialog;
+    const QModelIndex index = focusedIndex();
+    
+    FcitxAddon* addonEntry = static_cast<FcitxAddon*>(index.internalPointer());
+    ConfigFileDesc* cfdesc = this->addonSelector_d->parent->parent->configDescManager()->GetConfigDesc(QString::fromUtf8(addonEntry->name).append(".desc"));
+    
+    if (cfdesc)
+    {
+        configDialog.setButtons(KDialog::Ok | KDialog::Cancel | KDialog::Default);
+        configDialog.setMainWidget(new FcitxConfigPage(&configDialog, cfdesc, QString::fromUtf8("abc")));
+        if (configDialog.exec() == QDialog::Accepted)
+        {
+        }
+        else
+        {
+        }
+    }
 }
 
 
@@ -285,9 +316,10 @@ void FcitxAddonSelector::save()
 
 }
 
-FcitxAddonSelector::FcitxAddonSelector(QWidget* parent):
+FcitxAddonSelector::FcitxAddonSelector(Module* parent):
         QWidget(parent),
-        d(new Private(this))
+        d(new Private(this)),
+        parent(parent)
 {
     QVBoxLayout* layout = new QVBoxLayout;
     layout->setMargin(0);

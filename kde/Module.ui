@@ -17,39 +17,24 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Fcitx Configuration</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="FcitxAddonSelector" name="addonSelector" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
+    <widget class="KPageWidget" name="pageWidget"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>FcitxAddonSelector</class>
+   <class>KPageView</class>
    <extends>QWidget</extends>
-   <header>FcitxAddonSelector.h</header>
+   <header>kpageview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPageWidget</class>
+   <extends>KPageView</extends>
+   <header>kpagewidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

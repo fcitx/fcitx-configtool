@@ -1,8 +1,5 @@
 PKG_CHECK_MODULES (GTK2 "gtk+-2.0" )
 PKG_CHECK_MODULES(UNIQUE "unique-1.0" )
-message (STATUS "GTK2 includes:" ${GTK2_INCLUDE_DIRS})
-message (STATUS "GTK2 libraries:" ${GTK2_LIBRARIES})
-
 include_directories (${GTK2_INCLUDE_DIRS})
 include_directories (${FCITX_CONFIG_INCLUDE_DIRS})
 include_directories (${FCITX_INCLUDE_DIRS})

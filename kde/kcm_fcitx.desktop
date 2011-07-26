@@ -9,6 +9,8 @@ X-KDE-ParentApp=kcontrol
 X-KDE-System-Settings-Parent-Category=application-appearance-and-behavior
 
 Name=Fcitx
+Name[zh_CN]=Fcitx
 Comment=Configure Fcitx
+Comment[zh_CN]=配置 Fcitx
 
 Categories=Qt;KDE;X-KDE-settings-looknfeel;

@@ -35,6 +35,8 @@
 #include <fcitx-config/xdg.h>
 #include "FcitxAddonSelector.h"
 #include <libintl.h>
+#include "FcitxConfigPage.h"
+#include "ConfigDescManager.h"
 
 K_PLUGIN_FACTORY_DECLARATION(KcmFcitxFactory);
 
@@ -43,7 +45,9 @@ const UT_icd addonicd= {sizeof(FcitxAddon), 0, 0, 0};
 Module::Module(QWidget *parent, const QVariantList &args) :
     KCModule(KcmFcitxFactory::componentData(), parent, args),
     ui(new Ui::Module),
-    addonSelector(0)
+    addonSelector(0),
+    m_configPage(0),
+    m_configDescManager(new ConfigDescManager(this))
 {
     bindtextdomain("fcitx", LOCALEDIR);
     bind_textdomain_codeset("fcitx", "UTF-8");
@@ -57,11 +61,35 @@ Module::Module(QWidget *parent, const QVariantList &args) :
                                        KLocalizedString(), QByteArray(),
                                        "wengxt@gmail.com");
 
-    about->addAuthor(ki18n("Xuetian Weng"), ki18n("CS Slayer"), "wengxt@gmail.com");
+    about->addAuthor(ki18n("Xuetian Weng"), ki18n("Xuetian Weng"), "wengxt@gmail.com");
     setAboutData(about);
     
     ui->setupUi(this);
-    addonSelector = ui->addonSelector;
+    KPageWidgetItem *page;
+    {
+        
+        ConfigFileDesc* configDesc = m_configDescManager->GetConfigDesc("config.desc");
+        if (configDesc)
+        {
+            m_configPage = new FcitxConfigPage(this, configDesc, "config");
+            page = new KPageWidgetItem(m_configPage);
+            page->setName(i18n("Global Config"));
+            page->setIcon(KIcon("fcitx"));
+            page->setHeader(i18n("Global Config for Fcitx"));
+            ui->pageWidget->addPage(page);
+        }
+    }
+    {
+        if (GetAddonConfigDesc() != NULL)
+        {
+            addonSelector = new FcitxAddonSelector(this);
+            page = new KPageWidgetItem(addonSelector);
+            page->setName(i18n("Addon Config"));
+            page->setIcon(KIcon("preferences-plugin"));
+            page->setHeader(i18n("Configure Fcitx addon"));
+            ui->pageWidget->addPage(page);
+        }
+    }
 }
 
 Module::~Module()
@@ -71,14 +99,17 @@ Module::~Module()
 void Module::load()
 {
     kDebug() << "Load Addon Info";
-    utarray_new(addons, &addonicd);
-    LoadAddonInfo(addons);
-    
-    for (FcitxAddon* addon = (FcitxAddon *) utarray_front(addons);
-         addon != NULL;
-         addon = (FcitxAddon *) utarray_next(addons, addon))
+    if (GetAddonConfigDesc() != NULL)
     {
-        this->addonSelector->addAddon(addon);
+        utarray_new(m_addons, &addonicd);
+        LoadAddonInfo(m_addons);
+        
+        for (FcitxAddon* addon = (FcitxAddon *) utarray_front(m_addons);
+            addon != NULL;
+            addon = (FcitxAddon *) utarray_next(m_addons, addon))
+        {
+            this->addonSelector->addAddon(addon);
+        }
     }
 
 }
@@ -94,4 +125,9 @@ void Module::defaults()
 void Module::changed()
 {
     KCModule::changed();
+}
+
+ConfigDescManager* Module::configDescManager()
+{
+    return m_configDescManager;
 }

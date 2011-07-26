@@ -10,9 +10,11 @@ set(kcm_SRCS
     main.cpp
     Module.cpp
     FcitxAddonSelector.cpp
+    FcitxConfigPage.cpp
+    ConfigDescManager.cpp
 )
 
-kde4_add_ui_files(kcm_SRCS Module.ui)
+kde4_add_ui_files(kcm_SRCS Module.ui FcitxConfigPage.ui)
 
 kde4_add_plugin(kcm_fcitx ${kcm_SRCS})
 

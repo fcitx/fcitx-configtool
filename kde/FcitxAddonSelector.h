@@ -3,15 +3,16 @@
 
 #include <QWidget>
 
-struct FcitxAddon;
+class Module;
+struct _FcitxAddon;
 class FcitxAddonSelector : public QWidget
 {
     Q_OBJECT
 public:
-    FcitxAddonSelector(QWidget* parent);
+    FcitxAddonSelector(Module* parent);
     void load();
     void save();
-    void addAddon(FcitxAddon* fcitxAddon);
+    void addAddon(struct _FcitxAddon* fcitxAddon);
  
 Q_SIGNALS:
     void changed(bool hasChanged);
@@ -20,6 +21,7 @@ Q_SIGNALS:
 private:
     class Private;
     Private* d;
+    Module* parent;
 };
 
 #endif

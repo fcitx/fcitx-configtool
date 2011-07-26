@@ -19,6 +19,11 @@ class FcitxAddonSelector::Private
 {
     Q_OBJECT
 public:
+    enum ExtraRoles
+    {
+        CommentRole       = 0x19880209,
+        ConfigurableRole  = 0x20080331
+    };
     Private(FcitxAddonSelector* parent);
     virtual ~Private();
     int dependantLayoutValue(int value, int width, int totalWidth) const;

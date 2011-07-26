@@ -24,6 +24,8 @@
 #include <KCModule>
 #include <fcitx-utils/utarray.h>
 
+class ConfigDescManager;
+class FcitxConfigPage;
 class FcitxAddonSelector;
 
 namespace Ui {
@@ -76,6 +78,8 @@ public:
      * restore to system default (i.e. remove the script file).
      */
     void defaults();
+    
+    ConfigDescManager* configDescManager();
 
 protected slots:
     /**
@@ -105,7 +109,9 @@ private:
     /**
      * addon array
      */
-    UT_array* addons;
+    UT_array* m_addons;
+    FcitxConfigPage* m_configPage;
+    ConfigDescManager* m_configDescManager;
 };
 
 #endif // MODULE_H
