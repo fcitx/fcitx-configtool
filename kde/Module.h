@@ -81,15 +81,6 @@ public:
     
     ConfigDescManager* configDescManager();
 
-protected slots:
-    /**
-     * Called when the user selects a radio button.
-     *
-     * This shows an informational message in the lower left corner that a
-     * re-login is required to apply the changed
-     */
-    void changed();
-
 private:
     /**
      * UI

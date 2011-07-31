@@ -293,8 +293,10 @@ void FcitxAddonSelector::Private::AddonDelegate::slotConfigureClicked()
     
     if (cfdesc)
     {
+        FcitxConfigPage* configPage = new FcitxConfigPage(&configDialog, cfdesc, QString::fromUtf8("conf"), QString::fromUtf8(addonEntry->name).append(".config"));
         configDialog.setButtons(KDialog::Ok | KDialog::Cancel | KDialog::Default);
-        configDialog.setMainWidget(new FcitxConfigPage(&configDialog, cfdesc, QString::fromUtf8("abc")));
+        configDialog.setMainWidget(configPage);
+        connect(&configDialog, SIGNAL(buttonClicked(KDialog::ButtonCode)), configPage, SLOT(buttonClicked(KDialog::ButtonCode)));
         if (configDialog.exec() == QDialog::Accepted)
         {
         }

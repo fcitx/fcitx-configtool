@@ -71,12 +71,13 @@ Module::Module(QWidget *parent, const QVariantList &args) :
         ConfigFileDesc* configDesc = m_configDescManager->GetConfigDesc("config.desc");
         if (configDesc)
         {
-            m_configPage = new FcitxConfigPage(this, configDesc, "config");
+            m_configPage = new FcitxConfigPage(this, configDesc, "", "config");
             page = new KPageWidgetItem(m_configPage);
             page->setName(i18n("Global Config"));
             page->setIcon(KIcon("fcitx"));
             page->setHeader(i18n("Global Config for Fcitx"));
             ui->pageWidget->addPage(page);
+            connect(m_configPage, SIGNAL(changed()), this, SLOT(changed()));
         }
     }
     {
@@ -111,20 +112,17 @@ void Module::load()
             this->addonSelector->addAddon(addon);
         }
     }
-
 }
 
 void Module::save()
 {
+    m_configPage->buttonClicked(KDialog::Ok);
 }
 
 void Module::defaults()
 {
-}
-
-void Module::changed()
-{
-    KCModule::changed();
+    m_configPage->buttonClicked(KDialog::Default);
+    changed();
 }
 
 ConfigDescManager* Module::configDescManager()
