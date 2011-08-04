@@ -372,5 +372,13 @@ QFont FcitxAddonSelector::Private::AddonDelegate::titleFont(const QFont &baseFon
     return retFont;
 }
 
+FcitxAddonSelector::~FcitxAddonSelector()
+{
+    delete d->listView->itemDelegate();
+    delete d->listView; // depends on some other things in d, make sure this dies first.
+    delete d;
+}
+
+
 #include "moc_FcitxAddonSelector.cpp"
 #include "moc_FcitxAddonSelector_p.cpp"

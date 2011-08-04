@@ -10,6 +10,7 @@ class FcitxAddonSelector : public QWidget
     Q_OBJECT
 public:
     FcitxAddonSelector(Module* parent);
+    virtual ~FcitxAddonSelector();
     void load();
     void save();
     void addAddon(struct _FcitxAddon* fcitxAddon);
