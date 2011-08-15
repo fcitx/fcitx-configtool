@@ -13,9 +13,6 @@ else(NOT SUFFIX_VERSION)
     set(VERSION_STRING_FULL "${VERSION_STRING}-${SUFFIX_VERSION}")
 endif(NOT SUFFIX_VERSION)
 
-option(ENABLE_KDE "Build KCM Module for Fcitx" Off)
-option(ENABLE_GTK2 "Build GTK2 Tool for Fcitx" On)
-
 include(FindPkgConfig)
 FIND_PACKAGE(Gettext REQUIRED)
 FIND_PROGRAM(INTLTOOL_EXTRACT intltool-extract)
@@ -32,11 +29,5 @@ set(exec_prefix "${CMAKE_INSTALL_PREFIX}/bin")
 configure_file(config.h.in config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-if (ENABLE_GTK2)
-    add_subdirectory(gtk)
-endif (ENABLE_GTK2)
-
-if (ENABLE_KDE)
-    add_subdirectory(kde)
-endif (ENABLE_KDE)
+add_subdirectory(gtk)
 add_subdirectory(po)
