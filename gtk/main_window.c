@@ -59,6 +59,10 @@ static void configure_button_clicked (GtkButton *button,
                                       gpointer   user_data);
 static void apply_button_clicked (GtkButton *button,
                                       gpointer   user_data);
+static void
+toggled_cb (GtkCellRenderer *renderer,
+            gchar* str_path,
+            gpointer         user_data);
 
 static GtkWidget *mainWnd = NULL;
 static GtkWidget *configTreeView = NULL;
@@ -199,6 +203,8 @@ void add_addon_page()
     GtkTreeViewColumn *column;
     GtkListStore *store;
 
+    store = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
+
     renderer = gtk_cell_renderer_toggle_new();
     column = gtk_tree_view_column_new_with_attributes("Enable", renderer, NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
@@ -207,6 +213,8 @@ void add_addon_page()
                                         enabled_data_func,
                                         list,
                                         NULL);
+    g_signal_connect(G_OBJECT(renderer), "toggled",
+            G_CALLBACK(toggled_cb), GTK_TREE_MODEL(store));
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes("Name", renderer, NULL);
@@ -216,8 +224,6 @@ void add_addon_page()
                                         name_data_func,
                                         list,
                                         NULL);
-
-    store = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
 
     gtk_tree_view_set_model(GTK_TREE_VIEW(list),
                             GTK_TREE_MODEL(store));
@@ -304,8 +310,39 @@ GtkWidget* fcitx_config_main_window_new()
     return mainWnd;
 }
 
-void format_markup()
+static void
+toggled_cb (GtkCellRenderer *renderer,
+            gchar* str_path,
+            gpointer         user_data)
 {
+    GtkTreeModel *model = (GtkTreeModel *)user_data;
+    GtkTreePath *path= gtk_tree_path_new_from_string(str_path);
+    GtkTreeIter iter;
+    gtk_tree_model_get_iter(model, &iter, path);
+    FcitxAddon* addon = NULL;
+    gboolean state;
+    gtk_tree_path_free(path);
+    gtk_tree_model_get (model,
+                        &iter,
+                        LIST_ADDON, &addon,
+                        -1);
+
+    if (!addon)
+        return;
+
+    addon->bEnabled = !addon->bEnabled;
+    char buf[PATH_MAX];
+    snprintf(buf, PATH_MAX, "%s.conf", addon->name);
+    buf[PATH_MAX - 1] = 0;
+    FILE* fp = GetXDGFileUserWithPrefix("addon", buf, "w", NULL);
+    if (fp)
+    {
+        fprintf(fp, "[Addon]\nEnabled=%s\n", addon->bEnabled ? "True": "False");
+        fclose(fp);
+    }
+    g_object_set (renderer,
+                "active", (gboolean) addon->bEnabled,
+                NULL);
 }
 
 static void
