@@ -1,15 +1,36 @@
-#include "config.h"
+/***************************************************************************
+ *   Copyright (C) 2010~2011 by CSSlayer                                   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
-#include "sub_config_parser.h"
-#include <glib/gstrfuncs.h>
-#include <glib/gpattern.h>
-#include <string.h>
-#include <fcitx-config/xdg.h>
 #include <limits.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <string.h>
 #include <sys/stat.h>
+#include <glib/gstrfuncs.h>
+#include <glib/gpattern.h>
+
+#include <fcitx-config/xdg.h>
 #include <fcitx-utils/log.h>
+
+#include "config.h"
+
+#include "sub_config_parser.h"
 
 static void sub_config_pattern_free(void* pattern);
 static GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern);
@@ -186,9 +207,9 @@ GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
 
         GList* list = get_files_by_pattern(dirpath, pattern, 0), *l;
 
-        for(l = g_list_first(list);
-            l != NULL;
-            l = l->next)
+        for (l = g_list_first(list);
+                l != NULL;
+                l = l->next)
         {
             if (strncmp(dirpath, (gchar*) l->data, strlen(dirpath)) == 0)
             {

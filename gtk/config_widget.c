@@ -283,13 +283,13 @@ FcitxConfigWidget*
 fcitx_config_widget_new (ConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const char* subconfig)
 {
     FcitxConfigWidget* widget =
-           g_object_new (FCITX_TYPE_CONFIG_WIDGET,
-                         "cfdesc", cfdesc,
-                         "prefix", prefix,
-                         "name", name,
-                         "subconfig", subconfig,
-                         NULL
-                        );
+        g_object_new (FCITX_TYPE_CONFIG_WIDGET,
+                      "cfdesc", cfdesc,
+                      "prefix", prefix,
+                      "name", name,
+                      "subconfig", subconfig,
+                      NULL
+                     );
     fcitx_config_widget_setup_ui(widget);
     return widget;
 }
@@ -301,29 +301,29 @@ fcitx_config_widget_set_property (GObject      *gobject,
                                   GParamSpec   *pspec)
 {
     FcitxConfigWidget* config_widget = FCITX_CONFIG_WIDGET(gobject);
-    switch(prop_id)
+    switch (prop_id)
     {
-        case PROP_CONFIG_DESC:
-            config_widget->cfdesc = g_value_get_pointer(value);
-            break;
-        case PROP_PREFIX:
-            if (config_widget->prefix)
-                g_free(config_widget->prefix);
-            config_widget->prefix = g_strdup(g_value_get_string(value));
-            break;
-        case PROP_NAME:
-            if (config_widget->name)
-                g_free(config_widget->name);
-            config_widget->name = g_strdup(g_value_get_string(value));
-            break;
-        case PROP_SUBCONFIG:
-            if (config_widget->parser)
-                sub_config_parser_free(config_widget->parser);
-            config_widget->parser = sub_config_parser_new(g_value_get_string(value));
-            break;
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-            break;
+    case PROP_CONFIG_DESC:
+        config_widget->cfdesc = g_value_get_pointer(value);
+        break;
+    case PROP_PREFIX:
+        if (config_widget->prefix)
+            g_free(config_widget->prefix);
+        config_widget->prefix = g_strdup(g_value_get_string(value));
+        break;
+    case PROP_NAME:
+        if (config_widget->name)
+            g_free(config_widget->name);
+        config_widget->name = g_strdup(g_value_get_string(value));
+        break;
+    case PROP_SUBCONFIG:
+        if (config_widget->parser)
+            sub_config_parser_free(config_widget->parser);
+        config_widget->parser = sub_config_parser_new(g_value_get_string(value));
+        break;
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
+        break;
     }
 }
 
@@ -341,8 +341,8 @@ void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *optio
     {
         switch (codesc->type)
         {
-            case T_I18NString:
-                break;
+        case T_I18NString:
+            break;
         case T_Integer:
         {
             int value = atoi(option->rawValue);
@@ -427,8 +427,8 @@ void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *optio
         }
         switch (codesc->type)
         {
-            case T_I18NString:
-                break;
+        case T_I18NString:
+            break;
         case T_Integer:
         {
             int value;
