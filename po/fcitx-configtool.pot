@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-15 22:14+0800\n"
+"POT-Creation-Date: 2011-09-03 09:31+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,67 +17,38 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:142
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:349
-msgid "Config"
+#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:197
+msgid "Clear font setting"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:165
-msgid "Profile"
+#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:258
+msgid "Other"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:171
-msgid "Skin Configuration"
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:180
+msgid "Global Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:171
-msgid "Skin"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:215
-msgid "Addon Configuration"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:215
-msgid "Addon"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:278
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:240
 msgid "Configure"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:298
-msgid "Table Configuration"
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:250
+msgid "Addon Configuration"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:298
-msgid "Table"
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:268
+msgid "Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:388
+#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:303
 msgid "Fcitx Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/menu.c:32
-msgid "_File"
+#: /home/saber/Develop/fcitx-config/po/../gtk/keygrab.c:101
+msgid "Please press the new key combination"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/menu.c:39
-msgid "_Reload Config"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-config/po/../gtk/menu.c:45
-msgid "_Exit"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:114
-msgid "Save"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:115
-msgid "Reset"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:182
-msgid "Clear font setting"
+#: /home/saber/Develop/fcitx-config/po/../gtk/keygrab.c:176
+msgid "Disabled"
 msgstr ""
