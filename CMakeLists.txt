@@ -1,10 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 
 project(fcitx-configtool)
-set(MAJOR_VERSION "0")
-set(MINOR_VERSION "4")
-set(PATCH_VERSION "0")
-set(SUFFIX_VERSION "")
 
 set(VERSION_STRING "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 if(NOT SUFFIX_VERSION)
