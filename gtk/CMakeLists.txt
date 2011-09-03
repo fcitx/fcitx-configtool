@@ -18,6 +18,6 @@ add_executable( fcitx-config-gtk ${fcitx_config_gtk_sources} )
 install(TARGETS fcitx-config-gtk RUNTIME DESTINATION bin)
 
 target_link_libraries (fcitx-config-gtk ${GTK2_LIBRARIES})
-target_link_libraries (fcitx-config-gtk ${FCITX_CONFIG_LIBRARIES})
-target_link_libraries (fcitx-config-gtk ${FCITX_LIBRARIES})
+target_link_libraries (fcitx-config-gtk ${FCITX4_FCITX_CONFIG_LIBRARIES})
+target_link_libraries (fcitx-config-gtk ${FCITX4_FCITX_LIBRARIES})
 target_link_libraries (fcitx-config-gtk ${UNIQUE_LIBRARIES})
