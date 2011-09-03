@@ -15,16 +15,16 @@ endif(NOT SUFFIX_VERSION)
 
 include(FindPkgConfig)
 FIND_PACKAGE(Gettext REQUIRED)
+find_package(Fcitx REQUIRED)
+PKG_CHECK_MODULES (GTK2 "gtk+-2.0" )
+PKG_CHECK_MODULES(UNIQUE "unique-1.0" )
 FIND_PROGRAM(INTLTOOL_EXTRACT intltool-extract)
 FIND_PROGRAM(INTLTOOL_UPDATE intltool-update)
 FIND_PROGRAM(INTLTOOL_MERGE intltool-merge)
 
-PKG_CHECK_MODULES(FCITX_CONFIG REQUIRED "fcitx-config >= 1.0" )
-PKG_CHECK_MODULES(FCITX REQUIRED "fcitx" )
-
 set(datadir ${CMAKE_INSTALL_PREFIX}/share)
 set(localedir ${CMAKE_INSTALL_PREFIX}/share/locale)
-set(exec_prefix "${CMAKE_INSTALL_PREFIX}/bin")
+set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
 
 configure_file(config.h.in config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})

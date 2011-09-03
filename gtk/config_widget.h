@@ -17,23 +17,59 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef CONFIG_WIDGET_H
-#define CONFIG_WIDGET_H
+/* fcitx-config-widget.h */
 
-#include <gtk/gtk.h>
+#ifndef _FCITX_CONFIG_WIDGET
+#define _FCITX_CONFIG_WIDGET
+
+#include <gtk/gtkwidget.h>
+#include <glib/gstring.h>
 #include <fcitx-config/fcitx-config.h>
+#include <gtk/gtkvbox.h>
+#include "sub_config_parser.h"
 
-#include "main_window.h"
+G_BEGIN_DECLS
 
-extern GtkWidget* config_widget_new(ConfigFileDesc *cfdesc, ConfigFile *cfile, ConfigPage *page, gboolean readonly);
+#define FCITX_TYPE_CONFIG_WIDGET fcitx_config_widget_get_type()
 
-#define CHANGE_DOMAIN_BEGIN(domain) { \
-    char *lastdomain = strdup(textdomain(NULL)); \
-    textdomain(domain);
+#define FCITX_CONFIG_WIDGET(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST ((obj), FCITX_TYPE_CONFIG_WIDGET, FcitxConfigWidget))
 
-#define CHANGE_DOMAIN_END() \
-    textdomain(lastdomain); \
-    free(lastdomain); \
-}
+#define FCITX_CONFIG_WIDGET_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST ((klass), FCITX_TYPE_CONFIG_WIDGET, FcitxConfigWidgetClass))
 
-#endif
+#define FCITX_IS_CONFIG_WIDGET(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FCITX_TYPE_CONFIG_WIDGET))
+
+#define FCITX_IS_CONFIG_WIDGET_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE ((klass), FCITX_TYPE_CONFIG_WIDGET))
+
+#define FCITX_CONFIG_WIDGET_GET_CLASS(obj) \
+  (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_CONFIG_WIDGET, FcitxConfigWidgetClass))
+
+typedef struct {
+  GtkVBox parent;
+  ConfigFileDesc* cfdesc;
+  gchar* prefix;
+  gchar* name;
+  FcitxSubConfigParser* parser;
+  GenericConfig gconfig;
+} FcitxConfigWidget;
+
+typedef struct {
+  GtkVBoxClass parent_class;
+} FcitxConfigWidgetClass;
+
+typedef enum {
+    CONFIG_WIDGET_SAVE,
+    CONFIG_WIDGET_CANCEL,
+    CONFIG_WIDGET_DEFAULT
+} ConfigWidgetAction;
+
+GType fcitx_config_widget_get_type (void);
+
+FcitxConfigWidget* fcitx_config_widget_new (ConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const char* subconfig);
+void fcitx_config_widget_response(FcitxConfigWidget* config_widget, ConfigWidgetAction action);
+G_END_DECLS
+
+#endif /* _FCITX_CONFIG_WIDGET */

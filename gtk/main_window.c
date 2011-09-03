@@ -17,72 +17,80 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <gtk/gtk.h>
-#include <fcitx-config/fcitx-config.h>
-#include <fcitx-config/xdg.h>
 #include <stdlib.h>
 #include <libintl.h>
 #include <errno.h>
+
+#include <fcitx/addon.h>
 #include <fcitx-utils/utarray.h>
+#include <fcitx-config/fcitx-config.h>
+#include <fcitx-config/xdg.h>
 
 #include "config.h"
 #include "main_window.h"
 #include "menu.h"
 #include "config_widget.h"
-#include "skin_stuff.h"
-#include "addon_stuff.h"
-#include "table_stuff.h"
 #include "configdesc.h"
 
+enum
+{
+    LIST_ADDON,
+    N_COLUMNS
+};
+
 #define _(s) gettext(s)
+
+
+static void
+enabled_data_func (GtkCellLayout   *cell_layout,
+                  GtkCellRenderer *renderer,
+                  GtkTreeModel    *tree_model,
+                  GtkTreeIter     *iter,
+                  gpointer         user_data);
+
+static void
+name_data_func (GtkCellLayout   *cell_layout,
+                GtkCellRenderer *renderer,
+                GtkTreeModel    *tree_model,
+                GtkTreeIter     *iter,
+                gpointer         user_data);
+
+static void configure_button_clicked (GtkButton *button,
+                                      gpointer   user_data);
+static void apply_button_clicked (GtkButton *button,
+                                      gpointer   user_data);
 
 static GtkWidget *mainWnd = NULL;
 static GtkWidget *configTreeView = NULL;
 static GtkWidget *configNotebook = NULL;
 static GtkTreeStore *store = NULL;
 static GtkWidget *hpaned = NULL;
-static ConfigPage *configPage, *profilePage, *tablePage, *skinPage, *lastPage = NULL, *addonPage;
+static ConfigPage *configPage, *lastPage = NULL, *addonPage;
+static GtkWidget* configureButton = NULL;
+const UT_icd addonicd= {sizeof ( FcitxAddon ), 0, 0, FreeAddon};
+UT_array* addonBuf;
 
 static int main_window_close(GtkWidget *theWindow, gpointer data);
 static GtkTreeModel *fcitx_config_create_model();
 
 int main_window_close(GtkWidget *theWindow, gpointer data)
 {
+    utarray_free(addonBuf);
     gtk_main_quit();
 }
 
-ConfigPage* main_window_add_page(char *cdesc, char* name, char *filename, ConfigFile *cfile, ConfigPage* parent, const char* domain, gboolean readonly)
+ConfigPage* main_window_add_page(const char* name, GtkWidget* widget)
 {
-    GtkTreeIter *p;
-    if (parent)
-        p = &parent->iter;
-    else
-        p = NULL;
-
     ConfigPage *page = (ConfigPage*) malloc(sizeof(ConfigPage));
     memset(page, 0, sizeof(ConfigPage));
 
-    if (filename)
-    {
-        page->filename = strdup(filename);
-        page->config.configFile = cfile;
-        page->cfdesc = get_config_desc(cdesc);
-        page->parent = parent;
-        page->domain = domain;
-        page->page = config_widget_new(page->cfdesc, cfile, page, readonly);
-        ConfigBindSync(&page->config);
-    }
-    else
-    {
-        page->parent = parent;
-        page->cfdesc = NULL;
-        GtkWidget *label = gtk_label_new(_(cdesc));
-        page->page = label;
-    }
+    page->page = widget;
 
     g_object_ref(page->page);
 
-    gtk_tree_store_append(store, &page->iter, p);
+    gtk_widget_show_all(widget);
+
+    gtk_tree_store_append(store, &page->iter, NULL);
     gtk_tree_store_set(store, &page->iter, 0, name, 1, page, -1);
 
     return page;
@@ -92,8 +100,8 @@ gboolean selection_changed(GtkTreeSelection *selection, gpointer data) {
     GtkTreeView *treeView = gtk_tree_selection_get_tree_view(selection);
     GtkTreeModel *model = gtk_tree_view_get_model(treeView);
     GtkTreeIter iter;
-    ConfigPage *page;
-    
+    ConfigPage* page;
+
     if (gtk_tree_selection_get_selected(selection, &model, &iter))
     {
         gtk_tree_model_get(model, &iter,
@@ -113,6 +121,33 @@ gboolean selection_changed(GtkTreeSelection *selection, gpointer data) {
     }
 }
 
+
+gboolean addon_selection_changed(GtkTreeSelection *selection, gpointer data) {
+    GtkTreeView *treeView = gtk_tree_selection_get_tree_view(selection);
+    GtkTreeModel *model = gtk_tree_view_get_model(treeView);
+    GtkTreeIter iter;
+    FcitxAddon *addon = NULL;
+
+    if (!configureButton)
+        return;
+
+    if (gtk_tree_selection_get_selected(selection, &model, &iter))
+    {
+        gtk_tree_model_get(model, &iter,
+                LIST_ADDON, &addon,
+                -1);
+        gchar* config_desc_name = g_strdup_printf("%s.desc",addon->name);
+        ConfigFileDesc* cfdesc = get_config_desc ( config_desc_name );
+        g_free(config_desc_name);
+        gboolean configurable = ( gboolean ) ( cfdesc != NULL || strlen ( addon->subconfig ) != 0 );
+        gtk_widget_set_sensitive(configureButton, configurable);
+    }
+    else
+    {
+        gtk_widget_set_sensitive(configureButton, FALSE);
+    }
+}
+
 GtkTreeModel *fcitx_config_create_model()
 {
     store = gtk_tree_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
@@ -121,213 +156,98 @@ GtkTreeModel *fcitx_config_create_model()
 
 void add_config_file_page()
 {
-    FILE *fp;
     char *file;
     ConfigFileDesc* configDesc = get_config_desc("config.desc");
-reload_config:
-    fp = GetXDGFileUserWithPrefix("", "config", "rt", &file);
-    if (!fp) {
-        if (errno == ENOENT)
-        {
-            fp = GetXDGFileUserWithPrefix("", "config", "wt", NULL);
-            SaveConfigFileFp(fp, NULL, configDesc);
-            fclose(fp);
-            fp = NULL;
-            goto reload_config;
-        }
-    }
-    ConfigFile *cfile = ParseConfigFileFp(fp, configDesc);
-    fclose(fp);
 
-    configPage = main_window_add_page("config.desc", _("Config"), file, cfile, NULL, "fcitx", FALSE);
-}
+    GtkWidget* vbox = gtk_vbox_new(0, 0);
 
-void add_profile_file_page()
-{
-    FILE *fp;
-    char *file;
-    ConfigFileDesc* configDesc = get_config_desc("profile.desc");
-reload_profile:
-    fp = GetXDGFileUserWithPrefix("", "profile", "rt", &file);
-    if (!fp) {
-        if (errno == ENOENT)
-        {
-            fp = GetXDGFileUserWithPrefix("", "profile", "wt", NULL);
-            SaveConfigFileFp(fp, NULL, configDesc);
-            fclose(fp);
-            fp = NULL;
-            goto reload_profile;
-        }
-    }
-    ConfigFile *cfile = ParseConfigFileFp(fp, configDesc);
-    fclose(fp);
+    FcitxConfigWidget* config_widget = fcitx_config_widget_new(
+        get_config_desc("config.desc"),
+        "",
+        "config",
+        NULL
+    );
+    gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(config_widget), TRUE, TRUE, 0);
 
-    profilePage = main_window_add_page("profile.desc", _("Profile"), file, cfile, NULL, "fcitx", FALSE);
+    GtkWidget* hbuttonbox = gtk_hbutton_box_new();
+    gtk_box_pack_start(GTK_BOX(vbox), hbuttonbox, FALSE, TRUE, 0);
 
-}
+    GtkWidget* applybutton = gtk_button_new_from_stock(GTK_STOCK_APPLY);
+    gtk_box_pack_start(GTK_BOX(hbuttonbox), applybutton, TRUE, TRUE, 0);
+    g_signal_connect(G_OBJECT(applybutton), "clicked", G_CALLBACK(apply_button_clicked), config_widget);
 
-void add_skin_page()
-{
-    skinPage = main_window_add_page(_("Skin Configuration"), _("Skin"), NULL, NULL, NULL, NULL, FALSE);
-    UT_array *skinBuf = loadSkinDir();
-    int j = 0;
-    char buf[PATH_MAX];
-    for(j=0;j<skinBuf->i;j++)
-    {
-        char **sskin = (char**)utarray_eltptr(skinBuf, j);
-        snprintf(buf, PATH_MAX, "%s/fcitx_skin.conf", *sskin);
-        buf[PATH_MAX-1] ='\0';
-        size_t len;
-        char ** path = GetXDGPath(&len, "XDG_CONFIG_HOME", ".config", "fcitx/skin" , DATADIR, "fcitx/skin" );
-        char *file;
-        ConfigFile *cfile;
 
-        FILE* fp = GetXDGFile(buf, path, "r", len, NULL);
-
-        FreeXDGPath(path);
-        
-        if (fp)
-        {
-            ConfigFileDesc* skinDesc = get_config_desc("skin.desc");
-            cfile = ParseConfigFileFp(fp, skinDesc);
-            if (!cfile)
-            {
-                fclose(fp);
-                continue;
-            }
-            path = GetXDGPath(&len, "XDG_CONFIG_HOME", ".config", "fcitx/skin" , NULL, NULL );
-            FILE * fp = GetXDGFile(buf, path, NULL, len, &file);
-            if (fp) fclose(fp);
-            FreeXDGPath(path);
-        }
-        else
-            continue;
-        
-        main_window_add_page("skin.desc", *sskin, file, cfile, skinPage, "fcitx", FALSE);
-        free(file);
-    }
-
+    configPage = main_window_add_page(_("Global Config"), vbox);
 }
 
 void add_addon_page()
 {
     int i, j;
-    addonPage = main_window_add_page(_("Addon Configuration"), _("Addon"), NULL, NULL, NULL, NULL, FALSE);
-    UT_array *addonBuf = LoadAddonInfo();
-    
-    size_t len;
-    char **addonPath = GetXDGPath(&len, "XDG_CONFIG_HOME", ".config", "fcitx/addon" , DATADIR, "fcitx/addon" );
-    char **paths = malloc(sizeof(char*) *len);
-    for (i = 0;i < len ;i ++)
-        paths[i] = malloc(sizeof(char) *PATH_MAX);
+    FcitxAddon* addon;
+    utarray_new ( addonBuf, &addonicd );
+    LoadAddonInfo(addonBuf);
 
-    for(j=0;j<addonBuf->i;j++)
+    GtkWidget* vbox = gtk_vbox_new(FALSE, 0);
+
+    GtkWidget* swin = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_box_pack_start(GTK_BOX(vbox), swin, TRUE, TRUE, 0);
+    g_object_set(swin, "hscrollbar-policy", GTK_POLICY_NEVER, NULL);
+    GtkWidget* list = gtk_tree_view_new();
+    g_object_set(list, "headers-visible", FALSE, NULL);
+    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(swin), list);
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *column;
+    GtkListStore *store;
+
+    renderer = gtk_cell_renderer_toggle_new();
+    column = gtk_tree_view_column_new_with_attributes("Enable", renderer, NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
+    gtk_cell_layout_set_cell_data_func (GTK_CELL_LAYOUT (column),
+                                        renderer,
+                                        enabled_data_func,
+                                        list,
+                                        NULL);
+
+    renderer = gtk_cell_renderer_text_new();
+    column = gtk_tree_view_column_new_with_attributes("Name", renderer, NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
+    gtk_cell_layout_set_cell_data_func (GTK_CELL_LAYOUT (column),
+                                        renderer,
+                                        name_data_func,
+                                        list,
+                                        NULL);
+
+    store = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
+
+    gtk_tree_view_set_model(GTK_TREE_VIEW(list),
+                            GTK_TREE_MODEL(store));
+
+    g_object_unref(store);
+
+    for ( addon = ( FcitxAddon * ) utarray_front ( addonBuf );
+        addon != NULL;
+        addon = ( FcitxAddon * ) utarray_next ( addonBuf, addon ) )
     {
-        char *file;
-        ConfigFile *cfile;
-        char **saddon = (char**)utarray_eltptr(addonBuf, j);
-        for (i = len -1; i >= 0; i--)
-            snprintf(paths[i], PATH_MAX, "%s/%s", addonPath[len - i - 1], *saddon);
-
-        cfile = ParseMultiConfigFile(paths, len, get_config_desc("addon.desc"));
-
-        if (!cfile)
-            continue;
-
-        {
-            size_t l;
-            char **path = GetXDGPath(&l, "XDG_CONFIG_HOME", ".config", "fcitx/addon" , DATADIR, "fcitx/data/addon" );
-            FILE *fp =GetXDGFile(*saddon, path, "r", l, &file);
-            if (fp) fclose(fp);
-            FreeXDGPath(path);
-        }
-        ConfigPage *page = main_window_add_page("addon.desc", *saddon, file, cfile, addonPage, "fcitx", TRUE);
-        {
-            /* add addon config page */
-            size_t len = strlen(*saddon) - strlen(".conf");
-            char *name = malloc((len + 1) * sizeof(char));
-            char *descfilename = malloc((1 + len + strlen(".desc")) * sizeof(char));
-            char *filename = malloc((1 + len + strlen(".config")) * sizeof(char));
-            char *rfile = NULL;
-            FILE *fp = NULL;
-            gboolean reload = FALSE;
-            strncpy(name ,*saddon ,len);
-            name[len] = '\0';
-            sprintf(descfilename, "%s.desc", name);
-            sprintf(filename, "%s.config", name);
-            ConfigFileDesc* addonConfigDesc = get_config_desc(descfilename);
-            if (addonConfigDesc)
-            {
-    reload_config:
-                fp = GetXDGFileUserWithPrefix("conf", filename, "rt", &rfile);
-                if (!fp && !reload) {
-                    if (errno == ENOENT)
-                    {
-                        fp = GetXDGFileUserWithPrefix("conf", filename, "wt", NULL);
-                        SaveConfigFileFp(fp, NULL, addonConfigDesc);
-                        fclose(fp);
-                        fp = NULL;
-                        reload = TRUE;
-                    }
-                }
-                if (fp)
-                {
-                    ConfigFile *addoncfile = ParseConfigFileFp(fp, addonConfigDesc);
-                    bindtextdomain(name, LOCALEDIR);
-                    bind_textdomain_codeset(name, "UTF-8");
-                    main_window_add_page(descfilename, _("Configure"), rfile, addoncfile, page, strdup(name), FALSE);
-                }
-            }
-            free(name);
-            free(descfilename);
-            free(filename);
-        }
-        free(file);
+        GtkTreeIter iter;
+        store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(list)));
+        gtk_list_store_append(store, &iter);
+        gtk_list_store_set(store, &iter, LIST_ADDON, addon, -1);
     }
 
-    for (i = 0;i < len ;i ++)
-        free(paths[i]);
-    free(paths);
-    FreeXDGPath(addonPath);
+    GtkWidget* hbuttonbox = gtk_hbutton_box_new();
+    gtk_box_pack_start(GTK_BOX(vbox), hbuttonbox, FALSE, TRUE, 0);
 
-}
+    configureButton = gtk_button_new_with_label(_("Configure"));
+    gtk_button_set_image(GTK_BUTTON(configureButton), gtk_image_new_from_stock (GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_BUTTON));
+    gtk_box_pack_start(GTK_BOX(hbuttonbox), configureButton, TRUE, TRUE, 0);
+    g_signal_connect(G_OBJECT(configureButton), "clicked", G_CALLBACK(configure_button_clicked), list);
 
-void add_table_page()
-{
-    int i, j;
-    tablePage = main_window_add_page(_("Table Configuration"), _("Table"), NULL, NULL, NULL, NULL, FALSE);
-    UT_array *tableBuf = LoadTableInfo();
-    
-    size_t len;
-    char **tablePath = GetXDGPath(&len, "XDG_CONFIG_HOME", ".config", "fcitx/table" , DATADIR, "fcitx/table" );
-    char **paths = malloc(sizeof(char*) *len);
-    for (i = 0;i < len ;i ++)
-        paths[i] = malloc(sizeof(char) *PATH_MAX);
+    GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+    g_signal_connect(G_OBJECT(selection), "changed",
+            G_CALLBACK(addon_selection_changed), NULL);
 
-    for(j=0;j<tableBuf->i;j++)
-    {
-        char *file;
-        ConfigFile *cfile;
-        char **stable = (char**)utarray_eltptr(tableBuf, j);
-        for (i = len -1; i >= 0; i--)
-            snprintf(paths[i], PATH_MAX, "%s/%s", tablePath[len - i - 1], *stable);
-
-        cfile = ParseMultiConfigFile(paths, len, get_config_desc("table.desc"));
-
-        if (!cfile)
-            continue;
-        
-        FILE *fp = GetXDGFileWithPrefix("table", *stable, "r", &file);
-        if (fp) fclose(fp);
-        main_window_add_page("table.desc", *stable, file, cfile, tablePage, "fcitx", FALSE);
-        free(file);
-    }
-
-    for (i = 0;i < len ;i ++)
-        free(paths[i]);
-    free(paths);
-    FreeXDGPath(tablePath);
-
+    addonPage = main_window_add_page(_("Addon Configuration"), vbox);
 }
 
 GtkWidget* fcitx_config_main_window_new()
@@ -335,9 +255,8 @@ GtkWidget* fcitx_config_main_window_new()
     if (mainWnd != NULL)
         return mainWnd;
 
-    GtkWidget *menu = fcitx_config_menu_new();
     GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
-    
+
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
 
@@ -354,13 +273,10 @@ GtkWidget* fcitx_config_main_window_new()
     gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(configTreeView), FALSE);
 
     add_config_file_page();
-    add_profile_file_page();
-    add_table_page();
-    add_skin_page();
     add_addon_page();
 
     gtk_widget_set_size_request(configTreeView, 170, -1);
-    gtk_widget_set_size_request(mainWnd, -1, 660);
+    gtk_widget_set_size_request(mainWnd, -1, 500);
 
     hpaned = gtk_hpaned_new();
     GtkWidget *treescroll = gtk_scrolled_window_new(NULL, NULL);
@@ -369,7 +285,6 @@ GtkWidget* fcitx_config_main_window_new()
     gtk_container_add(GTK_CONTAINER(treescroll), configTreeView);
     gtk_paned_add1(GTK_PANED(hpaned), treescroll);
 
-    gtk_box_pack_start(GTK_BOX(vbox), menu, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), hpaned, TRUE, TRUE, 0);
 
     gtk_container_add(GTK_CONTAINER(mainWnd), vbox);
@@ -387,4 +302,112 @@ GtkWidget* fcitx_config_main_window_new()
     gtk_window_set_icon_name(GTK_WINDOW(mainWnd), "fcitx-configtool");
     gtk_window_set_title(GTK_WINDOW(mainWnd), _("Fcitx Config"));
     return mainWnd;
+}
+
+void format_markup()
+{
+}
+
+static void
+enabled_data_func (GtkCellLayout   *cell_layout,
+                  GtkCellRenderer *renderer,
+                  GtkTreeModel    *tree_model,
+                  GtkTreeIter     *iter,
+                  gpointer         user_data)
+{
+    FcitxAddon* addon;
+
+    gtk_tree_model_get (tree_model,
+                        iter,
+                        LIST_ADDON, &addon,
+                        -1);
+    g_object_set (renderer,
+                "active", (gboolean) addon->bEnabled,
+                NULL);
+}
+
+static void
+name_data_func (GtkCellLayout   *cell_layout,
+                GtkCellRenderer *renderer,
+                GtkTreeModel    *tree_model,
+                GtkTreeIter     *iter,
+                gpointer         user_data)
+{
+    FcitxAddon* addon;
+
+    gtk_tree_model_get (tree_model,
+                        iter,
+                        LIST_ADDON, &addon,
+                        -1);
+    gchar* string = g_strdup_printf("%s\n%s", addon->generalname, addon->comment);
+    g_object_set (renderer,
+                "text", string,
+                NULL);
+
+    g_free(string);
+}
+
+
+void apply_button_clicked(GtkButton* button, gpointer user_data)
+{
+    FcitxConfigWidget* config_widget = user_data;
+    fcitx_config_widget_response(config_widget, CONFIG_WIDGET_SAVE);
+}
+
+void configure_button_clicked (GtkButton *button,
+                               gpointer   user_data)
+{
+    GtkTreeView* view = user_data;
+    GtkTreeSelection *selection = gtk_tree_view_get_selection(view);
+    GtkTreeModel *model = gtk_tree_view_get_model(view);
+    GtkTreeIter iter;
+    FcitxAddon *addon = NULL;
+    if (gtk_tree_selection_get_selected(selection, &model, &iter))
+    {
+        gtk_tree_model_get(model, &iter,
+                LIST_ADDON, &addon,
+                -1);
+        gchar* config_desc_name = g_strdup_printf("%s.desc",addon->name);
+        ConfigFileDesc* cfdesc = get_config_desc ( config_desc_name );
+        g_free(config_desc_name);
+        gboolean configurable = ( gboolean ) ( cfdesc != NULL || strlen ( addon->subconfig ) != 0 );
+        if (configurable)
+        {
+            GtkWidget* dialog = gtk_dialog_new_with_buttons(addon->generalname,
+                                                            GTK_WINDOW(mainWnd),
+                                                            GTK_DIALOG_MODAL,
+                                                            GTK_STOCK_OK,
+                                                            GTK_RESPONSE_OK,
+                                                            GTK_STOCK_CANCEL,
+                                                            GTK_RESPONSE_CANCEL,
+                                                            NULL
+                                                           );
+
+            gchar* config_file_name = g_strdup_printf("%s.config", addon->name);
+            FcitxConfigWidget* config_widget = fcitx_config_widget_new(cfdesc, "conf", config_file_name, addon->subconfig);
+            GtkWidget* content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+            gtk_box_pack_start(GTK_BOX(content_area), GTK_WIDGET(config_widget), TRUE, TRUE, 0);
+            g_free(config_file_name);
+            gtk_widget_set_size_request(GTK_WIDGET(config_widget), -1, 400);
+
+            g_signal_connect (dialog, "response",
+                              G_CALLBACK (response_cb),
+                              config_widget);
+
+            gtk_widget_show_all (GTK_WIDGET(dialog));
+        }
+    }
+}
+
+gboolean response_cb (GtkDialog *dialog,
+                    gint response,
+                    gpointer user_data)
+{
+    if (response == GTK_RESPONSE_OK)
+    {
+        FcitxConfigWidget* config_widget = (FcitxConfigWidget*) user_data;
+        fcitx_config_widget_response(config_widget, CONFIG_WIDGET_SAVE);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+    return FALSE;
 }

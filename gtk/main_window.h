@@ -26,15 +26,14 @@
 
 typedef struct ConfigPage
 {
-    ConfigFileDesc *cfdesc;
     GtkWidget* page;
-    struct ConfigPage* parent;
-    GenericConfig config;
-    char *filename;
-    const char *domain;
     GtkTreeIter iter;
 } ConfigPage;
 
 extern GtkWidget* fcitx_config_main_window_new();
+
+gboolean response_cb (GtkDialog *dialog,
+                    gint response,
+                    gpointer user_data);
 
 #endif
