@@ -59,7 +59,7 @@ main(int argc, char **argv)
     gtk_init(&argc, &argv);
 
     app = unique_app_new_with_commands ("org.fcitx.fcitx-configtool", NULL,
-            NULL);
+            NULL, NULL);
 
     if (unique_app_is_running(app))
     {
@@ -89,4 +89,4 @@ main(int argc, char **argv)
 
     return 0;
 }
- 
+

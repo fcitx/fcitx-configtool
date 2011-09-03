@@ -136,10 +136,6 @@ fcitx_config_widget_setup_ui (FcitxConfigWidget *self)
         fp = GetXDGFileWithPrefix ( self->prefix, self->name, "rt", NULL );
         self->gconfig.configFile = ParseConfigFileFp ( fp, cfdesc );
 
-        GtkWidget *chbox = NULL;
-        GtkWidget *saveButton = NULL;
-        GtkWidget *resetButton = NULL;
-
         ConfigGroupDesc *cgdesc = NULL;
         ConfigOptionDesc *codesc = NULL;
         for (cgdesc = cfdesc->groupsDesc;
@@ -233,6 +229,8 @@ fcitx_config_widget_setup_ui (FcitxConfigWidget *self)
                     inputWidget = gtk_entry_new();
                     argument = inputWidget;
                     break;
+                default:
+                    break;
                 }
 
                 if (inputWidget)
@@ -267,7 +265,6 @@ fcitx_config_widget_setup_ui (FcitxConfigWidget *self)
                                      scrollwnd,
                                      plabel);
 
-            GList* p;
             HashForeachContext context;
             context.i = 0;
             context.table = table;
@@ -433,7 +430,7 @@ void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *optio
         {
             int value;
             value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(arg));
-            asprintf(&option->rawValue, "%d", value);
+            option->rawValue = g_strdup_printf("%d", value);
         }
         break;
         case T_Color:
@@ -447,7 +444,7 @@ void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *optio
             r = RoundColor(r);
             g = RoundColor(g);
             b = RoundColor(b);
-            asprintf(&option->rawValue, "%d %d %d",r,g,b);
+            option->rawValue = g_strdup_printf("%d %d %d",r,g,b);
         }
         break;
         case T_Boolean:
@@ -503,7 +500,7 @@ void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *optio
                     k ++;
             }
             if (strkey[1])
-                asprintf(&option->rawValue, "%s %s", strkey[0], strkey[1]);
+                option->rawValue = g_strdup_printf("%s %s", strkey[0], strkey[1]);
             else if (strkey[0])
             {
                 option->rawValue = strdup(strkey[0]);

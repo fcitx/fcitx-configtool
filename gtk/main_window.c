@@ -66,7 +66,6 @@ toggled_cb (GtkCellRenderer *renderer,
 
 static GtkWidget *mainWnd = NULL;
 static GtkWidget *configTreeView = NULL;
-static GtkWidget *configNotebook = NULL;
 static GtkTreeStore *store = NULL;
 static GtkWidget *hpaned = NULL;
 static ConfigPage *configPage, *lastPage = NULL, *addonPage;
@@ -81,6 +80,7 @@ int main_window_close(GtkWidget *theWindow, gpointer data)
 {
     utarray_free(addonBuf);
     gtk_main_quit();
+    return 0;
 }
 
 ConfigPage* main_window_add_page(const char* name, GtkWidget* widget)
@@ -100,7 +100,7 @@ ConfigPage* main_window_add_page(const char* name, GtkWidget* widget)
     return page;
 }
 
-gboolean selection_changed(GtkTreeSelection *selection, gpointer data) {
+void selection_changed(GtkTreeSelection *selection, gpointer data) {
     GtkTreeView *treeView = gtk_tree_selection_get_tree_view(selection);
     GtkTreeModel *model = gtk_tree_view_get_model(treeView);
     GtkTreeIter iter;
@@ -126,7 +126,7 @@ gboolean selection_changed(GtkTreeSelection *selection, gpointer data) {
 }
 
 
-gboolean addon_selection_changed(GtkTreeSelection *selection, gpointer data) {
+void addon_selection_changed(GtkTreeSelection *selection, gpointer data) {
     GtkTreeView *treeView = gtk_tree_selection_get_tree_view(selection);
     GtkTreeModel *model = gtk_tree_view_get_model(treeView);
     GtkTreeIter iter;
@@ -160,9 +160,6 @@ GtkTreeModel *fcitx_config_create_model()
 
 void add_config_file_page()
 {
-    char *file;
-    ConfigFileDesc* configDesc = get_config_desc("config.desc");
-
     GtkWidget* vbox = gtk_vbox_new(0, 0);
 
     FcitxConfigWidget* config_widget = fcitx_config_widget_new(
@@ -186,7 +183,6 @@ void add_config_file_page()
 
 void add_addon_page()
 {
-    int i, j;
     FcitxAddon* addon;
     utarray_new ( addonBuf, &addonicd );
     LoadAddonInfo(addonBuf);
@@ -320,7 +316,6 @@ toggled_cb (GtkCellRenderer *renderer,
     GtkTreeIter iter;
     gtk_tree_model_get_iter(model, &iter, path);
     FcitxAddon* addon = NULL;
-    gboolean state;
     gtk_tree_path_free(path);
     gtk_tree_model_get (model,
                         &iter,

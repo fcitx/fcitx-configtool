@@ -2,12 +2,14 @@ cmake_minimum_required (VERSION 2.6)
 
 project(fcitx-configtool)
 
-set(VERSION_STRING "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
-if(NOT SUFFIX_VERSION)
-    set(VERSION_STRING_FULL "${VERSION_STRING}")
-else(NOT SUFFIX_VERSION)
-    set(VERSION_STRING_FULL "${VERSION_STRING}-${SUFFIX_VERSION}")
-endif(NOT SUFFIX_VERSION)
+# uninstall target
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 include(FindPkgConfig)
 FIND_PACKAGE(Gettext REQUIRED)
@@ -17,6 +19,10 @@ PKG_CHECK_MODULES(UNIQUE "unique-1.0" )
 FIND_PROGRAM(INTLTOOL_EXTRACT intltool-extract)
 FIND_PROGRAM(INTLTOOL_UPDATE intltool-update)
 FIND_PROGRAM(INTLTOOL_MERGE intltool-merge)
+set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-sign-compare -Wno-unused-parameter -fvisibility=hidden")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-sign-compare -Wno-unused-parameter -fvisibility=hidden")
+set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined,--as-needed")
+set(CMAKE_MODULE_LINKER_FLAGS "-Wl,--no-undefined,--as-needed")
 
 set(datadir ${CMAKE_INSTALL_PREFIX}/share)
 set(localedir ${CMAKE_INSTALL_PREFIX}/share/locale)

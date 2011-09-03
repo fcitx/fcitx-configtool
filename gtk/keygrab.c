@@ -35,8 +35,6 @@ enum {
 static gint keygrab_button_signals[LAST_SIGNAL] = { 0 };
 static void keygrab_button_init(KeyGrabButton *keygrab_button);
 static void keygrab_button_class_init(KeyGrabButtonClass *keygrabbuttonclass);
-static void changed(void);
-static void current_changed(void);
 static void begin_key_grab(KeyGrabButton* self, gpointer v);
 static void end_key_grab(KeyGrabButton *self);
 static GtkWidget* popup_new(GtkWidget* parent, const gchar* text, gboolean mouse);
@@ -54,6 +52,7 @@ GtkType keygrab_button_get_type(void)
             sizeof(KeyGrabButtonClass),
             (GtkClassInitFunc)keygrab_button_class_init,
             (GtkObjectInitFunc)keygrab_button_init,
+            NULL,
             NULL,
             NULL
         };
@@ -103,7 +102,7 @@ void begin_key_grab(KeyGrabButton* self, gpointer v)
     b->handler = gtk_signal_connect(GTK_OBJECT(b->popup), "key-press-event", GTK_SIGNAL_FUNC(on_key_press_event), b);
 
     while(gdk_keyboard_grab(gtk_widget_get_window(GTK_WIDGET(b->popup)), FALSE, GDK_CURRENT_TIME) != GDK_GRAB_SUCCESS)
-           usleep(100); 
+           usleep(100);
 }
 
 void end_key_grab(KeyGrabButton *self)
@@ -120,7 +119,7 @@ void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v)
     guint key;
     GdkModifierType mods = event->state & gtk_accelerator_get_default_mod_mask();
 
-#if GTK_MINOR_VERSION < 22 
+#if GTK_MINOR_VERSION < 22
     if ((event->keyval == GDK_Escape
             || event->keyval == GDK_Return) && !mods)
 #else
@@ -197,7 +196,7 @@ GtkWidget* popup_new(GtkWidget* parent, const gchar* text, gboolean mouse)
 {
     GtkWidget* w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_type_hint(GTK_WINDOW(w), GDK_WINDOW_TYPE_HINT_UTILITY);
-    gtk_window_set_position(GTK_WINDOW(w), mouse && GTK_WIN_POS_MOUSE || GTK_WIN_POS_CENTER_ALWAYS);
+    gtk_window_set_position(GTK_WINDOW(w), mouse ? GTK_WIN_POS_MOUSE : GTK_WIN_POS_CENTER_ALWAYS);
     if (parent)
         gtk_window_set_transient_for(GTK_WINDOW(w), GTK_WINDOW(gtk_widget_get_toplevel(parent)));
     gtk_window_set_modal(GTK_WINDOW(w), TRUE);
