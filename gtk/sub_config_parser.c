@@ -35,6 +35,7 @@
 static void sub_config_pattern_free(void* pattern);
 static GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern);
 static GList* get_files_by_pattern(const gchar* dirpath, FcitxSubConfigPattern* pattern, int index);
+static void sub_file_list_free(gpointer data, gpointer user_data);
 
 static SubConfigType parse_type(const gchar* str);
 
@@ -183,6 +184,11 @@ FcitxSubConfig* sub_config_new(const gchar* name, FcitxSubConfigPattern* pattern
     return subconfig;
 }
 
+void sub_file_list_free(gpointer data, gpointer user_data)
+{
+    g_free(data);
+}
+
 void sub_config_free(FcitxSubConfig* subconfig)
 {
     if (!subconfig)
@@ -191,7 +197,7 @@ void sub_config_free(FcitxSubConfig* subconfig)
     g_free(subconfig->configdesc);
     g_free(subconfig->nativepath);
     g_free(subconfig->name);
-    g_list_free_full(subconfig->filelist, g_free);
+    g_list_foreach(subconfig->filelist, sub_file_list_free, NULL);
     g_free(subconfig);
 }
 
