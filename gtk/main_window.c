@@ -28,7 +28,6 @@
 
 #include "config.h"
 #include "main_window.h"
-#include "menu.h"
 #include "config_widget.h"
 #include "configdesc.h"
 

@@ -30,7 +30,7 @@ typedef struct ConfigPage
     GtkTreeIter iter;
 } ConfigPage;
 
-extern GtkWidget* fcitx_config_main_window_new();
+GtkWidget* fcitx_config_main_window_new(void);
 
 gboolean response_cb (GtkDialog *dialog,
                     gint response,
