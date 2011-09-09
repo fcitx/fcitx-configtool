@@ -198,6 +198,7 @@ void sub_config_free(FcitxSubConfig* subconfig)
     g_free(subconfig->nativepath);
     g_free(subconfig->name);
     g_list_foreach(subconfig->filelist, sub_file_list_free, NULL);
+    g_list_free(subconfig->filelist);
     g_free(subconfig);
 }
 
@@ -226,7 +227,8 @@ GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
                 result = g_list_append(result, g_strdup(name));
             }
         }
-        g_list_free_full(list, g_free);
+        g_list_foreach(list, sub_file_list_free, NULL);
+        g_list_free(list);
 
         free(dirpath);
     }
