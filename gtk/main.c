@@ -21,13 +21,13 @@
 #include <langinfo.h>
 #include <libintl.h>
 #include <locale.h>
-#include <unique/unique.h>
-
 #include "config.h"
-
 #include "main_window.h"
 
 static GtkWidget *window = NULL;
+
+#ifdef HAVE_UNIQUE
+#include <unique/unique.h>
 
 static UniqueResponse
 message_received_cb (UniqueApp         *app,
@@ -50,13 +50,15 @@ message_received_cb (UniqueApp         *app,
     }
     return res;
 }
+#endif
 
 int
 main(int argc, char **argv)
 {
-    UniqueApp *app;
-
     gtk_init(&argc, &argv);
+
+#ifdef HAVE_UNIQUE
+    UniqueApp *app;
 
     app = unique_app_new_with_commands ("org.fcitx.fcitx-configtool", NULL,
             NULL, NULL);
@@ -70,6 +72,7 @@ main(int argc, char **argv)
         else
             return 1;
     }
+#endif
 
     setlocale(LC_ALL, "");
     bindtextdomain("fcitx-configtool", LOCALEDIR);
@@ -79,13 +82,19 @@ main(int argc, char **argv)
     textdomain("fcitx-configtool");
 
     window = fcitx_config_main_window_new ();
+
+#ifdef HAVE_UNIQUE
     unique_app_watch_window (app, GTK_WINDOW (window));
     g_signal_connect (app, "message-received", G_CALLBACK (message_received_cb), NULL);
+#endif
 
     gtk_widget_show_all(window);
 
     gtk_main();
+
+#ifdef HAVE_UNIQUE
     g_object_unref (app);
+#endif
 
     return 0;
 }

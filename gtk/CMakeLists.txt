@@ -1,6 +1,5 @@
 include_directories (
     ${GTK2_INCLUDE_DIRS}
-    ${UNIQUE_INCLUDE_DIRS}
     ${FCITX4_FCITX_INCLUDE_DIRS}
     ${FCITX4_FCITX_UTILS_INCLUDE_DIRS}
     ${FCITX4_FCITX_CONFIG_INCLUDE_DIRS}
@@ -8,11 +7,14 @@ include_directories (
 
 link_directories (
     ${GTK2_LIBRARY_DIRS}
-    ${UNIQUE_LIBRARY_DIRS}
     ${FCITX4_FCITX_LIBRARY_DIRS}
     ${FCITX4_FCITX_UTILS_LIBRARY_DIRS}
     ${FCITX4_FCITX_CONFIG_LIBRARY_DIRS}
 )
+if (HAVE_UNIQUE)
+    include_directories (${UNIQUE_INCLUDE_DIRS})
+    link_directories (${UNIQUE_LIBRARY_DIRS})
+endif (HAVE_UNIQUE)
 
 set( fcitx_config_gtk_sources
     sub_config_parser.c
@@ -33,5 +35,8 @@ target_link_libraries (fcitx-config-gtk
                        ${FCITX4_FCITX_UTILS_LIBRARIES}
                        ${FCITX4_FCITX_CONFIG_LIBRARIES}
                        ${FCITX4_FCITX_LIBRARIES}
-                       ${UNIQUE_LIBRARIES}
 )
+
+if (HAVE_UNIQUE)
+    target_link_libraries (fcitx-config-gtk ${UNIQUE_LIBRARIES})
+endif (HAVE_UNIQUE)
