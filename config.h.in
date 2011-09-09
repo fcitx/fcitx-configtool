@@ -3,3 +3,4 @@
 #define LOCALEDIR "@localedir@"
 #define EXEC_PREFIX "@exec_prefix@"
 #define PACKAGE "@FCITX4_PACKAGE_NAME@"
+#cmakedefine HAVE_UNIQUE
