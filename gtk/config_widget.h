@@ -22,10 +22,9 @@
 #ifndef _FCITX_CONFIG_WIDGET
 #define _FCITX_CONFIG_WIDGET
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <glib/gstring.h>
 #include <fcitx-config/fcitx-config.h>
-#include <gtk/gtkvbox.h>
 #include "sub_config_parser.h"
 
 G_BEGIN_DECLS

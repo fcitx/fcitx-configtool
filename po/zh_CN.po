@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-03 09:31+0800\n"
+"POT-Creation-Date: 2011-10-03 17:40+0800\n"
 "PO-Revision-Date: 2011-09-03 09:32+0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
@@ -16,39 +16,39 @@ msgstr ""
 "X-Generator: Lokalize 1.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:250
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:251
 msgid "Addon Configuration"
 msgstr "附加组件配置"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:197
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:193
 msgid "Clear font setting"
 msgstr "清除字体设置"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:268
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:269
 msgid "Config"
 msgstr "配置"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:240
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:241
 msgid "Configure"
 msgstr "配置 "
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/keygrab.c:176
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:142
 msgid "Disabled"
 msgstr "禁用"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:303
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:304
 msgid "Fcitx Config"
 msgstr "Fcitx配置"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:180
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:180
 msgid "Global Config"
 msgstr "全局配置"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:258
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:256
 msgid "Other"
 msgstr "其他"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/keygrab.c:101
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:81
 msgid "Please press the new key combination"
 msgstr "请按下新按键组合"
 

@@ -293,7 +293,7 @@ GtkWidget* fcitx_config_main_window_new()
     GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(configTreeView));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 
-    gtk_signal_connect(GTK_OBJECT(mainWnd), "destroy", GTK_SIGNAL_FUNC(main_window_close), NULL);
+    g_signal_connect(G_OBJECT(mainWnd), "destroy", (GCallback) main_window_close, NULL);
     g_signal_connect(G_OBJECT(selection), "changed",
             G_CALLBACK(selection_changed), NULL);
 

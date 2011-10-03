@@ -195,17 +195,17 @@ fcitx_config_widget_setup_ui (FcitxConfigWidget *self)
                     gtk_box_pack_start(GTK_BOX(inputWidget), button, FALSE, FALSE, 0);
                     gtk_font_button_set_use_size(GTK_FONT_BUTTON(argument), FALSE);
                     gtk_font_button_set_show_size(GTK_FONT_BUTTON(argument), FALSE);
-                    gtk_signal_connect(GTK_OBJECT(button), "clicked", GTK_SIGNAL_FUNC(set_none_font_clicked), argument);
+                    g_signal_connect(G_OBJECT(button), "clicked", (GCallback) set_none_font_clicked, argument);
                 }
                 break;
                 case T_Enum:
                 {
                     int i;
                     ConfigEnum *e = &codesc->configEnum;
-                    inputWidget = gtk_combo_box_new_text();
+                    inputWidget = gtk_combo_box_text_new();
                     for (i = 0; i < e->enumCount; i ++)
                     {
-                        gtk_combo_box_append_text(GTK_COMBO_BOX(inputWidget), D_(cfdesc->domain, e->enumDesc[i]));
+                        gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(inputWidget), D_(cfdesc->domain, e->enumDesc[i]));
                     }
                     argument = inputWidget;
                 }

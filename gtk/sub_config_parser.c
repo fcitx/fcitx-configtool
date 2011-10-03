@@ -211,6 +211,9 @@ GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
     for (i = 0; i < size; i ++)
     {
         char* dirpath = realpath(xdgpath[i], NULL);
+        
+        if (!dirpath)
+            continue;
 
         GList* list = get_files_by_pattern(dirpath, pattern, 0), *l;
 

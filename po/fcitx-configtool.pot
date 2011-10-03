@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-03 09:31+0800\n"
+"POT-Creation-Date: 2011-10-03 17:45+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,38 +17,38 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:197
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:193
 msgid "Clear font setting"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/config_widget.c:258
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:256
 msgid "Other"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:180
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:180
 msgid "Global Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:240
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:241
 msgid "Configure"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:250
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:251
 msgid "Addon Configuration"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:268
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:269
 msgid "Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/main_window.c:303
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:304
 msgid "Fcitx Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/keygrab.c:101
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:81
 msgid "Please press the new key combination"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-config/po/../gtk/keygrab.c:176
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:142
 msgid "Disabled"
 msgstr ""
