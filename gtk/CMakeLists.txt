@@ -1,3 +1,6 @@
+PKG_CHECK_MODULES (GTK2 "gtk+-2.0 >= 2.22" REQUIRED)
+PKG_CHECK_MODULES(UNIQUE "unique-1.0")
+
 include_directories (
     ${GTK2_INCLUDE_DIRS}
     ${FCITX4_FCITX_INCLUDE_DIRS}
@@ -11,10 +14,10 @@ link_directories (
     ${FCITX4_FCITX_UTILS_LIBRARY_DIRS}
     ${FCITX4_FCITX_CONFIG_LIBRARY_DIRS}
 )
-if (HAVE_UNIQUE)
+if (UNIQUE_FOUND)
     include_directories (${UNIQUE_INCLUDE_DIRS})
     link_directories (${UNIQUE_LIBRARY_DIRS})
-endif (HAVE_UNIQUE)
+endif (UNIQUE_FOUND)
 
 set( fcitx_config_gtk_sources
     sub_config_parser.c
@@ -37,6 +40,6 @@ target_link_libraries (fcitx-config-gtk
                        ${FCITX4_FCITX_LIBRARIES}
 )
 
-if (HAVE_UNIQUE)
+if (UNIQUE_FOUND)
     target_link_libraries (fcitx-config-gtk ${UNIQUE_LIBRARIES})
-endif (HAVE_UNIQUE)
+endif (UNIQUE_FOUND)
