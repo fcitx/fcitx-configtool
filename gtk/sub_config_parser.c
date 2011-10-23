@@ -263,22 +263,22 @@ GList* get_files_by_pattern(const gchar* dirpath, FcitxSubConfigPattern* pattern
 
         if (pattern->patternlist[index + 1] == 0)
         {
-            char path[PATH_MAX];
-            snprintf(path, PATH_MAX, "%s/%s", dirpath, drt->d_name);
-            path[PATH_MAX - 1] = '\0';
+            char *path;
+            asprintf(&path, "%s/%s", dirpath, drt->d_name);
             struct stat statbuf;
             if (stat(path, &statbuf) == 0)
             {
                 result = g_list_append(result, realpath(path, NULL));
             }
+            free(path);
         }
         else
         {
-            char path[PATH_MAX];
-            snprintf(path, PATH_MAX, "%s/%s", dirpath, drt->d_name);
-            path[PATH_MAX - 1] = '\0';
+            char *path;
+            asprintf(&path, "%s/%s", dirpath, drt->d_name);
             GList* r = get_files_by_pattern(path, pattern, index + 1);
             result = g_list_concat(result, r);
+            free(path);
         }
     }
 

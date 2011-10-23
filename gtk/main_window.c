@@ -325,10 +325,10 @@ toggled_cb (GtkCellRenderer *renderer,
         return;
 
     addon->bEnabled = !addon->bEnabled;
-    char buf[PATH_MAX];
-    snprintf(buf, PATH_MAX, "%s.conf", addon->name);
-    buf[PATH_MAX - 1] = 0;
+    char *buf;
+    asprintf(&buf, "%s.conf", addon->name);
     FILE* fp = GetXDGFileUserWithPrefix("addon", buf, "w", NULL);
+    free(buf);
     if (fp)
     {
         fprintf(fp, "[Addon]\nEnabled=%s\n", addon->bEnabled ? "True": "False");
