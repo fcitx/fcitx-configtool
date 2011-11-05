@@ -193,7 +193,7 @@ void add_addon_page()
     g_object_set(swin, "hscrollbar-policy", GTK_POLICY_NEVER, NULL);
     GtkWidget* list = gtk_tree_view_new();
     g_object_set(list, "headers-visible", FALSE, NULL);
-    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(swin), list);
+    gtk_container_add(GTK_CONTAINER(swin), list);
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
     GtkListStore *store;
