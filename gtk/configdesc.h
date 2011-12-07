@@ -22,6 +22,6 @@
 
 #include <fcitx-config/fcitx-config.h>
 
-ConfigFileDesc *get_config_desc(char *filename);
+FcitxConfigFileDesc *get_config_desc(char *filename);
 
 #endif

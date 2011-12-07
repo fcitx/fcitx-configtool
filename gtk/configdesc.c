@@ -28,25 +28,25 @@
 typedef struct ConfigDescSet
 {
     char *filename;
-    ConfigFileDesc *cfdesc;
+    FcitxConfigFileDesc *cfdesc;
     UT_hash_handle hh;
 } ConfigDescSet;
 
 static ConfigDescSet* cdset = NULL;
 
-ConfigFileDesc *get_config_desc(char *filename)
+FcitxConfigFileDesc *get_config_desc(char *filename)
 {
     ConfigDescSet *desc = NULL;
     HASH_FIND_STR(cdset, filename, desc);
     if (!desc)
     {
-        FILE * tmpfp = GetXDGFileWithPrefix("configdesc", filename, "r", NULL);
+        FILE * tmpfp = FcitxXDGGetFileWithPrefix("configdesc", filename, "r", NULL);
         if (tmpfp)
         {
             desc = malloc(sizeof(ConfigDescSet));
             memset(desc, 0 ,sizeof(ConfigDescSet));
             desc->filename = strdup(filename);
-            desc->cfdesc = ParseConfigFileDescFp(tmpfp);
+            desc->cfdesc = FcitxConfigParseConfigFileDescFp(tmpfp);
             fclose(tmpfp);
 
             HASH_ADD_KEYPTR(hh, cdset, desc->filename, strlen(desc->filename), desc);

@@ -37,6 +37,7 @@
 
 #define _(s) gettext(s)
 #define D_(d, x) dgettext (d, x)
+#define RoundColor(c) ((c)>=0?((c)<=255?c:255):0)
 
 G_DEFINE_TYPE (FcitxConfigWidget, fcitx_config_widget, GTK_TYPE_VBOX)
 
@@ -63,7 +64,7 @@ fcitx_config_widget_set_property (GObject      *gobject,
                                   GParamSpec   *pspec);
 
 
-static void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *option, void *value, ConfigSync sync, void *arg);
+static void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConfigOption *option, void *value, FcitxConfigSync sync, void *arg);
 
 static void set_none_font_clicked(GtkWidget *button, gpointer arg);
 
@@ -123,7 +124,7 @@ fcitx_config_widget_init (FcitxConfigWidget *self)
 static void
 fcitx_config_widget_setup_ui (FcitxConfigWidget *self)
 {
-    ConfigFileDesc* cfdesc = self->cfdesc;
+    FcitxConfigFileDesc* cfdesc = self->cfdesc;
     GtkWidget *cvbox = GTK_WIDGET(self);
     GtkWidget *configNotebook = gtk_notebook_new();
     gtk_box_pack_start(GTK_BOX(cvbox), configNotebook, TRUE, TRUE, 0);
@@ -133,14 +134,14 @@ fcitx_config_widget_setup_ui (FcitxConfigWidget *self)
         bind_textdomain_codeset ( cfdesc->domain, "UTF-8" );
 
         FILE *fp;
-        fp = GetXDGFileWithPrefix ( self->prefix, self->name, "rt", NULL );
-        self->gconfig.configFile = ParseConfigFileFp ( fp, cfdesc );
+        fp = FcitxXDGGetFileWithPrefix ( self->prefix, self->name, "rt", NULL );
+        self->gconfig.configFile = FcitxConfigParseConfigFileFp ( fp, cfdesc );
 
-        ConfigGroupDesc *cgdesc = NULL;
-        ConfigOptionDesc *codesc = NULL;
+        FcitxConfigGroupDesc *cgdesc = NULL;
+        FcitxConfigOptionDesc *codesc = NULL;
         for (cgdesc = cfdesc->groupsDesc;
                 cgdesc != NULL;
-                cgdesc = (ConfigGroupDesc*)cgdesc->hh.next)
+                cgdesc = (FcitxConfigGroupDesc*)cgdesc->hh.next)
         {
             codesc = cgdesc->optionsDesc;
             if (codesc == NULL)
@@ -161,7 +162,7 @@ fcitx_config_widget_setup_ui (FcitxConfigWidget *self)
 
             int i = 0;
             for ( ; codesc != NULL;
-                    codesc = (ConfigOptionDesc*)codesc->hh.next, i++)
+                    codesc = (FcitxConfigOptionDesc*)codesc->hh.next, i++)
             {
                 const char *s;
                 if (codesc->desc && strlen(codesc->desc) != 0)
@@ -201,7 +202,7 @@ fcitx_config_widget_setup_ui (FcitxConfigWidget *self)
                 case T_Enum:
                 {
                     int i;
-                    ConfigEnum *e = &codesc->configEnum;
+                    FcitxConfigEnum *e = &codesc->configEnum;
                     inputWidget = gtk_combo_box_text_new();
                     for (i = 0; i < e->enumCount; i ++)
                     {
@@ -239,12 +240,12 @@ fcitx_config_widget_setup_ui (FcitxConfigWidget *self)
                     g_object_set(label, "xalign", 0.0f, NULL);
                     gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1, GTK_FILL, GTK_SHRINK, 5, 5);
                     gtk_table_attach(GTK_TABLE(table), inputWidget, 1, 2, i, i+1, GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 4);
-                    ConfigBindValue(self->gconfig.configFile, cgdesc->groupName, codesc->optionName, NULL, sync_filter, argument);
+                    FcitxConfigBindValue(self->gconfig.configFile, cgdesc->groupName, codesc->optionName, NULL, sync_filter, argument);
                 }
             }
         }
 
-        ConfigBindSync(&self->gconfig);
+        FcitxConfigBindSync(&self->gconfig);
     }
 
     if (self->parser)
@@ -277,7 +278,7 @@ fcitx_config_widget_setup_ui (FcitxConfigWidget *self)
     gtk_notebook_set_scrollable(GTK_NOTEBOOK(configNotebook), TRUE);
 }
 FcitxConfigWidget*
-fcitx_config_widget_new (ConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const char* subconfig)
+fcitx_config_widget_new (FcitxConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const char* subconfig)
 {
     FcitxConfigWidget* widget =
         g_object_new (FCITX_TYPE_CONFIG_WIDGET,
@@ -329,9 +330,9 @@ static void set_none_font_clicked(GtkWidget *button, gpointer arg)
     gtk_font_button_set_font_name(GTK_FONT_BUTTON(arg), "");
 }
 
-void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *option, void *value, ConfigSync sync, void *arg)
+void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConfigOption *option, void *value, FcitxConfigSync sync, void *arg)
 {
-    ConfigOptionDesc *codesc = option->optionDesc;
+    FcitxConfigOptionDesc *codesc = option->optionDesc;
     if (!codesc)
         return;
     if (sync == Raw2Value)
@@ -378,7 +379,7 @@ void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *optio
         break;
         case T_Enum:
         {
-            ConfigEnum* cenum = &codesc->configEnum;
+            FcitxConfigEnum* cenum = &codesc->configEnum;
             int index = 0, i;
             for (i = 0; i< cenum->enumCount; i++)
             {
@@ -392,9 +393,9 @@ void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *optio
         break;
         case T_Hotkey:
         {
-            HOTKEYS hotkey[2];
+            FcitxHotkey hotkey[2];
             int j;
-            SetHotKey(option->rawValue, hotkey);
+            FcitxHotkeySetKey(option->rawValue, hotkey);
             GArray *array = (GArray*) arg;
 
             for (j = 0; j < 2; j ++)
@@ -476,7 +477,7 @@ void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *optio
         break;
         case T_Enum:
         {
-            ConfigEnum* cenum = &codesc->configEnum;
+            FcitxConfigEnum* cenum = &codesc->configEnum;
             int index = 0;
             index = gtk_combo_box_get_active(GTK_COMBO_BOX(arg));
             option->rawValue = strdup(cenum->enumDesc[index]);
@@ -495,7 +496,7 @@ void sync_filter(GenericConfig* gconfig, ConfigGroup *group, ConfigOption *optio
             {
                 button = g_array_index(array, GtkWidget*, j);
                 keygrab_button_get_key(KEYGRAB_BUTTON(button), &key, &mods);
-                strkey[k] = GetKeyString(key, mods);
+                strkey[k] = FcitxHotkeyGetKeyString(key, mods);
                 if (strkey[k])
                     k ++;
             }
@@ -535,16 +536,16 @@ void fcitx_config_widget_response(
 
     if ( action == CONFIG_WIDGET_DEFAULT )
     {
-        ResetConfigToDefaultValue ( &config_widget->gconfig );
-        ConfigBindSync ( &config_widget->gconfig );
+        FcitxConfigResetConfigToDefaultValue ( &config_widget->gconfig );
+        FcitxConfigBindSync ( &config_widget->gconfig );
     }
     else if ( action == CONFIG_WIDGET_SAVE )
     {
-        FILE* fp = GetXDGFileUserWithPrefix ( config_widget->prefix, config_widget->name, "wt", NULL );
+        FILE* fp = FcitxXDGGetFileUserWithPrefix ( config_widget->prefix, config_widget->name, "wt", NULL );
 
         if ( fp )
         {
-            SaveConfigFileFp ( fp, &config_widget->gconfig, config_widget->cfdesc );
+            FcitxConfigSaveConfigFileFp ( fp, &config_widget->gconfig, config_widget->cfdesc );
             fclose ( fp );
 
             GError* error;

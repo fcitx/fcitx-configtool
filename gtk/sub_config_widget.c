@@ -137,7 +137,7 @@ void open_subconfig_file (GtkButton *button,
         gtk_tree_model_get(model, &iter,
                 0, &configfile,
                 -1);
-        ConfigFileDesc* cfdesc = get_config_desc(widget->subconfig->configdesc);
+        FcitxConfigFileDesc* cfdesc = get_config_desc(widget->subconfig->configdesc);
         if (cfdesc)
         {
             GtkWidget* dialog = gtk_dialog_new_with_buttons(configfile,
@@ -170,13 +170,13 @@ void open_native_file (GtkButton *button,
     char *newpath = NULL;
     if (g_list_length(widget->subconfig->filelist) > 0)
     {
-        FILE* fp = GetXDGFileWithPrefix("", widget->subconfig->filelist->data, "r", &newpath);
+        FILE* fp = FcitxXDGGetFileWithPrefix("", widget->subconfig->filelist->data, "r", &newpath);
         if (fp)
             fclose(fp);
     }
     else
     {
-        FILE* fp = GetXDGFileUserWithPrefix("", widget->subconfig->nativepath, "w", &newpath);
+        FILE* fp = FcitxXDGGetFileUserWithPrefix("", widget->subconfig->nativepath, "w", &newpath);
         if (fp)
         {
             widget->subconfig->filelist = g_list_append(widget->subconfig->filelist, widget->subconfig->nativepath);

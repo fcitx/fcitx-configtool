@@ -69,7 +69,7 @@ static GtkTreeStore *store = NULL;
 static GtkWidget *hpaned = NULL;
 static ConfigPage *configPage, *lastPage = NULL, *addonPage;
 static GtkWidget* configureButton = NULL;
-const UT_icd addonicd= {sizeof ( FcitxAddon ), 0, 0, FreeAddon};
+const UT_icd addonicd= {sizeof ( FcitxAddon ), 0, 0, FcitxAddonFree};
 UT_array* addonBuf;
 
 static int main_window_close(GtkWidget *theWindow, gpointer data);
@@ -140,7 +140,7 @@ void addon_selection_changed(GtkTreeSelection *selection, gpointer data) {
                 LIST_ADDON, &addon,
                 -1);
         gchar* config_desc_name = g_strdup_printf("%s.desc",addon->name);
-        ConfigFileDesc* cfdesc = get_config_desc ( config_desc_name );
+        FcitxConfigFileDesc* cfdesc = get_config_desc ( config_desc_name );
         g_free(config_desc_name);
         gboolean configurable = ( gboolean ) ( cfdesc != NULL || strlen ( addon->subconfig ) != 0 );
         gtk_widget_set_sensitive(configureButton, configurable);
@@ -184,7 +184,7 @@ void add_addon_page()
 {
     FcitxAddon* addon;
     utarray_new ( addonBuf, &addonicd );
-    LoadAddonInfo(addonBuf);
+    FcitxAddonsLoad(addonBuf);
 
     GtkWidget* vbox = gtk_vbox_new(FALSE, 0);
 
@@ -327,7 +327,7 @@ toggled_cb (GtkCellRenderer *renderer,
     addon->bEnabled = !addon->bEnabled;
     char *buf;
     asprintf(&buf, "%s.conf", addon->name);
-    FILE* fp = GetXDGFileUserWithPrefix("addon", buf, "w", NULL);
+    FILE* fp = FcitxXDGGetFileUserWithPrefix("addon", buf, "w", NULL);
     free(buf);
     if (fp)
     {
@@ -399,7 +399,7 @@ void configure_button_clicked (GtkButton *button,
                 LIST_ADDON, &addon,
                 -1);
         gchar* config_desc_name = g_strdup_printf("%s.desc",addon->name);
-        ConfigFileDesc* cfdesc = get_config_desc ( config_desc_name );
+        FcitxConfigFileDesc* cfdesc = get_config_desc ( config_desc_name );
         g_free(config_desc_name);
         gboolean configurable = ( gboolean ) ( cfdesc != NULL || strlen ( addon->subconfig ) != 0 );
         if (configurable)

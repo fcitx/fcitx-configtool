@@ -206,7 +206,7 @@ GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
 {
     size_t size, i;
     GList* result = NULL;
-    char** xdgpath = GetXDGPath(&size, "XDG_CONFIG_HOME", ".config" , PACKAGE , DATADIR, PACKAGE);
+    char** xdgpath = FcitxXDGGetPath(&size, "XDG_CONFIG_HOME", ".config" , PACKAGE , DATADIR, PACKAGE);
 
     for (i = 0; i < size; i ++)
     {
@@ -236,7 +236,7 @@ GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
         free(dirpath);
     }
 
-    FreeXDGPath(xdgpath);
+    FcitxXDGFreePath(xdgpath);
 
     return result;
 }

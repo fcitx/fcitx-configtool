@@ -135,7 +135,7 @@ void keygrab_button_set_key(KeyGrabButton* self, guint key, GdkModifierType mods
     b->key = key;
     b->mods = mods;
 
-    label = GetKeyString(key, mods);
+    label = FcitxHotkeyGetKeyString(key, mods);
 
     if (label == NULL || strlen(label) == 0)
     {

@@ -48,11 +48,11 @@ G_BEGIN_DECLS
 
 typedef struct {
   GtkVBox parent;
-  ConfigFileDesc* cfdesc;
+  FcitxConfigFileDesc* cfdesc;
   gchar* prefix;
   gchar* name;
   FcitxSubConfigParser* parser;
-  GenericConfig gconfig;
+  FcitxGenericConfig gconfig;
 } FcitxConfigWidget;
 
 typedef struct {
@@ -67,7 +67,7 @@ typedef enum {
 
 GType fcitx_config_widget_get_type (void);
 
-FcitxConfigWidget* fcitx_config_widget_new (ConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const char* subconfig);
+FcitxConfigWidget* fcitx_config_widget_new (FcitxConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const char* subconfig);
 void fcitx_config_widget_response(FcitxConfigWidget* config_widget, ConfigWidgetAction action);
 G_END_DECLS
 
