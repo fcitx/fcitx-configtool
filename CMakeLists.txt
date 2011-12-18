@@ -5,6 +5,12 @@ project(fcitx-configtool)
 option(ENABLE_GTK2 "Enable GTK2 Version" On)
 option(ENABLE_GTK3 "Enable GTK3 Version" Off)
 
+find_package(PkgConfig REQUIRED)
+
+PKG_CHECK_MODULES (GIO2 "gio-2.0 >= 2.26" REQUIRED)
+PKG_CHECK_MODULES(ISO_CODES "iso-codes" REQUIRED)
+_pkgconfig_invoke("iso-codes" ISO_CODES PREFIX "" "--variable=prefix")
+
 # uninstall target
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
@@ -29,6 +35,7 @@ set(CMAKE_MODULE_LINKER_FLAGS "-Wl,--no-undefined,--as-needed ${CMAKE_MODULE_LIN
 set(datadir ${CMAKE_INSTALL_PREFIX}/share)
 set(localedir ${CMAKE_INSTALL_PREFIX}/share/locale)
 set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+set(liblocaledir ${CMAKE_INSTALL_PREFIX}/lib/locale)
 
 configure_file(config.h.in config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})

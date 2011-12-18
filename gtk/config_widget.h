@@ -68,7 +68,13 @@ typedef enum {
 GType fcitx_config_widget_get_type (void);
 
 FcitxConfigWidget* fcitx_config_widget_new (FcitxConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const char* subconfig);
+
 void fcitx_config_widget_response(FcitxConfigWidget* config_widget, ConfigWidgetAction action);
+
+gboolean fcitx_config_widget_response_cb (GtkDialog *dialog,
+                                          gint response,
+                                          gpointer user_data);
+
 G_END_DECLS
 
 #endif /* _FCITX_CONFIG_WIDGET */

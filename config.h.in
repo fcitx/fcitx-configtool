@@ -3,3 +3,5 @@
 #define LOCALEDIR "@localedir@"
 #define EXEC_PREFIX "@exec_prefix@"
 #define PACKAGE "@FCITX4_PACKAGE_NAME@"
+#define LIBLOCALEDIR "@liblocaledir@"
+#define ISO_CODES_PREFIX "@ISO_CODES_PREFIX@"

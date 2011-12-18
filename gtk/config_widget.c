@@ -591,3 +591,16 @@ void hash_foreach_cb (gpointer       key,
     gtk_table_attach(GTK_TABLE(context->table), inputWidget, 1, 2, i, i+1, GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 4);
     context->i ++;
 }
+
+gboolean fcitx_config_widget_response_cb (GtkDialog *dialog,
+                                          gint response,
+                                          gpointer user_data)
+{
+    if (response == GTK_RESPONSE_OK)
+    {
+        FcitxConfigWidget* config_widget = (FcitxConfigWidget*) user_data;
+        fcitx_config_widget_response(config_widget, CONFIG_WIDGET_SAVE);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+    return FALSE;
+}

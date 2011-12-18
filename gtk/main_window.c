@@ -30,6 +30,7 @@
 #include "main_window.h"
 #include "config_widget.h"
 #include "configdesc.h"
+#include "im_widget.h"
 
 enum
 {
@@ -37,52 +38,130 @@ enum
     N_COLUMNS
 };
 
-#define _(s) gettext(s)
+G_DEFINE_TYPE (FcitxMainWindow, fcitx_main_window, GTK_TYPE_WINDOW)
 
+static void fcitx_main_window_finalize (GObject* object);
 
-static void
-enabled_data_func (GtkCellLayout   *cell_layout,
-                  GtkCellRenderer *renderer,
-                  GtkTreeModel    *tree_model,
-                  GtkTreeIter     *iter,
-                  gpointer         user_data);
+static GtkListStore *_fcitx_main_window_create_model();
 
-static void
-name_data_func (GtkCellLayout   *cell_layout,
-                GtkCellRenderer *renderer,
-                GtkTreeModel    *tree_model,
-                GtkTreeIter     *iter,
-                gpointer         user_data);
+static void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self);
 
-static void configure_button_clicked (GtkButton *button,
-                                      gpointer   user_data);
-static void apply_button_clicked (GtkButton *button,
-                                      gpointer   user_data);
-static void
-toggled_cb (GtkCellRenderer *renderer,
-            gchar* str_path,
-            gpointer         user_data);
+static void _fcitx_main_window_add_addon_page( FcitxMainWindow* self);
 
-static GtkWidget *mainWnd = NULL;
-static GtkWidget *configTreeView = NULL;
-static GtkTreeStore *store = NULL;
-static GtkWidget *hpaned = NULL;
-static ConfigPage *configPage, *lastPage = NULL, *addonPage;
-static GtkWidget* configureButton = NULL;
+static void _fcitx_main_window_add_im_page(FcitxMainWindow* self);
+
+static int _fcitx_main_window_close_cb(GtkWidget *theWindow, gpointer data);
+
+static void _fcitx_main_window_selection_changed_cb(GtkTreeSelection *selection, gpointer data);
+
+static ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget);
+
+static void _fcitx_main_window_addon_selection_changed(GtkTreeSelection *selection, gpointer data);
+
+static void _fcitx_main_window_configure_button_clicked (GtkButton *button, gpointer data);
+
+static void _fcitx_main_window_enabled_data_func (GtkCellLayout   *cell_layout,
+                                                  GtkCellRenderer *renderer,
+                                                  GtkTreeModel    *tree_model,
+                                                  GtkTreeIter     *iter,
+                                                  gpointer         user_data);
+
+static void _fcitx_main_window_name_data_func (GtkCellLayout   *cell_layout,
+                                               GtkCellRenderer *renderer,
+                                               GtkTreeModel    *tree_model,
+                                               GtkTreeIter     *iter,
+                                               gpointer         user_data);
+
+static void _fcitx_main_window_apply_button_clicked (GtkButton *button,
+                                                     gpointer   user_data);
+
+static void _fcitx_main_window_toggled_cb (GtkCellRenderer *renderer,
+                                           gchar* str_path,
+                                           gpointer         user_data);
+
 const UT_icd addonicd= {sizeof ( FcitxAddon ), 0, 0, FcitxAddonFree};
-UT_array* addonBuf;
 
-static int main_window_close(GtkWidget *theWindow, gpointer data);
-static GtkTreeModel *fcitx_config_create_model();
-
-int main_window_close(GtkWidget *theWindow, gpointer data)
+static void
+fcitx_main_window_class_init (FcitxMainWindowClass *klass)
 {
-    utarray_free(addonBuf);
+    GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+    gobject_class->finalize = fcitx_main_window_finalize;
+}
+
+static void
+fcitx_main_window_init (FcitxMainWindow* self)
+{
+    GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
+
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *column;
+
+    self->pagestore = _fcitx_main_window_create_model();
+    self->pageview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->pagestore));
+
+    renderer = gtk_cell_renderer_text_new();
+    column = gtk_tree_view_column_new_with_attributes(
+            _("Config"), renderer,
+            "text", 0,
+            NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW (self->pageview), column);
+
+    gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(self->pageview), FALSE);
+
+    _fcitx_main_window_add_im_page(self);
+    _fcitx_main_window_add_config_file_page(self);
+    _fcitx_main_window_add_addon_page(self);
+
+    gtk_widget_set_size_request(self->pageview, 170, -1);
+    gtk_widget_set_size_request(GTK_WIDGET(self), -1, 500);
+
+    self->hpaned = gtk_hpaned_new();
+    GtkWidget *treescroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(treescroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+    gtk_container_add(GTK_CONTAINER(treescroll), self->pageview);
+    gtk_paned_add1(GTK_PANED(self->hpaned), treescroll);
+
+    gtk_box_pack_start(GTK_BOX(vbox), self->hpaned, TRUE, TRUE, 0);
+
+    gtk_container_add(GTK_CONTAINER(self), vbox);
+
+    GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->pageview));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+
+    g_signal_connect(G_OBJECT(self), "destroy", G_CALLBACK(_fcitx_main_window_close_cb), NULL);
+    g_signal_connect(G_OBJECT(selection), "changed",
+            G_CALLBACK(_fcitx_main_window_selection_changed_cb), self);
+
+    gtk_tree_selection_select_iter(selection, &self->impage->iter);
+
+    gtk_window_set_icon_name(GTK_WINDOW(self), "fcitx-configtool");
+    gtk_window_set_title(GTK_WINDOW(self), _("Fcitx Config"));
+}
+
+GtkWidget*
+fcitx_main_window_new ()
+{
+    FcitxMainWindow* widget = 
+        g_object_new(FCITX_TYPE_MAIN_WINDOW,
+                     NULL);
+        
+    return GTK_WIDGET(widget);
+}
+
+void fcitx_main_window_finalize ( GObject* object )
+{
+    FcitxMainWindow* self = FCITX_MAIN_WINDOW(object);
+    utarray_free(self->addons);
+}
+
+int _fcitx_main_window_close_cb(GtkWidget *theWindow, gpointer data)
+{
     gtk_main_quit();
     return 0;
 }
 
-ConfigPage* main_window_add_page(const char* name, GtkWidget* widget)
+ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget)
 {
     ConfigPage *page = (ConfigPage*) malloc(sizeof(ConfigPage));
     memset(page, 0, sizeof(ConfigPage));
@@ -93,17 +172,18 @@ ConfigPage* main_window_add_page(const char* name, GtkWidget* widget)
 
     gtk_widget_show_all(widget);
 
-    gtk_tree_store_append(store, &page->iter, NULL);
-    gtk_tree_store_set(store, &page->iter, 0, name, 1, page, -1);
+    gtk_list_store_append(self->pagestore, &page->iter);
+    gtk_list_store_set(self->pagestore, &page->iter, 0, name, 1, page, -1);
 
     return page;
 }
 
-void selection_changed(GtkTreeSelection *selection, gpointer data) {
+void _fcitx_main_window_selection_changed_cb(GtkTreeSelection *selection, gpointer data) {
     GtkTreeView *treeView = gtk_tree_selection_get_tree_view(selection);
     GtkTreeModel *model = gtk_tree_view_get_model(treeView);
     GtkTreeIter iter;
     ConfigPage* page;
+    FcitxMainWindow* self = data;
 
     if (gtk_tree_selection_get_selected(selection, &model, &iter))
     {
@@ -111,27 +191,28 @@ void selection_changed(GtkTreeSelection *selection, gpointer data) {
                 1, &page,
                 -1);
 
-        if (lastPage)
-            gtk_container_remove(GTK_CONTAINER(hpaned), lastPage->page);
-        gtk_paned_add2(GTK_PANED(hpaned), page->page);
-        gtk_widget_show_all(mainWnd);
+        if (self->lastpage)
+            gtk_container_remove(GTK_CONTAINER(self->hpaned), self->lastpage->page);
+        gtk_paned_add2(GTK_PANED(self->hpaned), page->page);
+        gtk_widget_show_all(GTK_WIDGET(self));
 
-        lastPage = page;
+        self->lastpage = page;
     }
     else
     {
-        gtk_tree_selection_select_iter(selection, &configPage->iter);
+        gtk_tree_selection_select_iter(selection, &self->configpage->iter);
     }
 }
 
 
-void addon_selection_changed(GtkTreeSelection *selection, gpointer data) {
+void _fcitx_main_window_addon_selection_changed(GtkTreeSelection *selection, gpointer data) {
     GtkTreeView *treeView = gtk_tree_selection_get_tree_view(selection);
     GtkTreeModel *model = gtk_tree_view_get_model(treeView);
     GtkTreeIter iter;
     FcitxAddon *addon = NULL;
+    FcitxMainWindow* self = data;
 
-    if (!configureButton)
+    if (!self->button)
         return;
 
     if (gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -143,21 +224,21 @@ void addon_selection_changed(GtkTreeSelection *selection, gpointer data) {
         FcitxConfigFileDesc* cfdesc = get_config_desc ( config_desc_name );
         g_free(config_desc_name);
         gboolean configurable = ( gboolean ) ( cfdesc != NULL || strlen ( addon->subconfig ) != 0 );
-        gtk_widget_set_sensitive(configureButton, configurable);
+        gtk_widget_set_sensitive(self->button, configurable);
     }
     else
     {
-        gtk_widget_set_sensitive(configureButton, FALSE);
+        gtk_widget_set_sensitive(self->button, FALSE);
     }
 }
 
-GtkTreeModel *fcitx_config_create_model()
+static GtkListStore *_fcitx_main_window_create_model()
 {
-    store = gtk_tree_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
-    return GTK_TREE_MODEL(store);
+    GtkListStore* store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
+    return store;
 }
 
-void add_config_file_page()
+void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self)
 {
     GtkWidget* vbox = gtk_vbox_new(0, 0);
 
@@ -174,63 +255,69 @@ void add_config_file_page()
 
     GtkWidget* applybutton = gtk_button_new_from_stock(GTK_STOCK_APPLY);
     gtk_box_pack_start(GTK_BOX(hbuttonbox), applybutton, TRUE, TRUE, 0);
-    g_signal_connect(G_OBJECT(applybutton), "clicked", G_CALLBACK(apply_button_clicked), config_widget);
+    g_signal_connect(G_OBJECT(applybutton), "clicked", G_CALLBACK(_fcitx_main_window_apply_button_clicked), config_widget);
 
 
-    configPage = main_window_add_page(_("Global Config"), vbox);
+    self->configpage = _fcitx_main_window_add_page(self, _("Global Config"), vbox);
 }
 
-void add_addon_page()
+void _fcitx_main_window_add_im_page(FcitxMainWindow* self)
+{
+    GtkWidget* imwidget = fcitx_im_widget_new();
+    self->impage = _fcitx_main_window_add_page(self, _("Input Method Configuration"), imwidget);
+}
+
+void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
 {
     FcitxAddon* addon;
-    utarray_new ( addonBuf, &addonicd );
-    FcitxAddonsLoad(addonBuf);
+    utarray_new ( self->addons, &addonicd );
+    FcitxAddonsLoad(self->addons);
 
     GtkWidget* vbox = gtk_vbox_new(FALSE, 0);
+
+    GtkListStore *store;
+    store = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
 
     GtkWidget* swin = gtk_scrolled_window_new ( NULL, NULL );
     gtk_box_pack_start(GTK_BOX(vbox), swin, TRUE, TRUE, 0);
     g_object_set(swin, "hscrollbar-policy", GTK_POLICY_NEVER, NULL);
-    GtkWidget* list = gtk_tree_view_new();
-    g_object_set(list, "headers-visible", FALSE, NULL);
-    gtk_container_add(GTK_CONTAINER(swin), list);
+    self->addonview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+    g_object_set(self->addonview, "headers-visible", FALSE, NULL);
+    gtk_container_add(GTK_CONTAINER(swin), self->addonview);
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
-    GtkListStore *store;
-
-    store = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
 
     renderer = gtk_cell_renderer_toggle_new();
     column = gtk_tree_view_column_new_with_attributes("Enable", renderer, NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(self->addonview), column);
     gtk_cell_layout_set_cell_data_func (GTK_CELL_LAYOUT (column),
                                         renderer,
-                                        enabled_data_func,
-                                        list,
+                                        _fcitx_main_window_enabled_data_func,
+                                        self->addonview,
                                         NULL);
     g_signal_connect(G_OBJECT(renderer), "toggled",
-            G_CALLBACK(toggled_cb), GTK_TREE_MODEL(store));
+            G_CALLBACK(_fcitx_main_window_toggled_cb), GTK_TREE_MODEL(store));
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes("Name", renderer, NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(self->addonview), column);
     gtk_cell_layout_set_cell_data_func (GTK_CELL_LAYOUT (column),
                                         renderer,
-                                        name_data_func,
-                                        list,
+                                        _fcitx_main_window_name_data_func,
+                                        self->addonview,
                                         NULL);
 
-    gtk_tree_view_set_model(GTK_TREE_VIEW(list),
+    gtk_tree_view_set_model(GTK_TREE_VIEW(self->addonview),
                             GTK_TREE_MODEL(store));
 
     g_object_unref(store);
 
-    for ( addon = ( FcitxAddon * ) utarray_front ( addonBuf );
+    for ( addon = ( FcitxAddon * ) utarray_front ( self->addons );
         addon != NULL;
-        addon = ( FcitxAddon * ) utarray_next ( addonBuf, addon ) )
+        addon = ( FcitxAddon * ) utarray_next ( self->addons, addon ) )
     {
         GtkTreeIter iter;
-        store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(list)));
+        store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(self->addonview)));
         gtk_list_store_append(store, &iter);
         gtk_list_store_set(store, &iter, LIST_ADDON, addon, -1);
     }
@@ -238,75 +325,22 @@ void add_addon_page()
     GtkWidget* hbuttonbox = gtk_hbutton_box_new();
     gtk_box_pack_start(GTK_BOX(vbox), hbuttonbox, FALSE, TRUE, 0);
 
-    configureButton = gtk_button_new_with_label(_("Configure"));
-    gtk_button_set_image(GTK_BUTTON(configureButton), gtk_image_new_from_stock (GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_BUTTON));
-    gtk_box_pack_start(GTK_BOX(hbuttonbox), configureButton, TRUE, TRUE, 0);
-    g_signal_connect(G_OBJECT(configureButton), "clicked", G_CALLBACK(configure_button_clicked), list);
+    self->button = gtk_button_new_with_label(_("Configure"));
+    gtk_widget_set_sensitive(self->button, FALSE);
+    gtk_button_set_image(GTK_BUTTON(self->button), gtk_image_new_from_stock (GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_BUTTON));
+    gtk_box_pack_start(GTK_BOX(hbuttonbox), self->button, TRUE, TRUE, 0);
+    g_signal_connect(G_OBJECT(self->button), "clicked", G_CALLBACK(_fcitx_main_window_configure_button_clicked), self);
 
-    GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
+    GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->addonview));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
     g_signal_connect(G_OBJECT(selection), "changed",
-            G_CALLBACK(addon_selection_changed), NULL);
+            G_CALLBACK(_fcitx_main_window_addon_selection_changed), self);
 
-    addonPage = main_window_add_page(_("Addon Configuration"), vbox);
-}
-
-GtkWidget* fcitx_config_main_window_new()
-{
-    if (mainWnd != NULL)
-        return mainWnd;
-
-    GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
-
-    GtkCellRenderer *renderer;
-    GtkTreeViewColumn *column;
-
-    mainWnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    configTreeView = gtk_tree_view_new_with_model(fcitx_config_create_model());
-
-    renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes(
-            _("Config"), renderer,
-            "text", 0,
-            NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW (configTreeView), column);
-
-    gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(configTreeView), FALSE);
-
-    add_config_file_page();
-    add_addon_page();
-
-    gtk_widget_set_size_request(configTreeView, 170, -1);
-    gtk_widget_set_size_request(mainWnd, -1, 500);
-
-    hpaned = gtk_hpaned_new();
-    GtkWidget *treescroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(treescroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-    gtk_container_add(GTK_CONTAINER(treescroll), configTreeView);
-    gtk_paned_add1(GTK_PANED(hpaned), treescroll);
-
-    gtk_box_pack_start(GTK_BOX(vbox), hpaned, TRUE, TRUE, 0);
-
-    gtk_container_add(GTK_CONTAINER(mainWnd), vbox);
-
-    GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(configTreeView));
-    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-
-    g_signal_connect(G_OBJECT(mainWnd), "destroy", (GCallback) main_window_close, NULL);
-    g_signal_connect(G_OBJECT(selection), "changed",
-            G_CALLBACK(selection_changed), NULL);
-
-    gtk_tree_view_expand_all(GTK_TREE_VIEW(configTreeView));
-    gtk_tree_selection_select_iter(selection, &configPage->iter);
-
-    gtk_window_set_icon_name(GTK_WINDOW(mainWnd), "fcitx-configtool");
-    gtk_window_set_title(GTK_WINDOW(mainWnd), _("Fcitx Config"));
-    return mainWnd;
+    self->addonpage = _fcitx_main_window_add_page(self, _("Addon Configuration"), vbox);
 }
 
 static void
-toggled_cb (GtkCellRenderer *renderer,
+_fcitx_main_window_toggled_cb (GtkCellRenderer *renderer,
             gchar* str_path,
             gpointer         user_data)
 {
@@ -340,7 +374,7 @@ toggled_cb (GtkCellRenderer *renderer,
 }
 
 static void
-enabled_data_func (GtkCellLayout   *cell_layout,
+_fcitx_main_window_enabled_data_func (GtkCellLayout   *cell_layout,
                   GtkCellRenderer *renderer,
                   GtkTreeModel    *tree_model,
                   GtkTreeIter     *iter,
@@ -358,7 +392,7 @@ enabled_data_func (GtkCellLayout   *cell_layout,
 }
 
 static void
-name_data_func (GtkCellLayout   *cell_layout,
+_fcitx_main_window_name_data_func (GtkCellLayout   *cell_layout,
                 GtkCellRenderer *renderer,
                 GtkTreeModel    *tree_model,
                 GtkTreeIter     *iter,
@@ -379,16 +413,16 @@ name_data_func (GtkCellLayout   *cell_layout,
 }
 
 
-void apply_button_clicked(GtkButton* button, gpointer user_data)
+void _fcitx_main_window_apply_button_clicked(GtkButton* button, gpointer user_data)
 {
     FcitxConfigWidget* config_widget = user_data;
     fcitx_config_widget_response(config_widget, CONFIG_WIDGET_SAVE);
 }
 
-void configure_button_clicked (GtkButton *button,
-                               gpointer   user_data)
+void _fcitx_main_window_configure_button_clicked ( GtkButton* button, gpointer data )
 {
-    GtkTreeView* view = user_data;
+    FcitxMainWindow* self = data;
+    GtkTreeView* view = GTK_TREE_VIEW(self->addonview);
     GtkTreeSelection *selection = gtk_tree_view_get_selection(view);
     GtkTreeModel *model = gtk_tree_view_get_model(view);
     GtkTreeIter iter;
@@ -405,7 +439,7 @@ void configure_button_clicked (GtkButton *button,
         if (configurable)
         {
             GtkWidget* dialog = gtk_dialog_new_with_buttons(addon->generalname,
-                                                            GTK_WINDOW(mainWnd),
+                                                            GTK_WINDOW(self),
                                                             GTK_DIALOG_MODAL,
                                                             GTK_STOCK_OK,
                                                             GTK_RESPONSE_OK,
@@ -422,23 +456,10 @@ void configure_button_clicked (GtkButton *button,
             gtk_widget_set_size_request(GTK_WIDGET(config_widget), -1, 400);
 
             g_signal_connect (dialog, "response",
-                              G_CALLBACK (response_cb),
+                              G_CALLBACK (fcitx_config_widget_response_cb),
                               config_widget);
 
             gtk_widget_show_all (GTK_WIDGET(dialog));
         }
     }
-}
-
-gboolean response_cb (GtkDialog *dialog,
-                    gint response,
-                    gpointer user_data)
-{
-    if (response == GTK_RESPONSE_OK)
-    {
-        FcitxConfigWidget* config_widget = (FcitxConfigWidget*) user_data;
-        fcitx_config_widget_response(config_widget, CONFIG_WIDGET_SAVE);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-    return FALSE;
 }

@@ -81,7 +81,7 @@ main(int argc, char **argv)
     bind_textdomain_codeset("fcitx", "UTF-8");
     textdomain("fcitx-configtool");
 
-    window = fcitx_config_main_window_new ();
+    window = fcitx_main_window_new ();
 
 #ifdef HAVE_UNIQUE
     unique_app_watch_window (app, GTK_WINDOW (window));

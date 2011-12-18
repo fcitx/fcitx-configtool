@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-03 17:45+0800\n"
+"POT-Creation-Date: 2011-12-18 17:10+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,32 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:193
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:194
 msgid "Clear font setting"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:256
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:257
 msgid "Other"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:180
-msgid "Global Config"
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:81
+msgid "Available Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:241
-msgid "Configure"
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:88
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:137
+msgid "Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:251
-msgid "Addon Configuration"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:269
-msgid "Config"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:304
-msgid "Fcitx Config"
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:285
+#, c-format
+msgid "%s - %s"
 msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:81
@@ -51,4 +45,28 @@ msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:142
 msgid "Disabled"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:104
+msgid "Config"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:139
+msgid "Fcitx Config"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:261
+msgid "Global Config"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:267
+msgid "Input Method Configuration"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:328
+msgid "Configure"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:339
+msgid "Addon Configuration"
 msgstr ""

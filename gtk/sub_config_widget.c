@@ -155,7 +155,7 @@ void open_subconfig_file (GtkButton *button,
             gtk_widget_set_size_request(GTK_WIDGET(config_widget), -1, 400);
 
             g_signal_connect (dialog, "response",
-                              G_CALLBACK (response_cb),
+                              G_CALLBACK (fcitx_config_widget_response_cb),
                               config_widget);
 
             gtk_widget_show_all (GTK_WIDGET(dialog));
