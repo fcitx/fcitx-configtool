@@ -129,6 +129,7 @@ fcitx_im_widget_init (FcitxImWidget* self)
     
     gtk_box_pack_start(GTK_BOX(self), vbox, FALSE, TRUE, 5);
     
+    label = gtk_label_new(_("Current Input Method"));
     
     self->imstore = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
     self->imview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->imstore));
@@ -141,7 +142,7 @@ fcitx_im_widget_init (FcitxImWidget* self)
     gtk_cell_layout_set_cell_data_func (GTK_CELL_LAYOUT (column),
                                         renderer,
                                         _fcitx_im_widget_name_data_func,
-                                        self->availimview,
+                                        self->imview,
                                         NULL);
 
     gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(self->imview), FALSE);
@@ -149,8 +150,11 @@ fcitx_im_widget_init (FcitxImWidget* self)
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
     g_signal_connect(G_OBJECT(selection), "changed",
             G_CALLBACK(_fcitx_im_widget_im_selection_changed), self);
+    vbox = gtk_vbox_new(FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(vbox), self->imview, TRUE, TRUE, 5);
     
-    gtk_box_pack_start(GTK_BOX(self), GTK_WIDGET(self->imview), TRUE, TRUE, 5);
+    gtk_box_pack_start(GTK_BOX(self), GTK_WIDGET(vbox), TRUE, TRUE, 5);
 
     vbox = gtk_vbox_new(FALSE, 0);
 

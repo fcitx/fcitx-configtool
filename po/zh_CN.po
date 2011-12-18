@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-18 17:10+0800\n"
-"PO-Revision-Date: 2011-12-18 17:10+0800\n"
+"POT-Creation-Date: 2011-12-18 17:36+0800\n"
+"PO-Revision-Date: 2011-12-18 17:37+0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-china@kde.org>\n"
 "Language: zh_CN\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "X-Generator: Lokalize 1.2\n"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:285
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:290
 #, c-format
 msgid "%s - %s"
 msgstr "%s - %s"
@@ -27,7 +27,7 @@ msgstr "%s - %s"
 msgid "Addon Configuration"
 msgstr "附加组件配置"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:81
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:82
 msgid "Available Input Method"
 msgstr "可用的输入法"
 
@@ -43,6 +43,10 @@ msgstr "配置"
 msgid "Configure"
 msgstr "配置 "
 
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:132
+msgid "Current Input Method"
+msgstr "当前的输入法"
+
 #: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:142
 msgid "Disabled"
 msgstr "禁用"
@@ -55,8 +59,8 @@ msgstr "Fcitx配置"
 msgid "Global Config"
 msgstr "全局配置"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:88
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:137
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:89
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:139
 msgid "Input Method"
 msgstr "输入法"
 
