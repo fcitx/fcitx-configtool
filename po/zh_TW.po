@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: fcitx\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-18 17:36+0800\n"
+"PO-Revision-Date: 2011-11-16 06:53+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.net/projects/p/fcitx/"
+"team/zh_TW/)\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:290
+#, c-format
+msgid "%s - %s"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:339
+msgid "Addon Configuration"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:82
+msgid "Available Input Method"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:194
+msgid "Clear font setting"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:104
+msgid "Config"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:328
+msgid "Configure"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:132
+msgid "Current Input Method"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:142
+msgid "Disabled"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:139
+msgid "Fcitx Config"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:261
+msgid "Global Config"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:89
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:139
+msgid "Input Method"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:267
+msgid "Input Method Configuration"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:257
+msgid "Other"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:81
+msgid "Please press the new key combination"
+msgstr ""
