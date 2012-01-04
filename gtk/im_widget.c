@@ -287,10 +287,17 @@ _fcitx_im_widget_availname_data_func (GtkCellLayout   *cell_layout,
                         iter,
                         LIST_IM, &item,
                         -1);
-    gchar* string = g_strdup_printf(_("%s - %s"), gdm_get_language_from_name(item->langcode, NULL), item->name);
+    
+    char* lang = gdm_get_language_from_name(item->langcode, NULL);
+    if (!lang)
+        lang = g_strdup_printf("%s", _("Unknown"));
+    
+    gchar* string = g_strdup_printf(_("%s - %s"), lang, item->name);
     g_object_set (renderer,
                 "text", string,
                 NULL);
+    
+    g_free(lang);
 
     g_free(string);
 }

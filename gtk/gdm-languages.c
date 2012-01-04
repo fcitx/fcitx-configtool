@@ -1074,12 +1074,6 @@ gdm_get_language_from_name (const char *name,
             codeset_code = g_strdup (langinfo_codeset);
         }
 
-        if (!is_utf8 && codeset_code) {
-                g_string_append_printf (full_language,
-                                        " [%s]",
-                                        codeset_code);
-        }
-
 out:
        g_free (language_code);
        g_free (territory_code);
