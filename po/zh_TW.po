@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-18 17:36+0800\n"
+"POT-Creation-Date: 2012-01-26 04:58+0800\n"
 "PO-Revision-Date: 2011-11-16 06:53+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.net/projects/p/fcitx/"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:290
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:295
 #, c-format
 msgid "%s - %s"
 msgstr ""
@@ -74,4 +74,8 @@ msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:81
 msgid "Please press the new key combination"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:293
+msgid "Unknown"
 msgstr ""

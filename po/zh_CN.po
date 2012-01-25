@@ -2,23 +2,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Weng Xuetian <wengxt@gmail.com>, 2010, 2011.
+# Weng Xuetian <wengxt@gmail.com>, 2010, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-18 17:36+0800\n"
-"PO-Revision-Date: 2011-12-18 17:37+0800\n"
+"POT-Creation-Date: 2012-01-26 04:58+0800\n"
+"PO-Revision-Date: 2012-01-26 04:59+0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
-"Language-Team: Chinese Simplified <kde-china@kde.org>\n"
+"Language-Team: Chinese Simplified <fcitx-dev@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 1.4\n"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:290
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:295
 #, c-format
 msgid "%s - %s"
 msgstr "%s - %s"
@@ -75,4 +75,8 @@ msgstr "其他"
 #: /home/saber/Develop/fcitx-configtool/po/../gtk/keygrab.c:81
 msgid "Please press the new key combination"
 msgstr "请按下新按键组合"
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:293
+msgid "Unknown"
+msgstr "未知"
 
