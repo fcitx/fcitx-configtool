@@ -29,19 +29,19 @@ G_BEGIN_DECLS
 #define FCITX_TYPE_IM_WIDGET fcitx_im_widget_get_type()
 
 #define FCITX_IM_WIDGET(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), FCITX_TYPE_IM_WIDGET, FcitxImWidget))
+    (G_TYPE_CHECK_INSTANCE_CAST ((obj), FCITX_TYPE_IM_WIDGET, FcitxImWidget))
 
 #define FCITX_IM_WIDGET_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), FCITX_TYPE_IM_WIDGET, FcitxImWidgetClass))
+    (G_TYPE_CHECK_CLASS_CAST ((klass), FCITX_TYPE_IM_WIDGET, FcitxImWidgetClass))
 
 #define FCITX_IS_IM_WIDGET(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FCITX_TYPE_IM_WIDGET))
+    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FCITX_TYPE_IM_WIDGET))
 
 #define FCITX_IS_IM_WIDGET_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), FCITX_TYPE_IM_WIDGET))
+    (G_TYPE_CHECK_CLASS_TYPE ((klass), FCITX_TYPE_IM_WIDGET))
 
 #define FCITX_IM_WIDGET_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_IM_WIDGET, FcitxImWidgetClass))
+    (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_IM_WIDGET, FcitxImWidgetClass))
 
 #define IC_NAME_MAX 64
 
@@ -64,11 +64,11 @@ typedef struct {
 } FcitxImWidget;
 
 typedef struct {
-  GtkHBoxClass parent_class;
+    GtkHBoxClass parent_class;
 } FcitxImWidgetClass;
 
 GtkWidget*
-fcitx_im_widget_new (void);
+fcitx_im_widget_new(void);
 
 G_END_DECLS
 

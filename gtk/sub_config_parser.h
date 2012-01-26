@@ -21,23 +21,20 @@
 #define _SUB_CONFIG_PARSER_H
 #include <glib/ghash.h>
 
-typedef enum
-{
+typedef enum {
     SC_None,
     SC_ConfigFile,
     SC_NativeFile
 } SubConfigType;
 
-typedef struct
-{
+typedef struct {
     SubConfigType type;
     gchar* configdesc;
     gchar* nativepath;
     gchar** patternlist;
 } FcitxSubConfigPattern;
 
-typedef struct
-{
+typedef struct {
     gchar* name;
     SubConfigType type;
     GList* filelist;
@@ -45,8 +42,7 @@ typedef struct
     gchar* configdesc;
 } FcitxSubConfig;
 
-typedef struct
-{
+typedef struct {
     GHashTable* subconfigs;
     gchar* domain;
 } FcitxSubConfigParser;

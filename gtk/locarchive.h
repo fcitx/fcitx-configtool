@@ -24,74 +24,67 @@
 
 #define AR_MAGIC 0xde020109
 
-struct locarhead
-{
-  uint32_t magic;
-  /* Serial number.  */
-  uint32_t serial;
-  /* Name hash table.  */
-  uint32_t namehash_offset;
-  uint32_t namehash_used;
-  uint32_t namehash_size;
-  /* String table.  */
-  uint32_t string_offset;
-  uint32_t string_used;
-  uint32_t string_size;
-  /* Table with locale records.  */
-  uint32_t locrectab_offset;
-  uint32_t locrectab_used;
-  uint32_t locrectab_size;
-  /* MD5 sum hash table.  */
-  uint32_t sumhash_offset;
-  uint32_t sumhash_used;
-  uint32_t sumhash_size;
+struct locarhead {
+    uint32_t magic;
+    /* Serial number.  */
+    uint32_t serial;
+    /* Name hash table.  */
+    uint32_t namehash_offset;
+    uint32_t namehash_used;
+    uint32_t namehash_size;
+    /* String table.  */
+    uint32_t string_offset;
+    uint32_t string_used;
+    uint32_t string_size;
+    /* Table with locale records.  */
+    uint32_t locrectab_offset;
+    uint32_t locrectab_used;
+    uint32_t locrectab_size;
+    /* MD5 sum hash table.  */
+    uint32_t sumhash_offset;
+    uint32_t sumhash_used;
+    uint32_t sumhash_size;
 };
 
 
-struct namehashent
-{
-  /* Hash value of the name.  */
-  uint32_t hashval;
-  /* Offset of the name in the string table.  */
-  uint32_t name_offset;
-  /* Offset of the locale record.  */
-  uint32_t locrec_offset;
+struct namehashent {
+    /* Hash value of the name.  */
+    uint32_t hashval;
+    /* Offset of the name in the string table.  */
+    uint32_t name_offset;
+    /* Offset of the locale record.  */
+    uint32_t locrec_offset;
 };
 
 
-struct sumhashent
-{
-  /* MD5 sum.  */
-  char sum[16];
-  /* Offset of the file in the archive.  */
-  uint32_t file_offset;
+struct sumhashent {
+    /* MD5 sum.  */
+    char sum[16];
+    /* Offset of the file in the archive.  */
+    uint32_t file_offset;
 };
 
-struct locrecent
-{
-  uint32_t refs;		/* # of namehashent records that point here */
-  struct
-  {
-    uint32_t offset;
-    uint32_t len;
-  } record[__LC_LAST];
+struct locrecent {
+    uint32_t refs;        /* # of namehashent records that point here */
+    struct {
+        uint32_t offset;
+        uint32_t len;
+    } record[__LC_LAST];
 };
 
 
-struct locarhandle
-{
-  int fd;
-  void *addr;
-  size_t len;
+struct locarhandle {
+    int fd;
+    void *addr;
+    size_t len;
 };
 
 
 /* In memory data for the locales with their checksums.  */
-typedef struct locale_category_data
-{
-  off_t size;
-  void *addr;
-  char sum[16];
+typedef struct locale_category_data {
+    off_t size;
+    void *addr;
+    char sum[16];
 } locale_data_t[__LC_LAST];
 
-#endif	/* locarchive.h */
+#endif  /* locarchive.h */

@@ -30,23 +30,22 @@ static GtkWidget *window = NULL;
 #include <unique/unique.h>
 
 static UniqueResponse
-message_received_cb (UniqueApp         *app,
-        UniqueCommand      command,
-        UniqueMessageData *message,
-        guint              time_,
-        gpointer           user_data)
+message_received_cb(UniqueApp         *app,
+                    UniqueCommand      command,
+                    UniqueMessageData *message,
+                    guint              time_,
+                    gpointer           user_data)
 {
     UniqueResponse res;
-    switch (command)
-    {
-        case UNIQUE_ACTIVATE:
-            gtk_window_set_screen (GTK_WINDOW (window), unique_message_data_get_screen (message));
-            gtk_window_present_with_time (GTK_WINDOW (window), time_);
-            res = UNIQUE_RESPONSE_OK;
-            break;
-        default:
-            res = UNIQUE_RESPONSE_OK;
-            break;
+    switch (command) {
+    case UNIQUE_ACTIVATE:
+        gtk_window_set_screen(GTK_WINDOW(window), unique_message_data_get_screen(message));
+        gtk_window_present_with_time(GTK_WINDOW(window), time_);
+        res = UNIQUE_RESPONSE_OK;
+        break;
+    default:
+        res = UNIQUE_RESPONSE_OK;
+        break;
     }
     return res;
 }
@@ -60,13 +59,12 @@ main(int argc, char **argv)
 #ifdef HAVE_UNIQUE
     UniqueApp *app;
 
-    app = unique_app_new_with_commands ("org.fcitx.fcitx-configtool", NULL,
-            NULL, NULL);
+    app = unique_app_new_with_commands("org.fcitx.fcitx-configtool", NULL,
+                                       NULL, NULL);
 
-    if (unique_app_is_running(app))
-    {
-        UniqueResponse response = unique_app_send_message (app, UNIQUE_ACTIVATE, NULL);
-        g_object_unref (app);
+    if (unique_app_is_running(app)) {
+        UniqueResponse response = unique_app_send_message(app, UNIQUE_ACTIVATE, NULL);
+        g_object_unref(app);
         if (response == UNIQUE_RESPONSE_OK)
             return 0;
         else
@@ -81,11 +79,11 @@ main(int argc, char **argv)
     bind_textdomain_codeset("fcitx", "UTF-8");
     textdomain("fcitx-configtool");
 
-    window = fcitx_main_window_new ();
+    window = fcitx_main_window_new();
 
 #ifdef HAVE_UNIQUE
-    unique_app_watch_window (app, GTK_WINDOW (window));
-    g_signal_connect (app, "message-received", G_CALLBACK (message_received_cb), NULL);
+    unique_app_watch_window(app, GTK_WINDOW(window));
+    g_signal_connect(app, "message-received", G_CALLBACK(message_received_cb), NULL);
 #endif
 
     gtk_widget_show_all(window);
@@ -93,7 +91,7 @@ main(int argc, char **argv)
     gtk_main();
 
 #ifdef HAVE_UNIQUE
-    g_object_unref (app);
+    g_object_unref(app);
 #endif
 
     return 0;

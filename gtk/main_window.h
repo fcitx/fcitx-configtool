@@ -31,22 +31,21 @@ G_BEGIN_DECLS
 #define FCITX_TYPE_MAIN_WINDOW fcitx_main_window_get_type()
 
 #define FCITX_MAIN_WINDOW(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), FCITX_TYPE_MAIN_WINDOW, FcitxMainWindow))
+    (G_TYPE_CHECK_INSTANCE_CAST ((obj), FCITX_TYPE_MAIN_WINDOW, FcitxMainWindow))
 
 #define FCITX_MAIN_WINDOW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), FCITX_TYPE_MAIN_WINDOW, FcitxMainWindowClass))
+    (G_TYPE_CHECK_CLASS_CAST ((klass), FCITX_TYPE_MAIN_WINDOW, FcitxMainWindowClass))
 
 #define FCITX_IS_MAIN_WINDOW(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FCITX_TYPE_MAIN_WINDOW))
+    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FCITX_TYPE_MAIN_WINDOW))
 
 #define FCITX_IS_MAIN_WINDOW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), FCITX_TYPE_MAIN_WINDOW))
+    (G_TYPE_CHECK_CLASS_TYPE ((klass), FCITX_TYPE_MAIN_WINDOW))
 
 #define FCITX_MAIN_WINDOW_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_MAIN_WINDOW, FcitxMainWindowClass))
+    (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_MAIN_WINDOW, FcitxMainWindowClass))
 
-typedef struct
-{
+typedef struct {
     GtkWidget* page;
     GtkTreeIter iter;
 } ConfigPage;
@@ -70,7 +69,7 @@ typedef struct {
     GtkWindowClass parent_class;
 } FcitxMainWindowClass;
 
-GType fcitx_main_window_get_type (void);
+GType fcitx_main_window_get_type(void);
 
 GtkWidget* fcitx_main_window_new(void);
 

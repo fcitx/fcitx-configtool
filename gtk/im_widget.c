@@ -26,10 +26,9 @@
 #include "im.h"
 #include "gdm-languages.h"
 
-G_DEFINE_TYPE (FcitxImWidget, fcitx_im_widget, GTK_TYPE_HBOX)
+G_DEFINE_TYPE(FcitxImWidget, fcitx_im_widget, GTK_TYPE_HBOX)
 
-enum
-{
+enum {
     LIST_IM,
     N_COLUMNS
 };
@@ -38,16 +37,16 @@ static void fcitx_im_widget_finalize(GObject* object);
 static void _fcitx_im_widget_connect(FcitxImWidget* self);
 static void _fcitx_im_widget_load(FcitxImWidget* self);
 static void _fcitx_inputmethod_insert_foreach_cb(gpointer data, gpointer user_data);
-static void _fcitx_im_widget_availname_data_func (GtkCellLayout   *cell_layout,
-                GtkCellRenderer *renderer,
-                GtkTreeModel    *tree_model,
-                GtkTreeIter     *iter,
-                gpointer         user_data);
-static void _fcitx_im_widget_name_data_func (GtkCellLayout   *cell_layout,
-                GtkCellRenderer *renderer,
-                GtkTreeModel    *tree_model,
-                GtkTreeIter     *iter,
-                gpointer         user_data);
+static void _fcitx_im_widget_availname_data_func(GtkCellLayout   *cell_layout,
+        GtkCellRenderer *renderer,
+        GtkTreeModel    *tree_model,
+        GtkTreeIter     *iter,
+        gpointer         user_data);
+static void _fcitx_im_widget_name_data_func(GtkCellLayout   *cell_layout,
+        GtkCellRenderer *renderer,
+        GtkTreeModel    *tree_model,
+        GtkTreeIter     *iter,
+        gpointer         user_data);
 
 static void _fcitx_im_widget_availim_selection_changed(GtkTreeSelection *selection, gpointer data);
 static void _fcitx_im_widget_im_selection_changed(GtkTreeSelection *selection, gpointer data);
@@ -57,57 +56,57 @@ static void _fcitx_im_widget_moveup_button_clicked(GtkButton* button, gpointer u
 static void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer user_data);
 static void _fcitx_im_widget_filtertext_changed(GtkEditable *editable, gpointer user_data);
 static void _fcitx_im_widget_onlycurlangcheckbox_toggled(GtkToggleButton *button, gpointer user_data);
-static gboolean _fcitx_im_widget_filter_func (GtkTreeModel *model,
-                                              GtkTreeIter  *iter,
-                                              gpointer      data);
+static gboolean _fcitx_im_widget_filter_func(GtkTreeModel *model,
+        GtkTreeIter  *iter,
+        gpointer      data);
 static const gchar* _get_current_lang();
 
 static void
-fcitx_im_widget_class_init (FcitxImWidgetClass *klass)
+fcitx_im_widget_class_init(FcitxImWidgetClass *klass)
 {
-    GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+    GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
     gobject_class->finalize = fcitx_im_widget_finalize;
 }
 
 static void
-fcitx_im_widget_init (FcitxImWidget* self)
+fcitx_im_widget_init(FcitxImWidget* self)
 {
     self->availimstore = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
     self->filtermodel = gtk_tree_model_filter_new(GTK_TREE_MODEL(self->availimstore), NULL);
-   
-    gtk_tree_model_filter_set_visible_func (GTK_TREE_MODEL_FILTER ( self->filtermodel ),
-                                            (GtkTreeModelFilterVisibleFunc) _fcitx_im_widget_filter_func,
-                                            self ,
-                                            NULL);
+
+    gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(self->filtermodel),
+                                           (GtkTreeModelFilterVisibleFunc) _fcitx_im_widget_filter_func,
+                                           self ,
+                                           NULL);
     self->availimview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->filtermodel));
-    
+
     GtkWidget* label = gtk_label_new(_("Available Input Method"));
     self->filterentry = gtk_entry_new();
-    
+
     GtkCellRenderer* renderer;
     GtkTreeViewColumn* column;
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(
-            _("Input Method"), renderer,
-            NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW (self->availimview), column);
-    gtk_cell_layout_set_cell_data_func (GTK_CELL_LAYOUT (column),
-                                        renderer,
-                                        _fcitx_im_widget_availname_data_func,
-                                        self->availimview,
-                                        NULL);
+                 _("Input Method"), renderer,
+                 NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(self->availimview), column);
+    gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(column),
+                                       renderer,
+                                       _fcitx_im_widget_availname_data_func,
+                                       self->availimview,
+                                       NULL);
 
     GtkTreeSelection *selection;
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->availimview));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
     g_signal_connect(G_OBJECT(selection), "changed",
-            G_CALLBACK(_fcitx_im_widget_availim_selection_changed), self);
+                     G_CALLBACK(_fcitx_im_widget_availim_selection_changed), self);
 
     gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(self->availimview), FALSE);
-    
+
     self->onlycurlangcheckbox = gtk_check_button_new_with_label(_("Only Show Current Language"));
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox), TRUE);
-    
+
     GtkWidget* vbox;
     vbox = gtk_vbox_new(FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 5);
@@ -117,65 +116,63 @@ fcitx_im_widget_init (FcitxImWidget* self)
     gtk_container_add(GTK_CONTAINER(scrolledwindow), self->availimview);
     gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, TRUE, TRUE, 5);
     gtk_box_pack_start(GTK_BOX(vbox), self->onlycurlangcheckbox, FALSE, TRUE, 5);
-    
-    
     gtk_box_pack_start(GTK_BOX(self), vbox, TRUE, TRUE, 5);
-    
+
     vbox = gtk_vbox_new(FALSE, 0);
-    
+
     self->addimbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->addimbutton), gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON));
+    gtk_button_set_image(GTK_BUTTON(self->addimbutton), gtk_image_new_from_stock(GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON));
     gtk_widget_set_sensitive(self->addimbutton, FALSE);
-    
+
     self->delimbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->delimbutton), gtk_image_new_from_stock (GTK_STOCK_GO_BACK, GTK_ICON_SIZE_BUTTON));
+    gtk_button_set_image(GTK_BUTTON(self->delimbutton), gtk_image_new_from_stock(GTK_STOCK_GO_BACK, GTK_ICON_SIZE_BUTTON));
     gtk_widget_set_sensitive(self->delimbutton, FALSE);
 
     gtk_box_pack_start(GTK_BOX(vbox), gtk_label_new(""), TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), self->addimbutton, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), self->delimbutton, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), gtk_label_new(""), TRUE, TRUE, 0);
-    
+
     gtk_box_pack_start(GTK_BOX(self), vbox, FALSE, TRUE, 5);
-    
+
     label = gtk_label_new(_("Current Input Method"));
-    
+
     self->imstore = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
     self->imview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->imstore));
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(
-            _("Input Method"), renderer,
-            NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW (self->imview), column);
-    gtk_cell_layout_set_cell_data_func (GTK_CELL_LAYOUT (column),
-                                        renderer,
-                                        _fcitx_im_widget_name_data_func,
-                                        self->imview,
-                                        NULL);
+                 _("Input Method"), renderer,
+                 NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(self->imview), column);
+    gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(column),
+                                       renderer,
+                                       _fcitx_im_widget_name_data_func,
+                                       self->imview,
+                                       NULL);
 
     gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(self->imview), FALSE);
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->imview));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
     g_signal_connect(G_OBJECT(selection), "changed",
-            G_CALLBACK(_fcitx_im_widget_im_selection_changed), self);
+                     G_CALLBACK(_fcitx_im_widget_im_selection_changed), self);
     vbox = gtk_vbox_new(FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 5);
     scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledwindow), self->imview);
     gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, TRUE, TRUE, 5);
-    
+
     gtk_box_pack_start(GTK_BOX(self), GTK_WIDGET(vbox), TRUE, TRUE, 5);
 
     vbox = gtk_vbox_new(FALSE, 0);
 
     self->moveupbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->moveupbutton), gtk_image_new_from_stock (GTK_STOCK_GO_UP, GTK_ICON_SIZE_BUTTON));
+    gtk_button_set_image(GTK_BUTTON(self->moveupbutton), gtk_image_new_from_stock(GTK_STOCK_GO_UP, GTK_ICON_SIZE_BUTTON));
     gtk_widget_set_sensitive(self->moveupbutton, FALSE);
 
     self->movedownbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->movedownbutton), gtk_image_new_from_stock (GTK_STOCK_GO_DOWN, GTK_ICON_SIZE_BUTTON));
+    gtk_button_set_image(GTK_BUTTON(self->movedownbutton), gtk_image_new_from_stock(GTK_STOCK_GO_DOWN, GTK_ICON_SIZE_BUTTON));
     gtk_widget_set_sensitive(self->movedownbutton, FALSE);
 
     gtk_box_pack_start(GTK_BOX(vbox), gtk_label_new(""), TRUE, TRUE, 0);
@@ -184,29 +181,29 @@ fcitx_im_widget_init (FcitxImWidget* self)
     gtk_box_pack_start(GTK_BOX(vbox), gtk_label_new(""), TRUE, TRUE, 0);
 
     gtk_box_pack_start(GTK_BOX(self), vbox, FALSE, TRUE, 5);
-    
+
     g_signal_connect(G_OBJECT(self->addimbutton), "clicked", G_CALLBACK(_fcitx_im_widget_addim_button_clicked), self);
     g_signal_connect(G_OBJECT(self->delimbutton), "clicked", G_CALLBACK(_fcitx_im_widget_delim_button_clicked), self);
     g_signal_connect(G_OBJECT(self->moveupbutton), "clicked", G_CALLBACK(_fcitx_im_widget_moveup_button_clicked), self);
     g_signal_connect(G_OBJECT(self->movedownbutton), "clicked", G_CALLBACK(_fcitx_im_widget_movedown_button_clicked), self);
     g_signal_connect(G_OBJECT(self->filterentry), "changed", G_CALLBACK(_fcitx_im_widget_filtertext_changed), self);
     g_signal_connect(G_OBJECT(self->onlycurlangcheckbox), "toggled", G_CALLBACK(_fcitx_im_widget_onlycurlangcheckbox_toggled), self);
-    
-    
+
+
     _fcitx_im_widget_connect(self);
 }
 
 GtkWidget*
-fcitx_im_widget_new (void)
+fcitx_im_widget_new(void)
 {
-    FcitxImWidget* widget = 
+    FcitxImWidget* widget =
         g_object_new(FCITX_TYPE_IM_WIDGET,
                      NULL);
-        
+
     return GTK_WIDGET(widget);
 }
 
-void fcitx_im_widget_finalize ( GObject* object )
+void fcitx_im_widget_finalize(GObject* object)
 {
 
 }
@@ -231,7 +228,7 @@ void _fcitx_im_widget_connect(FcitxImWidget* self)
         return;
     }
     g_signal_connect(self->improxy, "imlist-changed", G_CALLBACK(_fcitx_im_widget_imlist_changed_cb), self);
-    
+
     _fcitx_im_widget_load(self);
 }
 
@@ -245,25 +242,24 @@ void _fcitx_im_widget_load(FcitxImWidget* self)
         g_ptr_array_free(self->array, FALSE);
         self->array = NULL;
     }
-    
+
     self->array = fcitx_inputmethod_get_imlist(self->improxy);
-    
+
     if (self->array)
         g_ptr_array_foreach(self->array, _fcitx_inputmethod_insert_foreach_cb, self);
 }
 
 void _fcitx_inputmethod_insert_foreach_cb(gpointer data,
-                                          gpointer user_data)
+        gpointer user_data)
 {
     FcitxIMItem* item = data;
     FcitxImWidget* self = user_data;
     GtkTreeIter iter;
-    
+
     if (item->enable) {
         gtk_list_store_append(self->imstore, &iter);
         gtk_list_store_set(self->imstore, &iter, LIST_IM, item, -1);
-    }
-    else {
+    } else {
         gtk_list_store_append(self->availimstore, &iter);
         gtk_list_store_set(self->availimstore, &iter, LIST_IM, item, -1);
     }
@@ -271,48 +267,48 @@ void _fcitx_inputmethod_insert_foreach_cb(gpointer data,
 }
 
 static void
-_fcitx_im_widget_name_data_func (GtkCellLayout   *cell_layout,
-                GtkCellRenderer *renderer,
-                GtkTreeModel    *tree_model,
-                GtkTreeIter     *iter,
-                gpointer         user_data)
+_fcitx_im_widget_name_data_func(GtkCellLayout   *cell_layout,
+                                GtkCellRenderer *renderer,
+                                GtkTreeModel    *tree_model,
+                                GtkTreeIter     *iter,
+                                gpointer         user_data)
 {
     FcitxIMItem* item;
 
-    gtk_tree_model_get (tree_model,
-                        iter,
-                        LIST_IM, &item,
-                        -1);
-    g_object_set (renderer,
-                "text", item->name,
-                NULL);
+    gtk_tree_model_get(tree_model,
+                       iter,
+                       LIST_IM, &item,
+                       -1);
+    g_object_set(renderer,
+                 "text", item->name,
+                 NULL);
 }
 
 static void
-_fcitx_im_widget_availname_data_func (GtkCellLayout   *cell_layout,
-                GtkCellRenderer *renderer,
-                GtkTreeModel    *tree_model,
-                GtkTreeIter     *iter,
-                gpointer         user_data)
+_fcitx_im_widget_availname_data_func(GtkCellLayout   *cell_layout,
+                                     GtkCellRenderer *renderer,
+                                     GtkTreeModel    *tree_model,
+                                     GtkTreeIter     *iter,
+                                     gpointer         user_data)
 {
     FcitxIMItem* item;
 
-    gtk_tree_model_get (tree_model,
-                        iter,
-                        LIST_IM, &item,
-                        -1);
-    
+    gtk_tree_model_get(tree_model,
+                       iter,
+                       LIST_IM, &item,
+                       -1);
+
     char* lang = NULL;
     if (strlen(item->langcode) != 0)
         lang = gdm_get_language_from_name(item->langcode, NULL);
     if (!lang)
         lang = g_strdup_printf("%s", _("Unknown"));
-    
+
     gchar* string = g_strdup_printf(_("%s - %s"), lang, item->name);
-    g_object_set (renderer,
-                "text", string,
-                NULL);
-    
+    g_object_set(renderer,
+                 "text", string,
+                 NULL);
+
     g_free(lang);
 
     g_free(string);
@@ -325,24 +321,21 @@ void _fcitx_im_widget_im_selection_changed(GtkTreeSelection *selection, gpointer
     GtkTreeModel *model = gtk_tree_view_get_model(treeView);
     GtkTreeIter iter;
 
-    if (gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
+    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         gtk_widget_set_sensitive(self->delimbutton, TRUE);
         GtkTreePath* path = gtk_tree_model_get_path(model, &iter);
-        
+
         gint* ind = gtk_tree_path_get_indices(path);
-        
-        gint n = gtk_tree_model_iter_n_children (model, NULL);
-        
+
+        gint n = gtk_tree_model_iter_n_children(model, NULL);
+
         if (ind) {
             gtk_widget_set_sensitive(self->moveupbutton, (*ind != 0));
             gtk_widget_set_sensitive(self->movedownbutton, (*ind != n - 1));
         }
-        
+
         gtk_tree_path_free(path);
-    }
-    else
-    {
+    } else {
         gtk_widget_set_sensitive(self->delimbutton, FALSE);
     }
 }
@@ -354,12 +347,9 @@ void _fcitx_im_widget_availim_selection_changed(GtkTreeSelection* selection, gpo
     GtkTreeModel *model = gtk_tree_view_get_model(treeView);
     GtkTreeIter iter;
 
-    if (gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
+    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         gtk_widget_set_sensitive(self->addimbutton, TRUE);
-    }
-    else
-    {
+    } else {
         gtk_widget_set_sensitive(self->addimbutton, FALSE);
     }
 
@@ -373,18 +363,17 @@ void _fcitx_im_widget_addim_button_clicked(GtkButton* button, gpointer user_data
     GtkTreeSelection* selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->availimview));
     GtkTreeIter iter;
 
-    if (gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
+    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         FcitxIMItem* item = NULL;
-        gtk_tree_model_get (model,
-                            &iter,
-                            LIST_IM, &item,
-                            -1);
+        gtk_tree_model_get(model,
+                           &iter,
+                           LIST_IM, &item,
+                           -1);
         item->enable = true;
-        
+
         g_ptr_array_remove(self->array, item);
         g_ptr_array_add(self->array, item);
-        
+
         fcitx_inputmethod_set_imlist(self->improxy, self->array);
     }
 }
@@ -397,15 +386,14 @@ void _fcitx_im_widget_delim_button_clicked(GtkButton* button, gpointer user_data
     GtkTreeSelection* selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->imview));
     GtkTreeIter iter;
 
-    if (gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
+    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         FcitxIMItem* item = NULL;
-        gtk_tree_model_get (model,
-                            &iter,
-                            LIST_IM, &item,
-                            -1);
+        gtk_tree_model_get(model,
+                           &iter,
+                           LIST_IM, &item,
+                           -1);
         item->enable = false;
-        
+
         fcitx_inputmethod_set_imlist(self->improxy, self->array);
     }
 
@@ -419,32 +407,29 @@ void _fcitx_im_widget_moveup_button_clicked(GtkButton* button, gpointer user_dat
     GtkTreeSelection* selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->imview));
     GtkTreeIter iter;
 
-    if (gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
+    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         FcitxIMItem* item = NULL;
-        gtk_tree_model_get (model,
-                            &iter,
-                            LIST_IM, &item,
-                            -1);
-        
+        gtk_tree_model_get(model,
+                           &iter,
+                           LIST_IM, &item,
+                           -1);
+
         int i;
         int switch_index = self->array->len;
-        for (i = 0; i < self->array->len; i += 1)
-        {
+        for (i = 0; i < self->array->len; i += 1) {
             if (g_ptr_array_index(self->array, i) == item)
                 break;
-            
+
             FcitxIMItem* temp_item = g_ptr_array_index(self->array, i);
             if (temp_item->enable)
                 switch_index = i;
         }
-        
-        if (i != self->array->len && switch_index != self->array->len)
-        {
+
+        if (i != self->array->len && switch_index != self->array->len) {
             gpointer temp = g_ptr_array_index(self->array, i);
             g_ptr_array_index(self->array, i) = g_ptr_array_index(self->array, switch_index);
             g_ptr_array_index(self->array, switch_index) = temp;
-        
+
             fcitx_inputmethod_set_imlist(self->improxy, self->array);
         }
     }
@@ -458,32 +443,29 @@ void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer user_d
     GtkTreeSelection* selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->imview));
     GtkTreeIter iter;
 
-    if (gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
+    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         FcitxIMItem* item = NULL;
-        gtk_tree_model_get (model,
-                            &iter,
-                            LIST_IM, &item,
-                            -1);
-        
+        gtk_tree_model_get(model,
+                           &iter,
+                           LIST_IM, &item,
+                           -1);
+
         int i;
         int switch_index = -1;
-        for (i = self->array->len - 1; i >= 0; i -= 1)
-        {
+        for (i = self->array->len - 1; i >= 0; i -= 1) {
             if (g_ptr_array_index(self->array, i) == item)
                 break;
-            
+
             FcitxIMItem* temp_item = g_ptr_array_index(self->array, i);
             if (temp_item->enable)
                 switch_index = i;
         }
-        
-        if (i != -1 && switch_index != -1)
-        {
+
+        if (i != -1 && switch_index != -1) {
             gpointer temp = g_ptr_array_index(self->array, i);
             g_ptr_array_index(self->array, i) = g_ptr_array_index(self->array, switch_index);
             g_ptr_array_index(self->array, switch_index) = temp;
-        
+
             fcitx_inputmethod_set_imlist(self->improxy, self->array);
         }
     }
@@ -502,29 +484,28 @@ void _fcitx_im_widget_onlycurlangcheckbox_toggled(GtkToggleButton* button, gpoin
 }
 
 
-gboolean _fcitx_im_widget_filter_func (GtkTreeModel *model,
-                                         GtkTreeIter  *iter,
-                                         gpointer      data)
+gboolean _fcitx_im_widget_filter_func(GtkTreeModel *model,
+                                      GtkTreeIter  *iter,
+                                      gpointer      data)
 {
     FcitxImWidget* self = data;
     const gchar* filter_text = gtk_entry_get_text(GTK_ENTRY(self->filterentry));
     FcitxIMItem* item = NULL;
-    gtk_tree_model_get (GTK_TREE_MODEL(self->availimstore),
-                        iter,
-                        LIST_IM, &item,
-                        -1);
-    
+    gtk_tree_model_get(GTK_TREE_MODEL(self->availimstore),
+                       iter,
+                       LIST_IM, &item,
+                       -1);
+
     if (item) {
         gboolean flag = TRUE;
         flag &= (strlen(filter_text) == 0
-                || strstr(item->name, filter_text)
-                || strstr(item->unique_name, filter_text)
-                || strstr(item->langcode, filter_text));
+                 || strstr(item->name, filter_text)
+                 || strstr(item->unique_name, filter_text)
+                 || strstr(item->langcode, filter_text));
         flag &= (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
-                    strncmp(item->langcode, _get_current_lang() ,2) == 0 : TRUE) ;
+                 strncmp(item->langcode, _get_current_lang() , 2) == 0 : TRUE) ;
         return flag;
-    }
-    else
+    } else
         return FALSE;
 }
 

@@ -25,8 +25,7 @@
 
 #include "configdesc.h"
 
-typedef struct ConfigDescSet
-{
+typedef struct ConfigDescSet {
     char *filename;
     FcitxConfigFileDesc *cfdesc;
     UT_hash_handle hh;
@@ -38,20 +37,17 @@ FcitxConfigFileDesc *get_config_desc(char *filename)
 {
     ConfigDescSet *desc = NULL;
     HASH_FIND_STR(cdset, filename, desc);
-    if (!desc)
-    {
+    if (!desc) {
         FILE * tmpfp = FcitxXDGGetFileWithPrefix("configdesc", filename, "r", NULL);
-        if (tmpfp)
-        {
+        if (tmpfp) {
             desc = malloc(sizeof(ConfigDescSet));
-            memset(desc, 0 ,sizeof(ConfigDescSet));
+            memset(desc, 0 , sizeof(ConfigDescSet));
             desc->filename = strdup(filename);
             desc->cfdesc = FcitxConfigParseConfigFileDescFp(tmpfp);
             fclose(tmpfp);
 
             HASH_ADD_KEYPTR(hh, cdset, desc->filename, strlen(desc->filename), desc);
-        }
-        else
+        } else
             return NULL;
     }
 
