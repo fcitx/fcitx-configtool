@@ -29,6 +29,7 @@
 G_DEFINE_TYPE(FcitxImWidget, fcitx_im_widget, GTK_TYPE_HBOX)
 
 enum {
+    LIST_IM_STRING,
     LIST_IM,
     N_COLUMNS
 };
@@ -37,17 +38,6 @@ static void fcitx_im_widget_finalize(GObject* object);
 static void _fcitx_im_widget_connect(FcitxImWidget* self);
 static void _fcitx_im_widget_load(FcitxImWidget* self);
 static void _fcitx_inputmethod_insert_foreach_cb(gpointer data, gpointer user_data);
-static void _fcitx_im_widget_availname_data_func(GtkCellLayout   *cell_layout,
-        GtkCellRenderer *renderer,
-        GtkTreeModel    *tree_model,
-        GtkTreeIter     *iter,
-        gpointer         user_data);
-static void _fcitx_im_widget_name_data_func(GtkCellLayout   *cell_layout,
-        GtkCellRenderer *renderer,
-        GtkTreeModel    *tree_model,
-        GtkTreeIter     *iter,
-        gpointer         user_data);
-
 static void _fcitx_im_widget_availim_selection_changed(GtkTreeSelection *selection, gpointer data);
 static void _fcitx_im_widget_im_selection_changed(GtkTreeSelection *selection, gpointer data);
 static void _fcitx_im_widget_addim_button_clicked(GtkButton* button, gpointer user_data);
@@ -71,14 +61,16 @@ fcitx_im_widget_class_init(FcitxImWidgetClass *klass)
 static void
 fcitx_im_widget_init(FcitxImWidget* self)
 {
-    self->availimstore = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
+    self->availimstore = gtk_list_store_new(N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
     self->filtermodel = gtk_tree_model_filter_new(GTK_TREE_MODEL(self->availimstore), NULL);
 
     gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(self->filtermodel),
                                            (GtkTreeModelFilterVisibleFunc) _fcitx_im_widget_filter_func,
                                            self ,
                                            NULL);
-    self->availimview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->filtermodel));
+    self->sortmodel = gtk_tree_model_sort_new_with_model(self->filtermodel);
+    gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(self->sortmodel), LIST_IM_STRING, GTK_SORT_ASCENDING);
+    self->availimview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->sortmodel));
 
     GtkWidget* label = gtk_label_new(_("Available Input Method"));
     self->filterentry = gtk_entry_new();
@@ -88,13 +80,9 @@ fcitx_im_widget_init(FcitxImWidget* self)
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(
                  _("Input Method"), renderer,
+                 "text", LIST_IM_STRING,
                  NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(self->availimview), column);
-    gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(column),
-                                       renderer,
-                                       _fcitx_im_widget_availname_data_func,
-                                       self->availimview,
-                                       NULL);
 
     GtkTreeSelection *selection;
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->availimview));
@@ -137,19 +125,15 @@ fcitx_im_widget_init(FcitxImWidget* self)
 
     label = gtk_label_new(_("Current Input Method"));
 
-    self->imstore = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
+    self->imstore = gtk_list_store_new(N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
     self->imview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->imstore));
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(
                  _("Input Method"), renderer,
+                 "text", LIST_IM_STRING,
                  NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(self->imview), column);
-    gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(column),
-                                       renderer,
-                                       _fcitx_im_widget_name_data_func,
-                                       self->imview,
-                                       NULL);
 
     gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(self->imview), FALSE);
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->imview));
@@ -258,60 +242,25 @@ void _fcitx_inputmethod_insert_foreach_cb(gpointer data,
 
     if (item->enable) {
         gtk_list_store_append(self->imstore, &iter);
+        gtk_list_store_set(self->imstore, &iter, LIST_IM_STRING, item->name, -1);
         gtk_list_store_set(self->imstore, &iter, LIST_IM, item, -1);
     } else {
+        char* lang = NULL;
+        if (strlen(item->langcode) != 0)
+            lang = gdm_get_language_from_name(item->langcode, NULL);
+        if (!lang)
+            lang = g_strdup_printf("%s", _("Unknown"));
+
+        gchar* string = g_strdup_printf(_("%s - %s"), lang, item->name);
+        
         gtk_list_store_append(self->availimstore, &iter);
+        gtk_list_store_set(self->availimstore, &iter, LIST_IM_STRING, string, -1);
         gtk_list_store_set(self->availimstore, &iter, LIST_IM, item, -1);
+        
+        g_free(lang);
+        g_free(string);
     }
 
-}
-
-static void
-_fcitx_im_widget_name_data_func(GtkCellLayout   *cell_layout,
-                                GtkCellRenderer *renderer,
-                                GtkTreeModel    *tree_model,
-                                GtkTreeIter     *iter,
-                                gpointer         user_data)
-{
-    FcitxIMItem* item;
-
-    gtk_tree_model_get(tree_model,
-                       iter,
-                       LIST_IM, &item,
-                       -1);
-    g_object_set(renderer,
-                 "text", item->name,
-                 NULL);
-}
-
-static void
-_fcitx_im_widget_availname_data_func(GtkCellLayout   *cell_layout,
-                                     GtkCellRenderer *renderer,
-                                     GtkTreeModel    *tree_model,
-                                     GtkTreeIter     *iter,
-                                     gpointer         user_data)
-{
-    FcitxIMItem* item;
-
-    gtk_tree_model_get(tree_model,
-                       iter,
-                       LIST_IM, &item,
-                       -1);
-
-    char* lang = NULL;
-    if (strlen(item->langcode) != 0)
-        lang = gdm_get_language_from_name(item->langcode, NULL);
-    if (!lang)
-        lang = g_strdup_printf("%s", _("Unknown"));
-
-    gchar* string = g_strdup_printf(_("%s - %s"), lang, item->name);
-    g_object_set(renderer,
-                 "text", string,
-                 NULL);
-
-    g_free(lang);
-
-    g_free(string);
 }
 
 void _fcitx_im_widget_im_selection_changed(GtkTreeSelection *selection, gpointer data)
