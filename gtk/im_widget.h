@@ -60,6 +60,7 @@ typedef struct {
     GPtrArray* array;
     GtkWidget* filterentry;
     GtkTreeModel* filtermodel;
+    GtkWidget* onlycurlangcheckbox;
 } FcitxImWidget;
 
 typedef struct {

@@ -56,9 +56,11 @@ static void _fcitx_im_widget_delim_button_clicked(GtkButton* button, gpointer us
 static void _fcitx_im_widget_moveup_button_clicked(GtkButton* button, gpointer user_data);
 static void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer user_data);
 static void _fcitx_im_widget_filtertext_changed(GtkEditable *editable, gpointer user_data);
+static void _fcitx_im_widget_onlycurlangcheckbox_toggled(GtkToggleButton *button, gpointer user_data);
 static gboolean _fcitx_im_widget_filter_func (GtkTreeModel *model,
                                               GtkTreeIter  *iter,
                                               gpointer      data);
+static const gchar* _get_current_lang();
 
 static void
 fcitx_im_widget_class_init (FcitxImWidgetClass *klass)
@@ -103,11 +105,18 @@ fcitx_im_widget_init (FcitxImWidget* self)
 
     gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(self->availimview), FALSE);
     
+    self->onlycurlangcheckbox = gtk_check_button_new_with_label(_("Only Show Current Language"));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox), TRUE);
+    
     GtkWidget* vbox;
     vbox = gtk_vbox_new(FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(vbox), self->filterentry, FALSE, TRUE, 5);
-    gtk_box_pack_start(GTK_BOX(vbox), self->availimview, TRUE, TRUE, 5);
+    GtkWidget* scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+    gtk_container_add(GTK_CONTAINER(scrolledwindow), self->availimview);
+    gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, TRUE, TRUE, 5);
+    gtk_box_pack_start(GTK_BOX(vbox), self->onlycurlangcheckbox, FALSE, TRUE, 5);
     
     
     gtk_box_pack_start(GTK_BOX(self), vbox, TRUE, TRUE, 5);
@@ -152,7 +161,10 @@ fcitx_im_widget_init (FcitxImWidget* self)
             G_CALLBACK(_fcitx_im_widget_im_selection_changed), self);
     vbox = gtk_vbox_new(FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 5);
-    gtk_box_pack_start(GTK_BOX(vbox), self->imview, TRUE, TRUE, 5);
+    scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+    gtk_container_add(GTK_CONTAINER(scrolledwindow), self->imview);
+    gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, TRUE, TRUE, 5);
     
     gtk_box_pack_start(GTK_BOX(self), GTK_WIDGET(vbox), TRUE, TRUE, 5);
 
@@ -178,6 +190,8 @@ fcitx_im_widget_init (FcitxImWidget* self)
     g_signal_connect(G_OBJECT(self->moveupbutton), "clicked", G_CALLBACK(_fcitx_im_widget_moveup_button_clicked), self);
     g_signal_connect(G_OBJECT(self->movedownbutton), "clicked", G_CALLBACK(_fcitx_im_widget_movedown_button_clicked), self);
     g_signal_connect(G_OBJECT(self->filterentry), "changed", G_CALLBACK(_fcitx_im_widget_filtertext_changed), self);
+    g_signal_connect(G_OBJECT(self->onlycurlangcheckbox), "toggled", G_CALLBACK(_fcitx_im_widget_onlycurlangcheckbox_toggled), self);
+    
     
     _fcitx_im_widget_connect(self);
 }
@@ -288,7 +302,9 @@ _fcitx_im_widget_availname_data_func (GtkCellLayout   *cell_layout,
                         LIST_IM, &item,
                         -1);
     
-    char* lang = gdm_get_language_from_name(item->langcode, NULL);
+    char* lang = NULL;
+    if (strlen(item->langcode) != 0)
+        lang = gdm_get_language_from_name(item->langcode, NULL);
     if (!lang)
         lang = g_strdup_printf("%s", _("Unknown"));
     
@@ -479,6 +495,12 @@ void _fcitx_im_widget_filtertext_changed(GtkEditable* editable, gpointer user_da
     gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(self->filtermodel));
 }
 
+void _fcitx_im_widget_onlycurlangcheckbox_toggled(GtkToggleButton* button, gpointer user_data)
+{
+    FcitxImWidget* self = user_data;
+    gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(self->filtermodel));
+}
+
 
 gboolean _fcitx_im_widget_filter_func (GtkTreeModel *model,
                                          GtkTreeIter  *iter,
@@ -492,11 +514,28 @@ gboolean _fcitx_im_widget_filter_func (GtkTreeModel *model,
                         LIST_IM, &item,
                         -1);
     
-    if (item && (strlen(filter_text) == 0
+    if (item) {
+        gboolean flag = TRUE;
+        flag &= (strlen(filter_text) == 0
                 || strstr(item->name, filter_text)
                 || strstr(item->unique_name, filter_text)
-                || strstr(item->langcode, filter_text)))
-        return TRUE;
+                || strstr(item->langcode, filter_text));
+        flag &= (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
+                    strncmp(item->langcode, _get_current_lang() ,2) == 0 : TRUE) ;
+        return flag;
+    }
     else
         return FALSE;
+}
+
+static const gchar* _get_current_lang()
+{
+    const gchar* lang =  g_getenv("LC_ALL");
+    if (!lang)
+        lang = g_getenv("LANG");
+    if (!lang)
+        lang = g_getenv("LC_MESSAGES");
+    if (!lang)
+        lang = "C";
+    return lang;
 }

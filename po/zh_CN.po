@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-26 04:58+0800\n"
-"PO-Revision-Date: 2012-01-26 04:59+0800\n"
+"POT-Creation-Date: 2012-01-27 00:31+0800\n"
+"PO-Revision-Date: 2012-01-27 00:32+0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <fcitx-dev@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "X-Generator: Lokalize 1.4\n"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:295
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:305
 #, c-format
 msgid "%s - %s"
 msgstr "%s - %s"
@@ -27,7 +27,7 @@ msgstr "%s - %s"
 msgid "Addon Configuration"
 msgstr "附加组件配置"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:82
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:84
 msgid "Available Input Method"
 msgstr "可用的输入法"
 
@@ -43,7 +43,7 @@ msgstr "配置"
 msgid "Configure"
 msgstr "配置 "
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:132
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:138
 msgid "Current Input Method"
 msgstr "当前的输入法"
 
@@ -59,14 +59,18 @@ msgstr "Fcitx配置"
 msgid "Global Config"
 msgstr "全局配置"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:89
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:139
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:91
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:145
 msgid "Input Method"
 msgstr "输入法"
 
 #: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:267
 msgid "Input Method Configuration"
 msgstr "输入法配置"
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:108
+msgid "Only Show Current Language"
+msgstr "仅显示当前语言"
 
 #: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:257
 msgid "Other"
@@ -76,7 +80,7 @@ msgstr "其他"
 msgid "Please press the new key combination"
 msgstr "请按下新按键组合"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:293
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:303
 msgid "Unknown"
 msgstr "未知"
 

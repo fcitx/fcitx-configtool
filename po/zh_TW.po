@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-26 04:58+0800\n"
+"POT-Creation-Date: 2012-01-27 00:31+0800\n"
 "PO-Revision-Date: 2011-11-16 06:53+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.net/projects/p/fcitx/"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:295
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:305
 #, c-format
 msgid "%s - %s"
 msgstr ""
@@ -27,7 +27,7 @@ msgstr ""
 msgid "Addon Configuration"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:82
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:84
 msgid "Available Input Method"
 msgstr ""
 
@@ -43,7 +43,7 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:132
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:138
 msgid "Current Input Method"
 msgstr ""
 
@@ -59,13 +59,17 @@ msgstr ""
 msgid "Global Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:89
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:139
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:91
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:145
 msgid "Input Method"
 msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/po/../gtk/main_window.c:267
 msgid "Input Method Configuration"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:108
+msgid "Only Show Current Language"
 msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/po/../gtk/config_widget.c:257
@@ -76,6 +80,6 @@ msgstr ""
 msgid "Please press the new key combination"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:293
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:303
 msgid "Unknown"
 msgstr ""

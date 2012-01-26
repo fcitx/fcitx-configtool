@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-26 05:00+0800\n"
+"POT-Creation-Date: 2012-01-27 00:31+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,24 +25,28 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:82
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:84
 msgid "Available Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:89
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:139
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:91
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:145
 msgid "Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:132
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:108
+msgid "Only Show Current Language"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:138
 msgid "Current Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:293
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:303
 msgid "Unknown"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:295
+#: /home/saber/Develop/fcitx-configtool/po/../gtk/im_widget.c:305
 #, c-format
 msgid "%s - %s"
 msgstr ""
