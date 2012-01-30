@@ -23,7 +23,7 @@
 #define _FCITX_CONFIG_WIDGET
 
 #include <gtk/gtk.h>
-#include <glib/gstring.h>
+#include <glib.h>
 #include <fcitx-config/fcitx-config.h>
 #include "sub_config_parser.h"
 

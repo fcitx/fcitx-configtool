@@ -22,6 +22,7 @@
  */
 
 #include "config.h"
+#include "common.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -34,8 +35,6 @@
 #include <sys/stat.h>
 
 #include <glib.h>
-#include <glib/gi18n.h>
-#include <glib/gstdio.h>
 
 #include "gdm-languages.h"
 
@@ -517,7 +516,7 @@ select_dirs(const struct dirent *dirent)
             char       *path;
 
             path = g_build_filename(LIBLOCALEDIR, dirent->d_name, NULL);
-            if (g_stat(path, &st) == 0) {
+            if (stat(path, &st) == 0) {
                 mode = st.st_mode;
             }
             g_free(path);

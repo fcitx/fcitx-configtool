@@ -19,7 +19,7 @@
 
 #ifndef _SUB_CONFIG_PARSER_H
 #define _SUB_CONFIG_PARSER_H
-#include <glib/ghash.h>
+#include <glib.h>
 
 typedef enum {
     SC_None,

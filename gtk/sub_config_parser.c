@@ -22,8 +22,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <sys/stat.h>
-#include <glib/gstrfuncs.h>
-#include <glib/gpattern.h>
+#include <glib.h>
 
 #include <fcitx-config/xdg.h>
 #include <fcitx-utils/log.h>
