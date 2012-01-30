@@ -196,10 +196,18 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
                 case T_Enum: {
                     int i;
                     FcitxConfigEnum *e = &codesc->configEnum;
+#if GTK_CHECK_VERSION(2, 24, 0)
                     inputWidget = gtk_combo_box_text_new();
                     for (i = 0; i < e->enumCount; i ++) {
                         gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(inputWidget), D_(cfdesc->domain, e->enumDesc[i]));
                     }
+#else
+                    inputWidget = gtk_combo_box_new_text();
+                    for (i = 0; i < e->enumCount; i ++)
+                    {
+                        gtk_combo_box_append_text(GTK_COMBO_BOX(inputWidget), D_(cfdesc->domain, e->enumDesc[i]));
+                    }
+#endif
                     argument = inputWidget;
                 }
                 break;
