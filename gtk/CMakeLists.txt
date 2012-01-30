@@ -1,4 +1,4 @@
-PKG_CHECK_MODULES (GTK2 "gtk+-2.0 >= 2.22" REQUIRED)
+PKG_CHECK_MODULES (GTK2 "gtk+-2.0 >= 2.24" REQUIRED)
 PKG_CHECK_MODULES (UNIQUE "unique-1.0")
 
 include_directories (
