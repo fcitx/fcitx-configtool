@@ -29,10 +29,22 @@
 G_DEFINE_TYPE(FcitxImWidget, fcitx_im_widget, GTK_TYPE_HBOX)
 
 enum {
-    LIST_IM_STRING,
-    LIST_IM,
-    N_COLUMNS
+    AVAIL_TREE_IM_STRING,
+    AVAIL_TREE_IM,
+    AVAIL_TREE_LANG,
+    AVAIL_N_COLUMNS
 };
+
+enum {
+    IM_LIST_IM_STRING,
+    IM_LIST_IM,
+    IM_N_COLUMNS
+};
+
+typedef struct {
+    FcitxImWidget* widget;
+    GHashTable* langTable;
+} foreach_ct;
 
 static void fcitx_im_widget_finalize(GObject* object);
 static void _fcitx_im_widget_connect(FcitxImWidget* self);
@@ -61,7 +73,7 @@ fcitx_im_widget_class_init(FcitxImWidgetClass *klass)
 static void
 fcitx_im_widget_init(FcitxImWidget* self)
 {
-    self->availimstore = gtk_list_store_new(N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
+    self->availimstore = gtk_tree_store_new(AVAIL_N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING);
     self->filtermodel = gtk_tree_model_filter_new(GTK_TREE_MODEL(self->availimstore), NULL);
 
     gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(self->filtermodel),
@@ -69,7 +81,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
                                            self ,
                                            NULL);
     self->sortmodel = gtk_tree_model_sort_new_with_model(self->filtermodel);
-    gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(self->sortmodel), LIST_IM_STRING, GTK_SORT_ASCENDING);
+    gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(self->sortmodel), AVAIL_TREE_IM_STRING, GTK_SORT_ASCENDING);
     self->availimview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->sortmodel));
 
     GtkWidget* label = gtk_label_new(_("Available Input Method"));
@@ -80,7 +92,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(
                  _("Input Method"), renderer,
-                 "text", LIST_IM_STRING,
+                 "text", AVAIL_TREE_IM_STRING,
                  NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(self->availimview), column);
 
@@ -125,13 +137,13 @@ fcitx_im_widget_init(FcitxImWidget* self)
 
     label = gtk_label_new(_("Current Input Method"));
 
-    self->imstore = gtk_list_store_new(N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
+    self->imstore = gtk_list_store_new(IM_N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
     self->imview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->imstore));
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(
                  _("Input Method"), renderer,
-                 "text", LIST_IM_STRING,
+                 "text", IM_LIST_IM_STRING,
                  NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(self->imview), column);
 
@@ -189,6 +201,12 @@ fcitx_im_widget_new(void)
 
 void fcitx_im_widget_finalize(GObject* object)
 {
+    FcitxImWidget* self = FCITX_IM_WIDGET(object);
+    if (self->array) {
+        g_ptr_array_set_free_func(self->array, fcitx_inputmethod_item_free);
+        g_ptr_array_free(self->array, FALSE);
+        self->array = NULL;
+    }
 
 }
 
@@ -218,7 +236,7 @@ void _fcitx_im_widget_connect(FcitxImWidget* self)
 
 void _fcitx_im_widget_load(FcitxImWidget* self)
 {
-    gtk_list_store_clear(self->availimstore);
+    gtk_tree_store_clear(self->availimstore);
     gtk_list_store_clear(self->imstore);
 
     if (self->array) {
@@ -229,36 +247,55 @@ void _fcitx_im_widget_load(FcitxImWidget* self)
 
     self->array = fcitx_inputmethod_get_imlist(self->improxy);
 
-    if (self->array)
-        g_ptr_array_foreach(self->array, _fcitx_inputmethod_insert_foreach_cb, self);
+    if (self->array) {
+        foreach_ct ct;
+        ct.widget = self;
+        ct.langTable = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
+        g_ptr_array_foreach(self->array, _fcitx_inputmethod_insert_foreach_cb, &ct);
+        g_hash_table_unref(ct.langTable);
+        
+        if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)))
+            gtk_tree_view_expand_all (GTK_TREE_VIEW(self->availimview));
+    }
 }
 
 void _fcitx_inputmethod_insert_foreach_cb(gpointer data,
         gpointer user_data)
 {
+    foreach_ct* ct = user_data;
     FcitxIMItem* item = data;
-    FcitxImWidget* self = user_data;
+    FcitxImWidget* self = ct->widget;
     GtkTreeIter iter;
-
-    if (item->enable) {
-        gtk_list_store_append(self->imstore, &iter);
-        gtk_list_store_set(self->imstore, &iter, LIST_IM_STRING, item->name, -1);
-        gtk_list_store_set(self->imstore, &iter, LIST_IM, item, -1);
-    } else {
+    
+    GtkTreeIter* langIter = g_hash_table_lookup(ct->langTable, item->langcode);
+    
+    if (langIter == NULL) {
+        langIter = g_new(GtkTreeIter, 1);
+        gtk_tree_store_append(self->availimstore, langIter, NULL);
+        
         char* lang = NULL;
         if (strlen(item->langcode) != 0)
             lang = gdm_get_language_from_name(item->langcode, NULL);
         if (!lang)
             lang = g_strdup_printf("%s", _("Unknown"));
-
-        gchar* string = g_strdup_printf(_("%s - %s"), lang, item->name);
-        
-        gtk_list_store_append(self->availimstore, &iter);
-        gtk_list_store_set(self->availimstore, &iter, LIST_IM_STRING, string, -1);
-        gtk_list_store_set(self->availimstore, &iter, LIST_IM, item, -1);
-        
+        gtk_tree_store_set(self->availimstore, langIter, AVAIL_TREE_IM_STRING, lang, -1);
+        gtk_tree_store_set(self->availimstore, langIter, AVAIL_TREE_LANG, item->langcode, -1);
+        gtk_tree_store_set(self->availimstore, langIter, AVAIL_TREE_IM, NULL, -1);
         g_free(lang);
-        g_free(string);
+        
+        g_hash_table_insert(ct->langTable, g_strdup(item->langcode), langIter);
+    }
+
+    if (item->enable) {
+        gtk_list_store_append(self->imstore, &iter);
+        gtk_list_store_set(self->imstore, &iter, IM_LIST_IM_STRING, item->name, -1);
+        gtk_list_store_set(self->imstore, &iter, IM_LIST_IM, item, -1);
+    } else {
+        
+        gtk_tree_store_append(self->availimstore, &iter, langIter);
+        gtk_tree_store_set(self->availimstore, &iter, AVAIL_TREE_IM_STRING, item->name, -1);
+        gtk_tree_store_set(self->availimstore, &iter, AVAIL_TREE_LANG, NULL, -1);
+        gtk_tree_store_set(self->availimstore, &iter, AVAIL_TREE_IM, item, -1);
     }
 
 }
@@ -296,7 +333,14 @@ void _fcitx_im_widget_availim_selection_changed(GtkTreeSelection* selection, gpo
     GtkTreeModel *model = gtk_tree_view_get_model(treeView);
     GtkTreeIter iter;
 
+    FcitxIMItem* item = NULL;
     if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
+        gtk_tree_model_get(model,
+                           &iter,
+                           AVAIL_TREE_IM, &item,
+                           -1);
+    }
+    if (item) {
         gtk_widget_set_sensitive(self->addimbutton, TRUE);
     } else {
         gtk_widget_set_sensitive(self->addimbutton, FALSE);
@@ -316,8 +360,10 @@ void _fcitx_im_widget_addim_button_clicked(GtkButton* button, gpointer user_data
         FcitxIMItem* item = NULL;
         gtk_tree_model_get(model,
                            &iter,
-                           LIST_IM, &item,
+                           AVAIL_TREE_IM, &item,
                            -1);
+        if (item == NULL)
+            return;
         item->enable = true;
 
         g_ptr_array_remove(self->array, item);
@@ -339,7 +385,7 @@ void _fcitx_im_widget_delim_button_clicked(GtkButton* button, gpointer user_data
         FcitxIMItem* item = NULL;
         gtk_tree_model_get(model,
                            &iter,
-                           LIST_IM, &item,
+                           IM_LIST_IM, &item,
                            -1);
         item->enable = false;
 
@@ -360,7 +406,7 @@ void _fcitx_im_widget_moveup_button_clicked(GtkButton* button, gpointer user_dat
         FcitxIMItem* item = NULL;
         gtk_tree_model_get(model,
                            &iter,
-                           LIST_IM, &item,
+                           IM_LIST_IM, &item,
                            -1);
 
         int i;
@@ -396,7 +442,7 @@ void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer user_d
         FcitxIMItem* item = NULL;
         gtk_tree_model_get(model,
                            &iter,
-                           LIST_IM, &item,
+                           IM_LIST_IM, &item,
                            -1);
 
         int i;
@@ -442,20 +488,29 @@ gboolean _fcitx_im_widget_filter_func(GtkTreeModel *model,
     FcitxIMItem* item = NULL;
     gtk_tree_model_get(GTK_TREE_MODEL(self->availimstore),
                        iter,
-                       LIST_IM, &item,
+                       AVAIL_TREE_IM, &item,
                        -1);
 
+    gboolean flag = TRUE;
     if (item) {
-        gboolean flag = TRUE;
-        flag &= (strlen(filter_text) == 0
+        flag = flag && (strlen(filter_text) == 0
                  || strstr(item->name, filter_text)
                  || strstr(item->unique_name, filter_text)
                  || strstr(item->langcode, filter_text));
-        flag &= (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
+        flag = flag && (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
                  strncmp(item->langcode, _get_current_lang() , 2) == 0 : TRUE) ;
         return flag;
-    } else
-        return FALSE;
+    } else {
+        gchar* lang = NULL;
+        gtk_tree_model_get(GTK_TREE_MODEL(self->availimstore),
+                           iter,
+                           AVAIL_TREE_LANG, &lang,
+                           -1);
+        flag = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
+                lang != NULL && strncmp(lang, _get_current_lang() , 2) == 0 : TRUE) ;
+        g_free(lang);
+        return flag;
+    }
 }
 
 static const gchar* _get_current_lang()

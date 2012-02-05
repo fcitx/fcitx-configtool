@@ -84,7 +84,7 @@ fcitx_inputmethod_get_imlist(FcitxInputMethod* im)
     GPtrArray *array = NULL;
     GVariant* value;
     GVariantIter *iter;
-    const gchar *name, *unique_name, *langcode;
+    gchar *name, *unique_name, *langcode;
     gboolean enable;
     value = g_dbus_proxy_get_cached_property(G_DBUS_PROXY(im), "IMList");
 
@@ -120,6 +120,9 @@ fcitx_inputmethod_get_imlist(FcitxInputMethod* im)
             item->unique_name = strdup(unique_name);
             item->langcode = strdup(langcode);
             g_ptr_array_add(array, item);
+            g_free(name);
+            g_free(unique_name);
+            g_free(langcode);
         }
         g_variant_iter_free(iter);
 

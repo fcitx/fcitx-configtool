@@ -47,7 +47,7 @@ G_BEGIN_DECLS
 
 typedef struct {
     GtkHBox parent;
-    GtkListStore* availimstore;
+    GtkTreeStore* availimstore;
     GtkListStore* imstore;
     GtkWidget* availimview;
     GtkWidget* imview;
