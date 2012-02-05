@@ -115,11 +115,8 @@ fcitx_main_window_init(FcitxMainWindow* self)
     gtk_widget_set_size_request(GTK_WIDGET(self), -1, 500);
 
     self->hpaned = gtk_hpaned_new();
-    GtkWidget *treescroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(treescroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-    gtk_container_add(GTK_CONTAINER(treescroll), self->pageview);
-    gtk_paned_add1(GTK_PANED(self->hpaned), treescroll);
+    gtk_paned_add1(GTK_PANED(self->hpaned), self->pageview);
 
     gtk_box_pack_start(GTK_BOX(vbox), self->hpaned, TRUE, TRUE, 0);
 
