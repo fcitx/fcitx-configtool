@@ -194,7 +194,11 @@ GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
 {
     size_t size, i;
     GList* result = NULL;
+#if FCITX_CHECK_VERSION(4,2,1)
+    char** xdgpath = FcitxXDGGetPathWithPrefix(&size, "");
+#else
     char** xdgpath = FcitxXDGGetPath(&size, "XDG_CONFIG_HOME", ".config" , PACKAGE , DATADIR, PACKAGE);
+#endif
 
     for (i = 0; i < size; i ++) {
         char* dirpath = realpath(xdgpath[i], NULL);
