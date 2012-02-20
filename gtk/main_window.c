@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010~2011 by CSSlayer                                   *
+ *   Copyright (C) 2010~2012 by CSSlayer                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,6 +35,13 @@
 enum {
     LIST_ADDON,
     N_COLUMNS
+};
+
+enum {
+    PAGE_LIST_NAME,
+    PAGE_LIST_PAGE,
+    PAGE_LIST_ICON,
+    PAGE_N_COLUMNS
 };
 
 G_DEFINE_TYPE(FcitxMainWindow, fcitx_main_window, GTK_TYPE_WINDOW)
@@ -90,13 +97,18 @@ fcitx_main_window_class_init(FcitxMainWindowClass *klass)
 static void
 fcitx_main_window_init(FcitxMainWindow* self)
 {
-    GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
-
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
+    GtkWidget* vbox = gtk_vbox_new(FALSE, 0);
+    GtkWidget* hbox = gtk_hbox_new(FALSE, 0);
 
     self->pagestore = _fcitx_main_window_create_model();
     self->pageview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->pagestore));
+    renderer = gtk_cell_renderer_pixbuf_new();
+    column = gtk_tree_view_column_new_with_attributes(
+                 _("Config"), renderer,
+                 "text", 0,
+                 NULL);
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(
@@ -111,14 +123,17 @@ fcitx_main_window_init(FcitxMainWindow* self)
     _fcitx_main_window_add_config_file_page(self);
     _fcitx_main_window_add_addon_page(self);
 
-    gtk_widget_set_size_request(self->pageview, 170, -1);
     gtk_widget_set_size_request(GTK_WIDGET(self), -1, 500);
 
-    self->hpaned = gtk_hpaned_new();
+    self->vbox = gtk_vbox_new(FALSE, 0);
+    self->pagelabel = gtk_label_new("");
+    gtk_label_set_use_markup(GTK_LABEL(self->pagelabel), true);
+    gtk_misc_set_alignment(GTK_MISC(self->pagelabel), 0, 0.5);
 
-    gtk_paned_add1(GTK_PANED(self->hpaned), self->pageview);
-
-    gtk_box_pack_start(GTK_BOX(vbox), self->hpaned, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(self->vbox), self->pagelabel, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), self->pageview, FALSE, TRUE, 10);
+    gtk_box_pack_start(GTK_BOX(hbox), self->vbox, TRUE, TRUE, 10);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 15);
 
     gtk_container_add(GTK_CONTAINER(self), vbox);
 
@@ -183,13 +198,20 @@ void _fcitx_main_window_selection_changed_cb(GtkTreeSelection *selection, gpoint
     FcitxMainWindow* self = data;
 
     if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
+        gchar* title;
         gtk_tree_model_get(model, &iter,
-                           1, &page,
+                           PAGE_LIST_NAME, &title,
+                           PAGE_LIST_PAGE, &page,
                            -1);
+        
+        gchar* text = g_strdup_printf("<b>%s</b>", title);
+        gtk_label_set_markup(GTK_LABEL(self->pagelabel), text);
+        g_free(text);
+        g_free(title);
 
         if (self->lastpage)
-            gtk_container_remove(GTK_CONTAINER(self->hpaned), self->lastpage->page);
-        gtk_paned_add2(GTK_PANED(self->hpaned), page->page);
+            gtk_container_remove(GTK_CONTAINER(self->vbox), self->lastpage->page);
+        gtk_box_pack_end(GTK_BOX(self->vbox), page->page, TRUE, TRUE, 8);
         gtk_widget_show_all(GTK_WIDGET(self));
 
         self->lastpage = page;
@@ -226,7 +248,7 @@ void _fcitx_main_window_addon_selection_changed(GtkTreeSelection *selection, gpo
 
 static GtkListStore *_fcitx_main_window_create_model()
 {
-    GtkListStore* store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
+    GtkListStore* store = gtk_list_store_new(PAGE_N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING);
     return store;
 }
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010~2011 by CSSlayer                                   *
+ *   Copyright (C) 2010~2012 by CSSlayer                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -144,17 +144,17 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
             if (codesc == NULL)
                 continue;
 
+            GtkWidget* hbox = gtk_hbox_new(FALSE, 0);
             GtkWidget *table = gtk_table_new(2, HASH_COUNT(codesc), FALSE);
             GtkWidget *plabel = gtk_label_new(D_(cfdesc->domain, cgdesc->groupName));
             GtkWidget *scrollwnd = gtk_scrolled_window_new(NULL, NULL);
-            GtkWidget *viewport = gtk_viewport_new(NULL, NULL);
 
-            gtk_container_set_border_width(GTK_CONTAINER(table), 4);
+            gtk_container_set_border_width(GTK_CONTAINER(table), 0);
             gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwnd), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-            gtk_container_add(GTK_CONTAINER(scrollwnd), viewport);
-            gtk_container_add(GTK_CONTAINER(viewport), table);
+            gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwnd), table);
+            gtk_box_pack_start(GTK_BOX(hbox), scrollwnd, TRUE, TRUE, 0);
             gtk_notebook_append_page(GTK_NOTEBOOK(configNotebook),
-                                     scrollwnd,
+                                     hbox,
                                      plabel);
 
             int i = 0;
