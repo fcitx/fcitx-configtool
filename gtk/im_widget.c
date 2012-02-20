@@ -62,6 +62,10 @@ static gboolean _fcitx_im_widget_filter_func(GtkTreeModel *model,
         GtkTreeIter  *iter,
         gpointer      data);
 static const gchar* _get_current_lang();
+static void icon_press_cb (GtkEntry       *entry,
+               gint            position,
+               GdkEventButton *event,
+               gpointer        data);
 
 static void
 fcitx_im_widget_class_init(FcitxImWidgetClass *klass)
@@ -86,6 +90,9 @@ fcitx_im_widget_init(FcitxImWidget* self)
 
     GtkWidget* label = gtk_label_new(_("Available Input Method"));
     self->filterentry = gtk_entry_new();
+    gtk_entry_set_icon_from_stock (GTK_ENTRY (self->filterentry),
+                                    GTK_ENTRY_ICON_SECONDARY,
+                                    GTK_STOCK_CLEAR);
 
     GtkCellRenderer* renderer;
     GtkTreeViewColumn* column;
@@ -184,6 +191,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     g_signal_connect(G_OBJECT(self->movedownbutton), "clicked", G_CALLBACK(_fcitx_im_widget_movedown_button_clicked), self);
     g_signal_connect(G_OBJECT(self->filterentry), "changed", G_CALLBACK(_fcitx_im_widget_filtertext_changed), self);
     g_signal_connect(G_OBJECT(self->onlycurlangcheckbox), "toggled", G_CALLBACK(_fcitx_im_widget_onlycurlangcheckbox_toggled), self);
+    g_signal_connect(G_OBJECT(self->filterentry), "icon-press", G_CALLBACK (icon_press_cb), NULL);
 
 
     _fcitx_im_widget_connect(self);
@@ -523,4 +531,13 @@ static const gchar* _get_current_lang()
     if (!lang)
         lang = "C";
     return lang;
+}
+
+static void
+icon_press_cb (GtkEntry       *entry,
+               gint            position,
+               GdkEventButton *event,
+               gpointer        data)
+{
+    gtk_entry_set_text (entry, "");
 }

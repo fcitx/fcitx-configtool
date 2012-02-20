@@ -60,7 +60,7 @@ static int _fcitx_main_window_close_cb(GtkWidget *theWindow, gpointer data);
 
 static void _fcitx_main_window_selection_changed_cb(GtkTreeSelection *selection, gpointer data);
 
-static ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget);
+static ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget, const char* stock);
 
 static void _fcitx_main_window_addon_selection_changed(GtkTreeSelection *selection, gpointer data);
 
@@ -107,13 +107,14 @@ fcitx_main_window_init(FcitxMainWindow* self)
     renderer = gtk_cell_renderer_pixbuf_new();
     column = gtk_tree_view_column_new_with_attributes(
                  _("Config"), renderer,
-                 "text", 0,
+                 "stock_id", PAGE_LIST_ICON,
                  NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(self->pageview), column);
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(
                  _("Config"), renderer,
-                 "text", 0,
+                 "text", PAGE_LIST_NAME,
                  NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(self->pageview), column);
 
@@ -130,10 +131,13 @@ fcitx_main_window_init(FcitxMainWindow* self)
     gtk_label_set_use_markup(GTK_LABEL(self->pagelabel), true);
     gtk_misc_set_alignment(GTK_MISC(self->pagelabel), 0, 0.5);
 
-    gtk_box_pack_start(GTK_BOX(self->vbox), self->pagelabel, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(hbox), self->pageview, FALSE, TRUE, 10);
-    gtk_box_pack_start(GTK_BOX(hbox), self->vbox, TRUE, TRUE, 10);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 15);
+    gtk_box_pack_start(GTK_BOX(self->vbox), self->pagelabel, FALSE, FALSE, 14);
+    GtkWidget* scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_NEVER);
+    gtk_container_add(GTK_CONTAINER(scrolledwindow), self->pageview);
+    gtk_box_pack_start(GTK_BOX(hbox), scrolledwindow, FALSE, TRUE, 4);
+    gtk_box_pack_start(GTK_BOX(hbox), self->vbox, TRUE, TRUE, 8);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 8);
 
     gtk_container_add(GTK_CONTAINER(self), vbox);
 
@@ -172,7 +176,7 @@ int _fcitx_main_window_close_cb(GtkWidget *theWindow, gpointer data)
     return 0;
 }
 
-ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget)
+ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget, const char* stock)
 {
     ConfigPage *page = (ConfigPage*) malloc(sizeof(ConfigPage));
     memset(page, 0, sizeof(ConfigPage));
@@ -184,7 +188,7 @@ ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name,
     gtk_widget_show_all(widget);
 
     gtk_list_store_append(self->pagestore, &page->iter);
-    gtk_list_store_set(self->pagestore, &page->iter, 0, name, 1, page, -1);
+    gtk_list_store_set(self->pagestore, &page->iter, 0, name, 1, page, 2, stock, -1);
 
     return page;
 }
@@ -211,7 +215,7 @@ void _fcitx_main_window_selection_changed_cb(GtkTreeSelection *selection, gpoint
 
         if (self->lastpage)
             gtk_container_remove(GTK_CONTAINER(self->vbox), self->lastpage->page);
-        gtk_box_pack_end(GTK_BOX(self->vbox), page->page, TRUE, TRUE, 8);
+        gtk_box_pack_end(GTK_BOX(self->vbox), page->page, TRUE, TRUE, 0);
         gtk_widget_show_all(GTK_WIDGET(self));
 
         self->lastpage = page;
@@ -272,13 +276,13 @@ void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self)
     g_signal_connect(G_OBJECT(applybutton), "clicked", G_CALLBACK(_fcitx_main_window_apply_button_clicked), config_widget);
 
 
-    self->configpage = _fcitx_main_window_add_page(self, _("Global Config"), vbox);
+    self->configpage = _fcitx_main_window_add_page(self, _("Global Config"), vbox, GTK_STOCK_PREFERENCES);
 }
 
 void _fcitx_main_window_add_im_page(FcitxMainWindow* self)
 {
     GtkWidget* imwidget = fcitx_im_widget_new();
-    self->impage = _fcitx_main_window_add_page(self, _("Input Method Configuration"), imwidget);
+    self->impage = _fcitx_main_window_add_page(self, _("Input Method Configuration"), imwidget, GTK_STOCK_EDIT);
 }
 
 void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
@@ -349,7 +353,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     g_signal_connect(G_OBJECT(selection), "changed",
                      G_CALLBACK(_fcitx_main_window_addon_selection_changed), self);
 
-    self->addonpage = _fcitx_main_window_add_page(self, _("Addon Configuration"), vbox);
+    self->addonpage = _fcitx_main_window_add_page(self, _("Addon Configuration"), vbox, GTK_STOCK_ADD);
 }
 
 static void
