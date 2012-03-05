@@ -132,7 +132,7 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
         bind_textdomain_codeset(cfdesc->domain, "UTF-8");
 
         FILE *fp;
-        fp = FcitxXDGGetFileWithPrefix(self->prefix, self->name, "rt", NULL);
+        fp = FcitxXDGGetFileWithPrefix(self->prefix, self->name, "r", NULL);
         self->gconfig.configFile = FcitxConfigParseConfigFileFp(fp, cfdesc);
 
         FcitxConfigGroupDesc *cgdesc = NULL;
@@ -505,7 +505,7 @@ void fcitx_config_widget_response(
         FcitxConfigResetConfigToDefaultValue(&config_widget->gconfig);
         FcitxConfigBindSync(&config_widget->gconfig);
     } else if (action == CONFIG_WIDGET_SAVE) {
-        FILE* fp = FcitxXDGGetFileUserWithPrefix(config_widget->prefix, config_widget->name, "wt", NULL);
+        FILE* fp = FcitxXDGGetFileUserWithPrefix(config_widget->prefix, config_widget->name, "w", NULL);
 
         if (fp) {
             FcitxConfigSaveConfigFileFp(fp, &config_widget->gconfig, config_widget->cfdesc);
