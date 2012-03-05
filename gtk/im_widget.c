@@ -215,7 +215,7 @@ void fcitx_im_widget_finalize(GObject* object)
         g_ptr_array_free(self->array, FALSE);
         self->array = NULL;
     }
-
+    g_free(self->focus);
 }
 
 void _fcitx_im_widget_imlist_changed_cb(FcitxInputMethod* im, gpointer user_data)
@@ -262,6 +262,10 @@ void _fcitx_im_widget_load(FcitxImWidget* self)
         g_ptr_array_foreach(self->array, _fcitx_inputmethod_insert_foreach_cb, &ct);
         g_hash_table_unref(ct.langTable);
         
+        _fcitx_im_widget_im_selection_changed(gtk_tree_view_get_selection(GTK_TREE_VIEW(self->imview)), self);
+        g_free(self->focus);
+        self->focus = NULL;
+        
         if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)))
             gtk_tree_view_expand_all (GTK_TREE_VIEW(self->availimview));
     }
@@ -284,8 +288,12 @@ void _fcitx_inputmethod_insert_foreach_cb(gpointer data,
         char* lang = NULL;
         if (strlen(item->langcode) != 0)
             lang = gdm_get_language_from_name(item->langcode, NULL);
-        if (!lang)
-            lang = g_strdup_printf("%s", _("Unknown"));
+        if (!lang) {
+            if (strcmp(item->langcode, "*") == 0)
+                lang = g_strdup_printf("%s", _("Unknown"));
+            else
+                lang = g_strdup_printf("%s", _("Unknown"));
+        }
         gtk_tree_store_set(self->availimstore, langIter, AVAIL_TREE_IM_STRING, lang, -1);
         gtk_tree_store_set(self->availimstore, langIter, AVAIL_TREE_LANG, item->langcode, -1);
         gtk_tree_store_set(self->availimstore, langIter, AVAIL_TREE_IM, NULL, -1);
@@ -298,6 +306,10 @@ void _fcitx_inputmethod_insert_foreach_cb(gpointer data,
         gtk_list_store_append(self->imstore, &iter);
         gtk_list_store_set(self->imstore, &iter, IM_LIST_IM_STRING, item->name, -1);
         gtk_list_store_set(self->imstore, &iter, IM_LIST_IM, item, -1);
+        if (g_strcmp0(self->focus, item->unique_name) == 0) {
+            GtkTreeSelection* selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->imview));
+            gtk_tree_selection_select_iter(selection, &iter);
+        }
     } else {
         
         gtk_tree_store_append(self->availimstore, &iter, langIter);
@@ -376,6 +388,9 @@ void _fcitx_im_widget_addim_button_clicked(GtkButton* button, gpointer user_data
 
         g_ptr_array_remove(self->array, item);
         g_ptr_array_add(self->array, item);
+        
+        g_free(self->focus);
+        self->focus = g_strdup(item->unique_name);
 
         fcitx_inputmethod_set_imlist(self->improxy, self->array);
     }
@@ -432,6 +447,8 @@ void _fcitx_im_widget_moveup_button_clicked(GtkButton* button, gpointer user_dat
             gpointer temp = g_ptr_array_index(self->array, i);
             g_ptr_array_index(self->array, i) = g_ptr_array_index(self->array, switch_index);
             g_ptr_array_index(self->array, switch_index) = temp;
+            g_free(self->focus);
+            self->focus = g_strdup(item->unique_name);
 
             fcitx_inputmethod_set_imlist(self->improxy, self->array);
         }
@@ -468,6 +485,8 @@ void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer user_d
             gpointer temp = g_ptr_array_index(self->array, i);
             g_ptr_array_index(self->array, i) = g_ptr_array_index(self->array, switch_index);
             g_ptr_array_index(self->array, switch_index) = temp;
+            g_free(self->focus);
+            self->focus = g_strdup(item->unique_name);
 
             fcitx_inputmethod_set_imlist(self->improxy, self->array);
         }

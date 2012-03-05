@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-19 01:04+0800\n"
+"POT-Creation-Date: 2012-03-05 13:19+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,24 +25,28 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:87
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:91
 msgid "Available Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:94
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:145
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:101
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:152
 msgid "Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:107
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:114
 msgid "Only Show Current Language"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:138
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:145
 msgid "Current Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:280
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:293
+msgid "Multilingual"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:295
 msgid "Unknown"
 msgstr ""
 
@@ -54,26 +58,27 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:103
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:109
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:116
 msgid "Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:135
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:154
 msgid "Fcitx Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:253
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:279
 msgid "Global Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:259
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:285
 msgid "Input Method Configuration"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:319
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:345
 msgid "Configure"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:330
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:356
 msgid "Addon Configuration"
 msgstr ""
