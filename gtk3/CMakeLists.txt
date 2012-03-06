@@ -1,5 +1,4 @@
 PKG_CHECK_MODULES (GTK3 "gtk+-3.0" REQUIRED)
-PKG_CHECK_MODULES(UNIQUE3 "unique-3.0")
 
 include_directories (
     ${GTK3_INCLUDE_DIRS}
@@ -17,22 +16,18 @@ link_directories (
     ${FCITX4_FCITX_UTILS_LIBRARY_DIRS}
     ${FCITX4_FCITX_CONFIG_LIBRARY_DIRS}
 )
-if (UNIQUE3_FOUND)
-    include_directories (${UNIQUE3_INCLUDE_DIRS})
-    link_directories (${UNIQUE3_LIBRARY_DIRS})
-endif (UNIQUE3_FOUND)
 
 set( fcitx_config_gtk3_sources
-    ../gtk/sub_config_parser.c
-    ../gtk/sub_config_widget.c
-    ../gtk/config_widget.c
-    ../gtk/configdesc.c
-    ../gtk/keygrab.c
-    ../gtk/main.c
-    ../gtk/main_window.c
-    ../gtk/im_widget.c
-    ../gtk/im.c
-    ../gtk/gdm-languages.c
+    sub_config_parser.c
+    sub_config_widget.c
+    config_widget.c
+    configdesc.c
+    keygrab.c
+    main.c
+    main_window.c
+    im_widget.c
+    im.c
+    gdm-languages.c
 )
 
 add_executable( fcitx-config-gtk3 ${fcitx_config_gtk3_sources} )
@@ -46,8 +41,4 @@ target_link_libraries (fcitx-config-gtk3
                        ${FCITX4_FCITX_LIBRARIES}
                        ${GIO2_LIBRARIES}
 )
-
-if (UNIQUE3_FOUND)
-    target_link_libraries (fcitx-config-gtk3 ${UNIQUE3_LIBRARIES})
-endif (UNIQUE3_FOUND)
 
