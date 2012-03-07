@@ -93,7 +93,9 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_entry_set_icon_from_stock (GTK_ENTRY (self->filterentry),
                                     GTK_ENTRY_ICON_SECONDARY,
                                     GTK_STOCK_CLEAR);
+#if GTK_CHECK_VERSION(3,2,0)
     gtk_entry_set_placeholder_text(GTK_ENTRY (self->filterentry), _("Search Input Method"));
+#endif
 
     GtkCellRenderer* renderer;
     GtkTreeViewColumn* column;
