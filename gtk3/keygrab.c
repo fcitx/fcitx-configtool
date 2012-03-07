@@ -81,15 +81,32 @@ void begin_key_grab(KeyGrabButton* self, gpointer v)
     b->popup = popup_new(GTK_WIDGET(self), _("Please press the new key combination"), FALSE);
     gtk_widget_show_all(b->popup);
     b->handler = g_signal_connect(G_OBJECT(b->popup), "key-press-event", (GCallback)on_key_press_event, b);
+    
+    GdkWindow* window = gtk_widget_get_window(GTK_WIDGET(b->popup));
+    GdkDisplay* display = gdk_window_get_display (window);
+    GdkDeviceManager* device_manager = gdk_display_get_device_manager (display);
+    GdkDevice* pointer = gdk_device_manager_get_client_pointer (device_manager);
+    GdkDevice* keyboard = gdk_device_get_associated_device (pointer);
 
-    while (gdk_keyboard_grab(gtk_widget_get_window(GTK_WIDGET(b->popup)), FALSE, GDK_CURRENT_TIME) != GDK_GRAB_SUCCESS)
+    while (gdk_device_grab(
+        keyboard,
+        window,
+        GDK_OWNERSHIP_NONE, FALSE,
+        GDK_KEY_PRESS | GDK_KEY_RELEASE,
+        NULL,
+        GDK_CURRENT_TIME) != GDK_GRAB_SUCCESS)
         usleep(100);
 }
 
 void end_key_grab(KeyGrabButton *self)
 {
     KeyGrabButton* b = KEYGRAB_BUTTON(self);
-    gdk_keyboard_ungrab(gtk_get_current_event_time());
+    GdkWindow* window = gtk_widget_get_window(GTK_WIDGET(b->popup));
+    GdkDisplay* display = gdk_window_get_display (window);
+    GdkDeviceManager* device_manager = gdk_display_get_device_manager (display);
+    GdkDevice* pointer = gdk_device_manager_get_client_pointer (device_manager);
+    GdkDevice* keyboard = gdk_device_get_associated_device (pointer);
+    gdk_device_ungrab(keyboard, gtk_get_current_event_time());
     g_signal_handler_disconnect(b->popup, b->handler);
     gtk_widget_destroy(b->popup);
 }

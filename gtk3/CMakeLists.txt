@@ -2,6 +2,7 @@ PKG_CHECK_MODULES (GTK3 "gtk+-3.0" REQUIRED)
 
 include_directories (
     ${GTK3_INCLUDE_DIRS}
+    ${GLIB2_INCLUDE_DIRS}
     ${GIO2_INCLUDE_DIRS}
     ${FCITX4_FCITX_INCLUDE_DIRS}
     ${FCITX4_FCITX_UTILS_INCLUDE_DIRS}
@@ -10,6 +11,7 @@ include_directories (
 
 link_directories (
     ${GTK3_LIBRARY_DIRS}
+    ${GLIB2_LIBRARY_DIRS}
     ${GIO2_LIBRARY_DIRS}
     ${FCITX4_FCITX_LIBRARY_DIRS}
     ${FCITX4_FCITX_UTILS_LIBRARY_DIRS}
@@ -38,6 +40,7 @@ target_link_libraries (fcitx-config-gtk3
                        ${FCITX4_FCITX_UTILS_LIBRARIES}
                        ${FCITX4_FCITX_CONFIG_LIBRARIES}
                        ${FCITX4_FCITX_LIBRARIES}
+                       ${GLIB2_LIBRARIES}
                        ${GIO2_LIBRARIES}
 )
 

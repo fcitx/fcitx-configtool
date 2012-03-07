@@ -7,6 +7,13 @@ option(ENABLE_GTK3 "Enable GTK3 Version" Off)
 
 find_package(PkgConfig REQUIRED)
 
+if (ENABLE_GTK3)
+set(GLIB_REQUIRED_VERSION "2.28")
+else (ENABLE_GTK3)
+set(GLIB_REQUIRED_VERSION "2.26")
+endif (ENABLE_GTK3)
+
+PKG_CHECK_MODULES (GLIB2 "glib-2.0 >= ${GLIB_REQUIRED_VERSION}" REQUIRED)
 PKG_CHECK_MODULES (GIO2 "gio-2.0 >= 2.26" REQUIRED)
 PKG_CHECK_MODULES(ISO_CODES "iso-codes" REQUIRED)
 _pkgconfig_invoke("iso-codes" ISO_CODES PREFIX "" "--variable=prefix")

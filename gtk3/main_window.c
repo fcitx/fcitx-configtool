@@ -97,8 +97,8 @@ fcitx_main_window_class_init(FcitxMainWindowClass *klass)
 static void
 fcitx_main_window_init(FcitxMainWindow* self)
 {
-    GtkWidget* vbox = gtk_vbox_new(FALSE, 0);
-    GtkWidget* hbox = gtk_hbox_new(FALSE, 0);
+    GtkWidget* vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    GtkWidget* hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
     self->pagestore = _fcitx_main_window_create_model();
     self->pageview = gtk_icon_view_new_with_model(GTK_TREE_MODEL(self->pagestore));
@@ -113,7 +113,7 @@ fcitx_main_window_init(FcitxMainWindow* self)
 
     gtk_widget_set_size_request(GTK_WIDGET(self), -1, 500);
 
-    self->vbox = gtk_vbox_new(FALSE, 0);
+    self->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     self->pagelabel = gtk_label_new("");
     gtk_label_set_use_markup(GTK_LABEL(self->pagelabel), true);
     gtk_misc_set_alignment(GTK_MISC(self->pagelabel), 0, 0.5);
@@ -262,7 +262,7 @@ static GtkListStore *_fcitx_main_window_create_model()
 
 void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self)
 {
-    GtkWidget* vbox = gtk_vbox_new(0, 0);
+    GtkWidget* vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     FcitxConfigWidget* config_widget = fcitx_config_widget_new(
                                            get_config_desc("config.desc"),
@@ -272,7 +272,7 @@ void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self)
                                        );
     gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(config_widget), TRUE, TRUE, 0);
 
-    GtkWidget* hbuttonbox = gtk_hbutton_box_new();
+    GtkWidget* hbuttonbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_box_pack_start(GTK_BOX(vbox), hbuttonbox, FALSE, TRUE, 0);
 
     GtkWidget* applybutton = gtk_button_new_from_stock(GTK_STOCK_APPLY);
@@ -295,7 +295,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     utarray_new(self->addons, &addonicd);
     FcitxAddonsLoad(self->addons);
 
-    GtkWidget* vbox = gtk_vbox_new(FALSE, 0);
+    GtkWidget* vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     GtkListStore *store;
     store = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
@@ -343,7 +343,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
         gtk_list_store_set(store, &iter, LIST_ADDON, addon, -1);
     }
 
-    GtkWidget* hbuttonbox = gtk_hbutton_box_new();
+    GtkWidget* hbuttonbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_box_pack_start(GTK_BOX(vbox), hbuttonbox, FALSE, TRUE, 0);
 
     self->button = gtk_button_new_with_label(_("Configure"));

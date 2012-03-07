@@ -43,13 +43,13 @@ G_BEGIN_DECLS
     (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_SUB_CONFIG_WIDGET, FcitxSubConfigWidgetClass))
 
 typedef struct {
-    GtkVBox parent;
+    GtkBox parent;
     FcitxSubConfig* subconfig;
     GtkWidget* view;
 } FcitxSubConfigWidget;
 
 typedef struct {
-    GtkVBoxClass parent_class;
+    GtkBoxClass parent_class;
 } FcitxSubConfigWidgetClass;
 
 GType fcitx_sub_config_widget_get_type(void);

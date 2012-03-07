@@ -25,7 +25,7 @@
 #include "configdesc.h"
 #include "config_widget.h"
 
-G_DEFINE_TYPE(FcitxSubConfigWidget, fcitx_sub_config_widget, GTK_TYPE_VBOX)
+G_DEFINE_TYPE(FcitxSubConfigWidget, fcitx_sub_config_widget, GTK_TYPE_BOX)
 
 static void open_subconfig_file(GtkButton *button, gpointer user_data);
 static void open_native_file(GtkButton *button, gpointer user_data);

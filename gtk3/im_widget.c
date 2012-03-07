@@ -26,7 +26,7 @@
 #include "im.h"
 #include "gdm-languages.h"
 
-G_DEFINE_TYPE(FcitxImWidget, fcitx_im_widget, GTK_TYPE_HBOX)
+G_DEFINE_TYPE(FcitxImWidget, fcitx_im_widget, GTK_TYPE_BOX)
 
 enum {
     AVAIL_TREE_IM_STRING,
@@ -118,7 +118,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox), TRUE);
 
     GtkWidget* vbox;
-    vbox = gtk_vbox_new(FALSE, 0);
+    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(vbox), self->filterentry, FALSE, TRUE, 5);
     GtkWidget* scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
@@ -128,7 +128,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_box_pack_start(GTK_BOX(vbox), self->onlycurlangcheckbox, FALSE, TRUE, 5);
     gtk_box_pack_start(GTK_BOX(self), vbox, TRUE, TRUE, 5);
 
-    vbox = gtk_vbox_new(FALSE, 0);
+    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     self->addimbutton = gtk_button_new();
     gtk_button_set_image(GTK_BUTTON(self->addimbutton), gtk_image_new_from_stock(GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON));
@@ -162,7 +162,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
     g_signal_connect(G_OBJECT(selection), "changed",
                      G_CALLBACK(_fcitx_im_widget_im_selection_changed), self);
-    vbox = gtk_vbox_new(FALSE, 0);
+    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 5);
     scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
@@ -171,7 +171,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
 
     gtk_box_pack_start(GTK_BOX(self), GTK_WIDGET(vbox), TRUE, TRUE, 5);
 
-    vbox = gtk_vbox_new(FALSE, 0);
+    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     self->moveupbutton = gtk_button_new();
     gtk_button_set_image(GTK_BUTTON(self->moveupbutton), gtk_image_new_from_stock(GTK_STOCK_GO_UP, GTK_ICON_SIZE_BUTTON));

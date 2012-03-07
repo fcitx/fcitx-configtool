@@ -39,12 +39,12 @@
 #define D_(d, x) dgettext (d, x)
 #define RoundColor(c) ((c)>=0?((c)<=255?c:255):0)
 
-G_DEFINE_TYPE(FcitxConfigWidget, fcitx_config_widget, GTK_TYPE_VBOX)
+G_DEFINE_TYPE(FcitxConfigWidget, fcitx_config_widget, GTK_TYPE_BOX)
 
 typedef struct {
     int i;
     FcitxConfigWidget* widget;
-    GtkWidget* table;
+    GtkWidget* grid;
 } HashForeachContext;
 
 enum {
@@ -144,14 +144,17 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
             if (codesc == NULL)
                 continue;
 
-            GtkWidget* hbox = gtk_hbox_new(FALSE, 0);
-            GtkWidget *table = gtk_table_new(2, HASH_COUNT(codesc), FALSE);
+            GtkWidget* hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+            GtkWidget *grid = gtk_grid_new();
+            gtk_widget_set_margin_left(grid, 12);
+            gtk_widget_set_margin_top(grid, 6);
+            gtk_grid_set_row_spacing(GTK_GRID(grid), 12);
+            gtk_grid_set_column_spacing(GTK_GRID(grid), 6);
             GtkWidget *plabel = gtk_label_new(D_(cfdesc->domain, cgdesc->groupName));
             GtkWidget *scrollwnd = gtk_scrolled_window_new(NULL, NULL);
 
-            gtk_container_set_border_width(GTK_CONTAINER(table), 0);
             gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwnd), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-            gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwnd), table);
+            gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwnd), grid);
             gtk_box_pack_start(GTK_BOX(hbox), scrollwnd, TRUE, TRUE, 0);
             gtk_notebook_append_page(GTK_NOTEBOOK(configNotebook),
                                      hbox,
@@ -183,7 +186,7 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
                     argument = inputWidget;
                     break;
                 case T_Font: {
-                    inputWidget = gtk_hbox_new(FALSE, 0);
+                    inputWidget = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
                     argument = gtk_font_button_new();
                     GtkWidget *button = gtk_button_new_with_label(_("Clear font setting"));
                     gtk_box_pack_start(GTK_BOX(inputWidget), argument, TRUE, TRUE, 0);
@@ -215,7 +218,7 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
                     GtkWidget *button[2];
                     button[0] = keygrab_button_new();
                     button[1] = keygrab_button_new();
-                    inputWidget = gtk_hbox_new(FALSE, 0);
+                    inputWidget = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
                     gtk_box_pack_start(GTK_BOX(inputWidget), button[0], FALSE, TRUE, 0);
                     gtk_box_pack_start(GTK_BOX(inputWidget), button[1], FALSE, TRUE, 0);
                     argument = g_array_new(FALSE, FALSE, sizeof(void*));
@@ -236,8 +239,8 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
                 if (inputWidget) {
                     GtkWidget* label = gtk_label_new(s);
                     g_object_set(label, "xalign", 0.0f, NULL);
-                    gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i + 1, GTK_FILL, GTK_SHRINK, 5, 5);
-                    gtk_table_attach(GTK_TABLE(table), inputWidget, 1, 2, i, i + 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 4);
+                    gtk_grid_attach(GTK_GRID(grid), label, 0, i, 1, 1);
+                    gtk_grid_attach(GTK_GRID(grid), inputWidget, 1, i, 1, 1);
                     FcitxConfigBindValue(self->gconfig.configFile, cgdesc->groupName, codesc->optionName, NULL, sync_filter, argument);
                 }
             }
@@ -249,22 +252,22 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
     if (self->parser) {
         GHashTable* subconfigs = self->parser->subconfigs;
         if (g_hash_table_size(subconfigs) != 0) {
-            GtkWidget *table = gtk_table_new(2, g_hash_table_size(subconfigs), FALSE);
+            GtkWidget *grid = gtk_grid_new();
             GtkWidget *plabel = gtk_label_new(_("Other"));
             GtkWidget *scrollwnd = gtk_scrolled_window_new(NULL, NULL);
             GtkWidget *viewport = gtk_viewport_new(NULL, NULL);
 
-            gtk_container_set_border_width(GTK_CONTAINER(table), 4);
+            gtk_container_set_border_width(GTK_CONTAINER(grid), 4);
             gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwnd), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
             gtk_container_add(GTK_CONTAINER(scrollwnd), viewport);
-            gtk_container_add(GTK_CONTAINER(viewport), table);
+            gtk_container_add(GTK_CONTAINER(viewport), grid);
             gtk_notebook_append_page(GTK_NOTEBOOK(configNotebook),
                                      scrollwnd,
                                      plabel);
 
             HashForeachContext context;
             context.i = 0;
-            context.table = table;
+            context.grid = grid;
             context.widget = self;
             g_hash_table_foreach(subconfigs, hash_foreach_cb, &context);
         }
@@ -347,9 +350,9 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
             g = RoundColor(g);
             b = RoundColor(b);
             snprintf(scolor, 8 , "#%02X%02X%02X", r, g, b);
-            GdkColor color;
-            gdk_color_parse(scolor, &color);
-            gtk_color_button_set_color(GTK_COLOR_BUTTON(arg), &color);
+            GdkRGBA color;
+            gdk_rgba_parse(&color, scolor);
+            gtk_color_button_set_rgba(GTK_COLOR_BUTTON(arg), &color);
         }
         break;
         case T_Boolean: {
@@ -414,8 +417,8 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
         break;
         case T_Color: {
             int r = 0, g = 0, b = 0;
-            GdkColor color;
-            gtk_color_button_get_color(GTK_COLOR_BUTTON(arg), &color);
+            GdkRGBA color;
+            gtk_color_button_get_rgba(GTK_COLOR_BUTTON(arg), &color);
             r = color.red / 256;
             g = color.green / 256;
             b = color.blue / 256;
@@ -550,8 +553,8 @@ void hash_foreach_cb(gpointer       key,
 
     GtkWidget *inputWidget = GTK_WIDGET(fcitx_sub_config_widget_new(subconfig));
 
-    gtk_table_attach(GTK_TABLE(context->table), label, 0, 1, i, i + 1, GTK_FILL, GTK_SHRINK, 5, 5);
-    gtk_table_attach(GTK_TABLE(context->table), inputWidget, 1, 2, i, i + 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 4);
+    gtk_grid_attach(GTK_GRID(context->grid), label, 0, i, 1,  1);
+    gtk_grid_attach(GTK_GRID(context->grid), inputWidget, 1, i, 1, 1);
     context->i ++;
 }
 

@@ -47,7 +47,7 @@ G_BEGIN_DECLS
     (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_CONFIG_WIDGET, FcitxConfigWidgetClass))
 
 typedef struct {
-    GtkVBox parent;
+    GtkBox parent;
     FcitxConfigFileDesc* cfdesc;
     gchar* prefix;
     gchar* name;
@@ -56,7 +56,7 @@ typedef struct {
 } FcitxConfigWidget;
 
 typedef struct {
-    GtkVBoxClass parent_class;
+    GtkBoxClass parent_class;
 } FcitxConfigWidgetClass;
 
 typedef enum {
