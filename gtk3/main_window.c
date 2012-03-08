@@ -56,8 +56,6 @@ static void _fcitx_main_window_add_addon_page(FcitxMainWindow* self);
 
 static void _fcitx_main_window_add_im_page(FcitxMainWindow* self);
 
-static int _fcitx_main_window_close_cb(GtkWidget *theWindow, gpointer data);
-
 static void _fcitx_main_window_selection_changed_cb(GtkIconView *iconview, gpointer data);
 
 static ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget, const char* stock);
@@ -135,7 +133,7 @@ fcitx_main_window_init(FcitxMainWindow* self)
     gtk_icon_view_set_row_spacing(GTK_ICON_VIEW(self->pageview), 0);
     gtk_icon_view_set_item_width(GTK_ICON_VIEW(self->pageview), 96);
 
-    g_signal_connect(G_OBJECT(self), "destroy", G_CALLBACK(_fcitx_main_window_close_cb), NULL);
+    g_signal_connect_swapped(G_OBJECT(self), "destroy", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(self->pageview), "selection-changed",
                      G_CALLBACK(_fcitx_main_window_selection_changed_cb), self);
 
@@ -161,12 +159,6 @@ void fcitx_main_window_finalize(GObject* object)
 {
     FcitxMainWindow* self = FCITX_MAIN_WINDOW(object);
     utarray_free(self->addons);
-}
-
-int _fcitx_main_window_close_cb(GtkWidget *theWindow, gpointer data)
-{
-    gtk_main_quit();
-    return 0;
 }
 
 ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget, const char* stock)
