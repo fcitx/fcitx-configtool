@@ -133,7 +133,6 @@ fcitx_main_window_init(FcitxMainWindow* self)
     gtk_icon_view_set_row_spacing(GTK_ICON_VIEW(self->pageview), 0);
     gtk_icon_view_set_item_width(GTK_ICON_VIEW(self->pageview), 96);
 
-    g_signal_connect_swapped(G_OBJECT(self), "destroy", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(self->pageview), "selection-changed",
                      G_CALLBACK(_fcitx_main_window_selection_changed_cb), self);
 
