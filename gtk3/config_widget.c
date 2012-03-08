@@ -352,7 +352,11 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
             snprintf(scolor, 8 , "#%02X%02X%02X", r, g, b);
             GdkRGBA color;
             gdk_rgba_parse(&color, scolor);
+#if GTK_CHECK_VERSION(3,3,0)
+            gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(arg), &color);
+#else
             gtk_color_button_set_rgba(GTK_COLOR_BUTTON(arg), &color);
+#endif
         }
         break;
         case T_Boolean: {
@@ -418,7 +422,11 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
         case T_Color: {
             int r = 0, g = 0, b = 0;
             GdkRGBA color;
+#if GTK_CHECK_VERSION(3,3,0)
+            gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(arg), &color);
+#else
             gtk_color_button_get_rgba(GTK_COLOR_BUTTON(arg), &color);
+#endif
             r = color.red / 256;
             g = color.green / 256;
             b = color.blue / 256;
