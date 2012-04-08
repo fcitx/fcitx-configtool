@@ -128,6 +128,10 @@ void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v)
 
 void keygrab_button_set_key(KeyGrabButton* self, guint key, GdkModifierType mods)
 {
+    if (mods & GDK_SUPER_MASK) {
+        mods &= ~GDK_SUPER_MASK;
+        mods |= FcitxKeyState_Super;
+    }
     KeyGrabButton* b = KEYGRAB_BUTTON(self);
     gchar *label;
     b->key = key;
