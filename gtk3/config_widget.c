@@ -427,9 +427,9 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
 #else
             gtk_color_button_get_rgba(GTK_COLOR_BUTTON(arg), &color);
 #endif
-            r = color.red / 256;
-            g = color.green / 256;
-            b = color.blue / 256;
+            r = color.red * 256;
+            g = color.green * 256;
+            b = color.blue * 256;
             r = RoundColor(r);
             g = RoundColor(g);
             b = RoundColor(b);

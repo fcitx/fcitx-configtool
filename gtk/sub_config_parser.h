@@ -37,7 +37,7 @@ typedef struct {
 typedef struct {
     gchar* name;
     SubConfigType type;
-    GList* filelist;
+    GHashTable* filelist;
     gchar* nativepath;
     gchar* configdesc;
 } FcitxSubConfig;

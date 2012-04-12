@@ -32,7 +32,7 @@
 #include "sub_config_parser.h"
 
 static void sub_config_pattern_free(void* pattern);
-static GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern);
+static GHashTable* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern);
 static GList* get_files_by_pattern(const gchar* dirpath, FcitxSubConfigPattern* pattern, int index);
 static void sub_file_list_free(gpointer data, gpointer user_data);
 
@@ -185,15 +185,14 @@ void sub_config_free(FcitxSubConfig* subconfig)
     g_free(subconfig->configdesc);
     g_free(subconfig->nativepath);
     g_free(subconfig->name);
-    g_list_foreach(subconfig->filelist, sub_file_list_free, NULL);
-    g_list_free(subconfig->filelist);
+    g_hash_table_unref(subconfig->filelist);
     g_free(subconfig);
 }
 
-GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
+GHashTable* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
 {
     size_t size, i;
-    GList* result = NULL;
+    GHashTable* result = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 #if FCITX_CHECK_VERSION(4,2,1)
     char** xdgpath = FcitxXDGGetPathWithPrefix(&size, "");
 #else
@@ -213,10 +212,14 @@ GList* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
                 l = l->next) {
             if (strncmp(dirpath, (gchar*) l->data, strlen(dirpath)) == 0) {
                 gchar* filename = (gchar*) l->data;
+
+                FcitxLog(INFO, "%s", filename);
                 gchar* name = filename + strlen(dirpath);
                 while (name[0] == '/')
                     name ++;
-                result = g_list_append(result, g_strdup(name));
+                if (!g_hash_table_lookup_extended(result, name, NULL, NULL)) {
+                    g_hash_table_insert(result, g_strdup(name), NULL);
+                }
             }
         }
         g_list_foreach(list, sub_file_list_free, NULL);
