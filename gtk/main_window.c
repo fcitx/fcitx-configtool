@@ -100,10 +100,12 @@ fcitx_main_window_init(FcitxMainWindow* self)
 
     self->pagestore = _fcitx_main_window_create_model();
     self->pageview = gtk_icon_view_new_with_model(GTK_TREE_MODEL(self->pagestore));
-    
+
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(self->pageview), PAGE_LIST_ICON);
     gtk_icon_view_set_text_column(GTK_ICON_VIEW(self->pageview), PAGE_LIST_NAME);
+#if GTK_CHECK_VERSION(2, 22, 0)
     gtk_icon_view_set_item_orientation(GTK_ICON_VIEW(self->pageview), GTK_ORIENTATION_VERTICAL);
+#endif
 
     _fcitx_main_window_add_im_page(self);
     _fcitx_main_window_add_config_file_page(self);
@@ -188,7 +190,7 @@ void _fcitx_main_window_selection_changed_cb(GtkIconView* iconview, gpointer dat
     GtkTreeIter iter;
     ConfigPage* page;
     FcitxMainWindow* self = data;
-    
+
     GList* list = gtk_icon_view_get_selected_items(iconview);
 
     if (list) {
@@ -198,7 +200,7 @@ void _fcitx_main_window_selection_changed_cb(GtkIconView* iconview, gpointer dat
                            PAGE_LIST_NAME, &title,
                            PAGE_LIST_PAGE, &page,
                            -1);
-        
+
         gchar* text = g_strdup_printf("<b>%s</b>", title);
         gtk_label_set_markup(GTK_LABEL(self->pagelabel), text);
         g_free(text);
@@ -215,7 +217,7 @@ void _fcitx_main_window_selection_changed_cb(GtkIconView* iconview, gpointer dat
         gtk_icon_view_select_path(GTK_ICON_VIEW(self->pageview), path);
         gtk_tree_path_free(path);
     }
-    
+
     g_list_foreach (list, (GFunc)gtk_tree_path_free, NULL);
     g_list_free (list);
 }

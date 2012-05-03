@@ -47,7 +47,8 @@ _value_to_item (const GValue *value)
     g_assert(G_TYPE_STRING == dbus_g_type_get_struct_member_type (type, 2));
     g_assert(G_TYPE_BOOLEAN == dbus_g_type_get_struct_member_type (type, 3));
 
-    GValue cvalue = { 0, };
+    GValue cvalue;
+    memset(&cvalue, 0, sizeof(GValue));
 
     FcitxIMItem* item = g_malloc0(sizeof(FcitxIMItem));
 
@@ -108,7 +109,8 @@ _collection_iterator (const GValue *value,
 
 void fcitx_inputmethod_set_imlist(DBusGProxy* proxy, GPtrArray* array)
 {
-    GValue value = {0,};
+    GValue value;
+    memset(&value, 0, sizeof(GValue));
     g_value_init(&value, TYPE_ARRAY_IM);
     g_value_take_boxed (&value, dbus_g_type_specialized_construct (
             G_VALUE_TYPE (&value)));
@@ -124,7 +126,8 @@ void fcitx_inputmethod_set_imlist(DBusGProxy* proxy, GPtrArray* array)
 GPtrArray* fcitx_inputmethod_get_imlist(DBusGProxy* proxy)
 {
     GPtrArray *array = NULL;
-    GValue value = { 0, };
+    GValue value;
+    memset(&value, 0, sizeof(GValue));
 
     GError* error = NULL;
     dbus_g_proxy_call(proxy, "Get", &error, G_TYPE_STRING, FCITX_IM_DBUS_INTERFACE, G_TYPE_STRING, "IMList", G_TYPE_INVALID, G_TYPE_VALUE, &value, G_TYPE_INVALID);
@@ -163,7 +166,8 @@ void _fcitx_inputmethod_item_foreach_cb(gpointer       data,
     FcitxIMItem* item = data;
     DBusGTypeSpecializedAppendContext* ctx = user_data;
 
-    GValue v = { 0 };
+    GValue v;
+    memset(&v, 0, sizeof(GValue));
     _item_to_value(item, &v);
     dbus_g_type_specialized_collection_append (ctx, &v);
 }
