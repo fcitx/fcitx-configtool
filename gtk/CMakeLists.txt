@@ -35,7 +35,6 @@ set( fcitx_config_gtk_sources
     main_window.c
     im_widget.c
     im.c
-    marshall.c
     gdm-languages.c
 )
 
