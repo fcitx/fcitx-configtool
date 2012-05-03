@@ -17,11 +17,11 @@
  *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
  ***************************************************************************/
 
-#include "im.h"
 #include <dbus/dbus-glib.h>
 #include <fcitx/module/ipc/ipc.h>
 #include <string.h>
 #include <stdio.h>
+#include "im.h"
 
 #define TYPE_IM \
     dbus_g_type_get_struct("GValueArray", G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_INVALID)
@@ -32,7 +32,70 @@
 static void _fcitx_inputmethod_item_foreach_cb(gpointer       data,
         gpointer       user_data);
 
-static GVariant *g_value_to_g_variant (const GValue *value);
+static FcitxIMItem*
+_value_to_item (const GValue *value)
+{
+    const gchar *name, *unique_name, *langcode;
+    gboolean enable;
+    GType type;
+
+    type = G_VALUE_TYPE (value);
+    g_assert(dbus_g_type_is_struct (type));
+    g_assert(4 == dbus_g_type_get_struct_size (type));
+    g_assert(G_TYPE_STRING == dbus_g_type_get_struct_member_type (type, 0));
+    g_assert(G_TYPE_STRING == dbus_g_type_get_struct_member_type (type, 1));
+    g_assert(G_TYPE_STRING == dbus_g_type_get_struct_member_type (type, 2));
+    g_assert(G_TYPE_BOOLEAN == dbus_g_type_get_struct_member_type (type, 3));
+
+    GValue cvalue = { 0, };
+
+    FcitxIMItem* item = g_malloc0(sizeof(FcitxIMItem));
+
+    g_value_init (&cvalue, dbus_g_type_get_struct_member_type (type, 0));
+    dbus_g_type_struct_get_member (value, 0, &cvalue);
+    name = g_value_get_string(&cvalue);
+    item->name = strdup(name);
+    g_value_unset (&cvalue);
+
+    g_value_init (&cvalue, dbus_g_type_get_struct_member_type (type, 1));
+    dbus_g_type_struct_get_member (value, 1, &cvalue);
+    unique_name = g_value_get_string(&cvalue);
+    item->unique_name = strdup(unique_name);
+    g_value_unset (&cvalue);
+
+    g_value_init (&cvalue, dbus_g_type_get_struct_member_type (type, 2));
+    dbus_g_type_struct_get_member (value, 2, &cvalue);
+    langcode = g_value_get_string(&cvalue);
+    item->langcode = strdup(langcode);
+    g_value_unset (&cvalue);
+
+    g_value_init (&cvalue, dbus_g_type_get_struct_member_type (type, 3));
+    dbus_g_type_struct_get_member (value, 3, &cvalue);
+    enable = g_value_get_boolean(&cvalue);
+    item->enable = enable;
+    g_value_unset (&cvalue);
+    return item;
+}
+
+static void
+_item_to_value (FcitxIMItem* item, GValue *value)
+{
+    g_value_init (value, TYPE_IM);
+    GValueArray *va = g_value_array_new (4);
+    g_value_array_append (va, NULL);
+    g_value_init(&va->values[0], G_TYPE_STRING);
+    g_value_set_string(&va->values[0], item->name);
+    g_value_array_append (va, NULL);
+    g_value_init(&va->values[1], G_TYPE_STRING);
+    g_value_set_string(&va->values[1], item->unique_name);
+    g_value_array_append (va, NULL);
+    g_value_init(&va->values[2], G_TYPE_STRING);
+    g_value_set_string(&va->values[2], item->langcode);
+    g_value_array_append (va, NULL);
+    g_value_init(&va->values[3], G_TYPE_BOOLEAN);
+    g_value_set_boolean(&va->values[3], item->enable);
+    g_value_take_boxed (value, va);
+}
 
 static void
 _collection_iterator (const GValue *value,
@@ -40,160 +103,47 @@ _collection_iterator (const GValue *value,
 {
     GPtrArray *children = user_data;
 
-    g_ptr_array_add (children, g_value_to_g_variant (value));
-}
-
-static void
-_map_iterator (const GValue *kvalue,
-               const GValue *vvalue,
-               gpointer user_data)
-{
-    GPtrArray *children = user_data;
-
-    g_ptr_array_add (children,
-                     g_variant_new_dict_entry (
-                         g_value_to_g_variant (kvalue),
-                         g_value_to_g_variant (vvalue)));
-}
-
-static GVariant *
-g_value_to_g_variant (const GValue *value)
-{
-    GType type;
-
-    type = G_VALUE_TYPE (value);
-
-    if (dbus_g_type_is_collection (type))
-    {
-        GVariant *variant;
-        GPtrArray *children;
-
-        children = g_ptr_array_new ();
-        dbus_g_type_collection_value_iterate (value, _collection_iterator,
-                                              children);
-
-        variant = g_variant_new_array (NULL, (GVariant **) children->pdata,
-                                       children->len);
-        g_ptr_array_free (children, TRUE);
-
-        return variant;
-    }
-    else if (dbus_g_type_is_map (type))
-    {
-        GVariant *variant;
-        GPtrArray *children;
-
-        children = g_ptr_array_new ();
-        dbus_g_type_map_value_iterate (value, _map_iterator, children);
-
-        variant = g_variant_new_array (NULL, (GVariant **) children->pdata,
-                                       children->len);
-        g_ptr_array_free (children, TRUE);
-
-        return variant;
-    }
-    else if (dbus_g_type_is_struct (type))
-    {
-        GVariant *variant, **children;
-        guint size, i;
-
-        size = dbus_g_type_get_struct_size (type);
-        children = g_new0 (GVariant *, size);
-
-        for (i = 0; i < size; i++)
-        {
-            GValue cvalue = { 0, };
-
-            g_value_init (&cvalue, dbus_g_type_get_struct_member_type (type, i));
-            dbus_g_type_struct_get_member (value, i, &cvalue);
-
-            children[i] = g_value_to_g_variant (&cvalue);
-            g_value_unset (&cvalue);
-        }
-
-        variant = g_variant_new_tuple (children, size);
-        g_free (children);
-
-        return variant;
-    }
-    else if (type == G_TYPE_BOOLEAN)
-        return g_variant_new_boolean (g_value_get_boolean (value));
-    else if (type == G_TYPE_UCHAR)
-        return g_variant_new_byte (g_value_get_uchar (value));
-    else if (type == G_TYPE_INT)
-        return g_variant_new_int32 (g_value_get_int (value));
-    else if (type == G_TYPE_UINT)
-        return g_variant_new_uint32 (g_value_get_uint (value));
-    else if (type == G_TYPE_INT64)
-        return g_variant_new_int64 (g_value_get_int64 (value));
-    else if (type == G_TYPE_UINT64)
-        return g_variant_new_uint64 (g_value_get_uint64 (value));
-    else if (type == G_TYPE_DOUBLE)
-        return g_variant_new_double (g_value_get_double (value));
-    else if (type == G_TYPE_STRING)
-        return g_variant_new_string (g_value_get_string (value));
-    else if (type == G_TYPE_STRV)
-        return g_variant_new_strv (g_value_get_boxed (value), -1);
-    else if (type == DBUS_TYPE_G_OBJECT_PATH)
-        return g_variant_new_object_path (g_value_get_boxed (value));
-    else if (type == G_TYPE_VALUE)
-        return g_variant_new_variant (
-                   g_value_to_g_variant (g_value_get_boxed (value)));
-    else
-    {
-        g_error ("Unknown type: %s", g_type_name (type));
-    }
+    g_ptr_array_add (children, _value_to_item (value));
 }
 
 void fcitx_inputmethod_set_imlist(DBusGProxy* proxy, GPtrArray* array)
 {
-    GVariantBuilder builder;
-    g_variant_builder_init(&builder, G_VARIANT_TYPE("a(sssb)"));
-    g_ptr_array_foreach(array, _fcitx_inputmethod_item_foreach_cb, &builder);
-    GVariant* variant = g_variant_builder_end(&builder);
     GValue value = {0,};
-    dbus_g_value_parse_g_variant(variant, &value);
+    g_value_init(&value, TYPE_ARRAY_IM);
+    g_value_take_boxed (&value, dbus_g_type_specialized_construct (
+            G_VALUE_TYPE (&value)));
+    DBusGTypeSpecializedAppendContext ctx;
+
+    dbus_g_type_specialized_init_append (&value, &ctx);
+    g_ptr_array_foreach(array, _fcitx_inputmethod_item_foreach_cb, &ctx);
+    dbus_g_type_specialized_collection_end_append (&ctx);
     dbus_g_proxy_call_no_reply(proxy, "Set", G_TYPE_STRING, FCITX_IM_DBUS_INTERFACE, G_TYPE_STRING, "IMList", G_TYPE_VALUE, &value, G_TYPE_INVALID);
-    g_variant_unref(variant);
+    g_value_unset(&value);
 }
 
 GPtrArray* fcitx_inputmethod_get_imlist(DBusGProxy* proxy)
 {
     GPtrArray *array = NULL;
-    GVariant* value = NULL;
-    GValue result = { 0, };
-    GVariantIter *iter;
-    gchar *name, *unique_name, *langcode;
-    gboolean enable;
+    GValue value = { 0, };
 
     GError* error = NULL;
-    dbus_g_proxy_call(proxy, "Get", &error, G_TYPE_STRING, FCITX_IM_DBUS_INTERFACE, G_TYPE_STRING, "IMList", G_TYPE_INVALID, G_TYPE_VALUE, &result, G_TYPE_INVALID);
+    dbus_g_proxy_call(proxy, "Get", &error, G_TYPE_STRING, FCITX_IM_DBUS_INTERFACE, G_TYPE_STRING, "IMList", G_TYPE_INVALID, G_TYPE_VALUE, &value, G_TYPE_INVALID);
 
     if (error) {
         g_warning("%s", error->message);
         g_error_free(error);
-    } {
-        value = g_value_to_g_variant(&result);
+        return NULL;
     }
 
-    if (value) {
-        array = g_ptr_array_new();
-        g_variant_get(value, "a(sssb)", &iter);
-        while (g_variant_iter_next(iter, "(sssb)", &name, &unique_name, &langcode, &enable, NULL)) {
-            FcitxIMItem* item = g_malloc0(sizeof(FcitxIMItem));
-            item->enable = enable;
-            item->name = strdup(name);
-            item->unique_name = strdup(unique_name);
-            item->langcode = strdup(langcode);
-            g_ptr_array_add(array, item);
-            g_free(name);
-            g_free(unique_name);
-            g_free(langcode);
-        }
-        g_variant_iter_free(iter);
+    array = g_ptr_array_new();
+    GType type = G_VALUE_TYPE (&value);
 
-        g_variant_unref(value);
+    if (dbus_g_type_is_collection (type))
+    {
+        dbus_g_type_collection_value_iterate (&value, _collection_iterator,
+                                              array);
     }
+    g_value_unset(&value);
 
     return array;
 }
@@ -211,7 +161,9 @@ void _fcitx_inputmethod_item_foreach_cb(gpointer       data,
                                         gpointer       user_data)
 {
     FcitxIMItem* item = data;
-    GVariantBuilder* builder = user_data;
+    DBusGTypeSpecializedAppendContext* ctx = user_data;
 
-    g_variant_builder_add(builder, "(sssb)", item->name, item->unique_name, item->langcode, item->enable);
+    GValue v = { 0 };
+    _item_to_value(item, &v);
+    dbus_g_type_specialized_collection_append (ctx, &v);
 }
