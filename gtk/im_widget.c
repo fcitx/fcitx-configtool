@@ -25,13 +25,6 @@
 #include "im_widget.h"
 #include "gdm-languages.h"
 #include "im.h"
-#include "marshall.h"
-
-#define TYPE_VARINT_MAP \
-    dbus_g_type_get_map("GHashTable", G_TYPE_STRING, G_TYPE_VALUE)
-
-#define TYPE_ARRAY_STRING \
-    dbus_g_type_get_collection("GPtrArray", G_TYPE_STRING)
 
 G_DEFINE_TYPE(FcitxImWidget, fcitx_im_widget, GTK_TYPE_HBOX)
 
