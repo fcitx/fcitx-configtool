@@ -20,26 +20,10 @@
 #ifndef _IM_H_
 #define _IM_H_
 
-#include <gio/gio.h>
+#include <glib.h>
+#include <dbus/dbus-glib.h>
 
 G_BEGIN_DECLS
-
-typedef struct _FcitxInputMethod        FcitxInputMethod;
-typedef struct _FcitxInputMethodClass   FcitxInputMethodClass;
-
-#define FCITX_TYPE_INPUT_METHOD         (fcitx_inputmethod_get_type ())
-#define FCITX_INPUTMETHOD(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), FCITX_TYPE_INPUT_METHOD, FcitxInputMethod))
-#define FCITX_INPUTMETHOD_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST((k), FCITX_TYPE_INPUT_METHOD, FcitxInputMethodClass))
-#define FCITX_INPUTMETHOD_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), FCITX_TYPE_INPUT_METHOD, FcitxInputMethodClass))
-
-struct _FcitxInputMethod {
-    GDBusProxy parent_instance;
-    void (*imlist_changed)(FcitxInputMethod* im);
-};
-
-struct _FcitxInputMethodClass {
-    GDBusProxyClass parent_class;
-};
 
 typedef struct _FcitxIMItem {
     gchar* name;
@@ -48,19 +32,8 @@ typedef struct _FcitxIMItem {
     gboolean enable;
 } FcitxIMItem;
 
-
-FcitxInputMethod* fcitx_inputmethod_new(GBusType             bus_type,
-                                        GDBusProxyFlags      flags,
-                                        int                  display_number,
-                                        GCancellable        *cancellable,
-                                        GError             **error);
-
-GType        fcitx_inputmethod_get_type(void) G_GNUC_CONST;
-
-GPtrArray*   fcitx_inputmethod_get_imlist(FcitxInputMethod* im);
-
-void         fcitx_inputmethod_set_imlist(FcitxInputMethod* im, GPtrArray* array);
-
+void fcitx_inputmethod_set_imlist(DBusGProxy* proxy, GPtrArray* array);
+GPtrArray* fcitx_inputmethod_get_imlist(DBusGProxy* proxy);
 void fcitx_inputmethod_item_free(gpointer data);
 
 G_END_DECLS

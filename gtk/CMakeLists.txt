@@ -1,4 +1,4 @@
-PKG_CHECK_MODULES (GTK2 "gtk+-2.0 >= 2.22" REQUIRED)
+PKG_CHECK_MODULES (DBUS_GLIB "dbus-glib-1" REQUIRED)
 PKG_CHECK_MODULES (UNIQUE "unique-1.0")
 
 include_directories (
@@ -8,6 +8,7 @@ include_directories (
     ${FCITX4_FCITX_INCLUDE_DIRS}
     ${FCITX4_FCITX_UTILS_INCLUDE_DIRS}
     ${FCITX4_FCITX_CONFIG_INCLUDE_DIRS}
+    ${DBUS_GLIB_INCLUDE_DIRS}
 )
 
 link_directories (
@@ -17,6 +18,7 @@ link_directories (
     ${FCITX4_FCITX_LIBRARY_DIRS}
     ${FCITX4_FCITX_UTILS_LIBRARY_DIRS}
     ${FCITX4_FCITX_CONFIG_LIBRARY_DIRS}
+    ${DBUS_GLIB_LIBRARY_DIRS}
 )
 if (UNIQUE_FOUND)
     include_directories (${UNIQUE_INCLUDE_DIRS})
@@ -33,6 +35,7 @@ set( fcitx_config_gtk_sources
     main_window.c
     im_widget.c
     im.c
+    marshall.c
     gdm-languages.c
 )
 
@@ -46,7 +49,7 @@ target_link_libraries (fcitx-config-gtk
                        ${FCITX4_FCITX_CONFIG_LIBRARIES}
                        ${FCITX4_FCITX_LIBRARIES}
                        ${GLIB2_LIBRARIES}
-                       ${GIO2_LIBRARIES}
+                       ${DBUS_GLIB_LIBRARIES}
 )
 
 if (UNIQUE_FOUND)

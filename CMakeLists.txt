@@ -8,13 +8,12 @@ option(ENABLE_GTK3 "Enable GTK3 Version" Off)
 find_package(PkgConfig REQUIRED)
 
 if (ENABLE_GTK3)
-set(GLIB_REQUIRED_VERSION "2.28")
-else (ENABLE_GTK3)
-set(GLIB_REQUIRED_VERSION "2.26")
-endif (ENABLE_GTK3)
-
 PKG_CHECK_MODULES (GLIB2 "glib-2.0 >= ${GLIB_REQUIRED_VERSION}" REQUIRED)
 PKG_CHECK_MODULES (GIO2 "gio-2.0 >= 2.26" REQUIRED)
+else (ENABLE_GTK3)
+PKG_CHECK_MODULES (GTK2 "gtk+-2.0 >= 2.22" REQUIRED)
+endif (ENABLE_GTK3)
+
 PKG_CHECK_MODULES(ISO_CODES "iso-codes" REQUIRED)
 _pkgconfig_invoke("iso-codes" ISO_CODES PREFIX "" "--variable=prefix")
 
@@ -53,7 +52,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 if (ENABLE_GTK2)
     add_subdirectory(gtk)
-endif (ENABLE_GTK2) 
+endif (ENABLE_GTK2)
 if (ENABLE_GTK3)
     add_subdirectory(gtk3)
 endif (ENABLE_GTK3)

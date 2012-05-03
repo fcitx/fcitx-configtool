@@ -22,7 +22,7 @@
 
 #include <gtk/gtk.h>
 #include <gio/gio.h>
-#include "im.h"
+#include <dbus/dbus-glib.h>
 
 G_BEGIN_DECLS
 
@@ -56,13 +56,14 @@ typedef struct {
     GtkWidget* moveupbutton;
     GtkWidget* movedownbutton;
     char servicename[IC_NAME_MAX];
-    FcitxInputMethod* improxy;
+    DBusGProxy* improxy;
     GPtrArray* array;
     GtkWidget* filterentry;
     GtkTreeModel* filtermodel;
     GtkWidget* onlycurlangcheckbox;
     GtkTreeModel* sortmodel;
     gchar* focus;
+    DBusGConnection* conn;
 } FcitxImWidget;
 
 typedef struct {
