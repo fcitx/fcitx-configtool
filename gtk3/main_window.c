@@ -100,7 +100,7 @@ fcitx_main_window_init(FcitxMainWindow* self)
 
     self->pagestore = _fcitx_main_window_create_model();
     self->pageview = gtk_icon_view_new_with_model(GTK_TREE_MODEL(self->pagestore));
-    
+
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(self->pageview), PAGE_LIST_ICON);
     gtk_icon_view_set_text_column(GTK_ICON_VIEW(self->pageview), PAGE_LIST_NAME);
     gtk_icon_view_set_item_orientation(GTK_ICON_VIEW(self->pageview), GTK_ORIENTATION_VERTICAL);
@@ -187,7 +187,7 @@ void _fcitx_main_window_selection_changed_cb(GtkIconView* iconview, gpointer dat
     GtkTreeIter iter;
     ConfigPage* page;
     FcitxMainWindow* self = data;
-    
+
     GList* list = gtk_icon_view_get_selected_items(iconview);
 
     if (list) {
@@ -197,7 +197,7 @@ void _fcitx_main_window_selection_changed_cb(GtkIconView* iconview, gpointer dat
                            PAGE_LIST_NAME, &title,
                            PAGE_LIST_PAGE, &page,
                            -1);
-        
+
         gchar* text = g_strdup_printf("<b>%s</b>", title);
         gtk_label_set_markup(GTK_LABEL(self->pagelabel), text);
         g_free(text);
@@ -214,7 +214,7 @@ void _fcitx_main_window_selection_changed_cb(GtkIconView* iconview, gpointer dat
         gtk_icon_view_select_path(GTK_ICON_VIEW(self->pageview), path);
         gtk_tree_path_free(path);
     }
-    
+
     g_list_foreach (list, (GFunc)gtk_tree_path_free, NULL);
     g_list_free (list);
 }
@@ -442,33 +442,9 @@ void _fcitx_main_window_configure_button_clicked(GtkButton* button, gpointer dat
         gtk_tree_model_get(model, &iter,
                            LIST_ADDON, &addon,
                            -1);
-        gchar* config_desc_name = g_strdup_printf("%s.desc", addon->name);
-        FcitxConfigFileDesc* cfdesc = get_config_desc(config_desc_name);
-        g_free(config_desc_name);
-        gboolean configurable = (gboolean)(cfdesc != NULL || strlen(addon->subconfig) != 0);
-        if (configurable) {
-            GtkWidget* dialog = gtk_dialog_new_with_buttons(addon->generalname,
-                                GTK_WINDOW(self),
-                                GTK_DIALOG_MODAL,
-                                GTK_STOCK_OK,
-                                GTK_RESPONSE_OK,
-                                GTK_STOCK_CANCEL,
-                                GTK_RESPONSE_CANCEL,
-                                NULL
-                                                           );
 
-            gchar* config_file_name = g_strdup_printf("%s.config", addon->name);
-            FcitxConfigWidget* config_widget = fcitx_config_widget_new(cfdesc, "conf", config_file_name, addon->subconfig);
-            GtkWidget* content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-            gtk_box_pack_start(GTK_BOX(content_area), GTK_WIDGET(config_widget), TRUE, TRUE, 0);
-            g_free(config_file_name);
-            gtk_widget_set_size_request(GTK_WIDGET(config_widget), -1, 400);
-
-            g_signal_connect(dialog, "response",
-                             G_CALLBACK(fcitx_config_widget_response_cb),
-                             config_widget);
-
+        GtkWidget* dialog = fcitx_config_dialog_new(addon, GTK_WINDOW(self));
+        if (dialog)
             gtk_widget_show_all(GTK_WIDGET(dialog));
-        }
     }
 }

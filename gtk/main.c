@@ -21,8 +21,11 @@
 #include <langinfo.h>
 #include <libintl.h>
 #include <locale.h>
+#include <fcitx/addon.h>
 #include "config.h"
 #include "main_window.h"
+#include "configdesc.h"
+#include "config_widget.h"
 
 static GtkWidget *window = NULL;
 
@@ -79,15 +82,43 @@ main(int argc, char **argv)
     bind_textdomain_codeset("fcitx", "UTF-8");
     textdomain("fcitx-configtool");
 
-    window = fcitx_main_window_new();
+    gboolean loaded = FALSE;
+    if (argc > 1) {
+        UT_array* addons = NULL;
+        const UT_icd addonicd = {sizeof(FcitxAddon), 0, 0, FcitxAddonFree};
+        utarray_new(addons, &addonicd);
+        FcitxAddonsLoad(addons);
+
+        do {
+            FcitxAddon* addon = NULL;
+            for (addon = (FcitxAddon *) utarray_front(addons);
+                    addon != NULL;
+                    addon = (FcitxAddon *) utarray_next(addons, addon)) {
+                if (strcmp(addon->name, argv[1]) == 0)
+                    break;
+            }
+            if (!addon)
+                break;
+
+            GtkWidget* dialog = fcitx_config_dialog_new(addon, NULL);
+            g_signal_connect_swapped(G_OBJECT(dialog), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+            gtk_widget_show_all(GTK_WIDGET(dialog));
+            loaded = TRUE;
+        } while (0);
+        utarray_free(addons);
+    }
+
+    if (!loaded) {
+        window = fcitx_main_window_new();
 
 #ifdef HAVE_UNIQUE
-    unique_app_watch_window(app, GTK_WINDOW(window));
-    g_signal_connect(app, "message-received", G_CALLBACK(message_received_cb), NULL);
+        unique_app_watch_window(app, GTK_WINDOW(window));
+        g_signal_connect(app, "message-received", G_CALLBACK(message_received_cb), NULL);
 #endif
 
-    gtk_widget_show_all(window);
-
+        gtk_widget_show_all(window);
+    }
     gtk_main();
 
 #ifdef HAVE_UNIQUE

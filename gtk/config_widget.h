@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include <glib.h>
 #include <fcitx-config/fcitx-config.h>
+#include <fcitx/addon.h>
 #include "sub_config_parser.h"
 
 G_BEGIN_DECLS
@@ -74,6 +75,9 @@ void fcitx_config_widget_response(FcitxConfigWidget* config_widget, ConfigWidget
 gboolean fcitx_config_widget_response_cb(GtkDialog *dialog,
         gint response,
         gpointer user_data);
+
+GtkWidget* fcitx_config_dialog_new(FcitxAddon* addon, GtkWindow* parent);
+
 
 G_END_DECLS
 

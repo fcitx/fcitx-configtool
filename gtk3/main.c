@@ -23,6 +23,7 @@
 #include <locale.h>
 #include "config.h"
 #include "main_window.h"
+#include "config_widget.h"
 
 static void
 fcitx_config_app_activate (GApplication *application)
@@ -56,6 +57,28 @@ fcitx_config_app_init (FcitxConfigApp *app)
 {
 }
 
+
+int fcitx_config_app_handle_command_line (GApplication              *application,
+                                          GApplicationCommandLine   *command_line,
+                                          gpointer                   user_data
+                                         )
+{
+    int argc;
+    gchar** argv = g_application_command_line_get_arguments(command_line, &argc);
+    g_application_activate(G_APPLICATION (application));
+    GList* list = gtk_application_get_windows (GTK_APPLICATION(application));
+    if (list) {
+        FcitxMainWindow* mainWindow = FCITX_MAIN_WINDOW (list->data);
+        FcitxAddon* addon = FcitxAddonsGetAddonByName(mainWindow->addons, argv[1]);
+        if (addon) {
+            GtkWidget* dialog = fcitx_config_dialog_new(addon, GTK_WINDOW(mainWindow));
+            if (dialog)
+                gtk_widget_show_all(GTK_WIDGET(dialog));
+        }
+    }
+    return 0;
+}
+
 static void
 fcitx_config_app_class_init (FcitxConfigAppClass *klass)
 {
@@ -69,10 +92,12 @@ fcitx_config_app_new (void)
 {
     g_type_init ();
 
-    return g_object_new (fcitx_config_app_get_type (),
+    FcitxConfigApp* app = g_object_new (fcitx_config_app_get_type (),
                          "application-id", "org.fcitx.FcitxConfigGtk3",
-                         "flags", G_APPLICATION_FLAGS_NONE,
+                         "flags", G_APPLICATION_HANDLES_COMMAND_LINE,
                          NULL);
+    g_signal_connect(app, "command-line", (GCallback)fcitx_config_app_handle_command_line, NULL);
+    return app;
 }
 
 int
@@ -87,7 +112,22 @@ main(int argc, char **argv)
 
     GtkApplication* app = fcitx_config_app_new();
 
-    int status = g_application_run (G_APPLICATION (app), argc, argv);
+    int status = 0;
+    if (app) {
+        GError* error = NULL;
+        if (!g_application_register(G_APPLICATION(app), NULL, &error)) {
+            g_warning("Cannot register %s", error->message);
+            g_error_free(error);
+            error = NULL;
+        }
+        if (g_application_get_is_registered(G_APPLICATION(app))) {
+            if (g_application_get_is_remote(G_APPLICATION(app))) {
+                g_message("fcitx-config-gtk3 is running.");
+            }
+        }
+    }
+    status = g_application_run (G_APPLICATION (app), argc, argv);
+
     g_object_unref (app);
 
     return status;
