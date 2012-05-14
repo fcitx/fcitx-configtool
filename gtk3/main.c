@@ -69,13 +69,17 @@ int fcitx_config_app_handle_command_line (GApplication              *application
     GList* list = gtk_application_get_windows (GTK_APPLICATION(application));
     if (list) {
         FcitxMainWindow* mainWindow = FCITX_MAIN_WINDOW (list->data);
-        FcitxAddon* addon = FcitxAddonsGetAddonByName(mainWindow->addons, argv[1]);
+        FcitxAddon* addon = NULL;
+        if (argc >= 2 && argv[1])
+            FcitxAddonsGetAddonByName(mainWindow->addons, argv[1]);
         if (addon) {
             GtkWidget* dialog = fcitx_config_dialog_new(addon, GTK_WINDOW(mainWindow));
             if (dialog)
                 gtk_widget_show_all(GTK_WIDGET(dialog));
         }
     }
+
+    g_strfreev(argv);
     return 0;
 }
 

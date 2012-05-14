@@ -209,10 +209,6 @@ void _fcitx_main_window_selection_changed_cb(GtkIconView* iconview, gpointer dat
         gtk_widget_show_all(GTK_WIDGET(self));
 
         self->lastpage = page;
-    } else {
-        GtkTreePath* path = gtk_tree_model_get_path(GTK_TREE_MODEL(self->pagestore), &self->impage->iter);
-        gtk_icon_view_select_path(GTK_ICON_VIEW(self->pageview), path);
-        gtk_tree_path_free(path);
     }
 
     g_list_foreach (list, (GFunc)gtk_tree_path_free, NULL);
