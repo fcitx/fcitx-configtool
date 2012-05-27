@@ -99,6 +99,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_box_pack_start(GTK_BOX(self), scrolledwindow, TRUE, TRUE, 5);
 
     GtkWidget* toolbar = gtk_toolbar_new();
+    g_object_set(G_OBJECT(toolbar), "toolbar-style", GTK_TOOLBAR_ICONS, "show-arrow", FALSE, NULL);
 
     GtkToolItem* item;
     /* add and remove */
