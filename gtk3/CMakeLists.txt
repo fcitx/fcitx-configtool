@@ -31,6 +31,7 @@ set( fcitx_config_gtk3_sources
     gdm-languages.c
     im_dialog.c
     common.c
+    im_config_dialog.c
 )
 
 add_executable( fcitx-config-gtk3 ${fcitx_config_gtk3_sources} )

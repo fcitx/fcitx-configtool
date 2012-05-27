@@ -58,6 +58,25 @@ void fcitx_im_dialog_finalize(GObject* object)
 static void
 fcitx_im_dialog_init(FcitxImDialog* self)
 {
+    gtk_window_set_title(GTK_WINDOW(self), _("Add input method"));
+    gtk_window_set_modal(GTK_WINDOW(self), TRUE);
+
+    gtk_dialog_add_buttons(GTK_DIALOG(self),
+                           GTK_STOCK_CANCEL,
+                           GTK_RESPONSE_CANCEL,
+                           GTK_STOCK_OK,
+                           GTK_RESPONSE_OK,
+                           NULL
+                          );
+    gtk_dialog_set_alternative_button_order (GTK_DIALOG (self),
+                                         GTK_RESPONSE_OK,
+                                         GTK_RESPONSE_CANCEL,
+                                         -1);
+
+    g_signal_connect(self, "response",
+                    G_CALLBACK(_fcitx_im_dialog_response_cb),
+                    NULL);
+
     GtkCellRenderer* renderer;
     GtkTreeViewColumn* column;
 
@@ -172,8 +191,7 @@ void _fcitx_inputmethod_insert_foreach_cb(gpointer data,
 
     if (!item->enable) {
         gtk_list_store_append(self->availimstore, &iter);
-        gtk_list_store_set(self->availimstore, &iter, IM_LIST_IM_STRING, item->name, -1);
-        gtk_list_store_set(self->availimstore, &iter, IM_LIST_IM, item, -1);
+        gtk_list_store_set(self->availimstore, &iter, IM_LIST_IM_STRING, item->name, IM_LIST_IM, item, -1);
     }
 }
 
@@ -204,25 +222,6 @@ GtkWidget* fcitx_im_dialog_new(GtkWindow       *parent)
 
     if (parent)
         gtk_window_set_transient_for (GTK_WINDOW (self), parent);
-
-    gtk_window_set_title(GTK_WINDOW(self), _("Add input method"));
-    gtk_window_set_modal(GTK_WINDOW(self), TRUE);
-
-    gtk_dialog_add_buttons(GTK_DIALOG(self),
-                           GTK_STOCK_CANCEL,
-                           GTK_RESPONSE_CANCEL,
-                           GTK_STOCK_OK,
-                           GTK_RESPONSE_OK,
-                           NULL
-                          );
-    gtk_dialog_set_alternative_button_order (GTK_DIALOG (self),
-                                         GTK_RESPONSE_OK,
-                                         GTK_RESPONSE_CANCEL,
-                                         -1);
-
-    g_signal_connect(self, "response",
-                    G_CALLBACK(_fcitx_im_dialog_response_cb),
-                    NULL);
 
     return GTK_WIDGET(self);
 }

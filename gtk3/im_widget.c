@@ -27,6 +27,7 @@
 #include "im_dialog.h"
 #include "config_widget.h"
 #include "main_window.h"
+#include "im_config_dialog.h"
 
 G_DEFINE_TYPE(FcitxImWidget, fcitx_im_widget, GTK_TYPE_BOX)
 
@@ -428,7 +429,7 @@ void _fcitx_im_widget_configure_button_clicked(GtkButton* button, gpointer user_
             if (!addon)
                 break;
 
-            GtkWidget* dialog = fcitx_config_dialog_new(addon, GTK_WINDOW(mainwindow));
+            GtkWidget* dialog = fcitx_im_config_dialog_new(GTK_WINDOW(mainwindow), addon, item->unique_name);
             if (dialog)
                 gtk_widget_show_all(GTK_WIDGET(dialog));
         } while(0);

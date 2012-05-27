@@ -17,53 +17,51 @@
  *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
  ***************************************************************************/
 
-#ifndef IM_DIALOG_H
-#define IM_DIALOG_H
+#ifndef IM_CONFIG_DIALOG_H
+#define IM_CONFIG_DIALOG_H
 
 #include <gtk/gtk.h>
 #include <gio/gio.h>
-#include <fcitx-gclient/fcitxinputmethod.h>
+#include <fcitx-gclient/fcitxkbd.h>
+#include "config_widget.h"
 
 G_BEGIN_DECLS
 
-#define FCITX_TYPE_IM_DIALOG fcitx_im_dialog_get_type()
+#define FCITX_TYPE_IM_CONFIG_DIALOG fcitx_im_config_dialog_get_type()
 
-#define FCITX_IM_DIALOG(obj) \
-    (G_TYPE_CHECK_INSTANCE_CAST ((obj), FCITX_TYPE_IM_DIALOG, FcitxImDialog))
+#define FCITX_IM_CONFIG_DIALOG(obj) \
+    (G_TYPE_CHECK_INSTANCE_CAST ((obj), FCITX_TYPE_IM_CONFIG_DIALOG, FcitxImConfigDialog))
 
-#define FCITX_IM_DIALOG_CLASS(klass) \
-    (G_TYPE_CHECK_CLASS_CAST ((klass), FCITX_TYPE_IM_DIALOG, FcitxImDialogClass))
+#define FCITX_IM_CONFIG_DIALOG_CLASS(klass) \
+    (G_TYPE_CHECK_CLASS_CAST ((klass), FCITX_TYPE_IM_CONFIG_DIALOG, FcitxImConfigDialogClass))
 
-#define FCITX_IS_IM_DIALOG(obj) \
-    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FCITX_TYPE_IM_DIALOG))
+#define FCITX_IS_IM_CONFIG_DIALOG(obj) \
+    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FCITX_TYPE_IM_CONFIG_DIALOG))
 
-#define FCITX_IS_IM_DIALOG_CLASS(klass) \
-    (G_TYPE_CHECK_CLASS_TYPE ((klass), FCITX_TYPE_IM_DIALOG))
+#define FCITX_IS_IM_CONFIG_DIALOG_CLASS(klass) \
+    (G_TYPE_CHECK_CLASS_TYPE ((klass), FCITX_TYPE_IM_CONFIG_DIALOG))
 
-#define FCITX_IM_DIALOG_GET_CLASS(obj) \
-    (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_IM_DIALOG, FcitxImDialogClass))
+#define FCITX_IM_CONFIG_DIALOG_GET_CLASS(obj) \
+    (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_IM_CONFIG_DIALOG, FcitxImConfigDialogClass))
 
-typedef struct _FcitxImDialog FcitxImDialog;
-typedef struct _FcitxImDialogClass FcitxImDialogClass;
+typedef struct _FcitxImConfigDialog FcitxImConfigDialog;
+typedef struct _FcitxImConfigDialogClass FcitxImConfigDialogClass;
 
-struct _FcitxImDialog {
+struct _FcitxImConfigDialog {
     GtkDialog parent;
-    GtkListStore* availimstore;
-    GtkWidget* availimview;
-    FcitxInputMethod* improxy;
-    GPtrArray* array;
-    GtkWidget* filterentry;
-    GtkTreeModel* filtermodel;
-    GtkWidget* onlycurlangcheckbox;
-    GtkTreeModel* sortmodel;
+    FcitxConfigWidget* config_widget;
+    FcitxKbd* kbd;
+    GtkListStore* model;
+    gchar* imname;
+    GtkWidget* combobox;
 };
 
-struct _FcitxImDialogClass {
+struct _FcitxImConfigDialogClass {
     GtkDialogClass parent_class;
 };
 
 GtkWidget*
-fcitx_im_dialog_new(GtkWindow* parent);
+fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gchar* imname);
 
 G_END_DECLS
 
