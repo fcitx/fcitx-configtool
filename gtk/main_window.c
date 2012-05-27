@@ -119,10 +119,7 @@ fcitx_main_window_init(FcitxMainWindow* self)
     gtk_misc_set_alignment(GTK_MISC(self->pagelabel), 0, 0.5);
 
     gtk_box_pack_start(GTK_BOX(self->vbox), self->pagelabel, FALSE, FALSE, 14);
-    GtkWidget* scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_NEVER);
-    gtk_container_add(GTK_CONTAINER(scrolledwindow), self->pageview);
-    gtk_box_pack_start(GTK_BOX(hbox), scrolledwindow, FALSE, TRUE, 4);
+    gtk_box_pack_start(GTK_BOX(hbox), self->pageview, FALSE, TRUE, 4);
     gtk_box_pack_start(GTK_BOX(hbox), self->vbox, TRUE, TRUE, 8);
     gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 8);
 
