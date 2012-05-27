@@ -57,6 +57,7 @@ struct _FcitxImWidget {
     FcitxInputMethod* improxy;
     GPtrArray* array;
     GtkWidget* configurebutton;
+    gchar* focus;
 };
 
 struct _FcitxImWidgetClass {

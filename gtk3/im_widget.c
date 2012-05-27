@@ -188,6 +188,7 @@ void fcitx_im_widget_finalize(GObject* object)
         self->array = NULL;
     }
     g_object_unref(self->improxy);
+    g_free(self->focus);
 
     G_OBJECT_CLASS (fcitx_im_widget_parent_class)->finalize (object);
 }
@@ -236,6 +237,8 @@ void _fcitx_im_widget_load(FcitxImWidget* self)
 
         if (context.flag)
             gtk_tree_selection_select_iter(gtk_tree_view_get_selection(GTK_TREE_VIEW(self->imview)), &context.iter);
+        g_free(self->focus);
+        self->focus = NULL;
 
         _fcitx_im_widget_im_selection_changed(gtk_tree_view_get_selection(GTK_TREE_VIEW(self->imview)), self);
     }
@@ -254,7 +257,8 @@ void _fcitx_inputmethod_insert_foreach_cb(gpointer data,
         gtk_list_store_append(self->imstore, &iter);
         gtk_list_store_set(self->imstore, &iter, IM_LIST_IM_STRING, item->name, -1);
         gtk_list_store_set(self->imstore, &iter, IM_LIST_IM, item, -1);
-        context->iter = iter;
+        if (self->focus == NULL || strcmp(self->focus, item->unique_name) == 0)
+            context->iter = iter;
     }
 }
 
@@ -292,6 +296,9 @@ void _fcitx_im_widget_addim_button_clicked(GtkButton* button, gpointer user_data
     FcitxImWidget* self = user_data;
     GtkWidget* dialog = fcitx_im_dialog_new(GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET(self))));
     gtk_widget_show_all(dialog);
+
+    g_free(self->focus);
+    self->focus = NULL;
 }
 
 void _fcitx_im_widget_delim_button_clicked(GtkButton* button, gpointer user_data)
@@ -309,6 +316,9 @@ void _fcitx_im_widget_delim_button_clicked(GtkButton* button, gpointer user_data
                            IM_LIST_IM, &item,
                            -1);
         item->enable = false;
+
+        g_free(self->focus);
+        self->focus = NULL;
 
         fcitx_input_method_set_imlist(self->improxy, self->array);
     }
@@ -345,6 +355,8 @@ void _fcitx_im_widget_moveup_button_clicked(GtkButton* button, gpointer user_dat
             gpointer temp = g_ptr_array_index(self->array, i);
             g_ptr_array_index(self->array, i) = g_ptr_array_index(self->array, switch_index);
             g_ptr_array_index(self->array, switch_index) = temp;
+            g_free(self->focus);
+            self->focus = g_strdup(item->unique_name);
 
             fcitx_input_method_set_imlist(self->improxy, self->array);
         }
@@ -381,6 +393,8 @@ void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer user_d
             gpointer temp = g_ptr_array_index(self->array, i);
             g_ptr_array_index(self->array, i) = g_ptr_array_index(self->array, switch_index);
             g_ptr_array_index(self->array, switch_index) = temp;
+            g_free(self->focus);
+            self->focus = g_strdup(item->unique_name);
 
             fcitx_input_method_set_imlist(self->improxy, self->array);
         }
