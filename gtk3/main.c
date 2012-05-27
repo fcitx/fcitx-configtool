@@ -71,7 +71,7 @@ int fcitx_config_app_handle_command_line (GApplication              *application
         FcitxMainWindow* mainWindow = FCITX_MAIN_WINDOW (list->data);
         FcitxAddon* addon = NULL;
         if (argc >= 2 && argv[1])
-            FcitxAddonsGetAddonByName(mainWindow->addons, argv[1]);
+            addon = find_addon_by_name(mainWindow->addons, argv[1]);
         if (addon) {
             GtkWidget* dialog = fcitx_config_dialog_new(addon, GTK_WINDOW(mainWindow));
             if (dialog)

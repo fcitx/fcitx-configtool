@@ -21,7 +21,11 @@
 #define COMMON_H
 
 #include <libintl.h>
+#include <fcitx/addon.h>
+#include <glib.h>
 
 #define _(x) gettext(x)
+
+FcitxAddon* find_addon_by_name(UT_array* array, gchar* name);
 
 #endif

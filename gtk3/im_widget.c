@@ -402,18 +402,6 @@ void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer user_d
     }
 }
 
-FcitxAddon* find_addon_by_name(UT_array* array, gchar* name)
-{
-    FcitxAddon* addon = NULL;
-    for (addon = (FcitxAddon *) utarray_front(array);
-         addon != NULL;
-         addon = (FcitxAddon *) utarray_next(array, addon)) {
-        if (strcmp(addon->name, name) == 0)
-            break;
-    }
-    return addon;
-}
-
 void _fcitx_im_widget_configure_button_clicked(GtkButton* button, gpointer user_data)
 {
     FcitxImWidget* self = user_data;
