@@ -275,39 +275,111 @@ void _fcitx_main_window_add_im_page(FcitxMainWindow* self)
     self->impage = _fcitx_main_window_add_page(self, _("Input Method"), imwidget, GTK_STOCK_EDIT);
 }
 
+gboolean _filter_addon_func(GtkTreeModel *model,
+                            GtkTreeIter  *iter,
+                            gpointer      data)
+{
+    FcitxMainWindow* self = data;
+    FcitxAddon* addon = NULL;
+    const gchar* filter_text = gtk_entry_get_text(GTK_ENTRY(self->filterentry));
+    gtk_tree_model_get(model,
+                       iter,
+                       LIST_ADDON, &addon,
+                       -1);
+
+    gboolean flag = TRUE;
+    if (addon) {
+        if ((addon->category == AC_FRONTEND || addon->advance) && !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->advancecheckbox))) {
+            return false;
+        }
+        flag = flag && (strlen(filter_text) == 0
+                 || strstr(addon->name, filter_text)
+                 || strstr(addon->comment, filter_text)
+                 || strstr(addon->generalname, filter_text));
+    }
+    return flag;
+}
+
+void _fcitx_main_window_checkbox_changed(GtkToggleButton* button, gpointer user_data)
+{
+    FcitxMainWindow* self = user_data;
+    gtk_cell_renderer_toggle_set_activatable(GTK_CELL_RENDERER_TOGGLE(self->togglecell), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->advancecheckbox)));
+    gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(self->filtermodel));
+}
+
+static void
+icon_press_cb (GtkEntry       *entry,
+               gint            position,
+               GdkEventButton *event,
+               gpointer        data)
+{
+    gtk_entry_set_text (entry, "");
+}
+
+void _fcitx_main_window_filtertext_changed(GtkEditable* editable, gpointer user_data)
+{
+    FcitxMainWindow* self = user_data;
+    gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(self->filtermodel));
+}
+
 void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
 {
+    /* load addon */
     FcitxAddon* addon;
     utarray_new(self->addons, &addonicd);
     FcitxAddonsLoad(self->addons);
 
     GtkWidget* vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    GtkListStore *store;
-    store = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
+    /* advance check box */
+    self->advancecheckbox = gtk_check_button_new_with_label(_("Advance"));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->advancecheckbox), FALSE);
+    g_signal_connect(G_OBJECT(self->advancecheckbox), "toggled", G_CALLBACK(_fcitx_main_window_checkbox_changed), self);
 
-    GtkWidget* swin = gtk_scrolled_window_new(NULL, NULL);
-    gtk_box_pack_start(GTK_BOX(vbox), swin, TRUE, TRUE, 0);
-    g_object_set(swin, "hscrollbar-policy", GTK_POLICY_NEVER, NULL);
-    self->addonview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-    g_object_set(self->addonview, "headers-visible", FALSE, NULL);
-    gtk_container_add(GTK_CONTAINER(swin), self->addonview);
-    GtkCellRenderer *renderer;
-    GtkTreeViewColumn *column;
+    /* filter entry */
+    self->filterentry = gtk_entry_new();
+    gtk_entry_set_icon_from_stock (GTK_ENTRY (self->filterentry),
+                                    GTK_ENTRY_ICON_SECONDARY,
+                                    GTK_STOCK_CLEAR);
+#if GTK_CHECK_VERSION(3,2,0)
+    gtk_entry_set_placeholder_text(GTK_ENTRY (self->filterentry), _("Search Addon"));
+#endif
+    g_signal_connect(G_OBJECT(self->filterentry), "icon-press", G_CALLBACK (icon_press_cb), NULL);
+    gtk_box_pack_start(GTK_BOX(vbox), self->filterentry, FALSE, TRUE, 5);
 
-    renderer = gtk_cell_renderer_toggle_new();
-    column = gtk_tree_view_column_new_with_attributes("Enable", renderer, NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(self->addonview), column);
-    gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(column),
-                                       renderer,
+    /* list view */
+    self->addonstore = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
+    for (addon = (FcitxAddon *) utarray_front(self->addons);
+            addon != NULL;
+            addon = (FcitxAddon *) utarray_next(self->addons, addon)) {
+        GtkTreeIter iter;
+        gtk_list_store_append(self->addonstore, &iter);
+        gtk_list_store_set(self->addonstore, &iter, LIST_ADDON, addon, -1);
+    }
+
+    self->filtermodel = gtk_tree_model_filter_new(GTK_TREE_MODEL(self->addonstore), NULL);
+
+    gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(self->filtermodel),
+                                           (GtkTreeModelFilterVisibleFunc) _filter_addon_func,
+                                           self,
+                                           NULL);
+    self->addonview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->filtermodel));
+
+    /* add column check box */
+    self->togglecell = gtk_cell_renderer_toggle_new();
+    gtk_cell_renderer_toggle_set_activatable(GTK_CELL_RENDERER_TOGGLE(self->togglecell), FALSE);
+    self->checkboxcolumn = gtk_tree_view_column_new_with_attributes("Enable", self->togglecell, NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(self->addonview), self->checkboxcolumn);
+    gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(self->checkboxcolumn),
+                                       self->togglecell,
                                        _fcitx_main_window_enabled_data_func,
                                        self->addonview,
                                        NULL);
-    g_signal_connect(G_OBJECT(renderer), "toggled",
-                     G_CALLBACK(_fcitx_main_window_toggled_cb), GTK_TREE_MODEL(store));
+    gtk_cell_renderer_toggle_set_activatable(GTK_CELL_RENDERER_TOGGLE(self->togglecell), FALSE);
 
-    renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes("Name", renderer, NULL);
+    /* add column text */
+    GtkCellRenderer* renderer = gtk_cell_renderer_text_new();
+    GtkTreeViewColumn* column = gtk_tree_view_column_new_with_attributes("Name", renderer, NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(self->addonview), column);
     gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(column),
                                        renderer,
@@ -315,20 +387,18 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
                                        self->addonview,
                                        NULL);
 
-    gtk_tree_view_set_model(GTK_TREE_VIEW(self->addonview),
-                            GTK_TREE_MODEL(store));
+    /* add addon list to vbox */
+    GtkWidget* swin = gtk_scrolled_window_new(NULL, NULL);
+    g_object_set(swin, "hscrollbar-policy", GTK_POLICY_NEVER, NULL);
+    g_object_set(self->addonview, "headers-visible", FALSE, NULL);
+    gtk_container_add(GTK_CONTAINER(swin), self->addonview);
+    gtk_box_pack_start(GTK_BOX(vbox), swin, TRUE, TRUE, 0);
+    g_signal_connect(G_OBJECT(self->togglecell), "toggled",
+                     G_CALLBACK(_fcitx_main_window_toggled_cb), GTK_TREE_MODEL(self->addonstore));
 
-    g_object_unref(store);
+    gtk_box_pack_start(GTK_BOX(vbox), self->advancecheckbox, FALSE, TRUE, 0);
 
-    for (addon = (FcitxAddon *) utarray_front(self->addons);
-            addon != NULL;
-            addon = (FcitxAddon *) utarray_next(self->addons, addon)) {
-        GtkTreeIter iter;
-        store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(self->addonview)));
-        gtk_list_store_append(store, &iter);
-        gtk_list_store_set(store, &iter, LIST_ADDON, addon, -1);
-    }
-
+    /* configure button */
     GtkWidget* hbuttonbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_box_pack_start(GTK_BOX(vbox), hbuttonbox, FALSE, TRUE, 0);
 
@@ -339,9 +409,11 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     g_signal_connect(G_OBJECT(self->button), "clicked", G_CALLBACK(_fcitx_main_window_configure_button_clicked), self);
 
     GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->addonview));
-    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
     g_signal_connect(G_OBJECT(selection), "changed",
                      G_CALLBACK(_fcitx_main_window_addon_selection_changed), self);
+    g_signal_connect(G_OBJECT(self->filterentry), "changed", G_CALLBACK(_fcitx_main_window_filtertext_changed), self);
+    gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(self->filtermodel));
 
     self->addonpage = _fcitx_main_window_add_page(self, _("Addon"), vbox, GTK_STOCK_ADD);
 }

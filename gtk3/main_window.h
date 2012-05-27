@@ -63,7 +63,12 @@ typedef struct {
     GtkWidget* button;
     GtkWidget* addonview;
     UT_array* addons;
-
+    GtkWidget* advancecheckbox;
+    GtkTreeModel* filtermodel;
+    GtkListStore* addonstore;
+    GtkTreeViewColumn* checkboxcolumn;
+    GtkCellRenderer* togglecell;
+    GtkWidget* filterentry;
 } FcitxMainWindow;
 
 typedef struct {
