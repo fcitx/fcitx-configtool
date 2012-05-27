@@ -27,7 +27,7 @@ add_custom_target(uninstall
 
 include(FindPkgConfig)
 FIND_PACKAGE(Gettext REQUIRED)
-find_package(Fcitx REQUIRED)
+find_package(Fcitx 4.2.4 REQUIRED)
 FIND_PROGRAM(INTLTOOL_EXTRACT intltool-extract)
 FIND_PROGRAM(INTLTOOL_UPDATE intltool-update)
 FIND_PROGRAM(INTLTOOL_MERGE intltool-merge)

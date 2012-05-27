@@ -128,7 +128,7 @@ fcitx_main_window_init(FcitxMainWindow* self)
 
     gtk_container_add(GTK_CONTAINER(self), vbox);
 
-    gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(self->pageview), GTK_SELECTION_SINGLE);
+    gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(self->pageview), GTK_SELECTION_BROWSE);
     gtk_icon_view_set_item_padding(GTK_ICON_VIEW(self->pageview), 0);
     gtk_icon_view_set_margin(GTK_ICON_VIEW(self->pageview), 0);
     gtk_icon_view_set_column_spacing(GTK_ICON_VIEW(self->pageview), 0);

@@ -589,13 +589,13 @@ GtkWidget* fcitx_config_dialog_new(FcitxAddon* addon, GtkWindow* parent)
         return NULL;
     }
     GtkWidget* dialog = gtk_dialog_new_with_buttons(addon->generalname,
-                        parent,
-                        GTK_DIALOG_MODAL,
-                        GTK_STOCK_OK,
-                        GTK_RESPONSE_OK,
-                        GTK_STOCK_CANCEL,
-                        GTK_RESPONSE_CANCEL,
-                        NULL
+                                                    parent,
+                                                    GTK_DIALOG_MODAL,
+                                                    GTK_STOCK_OK,
+                                                    GTK_RESPONSE_OK,
+                                                    GTK_STOCK_CANCEL,
+                                                    GTK_RESPONSE_CANCEL,
+                                                    NULL
                                                 );
 
     gchar* config_file_name = g_strdup_printf("%s.config", addon->name);

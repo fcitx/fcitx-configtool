@@ -109,7 +109,7 @@ fcitx_main_window_init(FcitxMainWindow* self)
     _fcitx_main_window_add_config_file_page(self);
     _fcitx_main_window_add_addon_page(self);
 
-    gtk_widget_set_size_request(GTK_WIDGET(self), -1, 500);
+    gtk_widget_set_size_request(GTK_WIDGET(self), 750, 500);
 
     self->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     self->pagelabel = gtk_label_new("");

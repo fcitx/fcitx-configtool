@@ -17,8 +17,8 @@
  *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
  ***************************************************************************/
 
-#ifndef IM_WIDGET_H
-#define IM_WIDGET_H
+#ifndef IM_DIALOG_H
+#define IM_DIALOG_H
 
 #include <gtk/gtk.h>
 #include <gio/gio.h>
@@ -26,45 +26,46 @@
 
 G_BEGIN_DECLS
 
-#define FCITX_TYPE_IM_WIDGET fcitx_im_widget_get_type()
+#define FCITX_TYPE_IM_DIALOG fcitx_im_dialog_get_type()
 
-#define FCITX_IM_WIDGET(obj) \
-    (G_TYPE_CHECK_INSTANCE_CAST ((obj), FCITX_TYPE_IM_WIDGET, FcitxImWidget))
+#define FCITX_IM_DIALOG(obj) \
+    (G_TYPE_CHECK_INSTANCE_CAST ((obj), FCITX_TYPE_IM_DIALOG, FcitxImDialog))
 
-#define FCITX_IM_WIDGET_CLASS(klass) \
-    (G_TYPE_CHECK_CLASS_CAST ((klass), FCITX_TYPE_IM_WIDGET, FcitxImWidgetClass))
+#define FCITX_IM_DIALOG_CLASS(klass) \
+    (G_TYPE_CHECK_CLASS_CAST ((klass), FCITX_TYPE_IM_DIALOG, FcitxImDialogClass))
 
-#define FCITX_IS_IM_WIDGET(obj) \
-    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FCITX_TYPE_IM_WIDGET))
+#define FCITX_IS_IM_DIALOG(obj) \
+    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FCITX_TYPE_IM_DIALOG))
 
-#define FCITX_IS_IM_WIDGET_CLASS(klass) \
-    (G_TYPE_CHECK_CLASS_TYPE ((klass), FCITX_TYPE_IM_WIDGET))
+#define FCITX_IS_IM_DIALOG_CLASS(klass) \
+    (G_TYPE_CHECK_CLASS_TYPE ((klass), FCITX_TYPE_IM_DIALOG))
 
-#define FCITX_IM_WIDGET_GET_CLASS(obj) \
-    (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_IM_WIDGET, FcitxImWidgetClass))
+#define FCITX_IM_DIALOG_GET_CLASS(obj) \
+    (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_IM_DIALOG, FcitxImDialogClass))
 
 #define IC_NAME_MAX 64
 
 typedef struct {
-    GtkBox parent;
-    GtkListStore* imstore;
-    GtkWidget* imview;
-    GtkWidget* addimbutton;
-    GtkWidget* delimbutton;
-    GtkWidget* moveupbutton;
-    GtkWidget* movedownbutton;
+    GtkDialog parent;
+    GtkListStore* availimstore;
+    GtkWidget* availimview;
     char servicename[IC_NAME_MAX];
     FcitxInputMethod* improxy;
     GPtrArray* array;
-    GtkWidget* configurebutton;
-} FcitxImWidget;
+    GtkWidget* filterentry;
+    GtkTreeModel* filtermodel;
+    GtkWidget* onlycurlangcheckbox;
+    GtkTreeModel* sortmodel;
+    gchar* focus;
+    GtkWidget* okbutton;
+} FcitxImDialog;
 
 typedef struct {
-    GtkBoxClass parent_class;
-} FcitxImWidgetClass;
+    GtkDialogClass parent_class;
+} FcitxImDialogClass;
 
 GtkWidget*
-fcitx_im_widget_new(void);
+fcitx_im_dialog_new(GtkWindow* parent);
 
 G_END_DECLS
 
