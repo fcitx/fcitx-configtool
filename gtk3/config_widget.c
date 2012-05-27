@@ -175,19 +175,23 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
 
                 switch (codesc->type) {
                 case T_Integer:
-                    inputWidget = gtk_spin_button_new_with_range(-1.0, 10000.0, 1.0);
+                    inputWidget = gtk_spin_button_new_with_range(-10000.0, 10000.0, 1.0);
+                    g_object_set(G_OBJECT(inputWidget), "margin", 5, "hexpand", TRUE, NULL);
                     argument = inputWidget;
                     break;
                 case T_Color:
                     inputWidget = gtk_color_button_new();
+                    g_object_set(G_OBJECT(inputWidget), "margin", 5, "hexpand", TRUE, NULL);
                     argument = inputWidget;
                     break;
                 case T_Boolean:
                     inputWidget = gtk_check_button_new();
+                    g_object_set(G_OBJECT(inputWidget), "margin", 5, "hexpand", TRUE, NULL);
                     argument = inputWidget;
                     break;
                 case T_Font: {
                     inputWidget = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+                    g_object_set(G_OBJECT(inputWidget), "margin", 5, "hexpand", TRUE, NULL);
                     argument = gtk_font_button_new();
                     GtkWidget *button = gtk_button_new_with_label(_("Clear font setting"));
                     gtk_box_pack_start(GTK_BOX(inputWidget), argument, TRUE, TRUE, 0);
@@ -200,18 +204,11 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
                 case T_Enum: {
                     int i;
                     FcitxConfigEnum *e = &codesc->configEnum;
-#if GTK_CHECK_VERSION(2, 24, 0)
                     inputWidget = gtk_combo_box_text_new();
                     for (i = 0; i < e->enumCount; i ++) {
                         gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(inputWidget), D_(cfdesc->domain, e->enumDesc[i]));
                     }
-#else
-                    inputWidget = gtk_combo_box_new_text();
-                    for (i = 0; i < e->enumCount; i ++)
-                    {
-                        gtk_combo_box_append_text(GTK_COMBO_BOX(inputWidget), D_(cfdesc->domain, e->enumDesc[i]));
-                    }
-#endif
+                    g_object_set(G_OBJECT(inputWidget), "margin", 5, "hexpand", TRUE, NULL);
                     argument = inputWidget;
                 }
                 break;
@@ -222,6 +219,8 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
                     inputWidget = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
                     gtk_box_pack_start(GTK_BOX(inputWidget), button[0], FALSE, TRUE, 0);
                     gtk_box_pack_start(GTK_BOX(inputWidget), button[1], FALSE, TRUE, 0);
+                    g_object_set(G_OBJECT(button[0]), "margin", 5, "hexpand", TRUE, NULL);
+                    g_object_set(G_OBJECT(button[1]), "margin", 5, "hexpand", TRUE, NULL);
                     argument = g_array_new(FALSE, FALSE, sizeof(void*));
                     g_array_append_val(argument, button[0]);
                     g_array_append_val(argument, button[1]);
@@ -231,6 +230,7 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
                 case T_Char:
                 case T_String:
                     inputWidget = gtk_entry_new();
+                    g_object_set(G_OBJECT(inputWidget), "margin", 5, "hexpand", TRUE, NULL);
                     argument = inputWidget;
                     break;
                 default:

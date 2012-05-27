@@ -77,9 +77,6 @@ fcitx_im_config_dialog_init(FcitxImConfigDialog* self)
 
     self->kbd = fcitx_kbd_new(G_BUS_TYPE_SESSION, G_DBUS_PROXY_FLAGS_NONE, fcitx_utils_get_display_number(), NULL, NULL);
 
-    GtkWidget* content_area = gtk_dialog_get_content_area(GTK_DIALOG(self));
-    gtk_box_pack_start(GTK_BOX(content_area), gtk_label_new(_("Input method settings:")), FALSE, TRUE, 0);
-
     g_signal_connect(self, "response",
                     G_CALLBACK(_fcitx_im_config_dialog_response_cb),
                     NULL);
@@ -171,8 +168,10 @@ GtkWidget* fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gcha
             gtk_combo_box_set_active_iter(GTK_COMBO_BOX(combobox), &context.iter);
         else
             gtk_combo_box_set_active_iter(GTK_COMBO_BOX(combobox), &iter);
-        gtk_box_pack_start(GTK_BOX(content_area), gtk_label_new(_("Keyboard layout:")), FALSE, TRUE, 0);
-        gtk_box_pack_start(GTK_BOX(content_area), combobox, FALSE, TRUE, 0);
+        GtkWidget* label = gtk_label_new(_("Keyboard layout:"));
+        g_object_set(label, "xalign", 0.0f, NULL);
+        gtk_box_pack_start(GTK_BOX(content_area), label, TRUE, TRUE, 5);
+        gtk_box_pack_start(GTK_BOX(content_area), combobox, FALSE, TRUE, 5);
         self->combobox = combobox;
 
     } while(0);
@@ -182,7 +181,9 @@ GtkWidget* fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gcha
     g_free(config_desc_name);
     gboolean configurable = (gboolean)(cfdesc != NULL || strlen(addon->subconfig) != 0);
     if (configurable) {
-        gtk_box_pack_start(GTK_BOX(content_area), gtk_label_new(_("Input method settings:")), FALSE, TRUE, 0);
+        GtkWidget* label = gtk_label_new(_("Input method settings:"));
+        g_object_set(label, "xalign", 0.0f, NULL);
+        gtk_box_pack_start(GTK_BOX(content_area), label, TRUE, TRUE, 5);
         gchar* config_file_name = g_strdup_printf("%s.config", addon->name);
         self->config_widget = fcitx_config_widget_new(cfdesc, "conf", config_file_name, addon->subconfig);
         gtk_box_pack_start(GTK_BOX(content_area), GTK_WIDGET(self->config_widget), TRUE, TRUE, 0);

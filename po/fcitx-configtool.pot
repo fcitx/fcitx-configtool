@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-28 01:29+0800\n"
+"POT-Creation-Date: 2012-05-28 03:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,99 +17,98 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/config_widget.c:190
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:192
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/config_widget.c:190
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/config_widget.c:192
 msgid "Clear font setting"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/config_widget.c:255
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:257
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/config_widget.c:255
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/config_widget.c:257
 msgid "Other"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:91
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:91
 msgid "Available Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:101
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:152
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:278
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:98
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_widget.c:86
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:182
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:101
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:152
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/main_window.c:278
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_dialog.c:98
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_widget.c:86
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:182
 msgid "Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:114
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:114
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:114
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_dialog.c:114
 msgid "Only Show Current Language"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:145
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:145
 msgid "Current Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:290
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:292
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:290
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:292
 msgid "Unknown"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/keygrab.c:81
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:80
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/keygrab.c:81
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/keygrab.c:80
 msgid "Please press the new key combination"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/keygrab.c:144
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:160
-msgid "Disabled"
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/keygrab.c:144
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/keygrab.c:160
+msgid "Empty"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:144
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:100
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/main_window.c:144
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:100
 msgid "Fcitx Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:272
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:176
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/main_window.c:272
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:176
 msgid "Global Config"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:338
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:312
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/main_window.c:338
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:312
 msgid "Configure"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:349
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:325
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/main_window.c:349
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:325
 msgid "Addon"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:81
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:185
-msgid "Input method settings:"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:147
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_config_dialog.c:144
 msgid "System Default"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:174
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_config_dialog.c:171
 msgid "Keyboard layout:"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:61
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_config_dialog.c:184
+msgid "Input method settings:"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_dialog.c:61
 msgid "Add input method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:123
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_dialog.c:123
 msgid "Search Input Method"
 msgstr ""
 
 #. advance check box
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:242
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:242
 msgid "Advance"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:252
+#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:252
 msgid "Search Addon"
 msgstr ""
