@@ -50,14 +50,14 @@ struct _FcitxImWidget {
     GtkBox parent;
     GtkListStore* imstore;
     GtkWidget* imview;
-    GtkWidget* addimbutton;
-    GtkWidget* delimbutton;
-    GtkWidget* moveupbutton;
-    GtkWidget* movedownbutton;
     FcitxInputMethod* improxy;
     GPtrArray* array;
-    GtkWidget* configurebutton;
     gchar* focus;
+    GtkToolItem* addimbutton;
+    GtkToolItem* delimbutton;
+    GtkToolItem* moveupbutton;
+    GtkToolItem* movedownbutton;
+    GtkToolItem* configurebutton;
 };
 
 struct _FcitxImWidgetClass {

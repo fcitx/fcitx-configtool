@@ -74,8 +74,6 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_orientable_set_orientation(GTK_ORIENTABLE(self), GTK_ORIENTATION_VERTICAL);
     GtkCellRenderer* renderer;
     GtkTreeViewColumn* column;
-
-    GtkWidget* hbox;
     GtkToolItem* separator;
 
     self->imstore = gtk_list_store_new(IM_N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
@@ -97,27 +95,21 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledwindow), self->imview);
 
-    gtk_box_pack_start(GTK_BOX(self), scrolledwindow, TRUE, TRUE, 5);
-
     GtkWidget* toolbar = gtk_toolbar_new();
-    g_object_set(G_OBJECT(toolbar), "toolbar-style", GTK_TOOLBAR_ICONS, "show-arrow", FALSE, NULL);
+    gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar), 1);
+    gtk_toolbar_set_show_arrow(GTK_TOOLBAR(toolbar), false);
+    gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS);
 
-    GtkToolItem* item;
     /* add and remove */
-    self->addimbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->addimbutton), gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
+    self->addimbutton = gtk_tool_button_new(NULL, NULL);
+    gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(self->addimbutton), "list-add-symbolic");
 
-    self->delimbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->delimbutton), gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_BUTTON));
-    gtk_widget_set_sensitive(self->delimbutton, FALSE);
+    self->delimbutton = gtk_tool_button_new(NULL, NULL);
+    gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(self->delimbutton), "list-remove-symbolic");
+    gtk_widget_set_sensitive(GTK_WIDGET(self->delimbutton), FALSE);
 
-    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
-    gtk_box_pack_start(GTK_BOX(hbox), self->addimbutton, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(hbox), self->delimbutton, FALSE, FALSE, 0);
-    item = gtk_tool_item_new();
-    gtk_container_add(GTK_CONTAINER(item), hbox);
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(self->addimbutton), -1);
+    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(self->delimbutton), -1);
 
     /* separator */
     separator = gtk_separator_tool_item_new();
@@ -125,21 +117,16 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), separator, -1);
 
     /* move up and move down */
-    self->moveupbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->moveupbutton), gtk_image_new_from_stock(GTK_STOCK_GO_UP, GTK_ICON_SIZE_BUTTON));
-    gtk_widget_set_sensitive(self->moveupbutton, FALSE);
+    self->moveupbutton = gtk_tool_button_new(NULL, NULL);
+    gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(self->moveupbutton), "go-up-symbolic");
+    gtk_widget_set_sensitive(GTK_WIDGET(self->moveupbutton), FALSE);
 
-    self->movedownbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->movedownbutton), gtk_image_new_from_stock(GTK_STOCK_GO_DOWN, GTK_ICON_SIZE_BUTTON));
-    gtk_widget_set_sensitive(self->movedownbutton, FALSE);
+    self->movedownbutton = gtk_tool_button_new(NULL, NULL);
+    gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(self->movedownbutton), "go-down-symbolic");
+    gtk_widget_set_sensitive(GTK_WIDGET(self->movedownbutton), FALSE);
 
-    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
-    gtk_box_pack_start(GTK_BOX(hbox), self->moveupbutton, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(hbox), self->movedownbutton, FALSE, FALSE, 0);
-    item = gtk_tool_item_new();
-    gtk_container_add(GTK_CONTAINER(item), hbox);
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(self->moveupbutton), -1);
+    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(self->movedownbutton), -1);
 
     /* separator */
     separator = gtk_separator_tool_item_new();
@@ -147,19 +134,22 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), separator, -1);
 
     /* configure */
-    self->configurebutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->configurebutton), gtk_image_new_from_stock(GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_BUTTON));
-    gtk_widget_set_sensitive(self->configurebutton, FALSE);
+    self->configurebutton = gtk_tool_button_new(NULL, NULL);
+    gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(self->configurebutton), "preferences-system-symbolic");
+    gtk_widget_set_sensitive(GTK_WIDGET(self->configurebutton), FALSE);
 
-    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(self->configurebutton), -1);
 
-    gtk_box_pack_start(GTK_BOX(hbox), self->configurebutton, FALSE, FALSE, 0);
-    item = gtk_tool_item_new();
-    gtk_container_add(GTK_CONTAINER(item), hbox);
 
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+    GtkStyleContext* context;
+    context = gtk_widget_get_style_context (scrolledwindow);
+    gtk_style_context_set_junction_sides (context, GTK_JUNCTION_BOTTOM);
+    context = gtk_widget_get_style_context (toolbar);
+    gtk_style_context_set_junction_sides (context, GTK_JUNCTION_TOP);
 
-    gtk_box_pack_start(GTK_BOX(self), toolbar, FALSE, TRUE, 5);
+
+    gtk_box_pack_start(GTK_BOX(self), scrolledwindow, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(self), toolbar, FALSE, TRUE, 0);
 
     g_signal_connect(G_OBJECT(self->addimbutton), "clicked", G_CALLBACK(_fcitx_im_widget_addim_button_clicked), self);
     g_signal_connect(G_OBJECT(self->delimbutton), "clicked", G_CALLBACK(_fcitx_im_widget_delim_button_clicked), self);
@@ -273,8 +263,8 @@ void _fcitx_im_widget_im_selection_changed(GtkTreeSelection *selection, gpointer
     GtkTreeIter iter;
 
     if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
-        gtk_widget_set_sensitive(self->delimbutton, TRUE);
-        gtk_widget_set_sensitive(self->configurebutton, TRUE);
+        gtk_widget_set_sensitive(GTK_WIDGET(self->delimbutton), TRUE);
+        gtk_widget_set_sensitive(GTK_WIDGET(self->configurebutton), TRUE);
         GtkTreePath* path = gtk_tree_model_get_path(model, &iter);
 
         gint* ind = gtk_tree_path_get_indices(path);
@@ -282,14 +272,14 @@ void _fcitx_im_widget_im_selection_changed(GtkTreeSelection *selection, gpointer
         gint n = gtk_tree_model_iter_n_children(model, NULL);
 
         if (ind) {
-            gtk_widget_set_sensitive(self->moveupbutton, (*ind != 0));
-            gtk_widget_set_sensitive(self->movedownbutton, (*ind != n - 1));
+            gtk_widget_set_sensitive(GTK_WIDGET(self->moveupbutton), (*ind != 0));
+            gtk_widget_set_sensitive(GTK_WIDGET(self->movedownbutton), (*ind != n - 1));
         }
 
         gtk_tree_path_free(path);
     } else {
-        gtk_widget_set_sensitive(self->delimbutton, FALSE);
-        gtk_widget_set_sensitive(self->configurebutton, FALSE);
+        gtk_widget_set_sensitive(GTK_WIDGET(self->delimbutton), FALSE);
+        gtk_widget_set_sensitive(GTK_WIDGET(self->configurebutton), FALSE);
     }
 }
 
