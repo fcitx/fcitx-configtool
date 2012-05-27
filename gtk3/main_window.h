@@ -52,14 +52,8 @@ typedef struct {
 
 typedef struct {
     GtkWindow parent;
-    GtkWidget* pageview;
-    GtkListStore *pagestore;
     GtkWidget* vbox;
     GtkWidget* pagelabel;
-    ConfigPage* impage;
-    ConfigPage* configpage;
-    ConfigPage* lastpage;
-    ConfigPage* addonpage;
     GtkWidget* button;
     GtkWidget* addonview;
     UT_array* addons;
@@ -69,6 +63,7 @@ typedef struct {
     GtkTreeViewColumn* checkboxcolumn;
     GtkCellRenderer* togglecell;
     GtkWidget* filterentry;
+    GtkWidget* configNotebook;
 } FcitxMainWindow;
 
 typedef struct {
