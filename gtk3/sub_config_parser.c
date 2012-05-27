@@ -212,8 +212,6 @@ GHashTable* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
                 l = l->next) {
             if (strncmp(dirpath, (gchar*) l->data, strlen(dirpath)) == 0) {
                 gchar* filename = (gchar*) l->data;
-
-                FcitxLog(INFO, "%s", filename);
                 gchar* name = filename + strlen(dirpath);
                 while (name[0] == '/')
                     name ++;
