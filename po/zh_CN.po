@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-07 02:53+0800\n"
-"PO-Revision-Date: 2012-03-07 02:53+0800\n"
-"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2012-05-28 01:29+0800\n"
+"PO-Revision-Date: 2012-05-28 01:30+0800\n"
+"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -18,78 +18,100 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "X-Generator: Lokalize 1.4\n"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/main_window.c:360
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:360
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:61
+msgid "Add input method"
+msgstr "添加输入法"
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:349
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:325
 msgid "Addon"
 msgstr "附加组件"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:91
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_widget.c:91
+#. advance check box
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:242
+msgid "Advance"
+msgstr "高级"
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:91
 msgid "Available Input Method"
 msgstr "可用的输入法"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/config_widget.c:188
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/config_widget.c:188
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/config_widget.c:190
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:192
 msgid "Clear font setting"
 msgstr "清除字体设置"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/main_window.c:349
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:349
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:338
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:312
 msgid "Configure"
 msgstr "配置 "
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:145
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_widget.c:146
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:145
 msgid "Current Input Method"
 msgstr "当前的输入法"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/keygrab.c:139
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/keygrab.c:139
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/keygrab.c:144
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:160
 msgid "Disabled"
 msgstr "禁用"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/main_window.c:147
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:147
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:144
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:100
 msgid "Fcitx Config"
 msgstr "Fcitx配置"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/main_window.c:283
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:283
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:272
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:176
 msgid "Global Config"
 msgstr "全局配置"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:101
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:152
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/main_window.c:289
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_widget.c:102
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_widget.c:153
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/main_window.c:289
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:101
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:152
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:278
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:98
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_widget.c:86
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:182
 msgid "Input Method"
 msgstr "输入法"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:114
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_widget.c:115
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:81
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:185
+msgid "Input method settings:"
+msgstr "输入法设置："
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:174
+msgid "Keyboard layout:"
+msgstr "键盘布局："
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:114
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:114
 msgid "Only Show Current Language"
 msgstr "仅显示当前语言"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/config_widget.c:253
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/config_widget.c:253
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/config_widget.c:255
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:257
 msgid "Other"
 msgstr "其他"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/keygrab.c:81
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/keygrab.c:81
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/keygrab.c:81
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:80
 msgid "Please press the new key combination"
 msgstr "请按下新按键组合"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_widget.c:96
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:252
+msgid "Search Addon"
+msgstr "搜索附加组件"
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:123
 msgid "Search Input Method"
 msgstr "搜索输入法"
 
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:293
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk/im_widget.c:295
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_widget.c:294
-#: /home/saber/Develop/fcitx-config/build/po/../..//gtk3/im_widget.c:296
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:147
+msgid "System Default"
+msgstr "系统默认"
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:290
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:292
 msgid "Unknown"
 msgstr "未知"
 
