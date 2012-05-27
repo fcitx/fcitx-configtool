@@ -1,4 +1,3 @@
-PKG_CHECK_MODULES (GTK3 "gtk+-3.0" REQUIRED)
 
 include_directories (
     ${GTK3_INCLUDE_DIRS}
@@ -7,6 +6,7 @@ include_directories (
     ${FCITX4_FCITX_INCLUDE_DIRS}
     ${FCITX4_FCITX_UTILS_INCLUDE_DIRS}
     ${FCITX4_FCITX_CONFIG_INCLUDE_DIRS}
+    ${FCITX_GCLIENT_INCLUDE_DIRS}
 )
 
 link_directories (
@@ -16,6 +16,7 @@ link_directories (
     ${FCITX4_FCITX_LIBRARY_DIRS}
     ${FCITX4_FCITX_UTILS_LIBRARY_DIRS}
     ${FCITX4_FCITX_CONFIG_LIBRARY_DIRS}
+    ${FCITX_GCLIENT_LIBRARY_DIRS}
 )
 
 set( fcitx_config_gtk3_sources
@@ -27,7 +28,6 @@ set( fcitx_config_gtk3_sources
     main.c
     main_window.c
     im_widget.c
-    im.c
     gdm-languages.c
 )
 
@@ -42,5 +42,6 @@ target_link_libraries (fcitx-config-gtk3
                        ${FCITX4_FCITX_LIBRARIES}
                        ${GLIB2_LIBRARIES}
                        ${GIO2_LIBRARIES}
+                       ${FCITX_GCLIENT_LIBRARIES}
 )
 

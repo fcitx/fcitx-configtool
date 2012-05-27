@@ -22,7 +22,7 @@
 
 #include <gtk/gtk.h>
 #include <gio/gio.h>
-#include "im.h"
+#include "fcitx-gclient/fcitxinputmethod.h"
 
 G_BEGIN_DECLS
 
