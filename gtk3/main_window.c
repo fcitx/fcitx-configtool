@@ -91,7 +91,7 @@ fcitx_main_window_init(FcitxMainWindow* self)
     _fcitx_main_window_add_config_file_page(self);
     _fcitx_main_window_add_addon_page(self);
 
-    gtk_widget_set_size_request(GTK_WIDGET(self), 750, 500);
+    gtk_widget_set_size_request(GTK_WIDGET(self), -1, 400);
 
     gtk_box_pack_start(GTK_BOX(vbox), self->configNotebook, TRUE, TRUE, 0);
 
