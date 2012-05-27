@@ -74,7 +74,6 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_orientable_set_orientation(GTK_ORIENTABLE(self), GTK_ORIENTATION_VERTICAL);
     GtkCellRenderer* renderer;
     GtkTreeViewColumn* column;
-    GtkToolItem* separator;
 
     self->imstore = gtk_list_store_new(IM_N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
     self->imview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->imstore));
@@ -94,6 +93,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     GtkWidget* scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledwindow), self->imview);
+    g_object_set(G_OBJECT(scrolledwindow), "shadow-type", GTK_SHADOW_IN, NULL);
 
     GtkWidget* toolbar = gtk_toolbar_new();
     gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar), 1);
@@ -111,11 +111,6 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(self->addimbutton), -1);
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(self->delimbutton), -1);
 
-    /* separator */
-    separator = gtk_separator_tool_item_new();
-    g_object_set(G_OBJECT(separator), "draw", false, NULL);
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), separator, -1);
-
     /* move up and move down */
     self->moveupbutton = gtk_tool_button_new(NULL, NULL);
     gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(self->moveupbutton), "go-up-symbolic");
@@ -127,11 +122,6 @@ fcitx_im_widget_init(FcitxImWidget* self)
 
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(self->moveupbutton), -1);
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(self->movedownbutton), -1);
-
-    /* separator */
-    separator = gtk_separator_tool_item_new();
-    g_object_set(G_OBJECT(separator), "draw", false, NULL);
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), separator, -1);
 
     /* configure */
     self->configurebutton = gtk_tool_button_new(NULL, NULL);
@@ -146,10 +136,11 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_style_context_set_junction_sides (context, GTK_JUNCTION_BOTTOM);
     context = gtk_widget_get_style_context (toolbar);
     gtk_style_context_set_junction_sides (context, GTK_JUNCTION_TOP);
-
+    gtk_style_context_add_class (context, "inline-toolbar");
 
     gtk_box_pack_start(GTK_BOX(self), scrolledwindow, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(self), toolbar, FALSE, TRUE, 0);
+    g_object_set(G_OBJECT(self), "margin", 5, NULL);
 
     g_signal_connect(G_OBJECT(self->addimbutton), "clicked", G_CALLBACK(_fcitx_im_widget_addim_button_clicked), self);
     g_signal_connect(G_OBJECT(self->delimbutton), "clicked", G_CALLBACK(_fcitx_im_widget_delim_button_clicked), self);

@@ -163,10 +163,12 @@ void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self)
                                            "config",
                                            NULL
                                        );
+    g_object_set(G_OBJECT(config_widget), "margin", 5, NULL);
     gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(config_widget), TRUE, TRUE, 0);
 
     GtkWidget* hbuttonbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_box_pack_start(GTK_BOX(vbox), hbuttonbox, FALSE, TRUE, 0);
+    g_object_set(G_OBJECT(hbuttonbox), "margin", 5, NULL);
 
     GtkWidget* applybutton = gtk_button_new_from_stock(GTK_STOCK_APPLY);
     gtk_box_pack_start(GTK_BOX(hbuttonbox), applybutton, TRUE, TRUE, 0);
@@ -248,6 +250,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     gtk_entry_set_icon_from_stock (GTK_ENTRY (self->filterentry),
                                     GTK_ENTRY_ICON_SECONDARY,
                                     GTK_STOCK_CLEAR);
+    g_object_set(G_OBJECT(self->filterentry), "margin", 5, NULL);
 #if GTK_CHECK_VERSION(3,2,0)
     gtk_entry_set_placeholder_text(GTK_ENTRY (self->filterentry), _("Search Addon"));
 #endif
@@ -300,14 +303,18 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     g_object_set(self->addonview, "headers-visible", FALSE, NULL);
     gtk_container_add(GTK_CONTAINER(swin), self->addonview);
     gtk_box_pack_start(GTK_BOX(vbox), swin, TRUE, TRUE, 0);
+    g_object_set(G_OBJECT(swin), "margin-left", 5, "margin-right", 5, "shadow-type", GTK_SHADOW_IN, NULL);
+
     g_signal_connect(G_OBJECT(self->togglecell), "toggled",
                      G_CALLBACK(_fcitx_main_window_toggled_cb), GTK_TREE_MODEL(self->addonstore));
 
     gtk_box_pack_start(GTK_BOX(vbox), self->advancecheckbox, FALSE, TRUE, 0);
+    g_object_set(G_OBJECT(self->advancecheckbox), "margin-left", 5, "margin-right", 5, NULL);
 
     /* configure button */
     GtkWidget* hbuttonbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_box_pack_start(GTK_BOX(vbox), hbuttonbox, FALSE, TRUE, 0);
+    g_object_set(G_OBJECT(hbuttonbox), "margin", 5, NULL);
 
     self->button = gtk_button_new_with_label(_("Configure"));
     gtk_widget_set_sensitive(self->button, FALSE);

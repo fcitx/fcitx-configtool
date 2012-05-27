@@ -110,10 +110,12 @@ fcitx_im_dialog_init(FcitxImDialog* self)
     gtk_container_add(GTK_CONTAINER(scrolledwindow), self->availimview);
 
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(self))), scrolledwindow, TRUE, TRUE, 0);
+    g_object_set(G_OBJECT(scrolledwindow), "margin-left", 5, "margin-right", 5, "shadow-type", GTK_SHADOW_IN, NULL);
 
     self->onlycurlangcheckbox = gtk_check_button_new_with_label(_("Only Show Current Language"));
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox), TRUE);
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(self))), self->onlycurlangcheckbox, FALSE, TRUE, 0);
+    g_object_set(G_OBJECT(self->onlycurlangcheckbox), "margin-left", 5, "margin-right", 5, NULL);
 
     self->filterentry = gtk_entry_new();
     gtk_entry_set_icon_from_stock (GTK_ENTRY (self->filterentry),
@@ -123,6 +125,7 @@ fcitx_im_dialog_init(FcitxImDialog* self)
     gtk_entry_set_placeholder_text(GTK_ENTRY (self->filterentry), _("Search Input Method"));
 #endif
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(self))), self->filterentry, FALSE, TRUE, 0);
+    g_object_set(G_OBJECT(self->filterentry), "margin-left", 5, "margin-right", 5, NULL);
 
     g_signal_connect(G_OBJECT(self->filterentry), "changed", G_CALLBACK(_fcitx_im_dialog_filtertext_changed), self);
     g_signal_connect(G_OBJECT(self->onlycurlangcheckbox), "toggled", G_CALLBACK(_fcitx_im_dialog_onlycurlangcheckbox_toggled), self);

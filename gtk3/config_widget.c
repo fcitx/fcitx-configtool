@@ -153,6 +153,7 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
             gtk_grid_set_column_spacing(GTK_GRID(grid), 6);
             GtkWidget *plabel = gtk_label_new(D_(cfdesc->domain, cgdesc->groupName));
             GtkWidget *scrollwnd = gtk_scrolled_window_new(NULL, NULL);
+            g_object_set(G_OBJECT(scrollwnd), "shadow-type", GTK_SHADOW_NONE, NULL);
 
             gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwnd), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
             gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwnd), grid);
