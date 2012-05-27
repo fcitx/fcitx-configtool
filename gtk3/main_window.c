@@ -103,7 +103,6 @@ fcitx_main_window_init(FcitxMainWindow* self)
 
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(self->pageview), PAGE_LIST_ICON);
     gtk_icon_view_set_text_column(GTK_ICON_VIEW(self->pageview), PAGE_LIST_NAME);
-    gtk_icon_view_set_item_orientation(GTK_ICON_VIEW(self->pageview), GTK_ORIENTATION_VERTICAL);
 
     _fcitx_main_window_add_im_page(self);
     _fcitx_main_window_add_config_file_page(self);
@@ -126,12 +125,13 @@ fcitx_main_window_init(FcitxMainWindow* self)
 
     gtk_container_add(GTK_CONTAINER(self), vbox);
 
-    gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(self->pageview), GTK_SELECTION_SINGLE);
+    gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(self->pageview), GTK_SELECTION_BROWSE);
     gtk_icon_view_set_item_padding(GTK_ICON_VIEW(self->pageview), 0);
     gtk_icon_view_set_margin(GTK_ICON_VIEW(self->pageview), 0);
     gtk_icon_view_set_column_spacing(GTK_ICON_VIEW(self->pageview), 0);
     gtk_icon_view_set_row_spacing(GTK_ICON_VIEW(self->pageview), 0);
     gtk_icon_view_set_item_width(GTK_ICON_VIEW(self->pageview), 96);
+    gtk_icon_view_set_item_orientation(GTK_ICON_VIEW(self->pageview), GTK_ORIENTATION_VERTICAL);
 
     g_signal_connect(G_OBJECT(self->pageview), "selection-changed",
                      G_CALLBACK(_fcitx_main_window_selection_changed_cb), self);
@@ -158,6 +158,8 @@ void fcitx_main_window_finalize(GObject* object)
 {
     FcitxMainWindow* self = FCITX_MAIN_WINDOW(object);
     utarray_free(self->addons);
+
+    G_OBJECT_CLASS (fcitx_main_window_parent_class)->finalize (object);
 }
 
 ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget, const char* stock)

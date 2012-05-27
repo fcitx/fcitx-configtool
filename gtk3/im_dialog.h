@@ -43,26 +43,24 @@ G_BEGIN_DECLS
 #define FCITX_IM_DIALOG_GET_CLASS(obj) \
     (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_IM_DIALOG, FcitxImDialogClass))
 
-#define IC_NAME_MAX 64
+typedef struct _FcitxImDialog FcitxImDialog;
+typedef struct _FcitxImDialogClass FcitxImDialogClass;
 
-typedef struct {
+struct _FcitxImDialog {
     GtkDialog parent;
     GtkListStore* availimstore;
     GtkWidget* availimview;
-    char servicename[IC_NAME_MAX];
     FcitxInputMethod* improxy;
     GPtrArray* array;
     GtkWidget* filterentry;
     GtkTreeModel* filtermodel;
     GtkWidget* onlycurlangcheckbox;
     GtkTreeModel* sortmodel;
-    gchar* focus;
-    GtkWidget* okbutton;
-} FcitxImDialog;
+};
 
-typedef struct {
+struct _FcitxImDialogClass {
     GtkDialogClass parent_class;
-} FcitxImDialogClass;
+};
 
 GtkWidget*
 fcitx_im_dialog_new(GtkWindow* parent);

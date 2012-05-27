@@ -188,6 +188,8 @@ void fcitx_im_widget_finalize(GObject* object)
         self->array = NULL;
     }
     g_object_unref(self->improxy);
+
+    G_OBJECT_CLASS (fcitx_im_widget_parent_class)->finalize (object);
 }
 
 void _fcitx_im_widget_imlist_changed_cb(FcitxInputMethod* im, gpointer user_data)

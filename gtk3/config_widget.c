@@ -591,13 +591,17 @@ GtkWidget* fcitx_config_dialog_new(FcitxAddon* addon, GtkWindow* parent)
     GtkWidget* dialog = gtk_dialog_new_with_buttons(addon->generalname,
                                                     parent,
                                                     GTK_DIALOG_MODAL,
-                                                    GTK_STOCK_OK,
-                                                    GTK_RESPONSE_OK,
                                                     GTK_STOCK_CANCEL,
                                                     GTK_RESPONSE_CANCEL,
+                                                    GTK_STOCK_OK,
+                                                    GTK_RESPONSE_OK,
                                                     NULL
                                                 );
 
+    gtk_dialog_set_alternative_button_order (GTK_DIALOG (dialog),
+                                         GTK_RESPONSE_OK,
+                                         GTK_RESPONSE_CANCEL,
+                                         -1);
     gchar* config_file_name = g_strdup_printf("%s.config", addon->name);
     FcitxConfigWidget* config_widget = fcitx_config_widget_new(cfdesc, "conf", config_file_name, addon->subconfig);
     GtkWidget* content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));

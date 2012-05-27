@@ -161,6 +161,8 @@ void fcitx_main_window_finalize(GObject* object)
 {
     FcitxMainWindow* self = FCITX_MAIN_WINDOW(object);
     utarray_free(self->addons);
+
+    G_OBJECT_CLASS (fcitx_main_window_parent_class)->finalize (object);
 }
 
 ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget, const char* stock)

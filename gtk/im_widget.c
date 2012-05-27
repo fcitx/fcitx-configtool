@@ -216,6 +216,8 @@ void fcitx_im_widget_finalize(GObject* object)
         self->array = NULL;
     }
     g_free(self->focus);
+
+    G_OBJECT_CLASS (fcitx_im_widget_parent_class)->finalize (object);
 }
 
 

@@ -1,15 +1,9 @@
-#include "im_dialog.h"
 #include <fcitx-utils/utils.h>
+
 #include "common.h"
+#include "im_dialog.h"
 
 G_DEFINE_TYPE(FcitxImDialog, fcitx_im_dialog, GTK_TYPE_DIALOG)
-
-enum {
-    AVAIL_TREE_IM_STRING,
-    AVAIL_TREE_IM,
-    AVAIL_TREE_LANG,
-    AVAIL_N_COLUMNS
-};
 
 enum {
     IM_LIST_IM_STRING,
@@ -33,6 +27,12 @@ static gboolean _fcitx_im_dialog_filter_func(GtkTreeModel *model,
 static void _fcitx_im_dialog_response_cb(GtkDialog *dialog,
                                          gint response,
                                          gpointer user_data);
+
+static void
+icon_press_cb (GtkEntry       *entry,
+               gint            position,
+               GdkEventButton *event,
+               gpointer        data);
 static void
 fcitx_im_dialog_class_init(FcitxImDialogClass *klass)
 {
@@ -48,26 +48,18 @@ void fcitx_im_dialog_finalize(GObject* object)
         g_ptr_array_free(self->array, FALSE);
         self->array = NULL;
     }
-    g_object_unref(self->improxy);
+
+    if (self->improxy)
+        g_object_unref(self->improxy);
+
+    G_OBJECT_CLASS (fcitx_im_dialog_parent_class)->finalize (object);
 }
 
 static void
 fcitx_im_dialog_init(FcitxImDialog* self)
 {
-
-    self->okbutton = gtk_dialog_add_button(GTK_DIALOG(self),
-                            GTK_STOCK_OK,
-                            GTK_RESPONSE_OK);
-
-    gtk_dialog_add_button(GTK_DIALOG(self),
-                          GTK_STOCK_CANCEL,
-                          GTK_RESPONSE_CANCEL
-                        );
     GtkCellRenderer* renderer;
     GtkTreeViewColumn* column;
-
-    gtk_window_set_title(GTK_WINDOW(self), _("Add input method"));
-    gtk_window_set_modal(GTK_WINDOW(self), TRUE);
 
     gtk_widget_set_size_request(GTK_WIDGET(self), 400, 300);
 
@@ -115,10 +107,7 @@ fcitx_im_dialog_init(FcitxImDialog* self)
 
     g_signal_connect(G_OBJECT(self->filterentry), "changed", G_CALLBACK(_fcitx_im_dialog_filtertext_changed), self);
     g_signal_connect(G_OBJECT(self->onlycurlangcheckbox), "toggled", G_CALLBACK(_fcitx_im_dialog_onlycurlangcheckbox_toggled), self);
-
-    g_signal_connect(self, "response",
-                    G_CALLBACK(_fcitx_im_dialog_response_cb),
-                    NULL);
+    g_signal_connect(G_OBJECT(self->filterentry), "icon-press", G_CALLBACK (icon_press_cb), NULL);
 
     _fcitx_im_dialog_connect(self);
 }
@@ -197,22 +186,44 @@ void _fcitx_im_dialog_imlist_changed_cb(FcitxInputMethod* im, gpointer user_data
 void _fcitx_im_dialog_im_selection_changed(GtkTreeSelection *selection, gpointer data)
 {
     FcitxImDialog* self = data;
+    GtkWidget* button = gtk_dialog_get_widget_for_response(GTK_DIALOG(self), GTK_RESPONSE_OK);
+    if (!button)
+        return;
     if (gtk_tree_selection_count_selected_rows(selection))
-        gtk_widget_set_sensitive(self->okbutton, TRUE);
+        gtk_widget_set_sensitive(button, TRUE);
     else
-        gtk_widget_set_sensitive(self->okbutton, FALSE);
+        gtk_widget_set_sensitive(button, FALSE);
 }
 
 GtkWidget* fcitx_im_dialog_new(GtkWindow       *parent)
 {
-    FcitxImDialog* widget =
+    FcitxImDialog* self =
         g_object_new(FCITX_TYPE_IM_DIALOG,
                      NULL);
 
     if (parent)
-        gtk_window_set_transient_for (GTK_WINDOW (widget), parent);
+        gtk_window_set_transient_for (GTK_WINDOW (self), parent);
 
-    return GTK_WIDGET(widget);
+    gtk_window_set_title(GTK_WINDOW(self), _("Add input method"));
+    gtk_window_set_modal(GTK_WINDOW(self), TRUE);
+
+    gtk_dialog_add_buttons(GTK_DIALOG(self),
+                           GTK_STOCK_CANCEL,
+                           GTK_RESPONSE_CANCEL,
+                           GTK_STOCK_OK,
+                           GTK_RESPONSE_OK,
+                           NULL
+                          );
+    gtk_dialog_set_alternative_button_order (GTK_DIALOG (self),
+                                         GTK_RESPONSE_OK,
+                                         GTK_RESPONSE_CANCEL,
+                                         -1);
+
+    g_signal_connect(self, "response",
+                    G_CALLBACK(_fcitx_im_dialog_response_cb),
+                    NULL);
+
+    return GTK_WIDGET(self);
 }
 
 
@@ -295,4 +306,14 @@ void _fcitx_im_dialog_response_cb(GtkDialog *dialog,
     }
 
     gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+static void
+icon_press_cb (GtkEntry       *entry,
+               gint            position,
+               GdkEventButton *event,
+               gpointer        data)
+{
+    gtk_entry_set_text (entry, "");
 }

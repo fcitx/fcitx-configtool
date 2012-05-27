@@ -43,9 +43,10 @@ G_BEGIN_DECLS
 #define FCITX_IM_WIDGET_GET_CLASS(obj) \
     (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_IM_WIDGET, FcitxImWidgetClass))
 
-#define IC_NAME_MAX 64
+typedef struct _FcitxImWidget FcitxImWidget;
+typedef struct _FcitxImWidgetClass FcitxImWidgetClass;
 
-typedef struct {
+struct _FcitxImWidget {
     GtkBox parent;
     GtkListStore* imstore;
     GtkWidget* imview;
@@ -53,15 +54,14 @@ typedef struct {
     GtkWidget* delimbutton;
     GtkWidget* moveupbutton;
     GtkWidget* movedownbutton;
-    char servicename[IC_NAME_MAX];
     FcitxInputMethod* improxy;
     GPtrArray* array;
     GtkWidget* configurebutton;
-} FcitxImWidget;
+};
 
-typedef struct {
+struct _FcitxImWidgetClass {
     GtkBoxClass parent_class;
-} FcitxImWidgetClass;
+};
 
 GtkWidget*
 fcitx_im_widget_new(void);
