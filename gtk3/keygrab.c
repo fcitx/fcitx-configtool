@@ -82,6 +82,7 @@ void begin_key_grab(KeyGrabButton* self, gpointer v)
     b->popup = popup_new(GTK_WIDGET(self), _("Please press the new key combination"), FALSE);
     gtk_widget_add_events(GTK_WIDGET(b->popup), GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK);
     gtk_widget_show_all(b->popup);
+    gtk_window_present(GTK_WINDOW(b->popup));
     b->handler = g_signal_connect(G_OBJECT(b->popup), "key-press-event", (GCallback)on_key_press_event, b);
 
     GdkWindow* window = gtk_widget_get_window(GTK_WIDGET(b->popup));
@@ -186,7 +187,6 @@ GtkWidget* popup_new(GtkWidget* parent, const gchar* text, gboolean mouse)
         gtk_window_set_transient_for(GTK_WINDOW(w), GTK_WINDOW(gtk_widget_get_toplevel(parent)));
     gtk_window_set_modal(GTK_WINDOW(w), TRUE);
     gtk_window_set_decorated(GTK_WINDOW(w), TRUE);
-    gtk_window_set_skip_taskbar_hint(GTK_WINDOW(w), TRUE);
     if (text) {
         GtkWidget* label = gtk_label_new(text);
         GtkWidget* align = gtk_alignment_new(0, 0, 1, 1);

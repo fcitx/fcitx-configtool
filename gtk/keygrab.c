@@ -82,6 +82,7 @@ void begin_key_grab(KeyGrabButton* self, gpointer v)
     b->popup = popup_new(GTK_WIDGET(self), _("Please press the new key combination"), FALSE);
     gtk_widget_add_events(GTK_WIDGET(b->popup), GDK_KEY_PRESS_MASK);
     gtk_widget_show_all(b->popup);
+    gtk_window_present(GTK_WINDOW(b->popup));
     b->handler = g_signal_connect(G_OBJECT(b->popup), "key-press-event", (GCallback)on_key_press_event, b);
 
     while (gdk_keyboard_grab(gtk_widget_get_window(GTK_WIDGET(b->popup)), FALSE, GDK_CURRENT_TIME) != GDK_GRAB_SUCCESS)
