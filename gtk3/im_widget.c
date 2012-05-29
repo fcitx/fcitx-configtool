@@ -211,9 +211,9 @@ void _fcitx_im_widget_load(FcitxImWidget* self)
     }
 
     self->array = fcitx_input_method_get_imlist(self->improxy);
-    g_ptr_array_set_free_func(self->array, NULL);
 
     if (self->array) {
+        g_ptr_array_set_free_func(self->array, NULL);
         foreach_ct context;
         context.widget = self;
         context.flag = FALSE;

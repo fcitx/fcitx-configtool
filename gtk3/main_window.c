@@ -260,8 +260,8 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     /* list view */
     self->addonstore = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
     for (addon = (FcitxAddon *) utarray_front(self->addons);
-            addon != NULL;
-            addon = (FcitxAddon *) utarray_next(self->addons, addon)) {
+         addon != NULL;
+         addon = (FcitxAddon *) utarray_next(self->addons, addon)) {
         GtkTreeIter iter;
         gtk_list_store_append(self->addonstore, &iter);
         gtk_list_store_set(self->addonstore, &iter, LIST_ADDON, addon, -1);
@@ -283,7 +283,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(self->checkboxcolumn),
                                        self->togglecell,
                                        _fcitx_main_window_enabled_data_func,
-                                       self->addonview,
+                                       NULL,
                                        NULL);
     gtk_cell_renderer_toggle_set_activatable(GTK_CELL_RENDERER_TOGGLE(self->togglecell), FALSE);
 
@@ -294,7 +294,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(column),
                                        renderer,
                                        _fcitx_main_window_name_data_func,
-                                       self->addonview,
+                                       NULL,
                                        NULL);
 
     /* add addon list to vbox */
@@ -372,15 +372,16 @@ _fcitx_main_window_enabled_data_func(GtkCellLayout   *cell_layout,
                                      GtkTreeIter     *iter,
                                      gpointer         user_data)
 {
-    FcitxAddon* addon;
+    FcitxAddon* addon = NULL;
 
     gtk_tree_model_get(tree_model,
                        iter,
                        LIST_ADDON, &addon,
                        -1);
+
     g_object_set(renderer,
-                 "active", (gboolean) addon->bEnabled,
-                 NULL);
+                "active", addon->bEnabled,
+                NULL);
 }
 
 static void

@@ -176,9 +176,9 @@ void _fcitx_im_dialog_load(FcitxImDialog* self)
     }
 
     self->array = fcitx_input_method_get_imlist(self->improxy);
-    g_ptr_array_set_free_func(self->array, NULL);
 
     if (self->array) {
+        g_ptr_array_set_free_func(self->array, NULL);
         g_ptr_array_foreach(self->array, _fcitx_inputmethod_insert_foreach_cb, self);
 
         _fcitx_im_dialog_im_selection_changed(gtk_tree_view_get_selection(GTK_TREE_VIEW(self->availimview)), self);
