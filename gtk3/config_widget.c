@@ -559,7 +559,7 @@ void hash_foreach_cb(gpointer       key,
     int i = context->i;
 
     GtkWidget* label = gtk_label_new(dgettext(widget->parser->domain, subconfig->name));
-    g_object_set(label, "xalign", 0.0f, NULL);
+    g_object_set(G_OBJECT(label),"xalign", 0.0f,  "yalign", 0.0f, "margin", 5, NULL);
 
     GtkWidget *inputWidget = GTK_WIDGET(fcitx_sub_config_widget_new(subconfig));
 

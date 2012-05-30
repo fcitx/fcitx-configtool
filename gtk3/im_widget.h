@@ -53,11 +53,11 @@ struct _FcitxImWidget {
     FcitxInputMethod* improxy;
     GPtrArray* array;
     gchar* focus;
-    GtkToolItem* addimbutton;
-    GtkToolItem* delimbutton;
-    GtkToolItem* moveupbutton;
-    GtkToolItem* movedownbutton;
-    GtkToolItem* configurebutton;
+    GtkWidget* addimbutton;
+    GtkWidget* delimbutton;
+    GtkWidget* moveupbutton;
+    GtkWidget* movedownbutton;
+    GtkWidget* configurebutton;
 };
 
 struct _FcitxImWidgetClass {

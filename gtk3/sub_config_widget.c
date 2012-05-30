@@ -83,14 +83,22 @@ fcitx_sub_config_widget_new(FcitxSubConfig* subconfig)
     widget->subconfig = subconfig;
     switch (subconfig->type) {
     case SC_ConfigFile: {
+        gtk_orientable_set_orientation(GTK_ORIENTABLE(widget), GTK_ORIENTATION_VERTICAL);
+        g_object_set(G_OBJECT(widget), "expand", TRUE, NULL);
         GtkWidget* view = gtk_tree_view_new();
-        gtk_box_pack_start(GTK_BOX(widget), view, FALSE, FALSE, 0);
 
         GtkCellRenderer* renderer = gtk_cell_renderer_text_new();
         GtkTreeViewColumn* column = gtk_tree_view_column_new_with_attributes("Name", renderer, "text", 0, NULL);
         gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
         GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-        gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+        gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
+        gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
+
+        GtkWidget* swin = gtk_scrolled_window_new(NULL, NULL);
+        g_object_set(swin, "hscrollbar-policy", GTK_POLICY_NEVER, "vscrollbar-policy", GTK_POLICY_NEVER, NULL);
+        gtk_container_add(GTK_CONTAINER(swin), view);
+        gtk_box_pack_start(GTK_BOX(widget), swin, FALSE, FALSE, 0);
+        g_object_set(G_OBJECT(swin), "margin-left", 5, "margin-right", 5, "shadow-type", GTK_SHADOW_IN, NULL);
 
         GtkListStore* store = gtk_list_store_new(1, G_TYPE_STRING);
 
@@ -102,7 +110,10 @@ fcitx_sub_config_widget_new(FcitxSubConfig* subconfig)
         GtkWidget* button = gtk_button_new();
         gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_stock(GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_BUTTON));
         g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(open_subconfig_file), widget);
-        gtk_box_pack_start(GTK_BOX(widget), button, FALSE, FALSE, 0);
+        GtkWidget* hbuttonbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+        g_object_set(G_OBJECT(hbuttonbox), "margin", 5, NULL);
+        gtk_box_pack_start(GTK_BOX(hbuttonbox), button, FALSE, TRUE, 0);
+        gtk_box_pack_start(GTK_BOX(widget), hbuttonbox, FALSE, TRUE, 0);
         widget->view = view;
     }
     break;

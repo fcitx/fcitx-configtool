@@ -356,7 +356,7 @@ add_locale(const char *language_name,
     GdmLocale *locale;
     GdmLocale *old_locale;
     char      *name;
-    gboolean   is_utf8;
+    gboolean   is_utf8 = TRUE;
 
     g_return_val_if_fail(language_name != NULL, FALSE);
 
