@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 2.6)
 
 project(fcitx-configtool)
 
+option(ENABLE_GTK2 "Enable GTK2 Version" Off)
 option(ENABLE_GTK3 "Enable GTK3 Version" On)
 
 find_package(PkgConfig REQUIRED)
@@ -9,7 +10,9 @@ find_package(PkgConfig REQUIRED)
 if (ENABLE_GTK3)
 PKG_CHECK_MODULES (FCITX_GCLIENT "fcitx-gclient >= 4.2.4" REQUIRED)
 PKG_CHECK_MODULES (GTK3 "gtk+-3.0" REQUIRED)
-else (ENABLE_GTK3)
+endif (ENABLE_GTK3)
+
+if (ENABLE_GTK3)
 PKG_CHECK_MODULES (GTK2 "gtk+-2.0 >= 2.22" REQUIRED)
 endif (ENABLE_GTK3)
 
@@ -51,7 +54,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 if (ENABLE_GTK3)
     add_subdirectory(gtk3)
-else (ENABLE_GTK2)
-    add_subdirectory(gtk)
 endif (ENABLE_GTK3)
+
+if (ENABLE_GTK2)
+    add_subdirectory(gtk)
+endif (ENABLE_GTK2)
 add_subdirectory(po)
