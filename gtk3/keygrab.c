@@ -26,10 +26,9 @@
 #include <fcitx-config/hotkey.h>
 
 #define _(s) gettext(s)
-//定义枚举类型，说明信号的名称和次序
+
 enum {
     KEYGRAB_BUTTON_CHANGED,
-    KEYGRAB_BUTTON_CURRENT_CHANGED,
     LAST_SIGNAL
 };
 static gint keygrab_button_signals[LAST_SIGNAL] = { 0 };
@@ -58,13 +57,6 @@ static void keygrab_button_class_init(KeyGrabButtonClass *keygrabbuttonclass)
             G_TYPE_FROM_CLASS(object_class),
             G_SIGNAL_RUN_FIRST,
             G_STRUCT_OFFSET(KeyGrabButtonClass, changed),
-            NULL, NULL,
-            g_cclosure_marshal_VOID__VOID,
-            G_TYPE_NONE, 0, NULL);
-    keygrab_button_signals[KEYGRAB_BUTTON_CURRENT_CHANGED] = g_signal_new("current-changed",
-            G_TYPE_FROM_CLASS(object_class),
-            G_SIGNAL_RUN_FIRST,
-            G_STRUCT_OFFSET(KeyGrabButtonClass, current_changed),
             NULL, NULL,
             g_cclosure_marshal_VOID__VOID,
             G_TYPE_NONE, 0, NULL);

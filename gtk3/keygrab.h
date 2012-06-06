@@ -24,11 +24,11 @@
 //定义类型宏和转换宏
 #define TYPE_KEYGRAB_BUTTON   (keygrab_button_get_type())
 #define KEYGRAB_BUTTON(obj)   (G_TYPE_CHECK_INSTANCE_CAST(obj,TYPE_KEYGRAB_BUTTON,KeyGrabButton))
-//定义实例结构和类结构
+
 typedef struct _KeyGrabButton KeyGrabButton;
 typedef struct _KeyGrabButtonClass KeyGrabButtonClass;
 struct _KeyGrabButton {
-    GtkButton parent; //父控件为横向盒状容器
+    GtkButton parent;
     GtkWidget* popup;
     gulong handler;
     guint key;
