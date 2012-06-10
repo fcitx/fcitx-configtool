@@ -21,7 +21,7 @@
 #define KEYGRAB_H
 
 #include <gtk/gtk.h>
-//定义类型宏和转换宏
+
 #define TYPE_KEYGRAB_BUTTON   (keygrab_button_get_type())
 #define KEYGRAB_BUTTON(obj)   (G_TYPE_CHECK_INSTANCE_CAST(obj,TYPE_KEYGRAB_BUTTON,KeyGrabButton))
 
