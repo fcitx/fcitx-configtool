@@ -12,9 +12,9 @@ PKG_CHECK_MODULES (FCITX_GCLIENT "fcitx-gclient >= 4.2.4" REQUIRED)
 PKG_CHECK_MODULES (GTK3 "gtk+-3.0" REQUIRED)
 endif (ENABLE_GTK3)
 
-if (ENABLE_GTK3)
+if (ENABLE_GTK2)
 PKG_CHECK_MODULES (GTK2 "gtk+-2.0 >= 2.22" REQUIRED)
-endif (ENABLE_GTK3)
+endif (ENABLE_GTK2)
 
 PKG_CHECK_MODULES(ISO_CODES "iso-codes" REQUIRED)
 _pkgconfig_invoke("iso-codes" ISO_CODES PREFIX "" "--variable=prefix")
