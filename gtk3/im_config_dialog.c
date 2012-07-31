@@ -141,7 +141,7 @@ GtkWidget* fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gcha
         self->model = gtk_list_store_new(N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
         GtkTreeIter iter;
         gtk_list_store_append(self->model, &iter);
-        gtk_list_store_set(self->model, &iter, LIST_NAME, _("System Default"), LIST_LAYOUT, "", LIST_VARIANT, "", -1);
+        gtk_list_store_set(self->model, &iter, LIST_NAME, _("Input Method Default"), LIST_LAYOUT, "", LIST_VARIANT, "", -1);
         layout_foreach_ct context;
         context.model = self->model;
         context.layout = layout;
