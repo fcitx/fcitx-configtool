@@ -163,6 +163,8 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
             for (; codesc != NULL;
                     codesc = (FcitxConfigOptionDesc*)codesc->hh.next, i++) {
                 const char *s;
+                FcitxConfigOptionDesc2 *codesc2 =
+                    (FcitxConfigOptionDesc2*)codesc;
                 if (codesc->desc && strlen(codesc->desc) != 0)
                     s = D_(cfdesc->domain, codesc->desc);
                 else
@@ -238,9 +240,22 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
                 if (inputWidget) {
                     GtkWidget* label = gtk_label_new(s);
                     g_object_set(label, "xalign", 0.0f, NULL);
-                    gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i + 1, GTK_FILL, GTK_SHRINK, 5, 5);
-                    gtk_table_attach(GTK_TABLE(table), inputWidget, 1, 2, i, i + 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 4);
-                    FcitxConfigBindValue(self->gconfig.configFile, cgdesc->groupName, codesc->optionName, NULL, sync_filter, argument);
+                    gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i + 1,
+                                     GTK_FILL, GTK_SHRINK, 5, 5);
+                    gtk_table_attach(GTK_TABLE(table), inputWidget, 1, 2, i,
+                                     i + 1, GTK_EXPAND | GTK_FILL,
+                                     GTK_SHRINK | GTK_FILL, 0, 4);
+                    if (codesc2->longDesc && *codesc2->longDesc) {
+                        const char *tooltip = D_(cfdesc->domain,
+                                                 codesc2->longDesc);
+                        gtk_widget_set_tooltip_text(GTK_WIDGET(label),
+                                                    tooltip);
+                        gtk_widget_set_tooltip_text(GTK_WIDGET(inputWidget),
+                                                    tooltip);
+                    }
+                    FcitxConfigBindValue(self->gconfig.configFile,
+                                         cgdesc->groupName, codesc->optionName,
+                                         NULL, sync_filter, argument);
                 }
             }
         }
