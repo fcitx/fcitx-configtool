@@ -7,10 +7,10 @@ option(ENABLE_GTK3 "Enable GTK3 Version" On)
 
 find_package(PkgConfig REQUIRED)
 
-if (ENABLE_GTK3)
-PKG_CHECK_MODULES (FCITX_GCLIENT "fcitx-gclient>=4.2.4" REQUIRED)
-PKG_CHECK_MODULES (GTK3 "gtk+-3.0" REQUIRED)
-endif (ENABLE_GTK3)
+if(ENABLE_GTK3)
+  PKG_CHECK_MODULES(FCITX_GCLIENT "fcitx-gclient>=4.2.6" REQUIRED)
+  PKG_CHECK_MODULES(GTK3 "gtk+-3.0" REQUIRED)
+endif(ENABLE_GTK3)
 
 if (ENABLE_GTK2)
 PKG_CHECK_MODULES (GTK2 "gtk+-2.0>=2.22" REQUIRED)
@@ -30,7 +30,7 @@ add_custom_target(uninstall
 
 include(FindPkgConfig)
 FIND_PACKAGE(Gettext REQUIRED)
-find_package(Fcitx 4.2.4 REQUIRED)
+find_package(Fcitx 4.2.6 REQUIRED)
 FIND_PROGRAM(INTLTOOL_EXTRACT intltool-extract)
 FIND_PROGRAM(INTLTOOL_UPDATE intltool-update)
 FIND_PROGRAM(INTLTOOL_MERGE intltool-merge)
@@ -52,9 +52,9 @@ set(liblocaledir ${CMAKE_INSTALL_PREFIX}/lib/locale)
 configure_file(config.h.in config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-if (ENABLE_GTK3)
-    add_subdirectory(gtk3)
-endif (ENABLE_GTK3)
+if(ENABLE_GTK3)
+  add_subdirectory(gtk3)
+endif(ENABLE_GTK3)
 
 if (ENABLE_GTK2)
     add_subdirectory(gtk)
