@@ -166,10 +166,13 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
             for (; codesc != NULL;
                     codesc = (FcitxConfigOptionDesc*)codesc->hh.next, i++) {
                 const char *s;
-                if (codesc->desc && strlen(codesc->desc) != 0)
+                FcitxConfigOptionDesc2 *codesc2 =
+                    (FcitxConfigOptionDesc2*)codesc;
+                if (codesc->desc && strlen(codesc->desc) != 0) {
                     s = D_(cfdesc->domain, codesc->desc);
-                else
+                } else {
                     s = D_(cfdesc->domain, codesc->optionName);
+                }
 
                 GtkWidget *inputWidget = NULL;
                 void *argument = NULL;
@@ -243,7 +246,17 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
                     g_object_set(label, "xalign", 0.0f, NULL);
                     gtk_grid_attach(GTK_GRID(grid), label, 0, i, 1, 1);
                     gtk_grid_attach(GTK_GRID(grid), inputWidget, 1, i, 1, 1);
-                    FcitxConfigBindValue(self->gconfig.configFile, cgdesc->groupName, codesc->optionName, NULL, sync_filter, argument);
+                    if (codesc2->longDesc && *codesc2->longDesc) {
+                        const char *tooltip = D_(cfdesc->domain,
+                                                 codesc2->longDesc);
+                        gtk_widget_set_tooltip_text(GTK_WIDGET(label),
+                                                    tooltip);
+                        gtk_widget_set_tooltip_text(GTK_WIDGET(inputWidget),
+                                                    tooltip);
+                    }
+                    FcitxConfigBindValue(self->gconfig.configFile,
+                                         cgdesc->groupName, codesc->optionName,
+                                         NULL, sync_filter, argument);
                 }
             }
         }

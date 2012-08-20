@@ -1,5 +1,8 @@
 *~
-build/*
+/build*/
+.*
+!.git*
+.git/
 data/pinyin.tar.gz
 data/pinyin.tar.gz.md5
 data/table/table.tar.gz
@@ -12,3 +15,6 @@ data/desc.po
 .directory
 *.kate-swp
 *.orig
+tags
+astyle.sh
+cscope.*
