@@ -60,6 +60,7 @@ static void _fcitx_im_widget_delim_button_clicked(GtkButton* button, gpointer us
 static void _fcitx_im_widget_moveup_button_clicked(GtkButton* button, gpointer user_data);
 static void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer user_data);
 static void _fcitx_im_widget_configure_button_clicked(GtkButton* button, gpointer user_data);
+static void _fcitx_im_widget_default_layout_button_clicked(GtkButton* button, gpointer user_data);
 
 static void
 fcitx_im_widget_class_init(FcitxImWidgetClass *klass)
@@ -155,10 +156,14 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_button_set_image(GTK_BUTTON(self->configurebutton),
                          gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("preferences-system-symbolic"), GTK_ICON_SIZE_BUTTON));
     gtk_widget_set_sensitive(self->configurebutton, FALSE);
+    self->default_layout_button = gtk_button_new();
+    gtk_button_set_image(GTK_BUTTON(self->default_layout_button),
+                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("input-keyboard-symbolic"), GTK_ICON_SIZE_BUTTON));
 
     hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
     gtk_box_pack_start(GTK_BOX(hbox), self->configurebutton, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), self->default_layout_button, FALSE, FALSE, 0);
     item = gtk_tool_item_new();
     gtk_container_add(GTK_CONTAINER(item), hbox);
 
@@ -180,6 +185,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     g_signal_connect(G_OBJECT(self->moveupbutton), "clicked", G_CALLBACK(_fcitx_im_widget_moveup_button_clicked), self);
     g_signal_connect(G_OBJECT(self->movedownbutton), "clicked", G_CALLBACK(_fcitx_im_widget_movedown_button_clicked), self);
     g_signal_connect(G_OBJECT(self->configurebutton), "clicked", G_CALLBACK(_fcitx_im_widget_configure_button_clicked), self);
+    g_signal_connect(G_OBJECT(self->default_layout_button), "clicked", G_CALLBACK(_fcitx_im_widget_default_layout_button_clicked), self);
 
 
     _fcitx_im_widget_connect(self);
@@ -416,6 +422,20 @@ void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer user_d
             fcitx_input_method_set_imlist(self->improxy, self->array);
         }
     }
+}
+
+void _fcitx_im_widget_default_layout_button_clicked(GtkButton* button, gpointer user_data)
+{
+    FcitxImWidget* self = user_data;
+    FcitxMainWindow* mainwindow = FCITX_MAIN_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET(self)));
+    do {
+        if (!mainwindow)
+            break;
+
+        GtkWidget* dialog = fcitx_im_config_dialog_new(GTK_WINDOW(mainwindow), NULL, "default");
+        if (dialog)
+            gtk_widget_show_all(GTK_WIDGET(dialog));
+    } while(0);
 }
 
 void _fcitx_im_widget_configure_button_clicked(GtkButton* button, gpointer user_data)

@@ -198,7 +198,7 @@ gboolean _filter_addon_func(GtkTreeModel *model,
 
     gboolean flag = TRUE;
     if (addon) {
-        if ((addon->category == AC_FRONTEND || addon->advance) && !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->advancecheckbox))) {
+        if ((addon->category == AC_FRONTEND || !addon->bEnabled || addon->advance) && !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->advancecheckbox))) {
             return false;
         }
         flag = flag && (strlen(filter_text) == 0

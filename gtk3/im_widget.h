@@ -58,6 +58,7 @@ struct _FcitxImWidget {
     GtkWidget* moveupbutton;
     GtkWidget* movedownbutton;
     GtkWidget* configurebutton;
+    GtkWidget* default_layout_button;
 };
 
 struct _FcitxImWidgetClass {
