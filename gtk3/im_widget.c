@@ -105,10 +105,12 @@ fcitx_im_widget_init(FcitxImWidget* self)
     GtkToolItem* item;
     /* add and remove */
     self->addimbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->addimbutton), gtk_image_new_from_icon_name("list-add-symbolic", GTK_ICON_SIZE_BUTTON));
+    gtk_button_set_image(GTK_BUTTON(self->addimbutton),
+                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("list-add-symbolic"), GTK_ICON_SIZE_BUTTON));
 
     self->delimbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->delimbutton), gtk_image_new_from_icon_name("list-remove-symbolic", GTK_ICON_SIZE_BUTTON));
+    gtk_button_set_image(GTK_BUTTON(self->delimbutton),
+                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("list-remove-symbolic"), GTK_ICON_SIZE_BUTTON));
     gtk_widget_set_sensitive(self->delimbutton, FALSE);
 
     hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
@@ -126,11 +128,13 @@ fcitx_im_widget_init(FcitxImWidget* self)
 
     /* move up and move down */
     self->moveupbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->moveupbutton), gtk_image_new_from_icon_name("go-up-symbolic", GTK_ICON_SIZE_BUTTON));
+    gtk_button_set_image(GTK_BUTTON(self->moveupbutton),
+                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("go-up-symbolic"), GTK_ICON_SIZE_BUTTON));
     gtk_widget_set_sensitive(self->moveupbutton, FALSE);
 
     self->movedownbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->movedownbutton), gtk_image_new_from_icon_name("go-down-symbolic", GTK_ICON_SIZE_BUTTON));
+    gtk_button_set_image(GTK_BUTTON(self->movedownbutton),
+                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("go-down-symbolic"), GTK_ICON_SIZE_BUTTON));
     gtk_widget_set_sensitive(self->movedownbutton, FALSE);
 
     hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
@@ -148,7 +152,8 @@ fcitx_im_widget_init(FcitxImWidget* self)
 
     /* configure */
     self->configurebutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->configurebutton), gtk_image_new_from_icon_name("preferences-system-symbolic", GTK_ICON_SIZE_BUTTON));
+    gtk_button_set_image(GTK_BUTTON(self->configurebutton),
+                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("preferences-system-symbolic"), GTK_ICON_SIZE_BUTTON));
     gtk_widget_set_sensitive(self->configurebutton, FALSE);
 
     hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
@@ -194,7 +199,7 @@ void fcitx_im_widget_finalize(GObject* object)
 {
     FcitxImWidget* self = FCITX_IM_WIDGET(object);
     if (self->array) {
-        g_ptr_array_set_free_func(self->array, fcitx_im_item_free);
+        g_ptr_array_set_free_func(self->array, (GDestroyNotify) fcitx_im_item_free);
         g_ptr_array_free(self->array, FALSE);
         self->array = NULL;
     }
@@ -233,7 +238,7 @@ void _fcitx_im_widget_load(FcitxImWidget* self)
     gtk_list_store_clear(self->imstore);
 
     if (self->array) {
-        g_ptr_array_set_free_func(self->array, fcitx_im_item_free);
+        g_ptr_array_set_free_func(self->array, (GDestroyNotify) fcitx_im_item_free);
         g_ptr_array_free(self->array, FALSE);
         self->array = NULL;
     }
