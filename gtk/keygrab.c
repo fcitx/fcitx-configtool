@@ -64,7 +64,7 @@ static void keygrab_button_class_init(KeyGrabButtonClass *keygrabbuttonclass)
 
 GtkWidget* keygrab_button_new(void)
 {
-    return GTK_WIDGET(g_object_new(TYPE_KEYGRAB_BUTTON, 0));
+    return GTK_WIDGET(g_object_new(TYPE_KEYGRAB_BUTTON, NULL));
 }
 
 
