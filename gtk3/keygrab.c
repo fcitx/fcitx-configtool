@@ -45,7 +45,6 @@ static void keygrab_button_init(KeyGrabButton *self)
 {
     self->key = 0;
     self->mods = 0;
-    gtk_button_set_label(GTK_BUTTON(self), _("Empty"));
     gtk_widget_set_size_request(GTK_WIDGET(self), 150, -1);
 
     g_signal_connect(G_OBJECT(self), "clicked", (GCallback) begin_key_grab, NULL);
@@ -66,7 +65,7 @@ static void keygrab_button_class_init(KeyGrabButtonClass *keygrabbuttonclass)
 //创建新的自定义控件
 GtkWidget* keygrab_button_new(void)
 {
-    return GTK_WIDGET(g_object_new(TYPE_KEYGRAB_BUTTON, 0));
+    return GTK_WIDGET(g_object_new(TYPE_KEYGRAB_BUTTON, "label", _("Empty"), 0));
 }
 
 
