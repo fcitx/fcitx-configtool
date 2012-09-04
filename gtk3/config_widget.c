@@ -575,8 +575,7 @@ fcitx_config_widget_new(FcitxConfigFileDesc* cfdesc, const gchar* prefix, const 
                      "prefix", prefix,
                      "name", name,
                      "subconfig", subconfig,
-                     NULL
-                    );
+                     NULL);
     fcitx_config_widget_setup_ui(widget);
     return widget;
 }
