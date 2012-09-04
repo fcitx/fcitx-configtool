@@ -43,7 +43,9 @@ G_DEFINE_TYPE(KeyGrabButton, keygrab_button, GTK_TYPE_BUTTON)
 
 static void keygrab_button_init(KeyGrabButton *self)
 {
-    keygrab_button_set_key(self, 0, 0);
+    self->key = 0;
+    self->mods = 0;
+    gtk_button_set_label(GTK_BUTTON(self), _("Empty"));
     gtk_widget_set_size_request(GTK_WIDGET(self), 150, -1);
 
     g_signal_connect(G_OBJECT(self), "clicked", (GCallback) begin_key_grab, NULL);
@@ -144,6 +146,9 @@ void keygrab_button_set_key(KeyGrabButton* self, guint key, GdkModifierType mods
         self->key = key;
         self->mods = mods;
         g_signal_emit_by_name(G_OBJECT(self), "changed", self->key, self->mods);
+    }
+    else {
+        return;
     }
 
     label = FcitxHotkeyGetKeyString(key, mods);

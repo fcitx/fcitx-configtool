@@ -736,43 +736,29 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
         }
         break;
         case T_Enum: {
-            FcitxConfigEnum* cenum = &codesc->configEnum;
-            int index = 0;
-            index = gtk_combo_box_get_active(GTK_COMBO_BOX(arg));
-            option->rawValue = strdup(cenum->enumDesc[index]);
+            int* index = (int*) value;
+            *index = gtk_combo_box_get_active(GTK_COMBO_BOX(arg));
         }
         break;
         case T_Hotkey: {
             GArray *array = (GArray*) arg;
-            GtkWidget *button;
-            guint key;
-            GdkModifierType mods;
-            char *strkey[2] = { NULL, NULL };
-            int j = 0, k = 0;
+            FcitxHotkey* hotkey = value;
+            int j = 0;
 
             for (j = 0; j < 2 ; j ++) {
-                button = g_array_index(array, GtkWidget*, j);
-                keygrab_button_get_key(KEYGRAB_BUTTON(button), &key, &mods);
-                strkey[k] = FcitxHotkeyGetKeyString(key, mods);
-                if (strkey[k])
-                    k ++;
+                GtkWidget *button = g_array_index(array, GtkWidget*, j);
+                keygrab_button_get_key(KEYGRAB_BUTTON(button), &hotkey[j].sym, &hotkey[j].state);
+                char* keystring = FcitxHotkeyGetKeyString(hotkey[j].sym, hotkey[j].state);
+                fcitx_utils_string_swap(&hotkey[j].desc, keystring);
+                fcitx_utils_free(keystring);
             }
-            if (strkey[1])
-                option->rawValue = g_strdup_printf("%s %s", strkey[0], strkey[1]);
-            else if (strkey[0]) {
-                option->rawValue = strdup(strkey[0]);
-            } else
-                option->rawValue = strdup("");
-
-            for (j = 0 ; j < k ; j ++)
-                free(strkey[j]);
-
         }
         break;
         case T_File:
         case T_Char:
         case T_String: {
-            option->rawValue = strdup(gtk_entry_get_text(GTK_ENTRY(arg)));
+            char** str = (char**) value;
+            fcitx_utils_string_swap(str, gtk_entry_get_text(GTK_ENTRY(arg)));
         }
         break;
         }
