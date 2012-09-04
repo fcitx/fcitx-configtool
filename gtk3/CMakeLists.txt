@@ -28,10 +28,12 @@ set( fcitx_config_gtk3_sources
     main.c
     main_window.c
     im_widget.c
+    ui_widget.c
     gdm-languages.c
     im_dialog.c
     common.c
     im_config_dialog.c
+    dummy_config.c
 )
 
 add_executable( fcitx-config-gtk3 ${fcitx_config_gtk3_sources} )

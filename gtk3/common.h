@@ -17,8 +17,8 @@
  *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
  ***************************************************************************/
 
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef FCITX_CONFIGTOOL_COMMON_H
+#define FCITX_CONFIGTOOL_COMMON_H
 
 #include <libintl.h>
 #include <fcitx/addon.h>
@@ -26,6 +26,6 @@
 
 #define _(x) gettext(x)
 
-FcitxAddon* find_addon_by_name(UT_array* array, gchar* name);
+FcitxAddon* find_addon_by_name(UT_array* array, const gchar* name);
 
 #endif

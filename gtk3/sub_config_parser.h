@@ -24,6 +24,7 @@
 typedef enum {
     SC_None,
     SC_ConfigFile,
+    SC_Program,
     SC_NativeFile
 } SubConfigType;
 
@@ -32,6 +33,7 @@ typedef struct {
     gchar* configdesc;
     gchar* nativepath;
     gchar** patternlist;
+    gchar* path;
 } FcitxSubConfigPattern;
 
 typedef struct {
@@ -40,6 +42,7 @@ typedef struct {
     GHashTable* filelist;
     gchar* nativepath;
     gchar* configdesc;
+    gchar* path;
 } FcitxSubConfig;
 
 typedef struct {

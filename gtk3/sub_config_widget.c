@@ -29,6 +29,7 @@ G_DEFINE_TYPE(FcitxSubConfigWidget, fcitx_sub_config_widget, GTK_TYPE_BOX)
 
 static void open_subconfig_file(GtkButton *button, gpointer user_data);
 static void open_native_file(GtkButton *button, gpointer user_data);
+static void run_program(GtkButton *button, gpointer user_data);
 static void push_into_store_cb(gpointer data, gpointer value, gpointer user_data);
 
 static void
@@ -124,6 +125,13 @@ fcitx_sub_config_widget_new(FcitxSubConfig* subconfig)
         gtk_box_pack_start(GTK_BOX(widget), button, FALSE, FALSE, 0);
     }
     break;
+    case SC_Program: {
+        GtkWidget* button = gtk_button_new();
+        gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_BUTTON));
+        g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(run_program), widget);
+        gtk_box_pack_start(GTK_BOX(widget), button, FALSE, FALSE, 0);
+    }
+    break;
     default:
         break;
     }
@@ -203,6 +211,13 @@ void open_native_file(GtkButton *button,
     }
 }
 
+void run_program(GtkButton* button, gpointer user_data)
+{
+    FcitxSubConfigWidget* widget = (FcitxSubConfigWidget*) user_data;
+    char*args[] = {widget->subconfig->path};
+    fcitx_utils_start_process(args);
+
+}
 
 void push_into_store_cb(gpointer       data,
                         gpointer       value,

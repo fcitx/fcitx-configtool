@@ -17,16 +17,54 @@
  *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
  ***************************************************************************/
 
-#include "common.h"
+#ifndef UI_WIDGET_H
+#define UI_WIDGET_H
 
-FcitxAddon* find_addon_by_name(UT_array* array, const gchar* name)
-{
-    FcitxAddon* addon = NULL;
-    for (addon = (FcitxAddon *) utarray_front(array);
-         addon != NULL;
-         addon = (FcitxAddon *) utarray_next(array, addon)) {
-        if (strcmp(addon->name, name) == 0)
-            break;
-    }
-    return addon;
-}
+#include <gtk/gtk.h>
+#include <gio/gio.h>
+#include "fcitx-gclient/fcitxinputmethod.h"
+
+G_BEGIN_DECLS
+
+#define FCITX_TYPE_UI_WIDGET fcitx_ui_widget_get_type()
+
+#define FCITX_UI_WIDGET(obj) \
+    (G_TYPE_CHECK_INSTANCE_CAST ((obj), FCITX_TYPE_UI_WIDGET, FcitxUIWidget))
+
+#define FCITX_UI_WIDGET_CLASS(klass) \
+    (G_TYPE_CHECK_CLASS_CAST ((klass), FCITX_TYPE_UI_WIDGET, FcitxUIWidgetClass))
+
+#define FCITX_IS_UI_WIDGET(obj) \
+    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FCITX_TYPE_UI_WIDGET))
+
+#define FCITX_IS_UI_WIDGET_CLASS(klass) \
+    (G_TYPE_CHECK_CLASS_TYPE ((klass), FCITX_TYPE_UI_WIDGET))
+
+#define FCITX_UI_WIDGET_GET_CLASS(obj) \
+    (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_UI_WIDGET, FcitxUIWidgetClass))
+
+typedef struct _FcitxUIWidget FcitxUIWidget;
+typedef struct _FcitxUIWidgetClass FcitxUIWidgetClass;
+
+struct _FcitxUIWidget {
+    GtkBox parent;
+    FcitxInputMethod* improxy;
+    GtkWidget* label;
+};
+
+struct _FcitxUIWidgetClass {
+    GtkBoxClass parent_class;
+};
+
+GType        fcitx_ui_widget_get_type(void) G_GNUC_CONST;
+
+GtkWidget*
+fcitx_ui_widget_new(void);
+
+void
+fcitx_ui_widget_connect(FcitxUIWidget* widget);
+
+G_END_DECLS
+
+
+#endif

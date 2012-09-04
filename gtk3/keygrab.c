@@ -32,7 +32,7 @@ enum {
     LAST_SIGNAL
 };
 static gint keygrab_button_signals[LAST_SIGNAL] = { 0 };
-static void keygrab_button_init(KeyGrabButton *keygrab_button);
+static void keygrab_button_init(KeyGrabButton* self);
 static void keygrab_button_class_init(KeyGrabButtonClass *keygrabbuttonclass);
 static void begin_key_grab(KeyGrabButton* self, gpointer v);
 static void end_key_grab(KeyGrabButton *self);
@@ -41,12 +41,12 @@ static void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v);
 
 G_DEFINE_TYPE(KeyGrabButton, keygrab_button, GTK_TYPE_BUTTON)
 
-static void keygrab_button_init(KeyGrabButton *keygrabbutton)
+static void keygrab_button_init(KeyGrabButton *self)
 {
-    keygrab_button_set_key(keygrabbutton, 0, 0);
-    gtk_widget_set_size_request(GTK_WIDGET(keygrabbutton), 150, -1);
+    keygrab_button_set_key(self, 0, 0);
+    gtk_widget_set_size_request(GTK_WIDGET(self), 150, -1);
 
-    g_signal_connect(G_OBJECT(keygrabbutton), "clicked", (GCallback) begin_key_grab, NULL);
+    g_signal_connect(G_OBJECT(self), "clicked", (GCallback) begin_key_grab, NULL);
 }
 
 static void keygrab_button_class_init(KeyGrabButtonClass *keygrabbuttonclass)
@@ -56,7 +56,7 @@ static void keygrab_button_class_init(KeyGrabButtonClass *keygrabbuttonclass)
     keygrab_button_signals[KEYGRAB_BUTTON_CHANGED] = g_signal_new("changed",
             G_TYPE_FROM_CLASS(object_class),
             G_SIGNAL_RUN_FIRST,
-            G_STRUCT_OFFSET(KeyGrabButtonClass, changed),
+            0,
             NULL, NULL,
             g_cclosure_marshal_VOID__VOID,
             G_TYPE_NONE, 0, NULL);
@@ -114,8 +114,6 @@ void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v)
 
     if ((event->keyval == GDK_KEY_Escape
             || event->keyval == GDK_KEY_Return) && !mods) {
-        if (event->keyval == GDK_KEY_Escape)
-            g_signal_emit_by_name(G_OBJECT(b), "changed", b->key, b->mods);
         end_key_grab(b);
         keygrab_button_set_key(b, 0, 0);
         return;
@@ -129,9 +127,6 @@ void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v)
             || (key == GDK_KEY_Tab && mods)) {
         keygrab_button_set_key(b, key, mods);
         end_key_grab(b);
-        b->key = key;
-        b->mods = mods;
-        g_signal_emit_by_name(G_OBJECT(b), "changed", b->key, b->mods);
         return;
     }
 
@@ -144,18 +139,19 @@ void keygrab_button_set_key(KeyGrabButton* self, guint key, GdkModifierType mods
         mods &= ~GDK_SUPER_MASK;
         mods |= FcitxKeyState_Super;
     }
-    KeyGrabButton* b = KEYGRAB_BUTTON(self);
     gchar *label;
-    b->key = key;
-    b->mods = mods;
+    if (self->key != key || self->mods != mods) {
+        self->key = key;
+        self->mods = mods;
+        g_signal_emit_by_name(G_OBJECT(self), "changed", self->key, self->mods);
+    }
 
     label = FcitxHotkeyGetKeyString(key, mods);
 
     if (label == NULL || strlen(label) == 0) {
-        gtk_button_set_label(GTK_BUTTON(b), _("Empty"));
+        gtk_button_set_label(GTK_BUTTON(self), _("Empty"));
     } else {
-        gchar* lb = label;
-        gtk_button_set_label(GTK_BUTTON(b), lb);
+        gtk_button_set_label(GTK_BUTTON(self), label);
     }
 
     if (label)

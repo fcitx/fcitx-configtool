@@ -44,7 +44,7 @@ void fcitx_im_dialog_finalize(GObject* object)
 {
     FcitxImDialog* self = FCITX_IM_DIALOG(object);
     if (self->array) {
-        g_ptr_array_set_free_func(self->array, fcitx_im_item_free);
+        g_ptr_array_set_free_func(self->array, (GDestroyNotify) fcitx_im_item_free);
         g_ptr_array_free(self->array, FALSE);
         self->array = NULL;
     }
@@ -170,7 +170,7 @@ void _fcitx_im_dialog_load(FcitxImDialog* self)
     gtk_list_store_clear(self->availimstore);
 
     if (self->array) {
-        g_ptr_array_set_free_func(self->array, fcitx_im_item_free);
+        g_ptr_array_set_free_func(self->array, (GDestroyNotify) fcitx_im_item_free);
         g_ptr_array_free(self->array, FALSE);
         self->array = NULL;
     }

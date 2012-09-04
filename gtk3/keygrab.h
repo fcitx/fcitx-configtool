@@ -36,8 +36,6 @@ struct _KeyGrabButton {
 };
 struct _KeyGrabButtonClass {
     GtkButtonClass parent_class;
-    void (*changed)(int, int);
-    void (*current_changed)(int, int);
 };
 
 GType keygrab_button_get_type(void);

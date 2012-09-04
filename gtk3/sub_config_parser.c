@@ -46,6 +46,9 @@ static SubConfigType parse_type(const gchar* str)
     if (strcmp(str, "configfile") == 0) {
         return SC_ConfigFile;
     }
+    if (strcmp(str, "program") == 0) {
+        return SC_Program;
+    }
     return SC_None;
 }
 
@@ -86,7 +89,7 @@ FcitxSubConfigParser* sub_config_parser_new(const gchar* subconfig)
                 goto end;
             if (strlen(items[2]) == 0 || items[2][0] == '/')
                 goto end;
-        } else if (type == SC_NativeFile) {
+        } else if (type == SC_NativeFile || type == SC_Program) {
             if (g_strv_length(items) != 3)
                 goto end;
             if (strchr(items[2], '*') != NULL)
@@ -118,6 +121,8 @@ FcitxSubConfigParser* sub_config_parser_new(const gchar* subconfig)
             pattern->configdesc = g_strdup(items[3]);
         else if (type == SC_NativeFile)
             pattern->nativepath = g_strdup(items[2]);
+        else if (type == SC_Program)
+            pattern->path = g_strdup(items[2]);
 
         g_hash_table_insert(parser->subconfigs, g_strdup(items[0]), pattern);
     end:
@@ -148,11 +153,10 @@ void sub_config_pattern_free(void* data)
     if (pattern->patternlist)
         g_strfreev(pattern->patternlist);
 
-    if (pattern->configdesc)
-        g_free(pattern->configdesc);
+    g_free(pattern->configdesc);
 
-    if (pattern->nativepath)
-        g_free(pattern->nativepath);
+    g_free(pattern->nativepath);
+    g_free(pattern->path);
 
     g_free(pattern);
 }
@@ -166,6 +170,7 @@ FcitxSubConfig* sub_config_new(const gchar* name, FcitxSubConfigPattern* pattern
     subconfig->type = pattern->type;
     subconfig->configdesc = g_strdup(pattern->configdesc);
     subconfig->nativepath = g_strdup(pattern->nativepath);
+    subconfig->path = g_strdup(pattern->path);
     subconfig->name = g_strdup(name);
     subconfig->filelist = sub_config_pattern_get_filelist(pattern);
 
@@ -193,11 +198,7 @@ GHashTable* sub_config_pattern_get_filelist(FcitxSubConfigPattern* pattern)
 {
     size_t size, i;
     GHashTable* result = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
-#if FCITX_CHECK_VERSION(4,2,1)
     char** xdgpath = FcitxXDGGetPathWithPrefix(&size, "");
-#else
-    char** xdgpath = FcitxXDGGetPath(&size, "XDG_CONFIG_HOME", ".config" , PACKAGE , DATADIR, PACKAGE);
-#endif
 
     for (i = 0; i < size; i ++) {
         char* dirpath = realpath(xdgpath[i], NULL);

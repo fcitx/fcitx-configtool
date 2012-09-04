@@ -27,6 +27,7 @@
 #include <fcitx-config/fcitx-config.h>
 #include <fcitx/addon.h>
 #include "sub_config_parser.h"
+#include "dummy_config.h"
 
 G_BEGIN_DECLS
 
@@ -47,13 +48,26 @@ G_BEGIN_DECLS
 #define FCITX_CONFIG_WIDGET_GET_CLASS(obj) \
     (G_TYPE_INSTANCE_GET_CLASS ((obj), FCITX_TYPE_CONFIG_WIDGET, FcitxConfigWidgetClass))
 
+
+enum UIType {
+    CW_Simple = 0x1,
+    CW_Full = 0x2,
+    CW_NoShow = 0x0
+};
+
 typedef struct {
     GtkBox parent;
     FcitxConfigFileDesc* cfdesc;
     gchar* prefix;
     gchar* name;
     FcitxSubConfigParser* parser;
-    FcitxGenericConfig gconfig;
+    GHashTable* argmap;
+    enum UIType fullUiType;
+    enum UIType simpleUiType;
+    GtkWidget* simpleWidget;
+    GtkWidget* fullWidget;
+    GtkWidget* advanceCheckBox;
+    DummyConfig* config;
 } FcitxConfigWidget;
 
 typedef struct {

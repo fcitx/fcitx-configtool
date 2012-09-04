@@ -31,6 +31,7 @@
 #include "config_widget.h"
 #include "configdesc.h"
 #include "im_widget.h"
+#include "ui_widget.h"
 
 enum {
     LIST_ADDON,
@@ -46,6 +47,8 @@ static void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self);
 static void _fcitx_main_window_add_addon_page(FcitxMainWindow* self);
 
 static void _fcitx_main_window_add_im_page(FcitxMainWindow* self);
+
+static void _fcitx_main_window_add_ui_page(FcitxMainWindow* self);
 
 void _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget, const char* stock);
 
@@ -89,6 +92,7 @@ fcitx_main_window_init(FcitxMainWindow* self)
 
     _fcitx_main_window_add_im_page(self);
     _fcitx_main_window_add_config_file_page(self);
+    _fcitx_main_window_add_ui_page(self);
     _fcitx_main_window_add_addon_page(self);
 
     gtk_widget_set_size_request(GTK_WIDGET(self), -1, 400);
@@ -182,6 +186,20 @@ void _fcitx_main_window_add_im_page(FcitxMainWindow* self)
 {
     GtkWidget* imwidget = fcitx_im_widget_new();
     _fcitx_main_window_add_page(self, _("Input Method"), imwidget, GTK_STOCK_EDIT);
+}
+
+gboolean _ui_connect(gpointer user_data)
+{
+    fcitx_ui_widget_connect(FCITX_UI_WIDGET(user_data));
+    return false;
+}
+
+void _fcitx_main_window_add_ui_page(FcitxMainWindow* self)
+{
+    GtkWidget* uiwidget = fcitx_ui_widget_new();
+    _fcitx_main_window_add_page(self, _("Appearance"), uiwidget, GTK_STOCK_ABOUT);
+
+    g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, (GSourceFunc)_ui_connect, g_object_ref(uiwidget), (GDestroyNotify) g_object_unref);
 }
 
 gboolean _filter_addon_func(GtkTreeModel *model,
