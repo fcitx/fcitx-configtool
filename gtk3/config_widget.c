@@ -351,7 +351,7 @@ fcitx_config_widget_create_simple_ui(FcitxConfigWidget* self, gboolean skipAdvan
             gtk_label_set_markup(GTK_LABEL(plabel), s);
             g_free(s);
             g_object_set(plabel, "xalign", 0.0f, "yalign", 0.5f, NULL);
-            gtk_grid_attach(GTK_GRID(configGrid), plabel, 0, i, 2, 1);
+            gtk_grid_attach(GTK_GRID(configGrid), plabel, 0, i, 3, 1);
             i ++;
 
             HASH_FOREACH(codesc, cgdesc->optionsDesc, FcitxConfigOptionDesc) {
@@ -365,7 +365,7 @@ fcitx_config_widget_create_simple_ui(FcitxConfigWidget* self, gboolean skipAdvan
 
                 if (inputWidget) {
                     GtkWidget* label = gtk_label_new(s);
-                    g_object_set(label, "xalign", 0.0f, NULL);
+                    g_object_set(label, "xalign", 1.0f, NULL);
                     gtk_grid_attach(GTK_GRID(configGrid), label, 1, i, 1, 1);
                     gtk_grid_attach(GTK_GRID(configGrid), inputWidget, 2, i, 1, 1);
                     gtk_widget_set_tooltip_text(GTK_WIDGET(label),
@@ -388,7 +388,7 @@ fcitx_config_widget_create_simple_ui(FcitxConfigWidget* self, gboolean skipAdvan
             GtkWidget *plabel = gtk_label_new(NULL);
             gtk_label_set_markup(GTK_LABEL(plabel), _("<b>Other</b>"));
             g_object_set(plabel, "xalign", 0.0f, NULL);
-            gtk_grid_attach(GTK_GRID(configGrid), plabel, 0, i, 2, 1);
+            gtk_grid_attach(GTK_GRID(configGrid), plabel, 0, i, 3, 1);
             i ++;
 
             HashForeachContext context;
@@ -823,7 +823,7 @@ void hash_foreach_cb(gpointer       key,
     int i = context->i;
 
     GtkWidget* label = gtk_label_new(dgettext(widget->parser->domain, subconfig->name));
-    g_object_set(G_OBJECT(label),"xalign", 0.0f,  "yalign", 0.0f, NULL);
+    g_object_set(G_OBJECT(label),"xalign", 1.0f,  "yalign", 0.0f, NULL);
 
     GtkWidget *inputWidget = GTK_WIDGET(fcitx_sub_config_widget_new(subconfig));
 

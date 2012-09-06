@@ -125,7 +125,17 @@ GtkWidget* fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gcha
     else
         gtk_window_set_title(GTK_WINDOW(self), _("Default keyboard layout"));
     GtkWidget* content_area = gtk_dialog_get_content_area(GTK_DIALOG(self));
+    g_object_set(G_OBJECT(content_area), "margin", 5, NULL);
     self->imname = g_strdup(imname);
+
+    FcitxConfigFileDesc* cfdesc = NULL;
+    gboolean configurable = FALSE;
+    if (addon) {
+        gchar* config_desc_name = g_strdup_printf("%s.desc", addon->name);
+        cfdesc = get_config_desc(config_desc_name);
+        g_free(config_desc_name);
+        configurable = (gboolean)(cfdesc != NULL || strlen(addon->subconfig) != 0);
+    }
 
     do {
 
@@ -172,9 +182,15 @@ GtkWidget* fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gcha
             gtk_combo_box_set_active_iter(GTK_COMBO_BOX(combobox), &context.iter);
         else
             gtk_combo_box_set_active_iter(GTK_COMBO_BOX(combobox), &iter);
-        GtkWidget* label = gtk_label_new(addon ? _("Keyboard layout:") : _("Keyboard layout to use when no input method active:"));
-        g_object_set(label, "xalign", 0.0f, NULL);
-        gtk_box_pack_start(GTK_BOX(content_area), label, TRUE, TRUE, 5);
+
+        if (configurable || !addon) {
+            gchar* markup = g_strdup_printf("<b>%s</b>", addon ? _("Keyboard layout:") : _("Keyboard layout to use when no input method active:"));
+            GtkWidget* label = gtk_label_new(NULL);
+            gtk_label_set_markup(GTK_LABEL(label), markup);
+            g_free(markup);
+            g_object_set(label, "xalign", 0.0f, NULL);
+            gtk_box_pack_start(GTK_BOX(content_area), label, TRUE, TRUE, 5);
+        }
         gtk_box_pack_start(GTK_BOX(content_area), combobox, FALSE, TRUE, 5);
         self->combobox = combobox;
 
@@ -183,16 +199,18 @@ GtkWidget* fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gcha
     do {
         if (!addon)
             break;
-        gchar* config_desc_name = g_strdup_printf("%s.desc", addon->name);
-        FcitxConfigFileDesc* cfdesc = get_config_desc(config_desc_name);
-        g_free(config_desc_name);
-        gboolean configurable = (gboolean)(cfdesc != NULL || strlen(addon->subconfig) != 0);
         if (configurable) {
-            GtkWidget* label = gtk_label_new(_("Input method settings:"));
-            g_object_set(label, "xalign", 0.0f, NULL);
-            gtk_box_pack_start(GTK_BOX(content_area), label, TRUE, TRUE, 5);
+            if (self->combobox) {
+                gchar* markup = g_strdup_printf("<b>%s</b>", _("Input method settings:"));
+                GtkWidget* label = gtk_label_new(NULL);
+                gtk_label_set_markup(GTK_LABEL(label), markup);
+                g_free(markup);
+                g_object_set(label, "xalign", 0.0f, NULL);
+                gtk_box_pack_start(GTK_BOX(content_area), label, TRUE, TRUE, 5);
+            }
             gchar* config_file_name = g_strdup_printf("%s.config", addon->name);
             self->config_widget = fcitx_config_widget_new(cfdesc, "conf", config_file_name, addon->subconfig);
+            g_object_set(G_OBJECT(self->config_widget), "margin", 5, NULL);
             gtk_box_pack_start(GTK_BOX(content_area), GTK_WIDGET(self->config_widget), TRUE, TRUE, 0);
             g_free(config_file_name);
             gtk_widget_set_size_request(GTK_WIDGET(self->config_widget), -1, 400);

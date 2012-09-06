@@ -96,9 +96,9 @@ fcitx_sub_config_widget_new(FcitxSubConfig* subconfig)
         gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
         GtkWidget* swin = gtk_scrolled_window_new(NULL, NULL);
-        g_object_set(swin, "hscrollbar-policy", GTK_POLICY_NEVER, "vscrollbar-policy", GTK_POLICY_NEVER, NULL);
+        gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(swin), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
         gtk_container_add(GTK_CONTAINER(swin), view);
-        gtk_box_pack_start(GTK_BOX(widget), swin, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(widget), swin, TRUE, TRUE, 0);
         g_object_set(G_OBJECT(swin), "margin-left", 5, "margin-right", 5, "shadow-type", GTK_SHADOW_IN, NULL);
 
         GtkListStore* store = gtk_list_store_new(1, G_TYPE_STRING);
