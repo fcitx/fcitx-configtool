@@ -26,6 +26,8 @@ ${REL_SOURCE_ROOT}/gtk3/im_config_dialog.c
 ${REL_SOURCE_ROOT}/gtk3/im_config_dialog.h
 ${REL_SOURCE_ROOT}/gtk3/im_dialog.c
 ${REL_SOURCE_ROOT}/gtk3/im_dialog.h
+${REL_SOURCE_ROOT}/gtk3/ui_widget.c
+${REL_SOURCE_ROOT}/gtk3/ui_widget.h
 ${REL_SOURCE_ROOT}/gtk3/im_widget.c
 ${REL_SOURCE_ROOT}/gtk3/im_widget.h
 ${REL_SOURCE_ROOT}/gtk3/keygrab.c

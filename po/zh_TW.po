@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-04 09:49-0400\n"
-"PO-Revision-Date: 2012-07-31 09:16+0800\n"
+"POT-Creation-Date: 2012-09-06 18:33-0400\n"
+"PO-Revision-Date: 2012-09-06 18:35-0400\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
 "Language: zh_TW\n"
@@ -18,15 +18,6 @@ msgstr ""
 "team/zh_TW/)\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 "X-Generator: Lokalize 1.5\n"
-
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:348
-#, c-format
-msgid "<b>%s</b>"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:388
-msgid "<b>Other</b>"
-msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:61
 msgid "Add input method"
@@ -44,11 +35,15 @@ msgstr "高級"
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:200
 msgid "Appearance"
-msgstr ""
+msgstr "外观"
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:91
 msgid "Available Input Method"
 msgstr "可用輸入法"
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/ui_widget.c:48
+msgid "Cannot load currently used user interface info"
+msgstr "無法加載當前用戶界面信息"
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/config_widget.c:192
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:206
@@ -64,18 +59,17 @@ msgstr "設定"
 msgid "Current Input Method"
 msgstr "目前輸入法"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:148
-#, fuzzy
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:158
 msgid "Default"
-msgstr "系統預設"
+msgstr "預設"
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:126
-#, fuzzy
 msgid "Default keyboard layout"
-msgstr "鍵盤佈局："
+msgstr "預設鍵盤佈局"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/keygrab.c:135
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:152
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/keygrab.c:138
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:64
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:159
 msgid "Empty"
 msgstr "空"
 
@@ -98,21 +92,26 @@ msgstr "全局設定"
 msgid "Input Method"
 msgstr "輸入法"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:148
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:158
 msgid "Input Method Default"
 msgstr "輸入法預設"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:191
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:204
 msgid "Input method settings:"
 msgstr "輸入法設定："
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:175
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:187
 msgid "Keyboard layout to use when no input method active:"
-msgstr ""
+msgstr "無活動輸入法時使用的鍵盤佈局："
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:175
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:187
 msgid "Keyboard layout:"
 msgstr "鍵盤佈局："
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/ui_widget.c:104
+#, c-format
+msgid "No configuration option for %s."
+msgstr "%s 無設定選項。"
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:114
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:115
@@ -120,12 +119,12 @@ msgid "Only Show Current Language"
 msgstr "僅顯示当前語言"
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/config_widget.c:270
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:476
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:479
 msgid "Other"
 msgstr "其他"
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/keygrab.c:74
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:74
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:78
 msgid "Please press the new key combination"
 msgstr "請按下新按鍵組合"
 
@@ -137,9 +136,9 @@ msgstr "搜索附加元件"
 msgid "Search Input Method"
 msgstr "搜尋輸入法"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:559
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:562
 msgid "Show Advance Option"
-msgstr ""
+msgstr "顯示高級選項"
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:290
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:292

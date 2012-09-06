@@ -346,7 +346,7 @@ fcitx_config_widget_create_simple_ui(FcitxConfigWidget* self, gboolean skipAdvan
                     continue;
             }
 
-            gchar* s = g_strdup_printf(_("<b>%s</b>"), D_(cfdesc->domain, cgdesc->groupName));
+            gchar* s = g_strdup_printf("<b>%s</b>", D_(cfdesc->domain, cgdesc->groupName));
             GtkWidget *plabel = gtk_label_new(NULL);
             gtk_label_set_markup(GTK_LABEL(plabel), s);
             g_free(s);
@@ -386,7 +386,9 @@ fcitx_config_widget_create_simple_ui(FcitxConfigWidget* self, gboolean skipAdvan
         GHashTable* subconfigs = self->parser->subconfigs;
         if (g_hash_table_size(subconfigs) != 0) {
             GtkWidget *plabel = gtk_label_new(NULL);
-            gtk_label_set_markup(GTK_LABEL(plabel), _("<b>Other</b>"));
+            gchar* markup = g_strdup_printf("<b>%s</b>", "Other");
+            gtk_label_set_markup(GTK_LABEL(plabel), markup);
+            g_free(markup);
             g_object_set(plabel, "xalign", 0.0f, NULL);
             gtk_grid_attach(GTK_GRID(configGrid), plabel, 0, i, 3, 1);
             i ++;

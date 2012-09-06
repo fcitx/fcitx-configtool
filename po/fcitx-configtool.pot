@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-04 09:49-0400\n"
+"POT-Creation-Date: 2012-09-06 18:33-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgid "Clear font setting"
 msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/config_widget.c:270
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:476
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:479
 msgid "Other"
 msgstr ""
 
@@ -55,12 +55,13 @@ msgid "Unknown"
 msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/keygrab.c:74
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:74
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:78
 msgid "Please press the new key combination"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/keygrab.c:135
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:152
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/keygrab.c:138
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:64
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/keygrab.c:159
 msgid "Empty"
 msgstr ""
 
@@ -84,16 +85,7 @@ msgstr ""
 msgid "Addon"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:348
-#, c-format
-msgid "<b>%s</b>"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:388
-msgid "<b>Other</b>"
-msgstr ""
-
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:559
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:562
 msgid "Show Advance Option"
 msgstr ""
 
@@ -101,23 +93,23 @@ msgstr ""
 msgid "Default keyboard layout"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:148
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:158
 msgid "Input Method Default"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:148
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:158
 msgid "Default"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:175
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:187
 msgid "Keyboard layout:"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:175
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:187
 msgid "Keyboard layout to use when no input method active:"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:191
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_config_dialog.c:204
 msgid "Input method settings:"
 msgstr ""
 
@@ -127,6 +119,15 @@ msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:125
 msgid "Search Input Method"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/ui_widget.c:48
+msgid "Cannot load currently used user interface info"
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/ui_widget.c:104
+#, c-format
+msgid "No configuration option for %s."
 msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/main_window.c:200
