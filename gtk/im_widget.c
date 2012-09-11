@@ -521,12 +521,14 @@ gboolean _fcitx_im_widget_filter_func(GtkTreeModel *model,
 
     gboolean flag = TRUE;
     if (item) {
-        flag = flag && (strlen(filter_text) == 0
-                 || strstr(item->name, filter_text)
-                 || strstr(item->unique_name, filter_text)
-                 || strstr(item->langcode, filter_text));
-        flag = flag && (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
-                 strncmp(item->langcode, _get_current_lang() , 2) == 0 : TRUE) ;
+        if (strcmp(item->unique_name, "fcitx-keyboard-us") != 0) {
+            flag = flag && (strlen(filter_text) == 0
+                     || strstr(item->name, filter_text)
+                     || strstr(item->unique_name, filter_text)
+                     || strstr(item->langcode, filter_text));
+            flag = flag && (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
+                     strncmp(item->langcode, _get_current_lang() , 2) == 0 : TRUE) ;
+        }
         return flag;
     } else {
         gchar* lang = NULL;
@@ -534,6 +536,8 @@ gboolean _fcitx_im_widget_filter_func(GtkTreeModel *model,
                            iter,
                            AVAIL_TREE_LANG, &lang,
                            -1);
+        if (lang && strcmp(lang, "en") == 0)
+            return TRUE;
         flag = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
                 lang != NULL && strncmp(lang, _get_current_lang() , 2) == 0 : TRUE) ;
         g_free(lang);

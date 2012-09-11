@@ -256,12 +256,15 @@ gboolean _fcitx_im_dialog_filter_func(GtkTreeModel *model,
 
     gboolean flag = TRUE;
     if (item) {
-        flag = flag && (strlen(filter_text) == 0
-                 || strstr(item->name, filter_text)
-                 || strstr(item->unique_name, filter_text)
-                 || strstr(item->langcode, filter_text));
-        flag = flag && (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
-                 strncmp(item->langcode, _get_current_lang() , 2) == 0 : TRUE) ;
+        if (strcmp(item->unique_name, "fcitx-keyboard-us") != 0) {
+            flag = flag && (
+                        strlen(filter_text) == 0
+                     || strstr(item->name, filter_text)
+                     || strstr(item->unique_name, filter_text)
+                     || strstr(item->langcode, filter_text));
+            flag = flag && (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
+                     strncmp(item->langcode, _get_current_lang() , 2) == 0 : TRUE) ;
+        }
     }
     return flag;
 }
