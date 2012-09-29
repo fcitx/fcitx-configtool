@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-06 18:33-0400\n"
+"POT-Creation-Date: 2012-09-29 12:07-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,16 +23,16 @@ msgid "Clear font setting"
 msgstr ""
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/config_widget.c:270
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:479
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:478
 msgid "Other"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:91
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:92
 msgid "Available Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:101
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:152
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:102
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:153
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:278
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:98
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_widget.c:86
@@ -40,17 +40,24 @@ msgstr ""
 msgid "Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:114
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:115
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:115
 msgid "Only Show Current Language"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:145
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:146
 msgid "Current Input Method"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:290
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:292
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:192
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_widget.c:182
+msgid ""
+"The first input method will be inactive state. Usually you need to put "
+"<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
+msgstr ""
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:306
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:308
 msgid "Unknown"
 msgstr ""
 
@@ -85,7 +92,7 @@ msgstr ""
 msgid "Addon"
 msgstr ""
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:562
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:561
 msgid "Show Advance Option"
 msgstr ""
 

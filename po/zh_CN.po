@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-06 18:33-0400\n"
-"PO-Revision-Date: 2012-09-06 18:34-0400\n"
+"POT-Creation-Date: 2012-09-29 12:07-0400\n"
+"PO-Revision-Date: 2012-09-29 12:08-0400\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
 "Language: zh_CN\n"
@@ -36,7 +36,7 @@ msgstr "高级"
 msgid "Appearance"
 msgstr "外观"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:91
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:92
 msgid "Available Input Method"
 msgstr "可用的输入法"
 
@@ -54,7 +54,7 @@ msgstr "清除字体设置"
 msgid "Configure"
 msgstr "配置 "
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:145
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:146
 msgid "Current Input Method"
 msgstr "当前的输入法"
 
@@ -82,8 +82,8 @@ msgstr "Fcitx配置"
 msgid "Global Config"
 msgstr "全局配置"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:101
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:152
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:102
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:153
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/main_window.c:278
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:98
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_widget.c:86
@@ -112,13 +112,13 @@ msgstr "键盘布局："
 msgid "No configuration option for %s."
 msgstr "%s 无配置选项。"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:114
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:115
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_dialog.c:115
 msgid "Only Show Current Language"
 msgstr "仅显示当前语言"
 
 #: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/config_widget.c:270
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:479
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:478
 msgid "Other"
 msgstr "其他"
 
@@ -135,12 +135,19 @@ msgstr "搜索附加组件"
 msgid "Search Input Method"
 msgstr "搜索输入法"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:562
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/config_widget.c:561
 msgid "Show Advance Option"
 msgstr "显示高级选项"
 
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:290
-#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:292
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:192
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk3/im_widget.c:182
+msgid ""
+"The first input method will be inactive state. Usually you need to put "
+"<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
+msgstr "第一个输入法将作为非激活状态。通常您需要将<b>键盘</b>或<b>键盘 - <i>布局名称</i></b>放在第一个。"
+
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:306
+#: /home/saber/Develop/fcitx-configtool/build/po/../..//gtk/im_widget.c:308
 msgid "Unknown"
 msgstr "未知"
 

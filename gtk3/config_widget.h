@@ -56,7 +56,7 @@ enum UIType {
 };
 
 typedef struct {
-    GtkBox parent;
+    GtkGrid parent;
     FcitxConfigFileDesc* cfdesc;
     gchar* prefix;
     gchar* name;
@@ -71,7 +71,7 @@ typedef struct {
 } FcitxConfigWidget;
 
 typedef struct {
-    GtkBoxClass parent_class;
+    GtkGridClass parent_class;
 } FcitxConfigWidgetClass;
 
 typedef enum {

@@ -176,7 +176,19 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_style_context_set_junction_sides (context, GTK_JUNCTION_TOP);
     gtk_style_context_add_class (context, "inline-toolbar");
 
+    GtkWidget* label = gtk_label_new(NULL);
+    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+    gtk_label_set_markup(GTK_LABEL(label),
+                         _("The first input method will be inactive state. Usually you need to put "
+                         "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."));
+    GtkWidget* image = gtk_image_new_from_stock(GTK_STOCK_ABOUT, GTK_ICON_SIZE_BUTTON);
+    GtkWidget* grid = gtk_grid_new();
+    g_object_set(G_OBJECT(label), "hexpand", TRUE, NULL);
+    gtk_grid_attach(GTK_GRID(grid), image, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 1, 0, 2, 1);
+
     gtk_box_pack_start(GTK_BOX(self), scrolledwindow, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(self), grid, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(self), toolbar, FALSE, TRUE, 0);
     g_object_set(G_OBJECT(self), "margin", 5, NULL);
 

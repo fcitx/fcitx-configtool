@@ -42,7 +42,7 @@
 #define D_(d, x) dgettext (d, x)
 #define RoundColor(c) ((c)>=0?((c)<=255?c:255):0)
 
-G_DEFINE_TYPE(FcitxConfigWidget, fcitx_config_widget, GTK_TYPE_BOX)
+G_DEFINE_TYPE(FcitxConfigWidget, fcitx_config_widget, GTK_TYPE_GRID)
 
 typedef struct {
     int i;
@@ -200,12 +200,13 @@ fcitx_config_widget_create_option_widget(
             argument = *inputWidget;
         break;
     case T_Font: {
-        *inputWidget = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+        *inputWidget = gtk_grid_new();
         g_object_set(*inputWidget, "hexpand", TRUE, NULL);
         GtkWidget* arg = gtk_font_button_new();
         GtkWidget *button = gtk_button_new_with_label(_("Clear font setting"));
-        gtk_box_pack_start(GTK_BOX(*inputWidget), arg, TRUE, TRUE, 0);
-        gtk_box_pack_start(GTK_BOX(*inputWidget), button, FALSE, FALSE, 0);
+        g_object_set(arg, "hexpand", TRUE, NULL);
+        gtk_grid_attach(GTK_GRID(*inputWidget), arg, 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(*inputWidget), button, 1, 0, 2, 1);
         gtk_font_button_set_use_size(GTK_FONT_BUTTON(arg), FALSE);
         gtk_font_button_set_show_size(GTK_FONT_BUTTON(arg), FALSE);
         g_signal_connect(G_OBJECT(button), "clicked", (GCallback) set_none_font_clicked, arg);
@@ -235,9 +236,9 @@ fcitx_config_widget_create_option_widget(
         GtkWidget *button[2];
         button[0] = keygrab_button_new();
         button[1] = keygrab_button_new();
-        *inputWidget = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-        gtk_box_pack_start(GTK_BOX(*inputWidget), button[0], FALSE, TRUE, 0);
-        gtk_box_pack_start(GTK_BOX(*inputWidget), button[1], FALSE, TRUE, 0);
+        *inputWidget = gtk_grid_new();
+        gtk_grid_attach(GTK_GRID(*inputWidget), button[0], 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(*inputWidget), button[1], 1, 0, 2, 1);
         g_object_set(G_OBJECT(button[0]), "hexpand", TRUE, NULL);
         g_object_set(G_OBJECT(button[1]), "hexpand", TRUE, NULL);
         if (oldarg) {
@@ -429,7 +430,6 @@ fcitx_config_widget_create_full_ui(FcitxConfigWidget* self)
             if (codesc == NULL)
                 continue;
 
-            GtkWidget* hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
             GtkWidget *grid = gtk_grid_new();
             gtk_widget_set_margin_left(grid, 12);
             gtk_widget_set_margin_top(grid, 6);
@@ -441,9 +441,8 @@ fcitx_config_widget_create_full_ui(FcitxConfigWidget* self)
 
             gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwnd), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
             gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwnd), grid);
-            gtk_box_pack_start(GTK_BOX(hbox), scrollwnd, TRUE, TRUE, 0);
             gtk_notebook_append_page(GTK_NOTEBOOK(configNotebook),
-                                     hbox,
+                                     scrollwnd,
                                      plabel);
 
             int i = 0;
@@ -510,13 +509,13 @@ _fcitx_config_widget_toggle_simple_full(GtkToggleButton* button, gpointer user_d
     if (gtk_toggle_button_get_active(button)) {
         if (gtk_widget_get_parent(self->simpleWidget))
             gtk_container_remove(GTK_CONTAINER(self), self->simpleWidget);
-        gtk_box_pack_start(GTK_BOX(self), self->fullWidget, TRUE, TRUE, 0);
+        gtk_grid_attach(GTK_GRID(self), self->fullWidget, 0, 0, 1, 1);
         gtk_widget_show_all(self->fullWidget);
     }
     else {
         if (gtk_widget_get_parent(self->fullWidget))
             gtk_container_remove(GTK_CONTAINER(self), self->fullWidget);
-        gtk_box_pack_start(GTK_BOX(self), self->simpleWidget, TRUE, TRUE, 0);
+        gtk_grid_attach(GTK_GRID(self), self->simpleWidget, 0, 0, 1, 1);
         gtk_widget_show_all(self->simpleWidget);
     }
 }
@@ -550,14 +549,14 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
             self->fullWidget = fcitx_config_widget_create_simple_ui(self, false);
         else
             self->fullWidget = fcitx_config_widget_create_full_ui(self);
-        gtk_box_pack_start(GTK_BOX(self), self->fullWidget, TRUE, TRUE, 0);
+        gtk_grid_attach(GTK_GRID(self), self->fullWidget, 0, 0, 1, 1);
         g_object_ref(self->fullWidget);
     }
 
     if (self->simpleWidget && self->fullWidget)
     {
         self->advanceCheckBox = gtk_check_button_new();
-        gtk_box_pack_end(GTK_BOX(self), self->advanceCheckBox, FALSE, TRUE, 0);
+        gtk_grid_attach(GTK_GRID(self), self->advanceCheckBox, 0, 1, 1, 1);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->advanceCheckBox), FALSE);
         gtk_button_set_label(GTK_BUTTON(self->advanceCheckBox), _("Show Advance Option"));
         g_signal_connect(self->advanceCheckBox, "toggled", (GCallback) _fcitx_config_widget_toggle_simple_full, self);

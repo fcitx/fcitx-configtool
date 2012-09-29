@@ -46,7 +46,7 @@ G_BEGIN_DECLS
 #define IC_NAME_MAX 64
 
 typedef struct {
-    GtkHBox parent;
+    GtkVBox parent;
     GtkTreeStore* availimstore;
     GtkListStore* imstore;
     GtkWidget* availimview;
@@ -67,7 +67,7 @@ typedef struct {
 } FcitxImWidget;
 
 typedef struct {
-    GtkHBoxClass parent_class;
+    GtkVBoxClass parent_class;
 } FcitxImWidgetClass;
 
 GtkWidget*

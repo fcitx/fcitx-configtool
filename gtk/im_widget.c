@@ -26,7 +26,7 @@
 #include "gdm-languages.h"
 #include "im.h"
 
-G_DEFINE_TYPE(FcitxImWidget, fcitx_im_widget, GTK_TYPE_HBOX)
+G_DEFINE_TYPE(FcitxImWidget, fcitx_im_widget, GTK_TYPE_VBOX)
 
 enum {
     AVAIL_TREE_IM_STRING,
@@ -77,6 +77,7 @@ fcitx_im_widget_class_init(FcitxImWidgetClass *klass)
 static void
 fcitx_im_widget_init(FcitxImWidget* self)
 {
+    GtkWidget* hbox = gtk_hbox_new(FALSE, 0);
     self->availimstore = gtk_tree_store_new(AVAIL_N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING);
     self->filtermodel = gtk_tree_model_filter_new(GTK_TREE_MODEL(self->availimstore), NULL);
 
@@ -123,7 +124,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_container_add(GTK_CONTAINER(scrolledwindow), self->availimview);
     gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, TRUE, TRUE, 5);
     gtk_box_pack_start(GTK_BOX(vbox), self->onlycurlangcheckbox, FALSE, TRUE, 5);
-    gtk_box_pack_start(GTK_BOX(self), vbox, TRUE, TRUE, 5);
+    gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 5);
 
     vbox = gtk_vbox_new(FALSE, 0);
 
@@ -140,7 +141,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_box_pack_start(GTK_BOX(vbox), self->delimbutton, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), gtk_label_new(""), TRUE, TRUE, 0);
 
-    gtk_box_pack_start(GTK_BOX(self), vbox, FALSE, TRUE, 5);
+    gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, TRUE, 5);
 
     label = gtk_label_new(_("Current Input Method"));
 
@@ -166,7 +167,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_container_add(GTK_CONTAINER(scrolledwindow), self->imview);
     gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, TRUE, TRUE, 5);
 
-    gtk_box_pack_start(GTK_BOX(self), GTK_WIDGET(vbox), TRUE, TRUE, 5);
+    gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(vbox), TRUE, TRUE, 5);
 
     vbox = gtk_vbox_new(FALSE, 0);
 
@@ -183,7 +184,22 @@ fcitx_im_widget_init(FcitxImWidget* self)
     gtk_box_pack_start(GTK_BOX(vbox), self->movedownbutton, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), gtk_label_new(""), TRUE, TRUE, 0);
 
-    gtk_box_pack_start(GTK_BOX(self), vbox, FALSE, TRUE, 5);
+    gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, TRUE, 5);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+    gtk_label_set_markup(GTK_LABEL(label),
+                         _("The first input method will be inactive state. Usually you need to put "
+                         "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."));
+    GtkWidget* image = gtk_image_new_from_stock(GTK_STOCK_ABOUT, GTK_ICON_SIZE_BUTTON);
+    GtkWidget* infohbox = gtk_hbox_new(FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(infohbox), gtk_label_new(NULL), TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(infohbox), image, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(infohbox), label, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(infohbox), gtk_label_new(NULL), TRUE, TRUE, 0);
+
+    gtk_box_pack_start(GTK_BOX(self), hbox, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(self), infohbox, FALSE, TRUE, 0);
 
     g_signal_connect(G_OBJECT(self->addimbutton), "clicked", G_CALLBACK(_fcitx_im_widget_addim_button_clicked), self);
     g_signal_connect(G_OBJECT(self->delimbutton), "clicked", G_CALLBACK(_fcitx_im_widget_delim_button_clicked), self);
