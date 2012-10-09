@@ -410,7 +410,8 @@ fcitx_config_widget_create_simple_ui(FcitxConfigWidget* self, gboolean skipAdvan
         gtk_grid_attach(GTK_GRID(configGrid), plabel, 0, 2, 1, 1);
         i ++;
     }
-
+    gtk_widget_set_hexpand(configGrid, TRUE);
+    gtk_widget_set_vexpand(configGrid, TRUE);
     return configGrid;
 }
 
@@ -498,6 +499,8 @@ fcitx_config_widget_create_full_ui(FcitxConfigWidget* self)
 
     gtk_widget_set_size_request(configNotebook, 500, -1);
     gtk_notebook_set_scrollable(GTK_NOTEBOOK(configNotebook), TRUE);
+    gtk_widget_set_hexpand(configNotebook, TRUE);
+    gtk_widget_set_vexpand(configNotebook, TRUE);
 
     return configNotebook;
 }
@@ -568,7 +571,7 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
 }
 
 FcitxConfigWidget*
-fcitx_config_widget_new(FcitxConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const char* subconfig)
+fcitx_config_widget_new(FcitxConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const gchar* subconfig)
 {
     FcitxConfigWidget* widget =
         g_object_new(FCITX_TYPE_CONFIG_WIDGET,

@@ -82,7 +82,7 @@ typedef enum {
 
 GType fcitx_config_widget_get_type(void);
 
-FcitxConfigWidget* fcitx_config_widget_new(FcitxConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const char* subconfig);
+FcitxConfigWidget* fcitx_config_widget_new(FcitxConfigFileDesc* cfdesc, const gchar* prefix, const gchar* name, const gchar* subconfig);
 
 void fcitx_config_widget_response(FcitxConfigWidget* config_widget, ConfigWidgetAction action);
 
