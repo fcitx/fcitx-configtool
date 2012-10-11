@@ -633,8 +633,8 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
         case T_Integer: {
             int i = *(int*) value;
             gtk_spin_button_set_value(GTK_SPIN_BUTTON(arg), i);
+            break;
         }
-        break;
         case T_Color: {
             int r = 0, g = 0, b = 0;
             FcitxConfigColor* rawcolor = (FcitxConfigColor*) value;
@@ -650,23 +650,22 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
 #else
             gtk_color_button_set_rgba(GTK_COLOR_BUTTON(arg), &color);
 #endif
+            break;
         }
-        break;
         case T_Boolean: {
             boolean *bl = (boolean*) value;
 
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(arg), *bl);
+            break;
         }
-        break;
-        case T_Font: {
+        case T_Font:
             gtk_font_button_set_font_name(GTK_FONT_BUTTON(arg), *(char**) value);
-        }
-        break;
+            break;
         case T_Enum: {
             int index = *(int*) value;
             gtk_combo_box_set_active(GTK_COMBO_BOX(arg), index);
+            break;
         }
-        break;
         case T_Hotkey: {
             FcitxHotkey* hotkey = (FcitxHotkey*) value;
             int j;
@@ -676,18 +675,17 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
                 GtkWidget *button = g_array_index(array, GtkWidget*, j);
                 keygrab_button_set_key(KEYGRAB_BUTTON(button), hotkey[j].sym, hotkey[j].state);
             }
+            break;
         }
-        break;
         case T_File:
-        case T_String: {
+        case T_String:
             gtk_entry_set_text(GTK_ENTRY(arg), *(char**) value);
-        }
             break;
         case T_Char: {
             char str[2] = {*(char*)value};
             gtk_entry_set_text(GTK_ENTRY(arg), str);
-        }
             break;
+        }
         }
     } else {
         if (codesc->type != T_I18NString && option->rawValue) {
@@ -700,8 +698,8 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
         case T_Integer: {
             int* i = (int*) value;
             *i = gtk_spin_button_get_value(GTK_SPIN_BUTTON(arg));;
+            break;
         }
-        break;
         case T_Color: {
             GdkRGBA color;
 #if GTK_CHECK_VERSION(3,3,0)
@@ -713,8 +711,8 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
             rawcolor->r = color.red;
             rawcolor->g = color.green;
             rawcolor->b = color.blue;
+            break;
         }
-        break;
         case T_Boolean: {
             boolean* bl = (boolean*) value;
             *bl = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(arg));
@@ -740,13 +738,13 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
                 fcitx_utils_string_swap(fontname, font);
             }
             fcitx_utils_free_string_list(array);
+            break;
         }
-        break;
         case T_Enum: {
             int* index = (int*) value;
             *index = gtk_combo_box_get_active(GTK_COMBO_BOX(arg));
+            break;
         }
-        break;
         case T_Hotkey: {
             GArray *array = (GArray*) arg;
             FcitxHotkey* hotkey = value;
@@ -759,14 +757,14 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
                 fcitx_utils_string_swap(&hotkey[j].desc, keystring);
                 fcitx_utils_free(keystring);
             }
+            break;
         }
-        break;
         case T_File:
         case T_String: {
             char** str = (char**) value;
             fcitx_utils_string_swap(str, gtk_entry_get_text(GTK_ENTRY(arg)));
-        }
             break;
+        }
         case T_Char:
             *(char*)value = *gtk_entry_get_text(GTK_ENTRY(arg));
             break;
