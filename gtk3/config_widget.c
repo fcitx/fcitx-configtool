@@ -679,11 +679,15 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
         }
         break;
         case T_File:
-        case T_Char:
         case T_String: {
             gtk_entry_set_text(GTK_ENTRY(arg), *(char**) value);
         }
-        break;
+            break;
+        case T_Char: {
+            char str[2] = {*(char*)value};
+            gtk_entry_set_text(GTK_ENTRY(arg), str);
+        }
+            break;
         }
     } else {
         if (codesc->type != T_I18NString && option->rawValue) {
@@ -758,14 +762,15 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
         }
         break;
         case T_File:
-        case T_Char:
         case T_String: {
             char** str = (char**) value;
             fcitx_utils_string_swap(str, gtk_entry_get_text(GTK_ENTRY(arg)));
         }
-        break;
+            break;
+        case T_Char:
+            *(char*)value = *gtk_entry_get_text(GTK_ENTRY(arg));
+            break;
         }
-
     }
 }
 
