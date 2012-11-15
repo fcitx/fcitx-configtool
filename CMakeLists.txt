@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required(VERSION 2.6)
 
 project(fcitx-configtool)
 
@@ -10,27 +10,19 @@ find_package(PkgConfig REQUIRED)
 if(ENABLE_GTK3)
   PKG_CHECK_MODULES(FCITX_GCLIENT "fcitx-gclient>=4.2.6" REQUIRED)
   PKG_CHECK_MODULES(GTK3 "gtk+-3.0" REQUIRED)
-endif(ENABLE_GTK3)
+endif()
 
-if (ENABLE_GTK2)
-PKG_CHECK_MODULES (GTK2 "gtk+-2.0>=2.22" REQUIRED)
-endif (ENABLE_GTK2)
+if(ENABLE_GTK2)
+  PKG_CHECK_MODULES (GTK2 "gtk+-2.0>=2.22" REQUIRED)
+endif()
 
 PKG_CHECK_MODULES(ISO_CODES "iso-codes" REQUIRED)
 _pkgconfig_invoke("iso-codes" ISO_CODES PREFIX "" "--variable=prefix")
 
-# uninstall target
-configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-    IMMEDIATE @ONLY)
-
-add_custom_target(uninstall
-    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
-
 include(FindPkgConfig)
 FIND_PACKAGE(Gettext REQUIRED)
 find_package(Fcitx 4.2.7 REQUIRED)
+_fcitx_add_uninstall_target()
 add_definitions("-D_GNU_SOURCE")
 set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-sign-compare -Wno-unused-parameter -fvisibility=hidden ${CMAKE_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-sign-compare -Wno-unused-parameter -fvisibility=hidden ${CMAKE_CXX_FLAGS}")
