@@ -183,14 +183,13 @@ GtkWidget* fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gcha
         else
             gtk_combo_box_set_active_iter(GTK_COMBO_BOX(combobox), &iter);
 
-        if (configurable || !addon) {
-            gchar* markup = g_strdup_printf("<b>%s</b>", addon ? _("Keyboard layout:") : _("Keyboard layout to use when no input method active:"));
-            GtkWidget* label = gtk_label_new(NULL);
-            gtk_label_set_markup(GTK_LABEL(label), markup);
-            g_free(markup);
-            g_object_set(label, "xalign", 0.0f, NULL);
-            gtk_box_pack_start(GTK_BOX(content_area), label, TRUE, TRUE, 5);
-        }
+        gchar* markup = g_strdup_printf("<b>%s</b>", addon ? _("Keyboard layout:") : _("Keyboard layout to use when no input window:"));
+        GtkWidget* label = gtk_label_new(NULL);
+        gtk_label_set_markup(GTK_LABEL(label), markup);
+        g_free(markup);
+        g_object_set(label, "xalign", 0.0f, NULL);
+        gtk_box_pack_start(GTK_BOX(content_area), label, TRUE, TRUE, 5);
+
         gtk_box_pack_start(GTK_BOX(content_area), combobox, FALSE, TRUE, 5);
         self->combobox = combobox;
 

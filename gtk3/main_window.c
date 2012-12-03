@@ -54,6 +54,11 @@ void _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWid
 
 static void _fcitx_main_window_addon_selection_changed(GtkTreeSelection *selection, gpointer data);
 
+static void _fcitx_main_window_addon_row_activated(GtkTreeView       *tree_view,
+                                                   GtkTreePath       *path,
+                                                   GtkTreeViewColumn *column,
+                                                   gpointer           user_data);
+
 static void _fcitx_main_window_configure_button_clicked(GtkButton *button, gpointer data);
 
 static void _fcitx_main_window_enabled_data_func(GtkCellLayout   *cell_layout,
@@ -156,6 +161,23 @@ void _fcitx_main_window_addon_selection_changed(GtkTreeSelection *selection, gpo
         gtk_widget_set_sensitive(self->button, FALSE);
     }
 }
+
+void _fcitx_main_window_addon_row_activated(GtkTreeView* tree_view, GtkTreePath* path, GtkTreeViewColumn* column, gpointer user_data)
+{
+    GtkTreeModel *model = gtk_tree_view_get_model(tree_view);
+    GtkTreeIter iter;
+    FcitxAddon *addon = NULL;
+    if (gtk_tree_model_get_iter(model, &iter, path)) {
+        gtk_tree_model_get(model, &iter,
+                           LIST_ADDON, &addon,
+                           -1);
+
+        GtkWidget* dialog = fcitx_config_dialog_new(addon, GTK_WINDOW(user_data));
+        if (dialog)
+            gtk_widget_show_all(GTK_WIDGET(dialog));
+    }
+}
+
 
 void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self)
 {
@@ -346,6 +368,10 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
                      G_CALLBACK(_fcitx_main_window_addon_selection_changed), self);
     g_signal_connect(G_OBJECT(self->filterentry), "changed", G_CALLBACK(_fcitx_main_window_filtertext_changed), self);
     gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(self->filtermodel));
+
+    g_signal_connect(G_OBJECT(self->addonview),
+                     "row-activated",
+                     G_CALLBACK(_fcitx_main_window_addon_row_activated), self);
 
     _fcitx_main_window_add_page(self, _("Addon"), vbox, GTK_STOCK_ADD);
 }

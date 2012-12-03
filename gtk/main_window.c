@@ -62,6 +62,11 @@ static ConfigPage* _fcitx_main_window_add_page(FcitxMainWindow* self, const char
 
 static void _fcitx_main_window_addon_selection_changed(GtkTreeSelection *selection, gpointer data);
 
+static void _fcitx_main_window_addon_row_activated(GtkTreeView       *tree_view,
+                                                   GtkTreePath       *path,
+                                                   GtkTreeViewColumn *column,
+                                                   gpointer           user_data);
+
 static void _fcitx_main_window_configure_button_clicked(GtkButton *button, gpointer data);
 
 static void _fcitx_main_window_enabled_data_func(GtkCellLayout   *cell_layout,
@@ -243,6 +248,23 @@ void _fcitx_main_window_addon_selection_changed(GtkTreeSelection *selection, gpo
     }
 }
 
+void _fcitx_main_window_addon_row_activated(GtkTreeView* tree_view, GtkTreePath* path, GtkTreeViewColumn* column, gpointer user_data)
+{
+    GtkTreeModel *model = gtk_tree_view_get_model(tree_view);
+    GtkTreeIter iter;
+    FcitxAddon *addon = NULL;
+    if (gtk_tree_model_get_iter(model, &iter, path)) {
+        gtk_tree_model_get(model, &iter,
+                           LIST_ADDON, &addon,
+                           -1);
+
+        GtkWidget* dialog = fcitx_config_dialog_new(addon, GTK_WINDOW(user_data));
+        if (dialog)
+            gtk_widget_show_all(GTK_WIDGET(dialog));
+    }
+}
+
+
 static GtkListStore *_fcitx_main_window_create_model()
 {
     GtkListStore* store = gtk_list_store_new(PAGE_N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, GDK_TYPE_PIXBUF);
@@ -345,6 +367,10 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
     g_signal_connect(G_OBJECT(selection), "changed",
                      G_CALLBACK(_fcitx_main_window_addon_selection_changed), self);
+
+    g_signal_connect(G_OBJECT(self->addonview),
+                     "row-activated",
+                     G_CALLBACK(_fcitx_main_window_addon_row_activated), self);
 
     self->addonpage = _fcitx_main_window_add_page(self, _("Addon"), vbox, GTK_STOCK_ADD);
 }

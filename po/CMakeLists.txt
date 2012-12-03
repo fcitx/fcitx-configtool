@@ -1,19 +1,5 @@
-file(GLOB PO_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.po)
-file(RELATIVE_PATH REL_SOURCE_ROOT ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR})
-if ("${REL_SOURCE_ROOT}" STREQUAL "")
-    set(REL_SOURCE_ROOT ".")
-endif("${REL_SOURCE_ROOT}" STREQUAL "")
-
-set(POT_FILE fcitx-configtool.pot)
-
-configure_file(POTFILES.in.in ${CMAKE_CURRENT_BINARY_DIR}/POTFILES.in)
-
-add_custom_target(
-    pot
-    COMMAND INTLTOOL_EXTRACT=${INTLTOOL_EXTRACT} srcdir=${CMAKE_CURRENT_BINARY_DIR} ${INTLTOOL_UPDATE} --gettext-package fcitx-configtool --pot
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    )
-
-# Update .po files and compile them to binary .gmo files
-gettext_create_translations(${POT_FILE} ALL ${PO_FILES})
-
+set(PO_LANGS zh_CN zh_TW)
+foreach(lang ${PO_LANGS})
+  fcitx_translate_add_po_file("${lang}" "${lang}.po")
+endforeach()
+fcitx_translate_set_pot_target(pot fcitx-configtool fcitx-configtool.pot)

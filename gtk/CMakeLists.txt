@@ -1,3 +1,22 @@
+set( fcitx_config_gtk_sources
+    sub_config_parser.c
+    sub_config_widget.c
+    config_widget.c
+    configdesc.c
+    keygrab.c
+    main.c
+    main_window.c
+    im_widget.c
+    im.c
+    gdm-languages.c
+)
+
+fcitx_translate_add_sources(${fcitx_config_gtk_sources})
+
+if (NOT ENABLE_GTK2)
+    return()
+endif (NOT ENABLE_GTK2)
+
 PKG_CHECK_MODULES (DBUS_GLIB "dbus-glib-1" REQUIRED)
 PKG_CHECK_MODULES (UNIQUE "unique-1.0")
 
@@ -24,19 +43,6 @@ if (UNIQUE_FOUND)
     include_directories (${UNIQUE_INCLUDE_DIRS})
     link_directories (${UNIQUE_LIBRARY_DIRS})
 endif (UNIQUE_FOUND)
-
-set( fcitx_config_gtk_sources
-    sub_config_parser.c
-    sub_config_widget.c
-    config_widget.c
-    configdesc.c
-    keygrab.c
-    main.c
-    main_window.c
-    im_widget.c
-    im.c
-    gdm-languages.c
-)
 
 add_executable( fcitx-config-gtk ${fcitx_config_gtk_sources} )
 

@@ -62,6 +62,11 @@ static void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer
 static void _fcitx_im_widget_configure_button_clicked(GtkButton* button, gpointer user_data);
 static void _fcitx_im_widget_default_layout_button_clicked(GtkButton* button, gpointer user_data);
 
+static void _fcitx_im_widget_row_activated(GtkTreeView       *tree_view,
+                                           GtkTreePath       *path,
+                                           GtkTreeViewColumn *column,
+                                           gpointer           user_data);
+
 static void
 fcitx_im_widget_class_init(FcitxImWidgetClass *klass)
 {
@@ -198,6 +203,7 @@ fcitx_im_widget_init(FcitxImWidget* self)
     g_signal_connect(G_OBJECT(self->movedownbutton), "clicked", G_CALLBACK(_fcitx_im_widget_movedown_button_clicked), self);
     g_signal_connect(G_OBJECT(self->configurebutton), "clicked", G_CALLBACK(_fcitx_im_widget_configure_button_clicked), self);
     g_signal_connect(G_OBJECT(self->default_layout_button), "clicked", G_CALLBACK(_fcitx_im_widget_default_layout_button_clicked), self);
+    g_signal_connect(G_OBJECT(self->imview), "row-activated", G_CALLBACK(_fcitx_im_widget_row_activated), self);
 
 
     _fcitx_im_widget_connect(self);
@@ -450,6 +456,25 @@ void _fcitx_im_widget_default_layout_button_clicked(GtkButton* button, gpointer 
     } while(0);
 }
 
+static void _fcitx_im_widget_configure_im(FcitxImWidget* self, FcitxIMItem* item)
+{
+    gchar* addon_name = fcitx_input_method_get_im_addon(self->improxy, item->unique_name);
+    FcitxMainWindow* mainwindow = FCITX_MAIN_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET(self)));
+    do {
+        if (!mainwindow)
+            break;
+
+        FcitxAddon* addon = find_addon_by_name(mainwindow->addons, addon_name);
+        if (!addon)
+            break;
+
+        GtkWidget* dialog = fcitx_im_config_dialog_new(GTK_WINDOW(mainwindow), addon, item->unique_name);
+        if (dialog)
+            gtk_widget_show_all(GTK_WIDGET(dialog));
+    } while(0);
+    g_free(addon_name);
+}
+
 void _fcitx_im_widget_configure_button_clicked(GtkButton* button, gpointer user_data)
 {
     FcitxImWidget* self = user_data;
@@ -465,20 +490,20 @@ void _fcitx_im_widget_configure_button_clicked(GtkButton* button, gpointer user_
                            IM_LIST_IM, &item,
                            -1);
 
-        gchar* addon_name = fcitx_input_method_get_im_addon(self->improxy, item->unique_name);
-        FcitxMainWindow* mainwindow = FCITX_MAIN_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET(self)));
-        do {
-            if (!mainwindow)
-                break;
+        _fcitx_im_widget_configure_im((FcitxImWidget*)user_data, item);
+    }
+}
 
-            FcitxAddon* addon = find_addon_by_name(mainwindow->addons, addon_name);
-            if (!addon)
-                break;
+void _fcitx_im_widget_row_activated(GtkTreeView* tree_view, GtkTreePath* path, GtkTreeViewColumn* column, gpointer user_data)
+{
+    GtkTreeModel *model = gtk_tree_view_get_model(tree_view);
+    GtkTreeIter iter;
+    if (gtk_tree_model_get_iter(model, &iter, path)) {
+        FcitxIMItem* item = NULL;
+        gtk_tree_model_get(model, &iter,
+                           IM_LIST_IM, &item,
+                           -1);
 
-            GtkWidget* dialog = fcitx_im_config_dialog_new(GTK_WINDOW(mainwindow), addon, item->unique_name);
-            if (dialog)
-                gtk_widget_show_all(GTK_WIDGET(dialog));
-        } while(0);
-        g_free(addon_name);
+        _fcitx_im_widget_configure_im((FcitxImWidget*)user_data, item);
     }
 }

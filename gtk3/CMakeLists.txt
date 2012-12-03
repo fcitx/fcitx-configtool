@@ -1,3 +1,25 @@
+set( fcitx_config_gtk3_sources
+    sub_config_parser.c
+    sub_config_widget.c
+    config_widget.c
+    configdesc.c
+    keygrab.c
+    main.c
+    main_window.c
+    im_widget.c
+    ui_widget.c
+    gdm-languages.c
+    im_dialog.c
+    common.c
+    im_config_dialog.c
+    dummy_config.c
+)
+
+fcitx_translate_add_sources(${fcitx_config_gtk3_sources})
+
+if (NOT ENABLE_GTK3)
+    return()
+endif (NOT ENABLE_GTK3)
 
 include_directories (
     ${GTK3_INCLUDE_DIRS}
@@ -17,23 +39,6 @@ link_directories (
     ${FCITX4_FCITX_UTILS_LIBRARY_DIRS}
     ${FCITX4_FCITX_CONFIG_LIBRARY_DIRS}
     ${FCITX_GCLIENT_LIBRARY_DIRS}
-)
-
-set( fcitx_config_gtk3_sources
-    sub_config_parser.c
-    sub_config_widget.c
-    config_widget.c
-    configdesc.c
-    keygrab.c
-    main.c
-    main_window.c
-    im_widget.c
-    ui_widget.c
-    gdm-languages.c
-    im_dialog.c
-    common.c
-    im_config_dialog.c
-    dummy_config.c
 )
 
 add_executable( fcitx-config-gtk3 ${fcitx_config_gtk3_sources} )
