@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA..
  *
  * Written by : William Jon McCann <mccann@jhu.edu>
  *              Ray Strode <rstrode@redhat.com>
@@ -356,7 +356,7 @@ add_locale(const char *language_name,
     GdmLocale *locale;
     GdmLocale *old_locale;
     char      *name;
-    gboolean   is_utf8;
+    gboolean   is_utf8 = TRUE;
 
     g_return_val_if_fail(language_name != NULL, FALSE);
 
