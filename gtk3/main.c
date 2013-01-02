@@ -94,7 +94,9 @@ fcitx_config_app_class_init (FcitxConfigAppClass *klass)
 FcitxConfigApp *
 fcitx_config_app_new (void)
 {
-    g_type_init ();
+#if !GLIB_CHECK_VERSION(2, 35, 1)
+    g_type_init();
+#endif
 
     FcitxConfigApp* app = g_object_new (fcitx_config_app_get_type (),
                          "application-id", "org.fcitx.FcitxConfigGtk3",
