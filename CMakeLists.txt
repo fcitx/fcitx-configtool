@@ -8,19 +8,17 @@ option(ENABLE_GTK3 "Enable GTK3 Version" On)
 find_package(PkgConfig REQUIRED)
 
 if(ENABLE_GTK3)
-  PKG_CHECK_MODULES(FCITX_GCLIENT "fcitx-gclient>=4.2.6" REQUIRED)
-  PKG_CHECK_MODULES(GTK3 "gtk+-3.0" REQUIRED)
+  pkg_check_modules(FCITX_GCLIENT "fcitx-gclient>=4.2.6" REQUIRED)
+  pkg_check_modules(GTK3 "gtk+-3.0" REQUIRED)
 endif()
 
 if(ENABLE_GTK2)
-  PKG_CHECK_MODULES (GTK2 "gtk+-2.0>=2.22" REQUIRED)
+  pkg_check_modules(GTK2 "gtk+-2.0>=2.22" REQUIRED)
 endif()
 
-PKG_CHECK_MODULES(ISO_CODES "iso-codes" REQUIRED)
+pkg_check_modules(ISO_CODES "iso-codes" REQUIRED)
 _pkgconfig_invoke("iso-codes" ISO_CODES PREFIX "" "--variable=prefix")
 
-include(FindPkgConfig)
-FIND_PACKAGE(Gettext REQUIRED)
 find_package(Fcitx 4.2.7 REQUIRED)
 _fcitx_add_uninstall_target()
 add_definitions("-D_GNU_SOURCE")
