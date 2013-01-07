@@ -49,8 +49,11 @@ void fcitx_im_dialog_finalize(GObject* object)
         self->array = NULL;
     }
 
-    if (self->improxy)
+    if (self->improxy) {
+        g_signal_handlers_disconnect_by_func(self->improxy, G_CALLBACK(_fcitx_im_dialog_imlist_changed_cb), self);
         g_object_unref(self->improxy);
+        self->improxy = NULL;
+    }
 
     G_OBJECT_CLASS (fcitx_im_dialog_parent_class)->finalize (object);
 }
