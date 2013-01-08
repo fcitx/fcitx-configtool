@@ -302,9 +302,9 @@ void _fcitx_im_dialog_response_cb(GtkDialog *dialog,
                                   gint response,
                                   gpointer user_data)
 {
+    FcitxImDialog* self = FCITX_IM_DIALOG(dialog);
     g_signal_handlers_disconnect_by_func(self->improxy, G_CALLBACK(_fcitx_im_dialog_imlist_changed_cb), self);
     if (response == GTK_RESPONSE_OK) {
-        FcitxImDialog* self = FCITX_IM_DIALOG(dialog);
         GtkTreeSelection* selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->availimview));
         add_foreach_context context;
         context.self = self;
