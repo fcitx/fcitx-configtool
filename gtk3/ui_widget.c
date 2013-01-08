@@ -30,7 +30,7 @@
 
 G_DEFINE_TYPE(FcitxUIWidget, fcitx_ui_widget, GTK_TYPE_BOX)
 
-static void fcitx_ui_widget_finalize(GObject* object);
+static void fcitx_ui_widget_dispose(GObject* object);
 static void _fcitx_ui_widget_load(FcitxUIWidget* self, const gchar* uiname);
 static void _fcitx_ui_widget_apply_button_clicked(GtkButton* button, gpointer user_data);
 
@@ -38,7 +38,7 @@ static void
 fcitx_ui_widget_class_init(FcitxUIWidgetClass *klass)
 {
     GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
-    gobject_class->finalize = fcitx_ui_widget_finalize;
+    gobject_class->dispose = fcitx_ui_widget_dispose;
 }
 
 static void
@@ -59,13 +59,15 @@ fcitx_ui_widget_new(void)
     return GTK_WIDGET(widget);
 }
 
-void fcitx_ui_widget_finalize(GObject* object)
+void fcitx_ui_widget_dispose(GObject* object)
 {
     FcitxUIWidget* self = FCITX_UI_WIDGET(object);
-    if (self->improxy)
+    if (self->improxy) {
         g_object_unref(self->improxy);
+        self->improxy = NULL;
+    }
 
-    G_OBJECT_CLASS (fcitx_ui_widget_parent_class)->finalize (object);
+    G_OBJECT_CLASS (fcitx_ui_widget_parent_class)->dispose (object);
 }
 
 void fcitx_ui_widget_connect(FcitxUIWidget* self)
