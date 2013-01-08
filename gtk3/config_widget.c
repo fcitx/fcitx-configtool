@@ -82,14 +82,14 @@ static void
 fcitx_config_widget_setup_ui(FcitxConfigWidget *self);
 
 static void
-fcitx_config_widget_finalize(GObject *object);
+fcitx_config_widget_dispose(GObject *object);
 
 static void
 fcitx_config_widget_class_init(FcitxConfigWidgetClass *klass)
 {
     GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
     gobject_class->set_property = fcitx_config_widget_set_property;
-    gobject_class->finalize = fcitx_config_widget_finalize;
+    gobject_class->dispose = fcitx_config_widget_dispose;
     g_object_class_install_property(gobject_class,
                                     PROP_CONFIG_DESC,
                                     g_param_spec_pointer("cfdesc",
@@ -800,18 +800,39 @@ void fcitx_config_widget_response(
     }
 }
 
-void  fcitx_config_widget_finalize(GObject *object)
+void  fcitx_config_widget_dispose(GObject *object)
 {
     FcitxConfigWidget* self = FCITX_CONFIG_WIDGET(object);
-    g_free(self->name);
-    g_free(self->prefix);
-    sub_config_parser_free(self->parser);
-    if (self->simpleWidget)
+    if (self->name) {
+        g_free(self->name);
+        self->name = NULL;
+    }
+
+    if (self->prefix) {
+        g_free(self->prefix);
+        self->prefix = NULL;
+    }
+
+    if (self->parser) {
+        sub_config_parser_free(self->parser);
+        self->parser = NULL;
+    }
+    if (self->simpleWidget) {
         g_object_unref(self->simpleWidget);
-    if (self->fullWidget)
+        self->simpleWidget = NULL;
+    }
+
+    if (self->fullWidget) {
         g_object_unref(self->fullWidget);
-    dummy_config_free(self->config);
-    G_OBJECT_CLASS(fcitx_config_widget_parent_class)->finalize(object);
+        self->fullWidget = NULL;
+    }
+
+    if (self->config) {
+        dummy_config_free(self->config);
+        self->config = NULL;
+    }
+
+    G_OBJECT_CLASS(fcitx_config_widget_parent_class)->dispose(object);
 }
 
 void hash_foreach_cb(gpointer       key,

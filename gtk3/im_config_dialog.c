@@ -38,24 +38,30 @@ void _fcitx_im_config_dialog_response_cb(GtkDialog *dialog,
                                   gint response,
                                   gpointer user_data);
 static
-void fcitx_im_config_dialog_finalize(GObject* object);
+void fcitx_im_config_dialog_dispose(GObject* object);
 
 static void
 fcitx_im_config_dialog_class_init(FcitxImConfigDialogClass *klass)
 {
     GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
-    gobject_class->finalize = fcitx_im_config_dialog_finalize;
+    gobject_class->dispose = fcitx_im_config_dialog_dispose;
 }
 
-void fcitx_im_config_dialog_finalize(GObject* object)
+void fcitx_im_config_dialog_dispose(GObject* object)
 {
     FcitxImConfigDialog* self = FCITX_IM_CONFIG_DIALOG(object);
-    g_free(self->imname);
 
-    if (self->kbd)
+    if (self->imname) {
+        g_free(self->imname);
+        self->imname = NULL;
+    }
+
+    if (self->kbd) {
         g_object_unref(self->kbd);
+        self->kbd = NULL;
+    }
 
-    G_OBJECT_CLASS (fcitx_im_config_dialog_parent_class)->finalize (object);
+    G_OBJECT_CLASS (fcitx_im_config_dialog_parent_class)->dispose (object);
 }
 
 static void

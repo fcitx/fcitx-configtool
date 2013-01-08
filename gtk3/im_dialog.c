@@ -11,7 +11,7 @@ enum {
     IM_N_COLUMNS
 };
 
-static void fcitx_im_dialog_finalize(GObject* object);
+static void fcitx_im_dialog_dispose(GObject* object);
 static void _fcitx_im_dialog_connect(FcitxImDialog* self);
 static void _fcitx_im_dialog_load(FcitxImDialog* self);
 static void _fcitx_inputmethod_insert_foreach_cb(gpointer data, gpointer user_data);
@@ -37,10 +37,10 @@ static void
 fcitx_im_dialog_class_init(FcitxImDialogClass *klass)
 {
     GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
-    gobject_class->finalize = fcitx_im_dialog_finalize;
+    gobject_class->dispose = fcitx_im_dialog_dispose;
 }
 
-void fcitx_im_dialog_finalize(GObject* object)
+void fcitx_im_dialog_dispose(GObject* object)
 {
     FcitxImDialog* self = FCITX_IM_DIALOG(object);
     if (self->array) {
@@ -55,7 +55,7 @@ void fcitx_im_dialog_finalize(GObject* object)
         self->improxy = NULL;
     }
 
-    G_OBJECT_CLASS (fcitx_im_dialog_parent_class)->finalize (object);
+    G_OBJECT_CLASS (fcitx_im_dialog_parent_class)->dispose (object);
 }
 
 static void
@@ -303,7 +303,6 @@ void _fcitx_im_dialog_response_cb(GtkDialog *dialog,
                                   gpointer user_data)
 {
     FcitxImDialog* self = FCITX_IM_DIALOG(dialog);
-    g_signal_handlers_disconnect_by_func(self->improxy, G_CALLBACK(_fcitx_im_dialog_imlist_changed_cb), self);
     if (response == GTK_RESPONSE_OK) {
         GtkTreeSelection* selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->availimview));
         add_foreach_context context;

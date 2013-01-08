@@ -50,7 +50,7 @@ typedef struct {
     gboolean flag;
 } foreach_ct;
 
-static void fcitx_im_widget_finalize(GObject* object);
+static void fcitx_im_widget_dispose(GObject* object);
 static void _fcitx_im_widget_connect(FcitxImWidget* self);
 static void _fcitx_im_widget_load(FcitxImWidget* self);
 static void _fcitx_inputmethod_insert_foreach_cb(gpointer data, gpointer user_data);
@@ -61,6 +61,7 @@ static void _fcitx_im_widget_moveup_button_clicked(GtkButton* button, gpointer u
 static void _fcitx_im_widget_movedown_button_clicked(GtkButton* button, gpointer user_data);
 static void _fcitx_im_widget_configure_button_clicked(GtkButton* button, gpointer user_data);
 static void _fcitx_im_widget_default_layout_button_clicked(GtkButton* button, gpointer user_data);
+static void _fcitx_im_widget_imlist_changed_cb(FcitxInputMethod* im, gpointer user_data);
 
 static void _fcitx_im_widget_row_activated(GtkTreeView       *tree_view,
                                            GtkTreePath       *path,
@@ -71,7 +72,7 @@ static void
 fcitx_im_widget_class_init(FcitxImWidgetClass *klass)
 {
     GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
-    gobject_class->finalize = fcitx_im_widget_finalize;
+    gobject_class->dispose = fcitx_im_widget_dispose;
 }
 
 static void
@@ -219,7 +220,7 @@ fcitx_im_widget_new(void)
     return GTK_WIDGET(widget);
 }
 
-void fcitx_im_widget_finalize(GObject* object)
+void fcitx_im_widget_dispose(GObject* object)
 {
     FcitxImWidget* self = FCITX_IM_WIDGET(object);
     if (self->array) {
@@ -227,10 +228,19 @@ void fcitx_im_widget_finalize(GObject* object)
         g_ptr_array_free(self->array, FALSE);
         self->array = NULL;
     }
-    g_object_unref(self->improxy);
-    g_free(self->focus);
 
-    G_OBJECT_CLASS (fcitx_im_widget_parent_class)->finalize (object);
+    if (self->improxy) {
+        g_signal_handlers_disconnect_by_func(self->improxy, G_CALLBACK(_fcitx_im_widget_imlist_changed_cb), self);
+        g_object_unref(self->improxy);
+        self->improxy = NULL;
+    }
+
+    if (self->focus) {
+        g_free(self->focus);
+        self->focus = NULL;
+    }
+
+    G_OBJECT_CLASS (fcitx_im_widget_parent_class)->dispose (object);
 }
 
 void _fcitx_im_widget_imlist_changed_cb(FcitxInputMethod* im, gpointer user_data)
