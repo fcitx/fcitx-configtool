@@ -182,6 +182,31 @@ void open_native_file(GtkButton *button,
 {
     FcitxSubConfigWidget* widget = (FcitxSubConfigWidget*) user_data;
     char *newpath = NULL;
+    char* qtguiwrapper = g_find_program_in_path ("fcitx-qt-gui-wrapper");
+    if (qtguiwrapper) {
+        gchar* argv[4];
+        argv[0] = qtguiwrapper;
+        argv[1] = "--test";
+        argv[2] = widget->subconfig->nativepath;
+        argv[3] = 0;
+        int exit_status = 1;
+        g_spawn_sync(NULL, argv, NULL, 0, NULL, NULL, NULL, NULL, &exit_status, NULL);
+
+        if (exit_status == 0) {
+            gchar* argv2[3];
+            argv2[0] = qtguiwrapper;
+            argv2[1] = widget->subconfig->nativepath;
+            argv2[2] = 0;
+            g_spawn_async(NULL, argv2, NULL, 0, NULL, NULL, NULL, NULL);
+            free(newpath);
+        }
+        g_free(qtguiwrapper);
+
+        if (exit_status == 0) {
+            return;
+        }
+    }
+
     if (g_hash_table_size(widget->subconfig->filelist) > 0) {
         GHashTableIter iter;
         g_hash_table_iter_init(&iter, widget->subconfig->filelist);
@@ -200,13 +225,12 @@ void open_native_file(GtkButton *button,
     }
 
     if (newpath) {
-        GError* error;
         gchar* filename = newpath;
         gchar* argv[3];
         argv[0] = "xdg-open";
         argv[1] = filename;
         argv[2] = 0;
-        g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error);
+        g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL);
         free(newpath);
     }
 }
