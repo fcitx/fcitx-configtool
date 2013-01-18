@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2012-12-07 22:29-0500\n"
+"POT-Creation-Date: 2013-01-18 15:09-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,48 +33,48 @@ msgstr ""
 msgid "Unspecified"
 msgstr ""
 
-#: gtk3/im_config_dialog.c:126
+#: gtk3/im_config_dialog.c:132
 msgid "Default keyboard layout"
 msgstr ""
 
-#: gtk3/im_config_dialog.c:158
+#: gtk3/im_config_dialog.c:164
 msgid "Input Method Default"
 msgstr ""
 
-#: gtk3/im_config_dialog.c:158
+#: gtk3/im_config_dialog.c:164
 msgid "Default"
 msgstr ""
 
-#: gtk3/im_config_dialog.c:186
+#: gtk3/im_config_dialog.c:192
 msgid "Keyboard layout:"
 msgstr ""
 
-#: gtk3/im_config_dialog.c:186
+#: gtk3/im_config_dialog.c:192
 msgid "Keyboard layout to use when no input window:"
 msgstr ""
 
-#: gtk3/im_config_dialog.c:203
+#: gtk3/im_config_dialog.c:209
 msgid "Input method settings:"
 msgstr ""
 
-#: gtk3/im_dialog.c:61
+#: gtk3/im_dialog.c:64
 msgid "Add input method"
 msgstr ""
 
-#: gtk3/im_dialog.c:98 gtk3/im_widget.c:91 gtk3/main_window.c:210
+#: gtk3/im_dialog.c:101 gtk3/im_widget.c:92 gtk3/main_window.c:210
 #: gtk/im_widget.c:102 gtk/im_widget.c:153 gtk/main_window.c:300
 msgid "Input Method"
 msgstr ""
 
-#: gtk3/im_dialog.c:115 gtk/im_widget.c:115
+#: gtk3/im_dialog.c:118 gtk/im_widget.c:115
 msgid "Only Show Current Language"
 msgstr ""
 
-#: gtk3/im_dialog.c:125
+#: gtk3/im_dialog.c:128
 msgid "Search Input Method"
 msgstr ""
 
-#: gtk3/im_widget.c:187 gtk/im_widget.c:192
+#: gtk3/im_widget.c:188 gtk/im_widget.c:192
 msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Cannot load currently used user interface info"
 msgstr ""
 
-#: gtk3/ui_widget.c:104
+#: gtk3/ui_widget.c:106
 #, c-format
 msgid "No configuration option for %s."
 msgstr ""
@@ -133,6 +133,6 @@ msgstr ""
 msgid "Current Input Method"
 msgstr ""
 
-#: gtk/im_widget.c:306 gtk/im_widget.c:308
+#: gtk/im_widget.c:314 gtk/im_widget.c:316
 msgid "Unknown"
 msgstr ""
