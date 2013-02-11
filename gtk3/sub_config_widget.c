@@ -182,7 +182,7 @@ void open_native_file(GtkButton *button,
 {
     FcitxSubConfigWidget* widget = (FcitxSubConfigWidget*) user_data;
     char *newpath = NULL;
-    char* qtguiwrapper = g_find_program_in_path ("fcitx-qt-gui-wrapper");
+    char* qtguiwrapper = fcitx_utils_get_fcitx_path_with_filename ("libdir", "fcitx/libexec/fcitx-qt-gui-wrapper");
     if (qtguiwrapper) {
         gchar* argv[4];
         argv[0] = qtguiwrapper;
