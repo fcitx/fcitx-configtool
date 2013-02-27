@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-02-27 08:50-0500\n"
-"PO-Revision-Date: 2013-02-27 08:51-0500\n"
+"POT-Creation-Date: 2013-02-27 09:06-0500\n"
+"PO-Revision-Date: 2013-02-27 09:06-0500\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-china@kde.org>\n"
 "Language: zh_CN\n"
@@ -50,10 +50,6 @@ msgstr "清除字体设置"
 msgid "Configure"
 msgstr "配置 "
 
-#: gtk3/main_window.c:109 gtk/main_window.c:149
-msgid "Configure Input Method"
-msgstr "配置输入法"
-
 #: gtk/im_widget.c:146
 msgid "Current Input Method"
 msgstr "当前的输入法"
@@ -78,6 +74,10 @@ msgstr "全局配置"
 #: gtk/im_widget.c:102 gtk/im_widget.c:153 gtk/main_window.c:300
 msgid "Input Method"
 msgstr "输入法"
+
+#: gtk3/main_window.c:109 gtk/main_window.c:149
+msgid "Input Method Configuration"
+msgstr "输入法配置"
 
 #: gtk3/im_config_dialog.c:164
 msgid "Input Method Default"
@@ -140,9 +140,8 @@ msgstr "未知"
 msgid "Unspecified"
 msgstr "未指定"
 
+#~ msgid "Configure Input Method"
+#~ msgstr "配置输入法"
+
 #~ msgid "Fcitx Config"
 #~ msgstr "Fcitx配置"
-
-#, fuzzy
-#~ msgid "Input Method Configuration"
-#~ msgstr "输入法默认"

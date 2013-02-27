@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-02-27 08:51-0500\n"
+"POT-Creation-Date: 2013-02-27 09:06-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,7 +89,7 @@ msgid "Please press the new key combination"
 msgstr ""
 
 #: gtk3/main_window.c:109 gtk/main_window.c:149
-msgid "Configure Input Method"
+msgid "Input Method Configuration"
 msgstr ""
 
 #: gtk3/main_window.c:204 gtk/main_window.c:294

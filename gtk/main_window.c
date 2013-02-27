@@ -146,7 +146,7 @@ fcitx_main_window_init(FcitxMainWindow* self)
     gtk_tree_path_free(path);
 
     gtk_window_set_icon_name(GTK_WINDOW(self), "fcitx-configtool");
-    gtk_window_set_title(GTK_WINDOW(self), _("Configure Input Method"));
+    gtk_window_set_title(GTK_WINDOW(self), _("Input Method Configuration"));
 }
 
 GtkWidget*
