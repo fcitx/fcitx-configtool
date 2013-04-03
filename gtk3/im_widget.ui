@@ -163,18 +163,6 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSeparatorToolItem" id="toolbutton2">
-                    <property name="use_action_appearance">False</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="use_action_appearance">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="homogeneous">True</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkToolButton" id="moveupbutton">
                     <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
@@ -194,18 +182,6 @@
                     <property name="can_focus">False</property>
                     <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="homogeneous">True</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSeparatorToolItem" id="toolbutton4">
-                    <property name="use_action_appearance">False</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="use_action_appearance">False</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
