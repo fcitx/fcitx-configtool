@@ -364,7 +364,8 @@ fcitx_config_widget_create_simple_ui(FcitxConfigWidget* self, gboolean skipAdvan
 {
     FcitxConfigFileDesc* cfdesc = self->cfdesc;
     GtkWidget *configGrid = gtk_grid_new();
-    gtk_grid_set_row_spacing(GTK_GRID(configGrid), 3);
+    gtk_grid_set_row_spacing(GTK_GRID(configGrid), 5);
+    gtk_grid_set_column_spacing(GTK_GRID(configGrid), 5);
     int i = 0;
     if (cfdesc) {
         FcitxConfigGroupDesc *cgdesc = NULL;
