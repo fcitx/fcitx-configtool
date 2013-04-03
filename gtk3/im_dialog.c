@@ -2,12 +2,14 @@
 
 #include "common.h"
 #include "im_dialog.h"
+#include "gdm-languages.h"
 
 G_DEFINE_TYPE(FcitxImDialog, fcitx_im_dialog, GTK_TYPE_DIALOG)
 
 enum {
     IM_LIST_IM_STRING,
     IM_LIST_IM,
+    IM_LIST_IM_LANGUAGE,
     IM_N_COLUMNS
 };
 
@@ -23,21 +25,68 @@ static void _fcitx_im_dialog_onlycurlangcheckbox_toggled(GtkToggleButton* button
 static gboolean _fcitx_im_dialog_filter_func(GtkTreeModel *model,
                                              GtkTreeIter  *iter,
                                              gpointer      data);
+static gint     _fcitx_im_dialog_sort_func(GtkTreeModel *model,
+                                           GtkTreeIter  *a,
+                                           GtkTreeIter  *b,
+                                           gpointer      user_data);
 
 static void _fcitx_im_dialog_response_cb(GtkDialog *dialog,
                                          gint response,
                                          gpointer user_data);
+static GObject *
+fcitx_im_dialog_constructor   (GType                  gtype,
+                               guint                  n_properties,
+                               GObjectConstructParam *properties);
 
 static void
 icon_press_cb (GtkEntry       *entry,
                gint            position,
                GdkEventButton *event,
                gpointer        data);
+
+
+
+static const gchar* _get_current_lang()
+{
+    const gchar* lang =  g_getenv("LC_ALL");
+    if (!lang)
+        lang = g_getenv("LANG");
+    if (!lang)
+        lang = g_getenv("LC_MESSAGES");
+    if (!lang)
+        lang = "C";
+    return lang;
+}
+
 static void
 fcitx_im_dialog_class_init(FcitxImDialogClass *klass)
 {
     GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
     gobject_class->dispose = fcitx_im_dialog_dispose;
+    gobject_class->constructor = fcitx_im_dialog_constructor;
+}
+
+static GObject *
+fcitx_im_dialog_constructor   (GType                  gtype,
+                               guint                  n_properties,
+                               GObjectConstructParam *properties)
+{
+    GObject *obj;
+    FcitxImDialog *self;
+    GtkWidget *widget;
+
+    obj = G_OBJECT_CLASS (fcitx_im_dialog_parent_class)->constructor (gtype, n_properties, properties);
+
+    self = FCITX_IM_DIALOG (obj);
+
+    widget = GTK_WIDGET(gtk_builder_get_object (self->builder,
+                                                "im_dialog"));
+
+    gtk_widget_reparent (widget, gtk_dialog_get_content_area(GTK_DIALOG(self)));
+
+    _fcitx_im_dialog_connect(self);
+
+  return obj;
 }
 
 void fcitx_im_dialog_dispose(GObject* object)
@@ -53,6 +102,16 @@ void fcitx_im_dialog_dispose(GObject* object)
         g_signal_handlers_disconnect_by_func(self->improxy, G_CALLBACK(_fcitx_im_dialog_imlist_changed_cb), self);
         g_object_unref(self->improxy);
         self->improxy = NULL;
+    }
+
+    if (self->langset) {
+        g_hash_table_destroy(self->langset);
+        self->langset = NULL;
+    }
+
+    if (self->language) {
+        g_free(self->language);
+        self->language = NULL;
     }
 
     G_OBJECT_CLASS (fcitx_im_dialog_parent_class)->dispose (object);
@@ -80,61 +139,50 @@ fcitx_im_dialog_init(FcitxImDialog* self)
                     G_CALLBACK(_fcitx_im_dialog_response_cb),
                     NULL);
 
-    GtkCellRenderer* renderer;
-    GtkTreeViewColumn* column;
+    self->langset = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+    self->builder = gtk_builder_new();
+    gtk_builder_add_from_resource(self->builder, "/org/fcitx/fcitx-config-gtk3/im_dialog.ui", NULL);
+
+    const gchar* lang = _get_current_lang();
+    gchar* language = NULL, *territory = NULL;
+    gdm_parse_language_name(lang, &language, &territory, NULL, NULL);
+    if (!language || language[0] == '\0') {
+        self->language = g_strdup("C");
+    } else {
+        gboolean tisempty = (!territory || territory[0] == '\0');
+        self->language = g_strdup_printf("%s%s%s", language, tisempty ? "" : "_",  tisempty ? "" : territory);
+    }
+    g_free(language);
+    g_free(territory);
+
+#define _GET_OBJECT(NAME) \
+    self->NAME = (typeof(self->NAME)) gtk_builder_get_object(self->builder, #NAME);
+
+    _GET_OBJECT(availimstore)
+    _GET_OBJECT(availimview)
+    _GET_OBJECT(filterentry)
+    _GET_OBJECT(filtermodel)
+    _GET_OBJECT(onlycurlangcheckbox)
+    _GET_OBJECT(sortmodel)
 
     gtk_widget_set_size_request(GTK_WIDGET(self), 400, 300);
-
-    self->availimstore = gtk_list_store_new(IM_N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
-    self->filtermodel = gtk_tree_model_filter_new(GTK_TREE_MODEL(self->availimstore), NULL);
 
     gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(self->filtermodel),
                                         (GtkTreeModelFilterVisibleFunc) _fcitx_im_dialog_filter_func,
                                            self ,
                                            NULL);
-    self->sortmodel = gtk_tree_model_sort_new_with_model(self->filtermodel);
-    gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(self->sortmodel), IM_LIST_IM_STRING, GTK_SORT_ASCENDING);
-    self->availimview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->sortmodel));
-
-    renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes(
-                 _("Input Method"), renderer,
-                 "text", IM_LIST_IM_STRING,
-                 NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(self->availimview), column);
+    gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(self->sortmodel), IM_LIST_IM, _fcitx_im_dialog_sort_func, self, NULL);
+    gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(self->sortmodel), IM_LIST_IM, GTK_SORT_ASCENDING);
 
     gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(self->availimview), FALSE);
     GtkTreeSelection* selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->availimview));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
     g_signal_connect(G_OBJECT(selection), "changed",
                      G_CALLBACK(_fcitx_im_dialog_im_selection_changed), self);
-    GtkWidget* scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-    gtk_container_add(GTK_CONTAINER(scrolledwindow), self->availimview);
-
-    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(self))), scrolledwindow, TRUE, TRUE, 0);
-    g_object_set(G_OBJECT(scrolledwindow), "margin-left", 5, "margin-right", 5, "shadow-type", GTK_SHADOW_IN, NULL);
-
-    self->onlycurlangcheckbox = gtk_check_button_new_with_label(_("Only Show Current Language"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox), TRUE);
-    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(self))), self->onlycurlangcheckbox, FALSE, TRUE, 0);
-    g_object_set(G_OBJECT(self->onlycurlangcheckbox), "margin-left", 5, "margin-right", 5, NULL);
-
-    self->filterentry = gtk_entry_new();
-    gtk_entry_set_icon_from_stock (GTK_ENTRY (self->filterentry),
-                                    GTK_ENTRY_ICON_SECONDARY,
-                                    GTK_STOCK_CLEAR);
-#if GTK_CHECK_VERSION(3,2,0)
-    gtk_entry_set_placeholder_text(GTK_ENTRY (self->filterentry), _("Search Input Method"));
-#endif
-    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(self))), self->filterentry, FALSE, TRUE, 0);
-    g_object_set(G_OBJECT(self->filterentry), "margin-left", 5, "margin-right", 5, NULL);
 
     g_signal_connect(G_OBJECT(self->filterentry), "changed", G_CALLBACK(_fcitx_im_dialog_filtertext_changed), self);
     g_signal_connect(G_OBJECT(self->onlycurlangcheckbox), "toggled", G_CALLBACK(_fcitx_im_dialog_onlycurlangcheckbox_toggled), self);
     g_signal_connect(G_OBJECT(self->filterentry), "icon-press", G_CALLBACK (icon_press_cb), NULL);
-
-    _fcitx_im_dialog_connect(self);
 }
 
 
@@ -179,6 +227,7 @@ void _fcitx_im_dialog_load(FcitxImDialog* self)
     }
 
     self->array = fcitx_input_method_get_imlist(self->improxy);
+    g_hash_table_remove_all(self->langset);
 
     if (self->array) {
         g_ptr_array_set_free_func(self->array, NULL);
@@ -197,7 +246,22 @@ void _fcitx_inputmethod_insert_foreach_cb(gpointer data,
 
     if (!item->enable) {
         gtk_list_store_append(self->availimstore, &iter);
-        gtk_list_store_set(self->availimstore, &iter, IM_LIST_IM_STRING, item->name, IM_LIST_IM, item, -1);
+        char* lang = NULL;
+        if (strlen(item->langcode) != 0)
+            lang = gdm_get_language_from_name(item->langcode, NULL);
+        if (!lang) {
+            if (strcmp(item->langcode, "*") == 0)
+                lang = g_strdup_printf("%s", _("Unknown"));
+            else
+                lang = g_strdup_printf("%s", _("Unknown"));
+        }
+        gtk_list_store_set(self->availimstore, &iter, IM_LIST_IM_STRING, item->name, IM_LIST_IM, item, IM_LIST_IM_LANGUAGE, lang, -1);
+    } else {
+        gchar temp[3] = {0, 0, 0};
+        strncpy(temp, item->langcode, 2);
+        if (!g_hash_table_contains(self->langset, temp)) {
+            g_hash_table_insert(self->langset, g_strdup(temp), NULL);
+        }
     }
 }
 
@@ -232,18 +296,53 @@ GtkWidget* fcitx_im_dialog_new(GtkWindow       *parent)
     return GTK_WIDGET(self);
 }
 
-
-static const gchar* _get_current_lang()
+gint _cmp_im_item(FcitxImDialog* self, FcitxIMItem* itema, FcitxIMItem* itemb)
 {
-    const gchar* lang =  g_getenv("LC_ALL");
-    if (!lang)
-        lang = g_getenv("LANG");
-    if (!lang)
-        lang = g_getenv("LC_MESSAGES");
-    if (!lang)
-        lang = "C";
-    return lang;
+
+    int ret = g_strcmp0(itema->langcode, itemb->langcode);
+    if (ret == 0) {
+        return g_strcmp0(itema->name, itemb->name);
+    }
+
+    if (g_strcmp0(itema->langcode, self->language) == 0) {
+        return -1;
+    }
+    if (g_strcmp0(itemb->langcode, self->language) == 0) {
+        return 1;
+    }
+
+    gchar tempa[3] = {0, 0, 0};
+    strncpy(tempa, itema->langcode, 2);
+    gchar tempb[3] = {0, 0, 0};
+    strncpy(tempb, itemb->langcode, 2);
+    gboolean fa = strncmp(tempa, self->language, 2) == 0;
+    gboolean fb = strncmp(tempb, self->language, 2) == 0;
+    if (fa == fb) {
+        return ret;
+    }
+    return fa ? -1 : 1;
 }
+
+gint _fcitx_im_dialog_sort_func(GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
+{
+    FcitxImDialog* self = user_data;
+    FcitxIMItem* itema = NULL, *itemb = NULL;
+    gtk_tree_model_get(model,
+                       a,
+                       IM_LIST_IM, &itema,
+                       -1);
+    gtk_tree_model_get(model,
+                       b,
+                       IM_LIST_IM, &itemb,
+                       -1);
+
+    if (itema == NULL || itemb == NULL)
+        return 0;
+
+    int ret = _cmp_im_item(self, itema, itemb);
+    return ret;
+}
+
 
 gboolean _fcitx_im_dialog_filter_func(GtkTreeModel *model,
                                       GtkTreeIter  *iter,
@@ -265,8 +364,11 @@ gboolean _fcitx_im_dialog_filter_func(GtkTreeModel *model,
                      || strstr(item->name, filter_text)
                      || strstr(item->unique_name, filter_text)
                      || strstr(item->langcode, filter_text));
+
+            gchar temp[3] = {0, 0, 0};
+            strncpy(temp, item->langcode, 2);
             flag = flag && (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->onlycurlangcheckbox)) ?
-                     strncmp(item->langcode, _get_current_lang() , 2) == 0 : TRUE) ;
+                     strncmp(item->langcode, self->language , 2) == 0 || g_hash_table_contains(self->langset, temp) : TRUE) ;
         }
     }
     return flag;

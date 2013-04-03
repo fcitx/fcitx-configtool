@@ -24,6 +24,7 @@
 #include "config.h"
 #include "main_window.h"
 #include "config_widget.h"
+#include "fcitx-config-gtk3-resources.h"
 
 static void
 fcitx_config_app_activate (GApplication *application)
@@ -55,6 +56,8 @@ fcitx_config_app_finalize (GObject *object)
 static void
 fcitx_config_app_init (FcitxConfigApp *app)
 {
+    fcitx_config_gtk3_register_resource();
+    g_resources_register (fcitx_config_gtk3_get_resource ());
 }
 
 
@@ -115,6 +118,7 @@ main(int argc, char **argv)
     bindtextdomain("fcitx", LOCALEDIR);
     bind_textdomain_codeset("fcitx", "UTF-8");
     textdomain("fcitx-configtool");
+    FcitxLogSetLevel(FCITX_NONE);
 
     GtkApplication* app = fcitx_config_app_new();
 

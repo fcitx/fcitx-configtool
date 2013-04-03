@@ -59,6 +59,9 @@ struct _FcitxImWidget {
     GtkWidget* movedownbutton;
     GtkWidget* configurebutton;
     GtkWidget* default_layout_button;
+    GtkWidget* scrolledwindow;
+    GtkWidget* toolbar;
+    GtkBuilder* builder;
 };
 
 struct _FcitxImWidgetClass {

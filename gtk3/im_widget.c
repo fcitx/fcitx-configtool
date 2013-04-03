@@ -41,6 +41,7 @@ enum {
 enum {
     IM_LIST_IM_STRING,
     IM_LIST_IM,
+    IM_LIST_IM_LANGUAGE,
     IM_N_COLUMNS
 };
 
@@ -67,136 +68,81 @@ static void _fcitx_im_widget_row_activated(GtkTreeView       *tree_view,
                                            GtkTreePath       *path,
                                            GtkTreeViewColumn *column,
                                            gpointer           user_data);
+static GObject *
+fcitx_im_widget_constructor   (GType                  gtype,
+                               guint                  n_properties,
+                               GObjectConstructParam *properties);
 
 static void
 fcitx_im_widget_class_init(FcitxImWidgetClass *klass)
 {
     GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
     gobject_class->dispose = fcitx_im_widget_dispose;
+    gobject_class->constructor = fcitx_im_widget_constructor;
+}
+
+
+static GObject *
+fcitx_im_widget_constructor   (GType                  gtype,
+                               guint                  n_properties,
+                               GObjectConstructParam *properties)
+{
+    GObject *obj;
+    FcitxImWidget *self;
+    GtkWidget *widget;
+
+    obj = G_OBJECT_CLASS (fcitx_im_widget_parent_class)->constructor (gtype, n_properties, properties);
+
+    self = FCITX_IM_WIDGET (obj);
+
+    widget = GTK_WIDGET(gtk_builder_get_object (self->builder,
+                                                "im_widget"));
+
+    gtk_widget_reparent (widget, GTK_WIDGET(self));
+
+    _fcitx_im_widget_connect(self);
+
+  return obj;
 }
 
 static void
 fcitx_im_widget_init(FcitxImWidget* self)
 {
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(self), GTK_ORIENTATION_VERTICAL);
-    GtkCellRenderer* renderer;
-    GtkTreeViewColumn* column;
-    GtkWidget* hbox;
-    GtkToolItem* separator;
+    self->builder = gtk_builder_new();
+    gtk_builder_add_from_resource(self->builder, "/org/fcitx/fcitx-config-gtk3/im_widget.ui", NULL);
 
-    self->imstore = gtk_list_store_new(IM_N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
-    self->imview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(self->imstore));
+#define _GET_OBJECT(NAME) \
+    self->NAME = (typeof(self->NAME)) gtk_builder_get_object(self->builder, #NAME);
 
-    renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes(
-                 _("Input Method"), renderer,
-                 "text", IM_LIST_IM_STRING,
-                 NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(self->imview), column);
+    _GET_OBJECT(imstore)
+    _GET_OBJECT(imview)
+    _GET_OBJECT(addimbutton)
+    _GET_OBJECT(delimbutton)
+    _GET_OBJECT(moveupbutton)
+    _GET_OBJECT(movedownbutton)
+    _GET_OBJECT(configurebutton)
+    _GET_OBJECT(default_layout_button)
+    _GET_OBJECT(scrolledwindow)
+    _GET_OBJECT(toolbar)
 
-    gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(self->imview), FALSE);
     GtkTreeSelection* selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(self->imview));
-    gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
     g_signal_connect(G_OBJECT(selection), "changed",
                      G_CALLBACK(_fcitx_im_widget_im_selection_changed), self);
-    GtkWidget* scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-    gtk_container_add(GTK_CONTAINER(scrolledwindow), self->imview);
-    g_object_set(G_OBJECT(scrolledwindow), "shadow-type", GTK_SHADOW_IN, NULL);
 
-    GtkWidget* toolbar = gtk_toolbar_new();
-    gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar), 1);
-    gtk_toolbar_set_show_arrow(GTK_TOOLBAR(toolbar), false);
-    gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS);
-
-    GtkToolItem* item;
-    /* add and remove */
-    self->addimbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->addimbutton),
-                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("list-add-symbolic"), GTK_ICON_SIZE_BUTTON));
-
-    self->delimbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->delimbutton),
-                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("list-remove-symbolic"), GTK_ICON_SIZE_BUTTON));
-    gtk_widget_set_sensitive(self->delimbutton, FALSE);
-
-    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
-    gtk_box_pack_start(GTK_BOX(hbox), self->addimbutton, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(hbox), self->delimbutton, FALSE, FALSE, 0);
-    item = gtk_tool_item_new();
-    gtk_container_add(GTK_CONTAINER(item), hbox);
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
-
-    /* separator */
-    separator = gtk_separator_tool_item_new();
-    g_object_set(G_OBJECT(separator), "draw", false, NULL);
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), separator, -1);
-
-    /* move up and move down */
-    self->moveupbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->moveupbutton),
-                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("go-up-symbolic"), GTK_ICON_SIZE_BUTTON));
-    gtk_widget_set_sensitive(self->moveupbutton, FALSE);
-
-    self->movedownbutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->movedownbutton),
-                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("go-down-symbolic"), GTK_ICON_SIZE_BUTTON));
-    gtk_widget_set_sensitive(self->movedownbutton, FALSE);
-
-    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
-    gtk_box_pack_start(GTK_BOX(hbox), self->moveupbutton, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(hbox), self->movedownbutton, FALSE, FALSE, 0);
-    item = gtk_tool_item_new();
-    gtk_container_add(GTK_CONTAINER(item), hbox);
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
-
-    /* separator */
-    separator = gtk_separator_tool_item_new();
-    g_object_set(G_OBJECT(separator), "draw", false, NULL);
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), separator, -1);
-
-    /* configure */
-    self->configurebutton = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->configurebutton),
-                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("preferences-system-symbolic"), GTK_ICON_SIZE_BUTTON));
-    gtk_widget_set_sensitive(self->configurebutton, FALSE);
-    self->default_layout_button = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(self->default_layout_button),
-                         gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("input-keyboard-symbolic"), GTK_ICON_SIZE_BUTTON));
-
-    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
-    gtk_box_pack_start(GTK_BOX(hbox), self->configurebutton, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(hbox), self->default_layout_button, FALSE, FALSE, 0);
-    item = gtk_tool_item_new();
-    gtk_container_add(GTK_CONTAINER(item), hbox);
-
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
 
     GtkStyleContext* context;
-    context = gtk_widget_get_style_context (scrolledwindow);
+    context = gtk_widget_get_style_context (self->scrolledwindow);
     gtk_style_context_set_junction_sides (context, GTK_JUNCTION_BOTTOM);
-    context = gtk_widget_get_style_context (toolbar);
+    context = gtk_widget_get_style_context (self->toolbar);
     gtk_style_context_set_junction_sides (context, GTK_JUNCTION_TOP);
     gtk_style_context_add_class (context, "inline-toolbar");
 
-    GtkWidget* label = gtk_label_new(NULL);
-    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
-    gtk_label_set_markup(GTK_LABEL(label),
-                         _("The first input method will be inactive state. Usually you need to put "
-                         "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."));
-    GtkWidget* image = gtk_image_new_from_stock(GTK_STOCK_ABOUT, GTK_ICON_SIZE_BUTTON);
-    GtkWidget* grid = gtk_grid_new();
-    g_object_set(G_OBJECT(label), "hexpand", TRUE, NULL);
-    gtk_grid_attach(GTK_GRID(grid), image, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), label, 1, 0, 2, 1);
-
-    gtk_box_pack_start(GTK_BOX(self), scrolledwindow, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(self), grid, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(self), toolbar, FALSE, TRUE, 0);
-    g_object_set(G_OBJECT(self), "margin", 5, NULL);
+    gtk_tool_button_set_icon_widget(GTK_TOOL_BUTTON(self->addimbutton), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("list-add-symbolic"), GTK_ICON_SIZE_BUTTON));
+    gtk_tool_button_set_icon_widget(GTK_TOOL_BUTTON(self->delimbutton), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("list-remove-symbolic"), GTK_ICON_SIZE_BUTTON));
+    gtk_tool_button_set_icon_widget(GTK_TOOL_BUTTON(self->moveupbutton), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("go-up-symbolic"), GTK_ICON_SIZE_BUTTON));
+    gtk_tool_button_set_icon_widget(GTK_TOOL_BUTTON(self->movedownbutton), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("go-down-symbolic"), GTK_ICON_SIZE_BUTTON));
+    gtk_tool_button_set_icon_widget(GTK_TOOL_BUTTON(self->configurebutton), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("preferences-system-symbolic"), GTK_ICON_SIZE_BUTTON));
+    gtk_tool_button_set_icon_widget(GTK_TOOL_BUTTON(self->default_layout_button), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("input-keyboard-symbolic"), GTK_ICON_SIZE_BUTTON));
 
     g_signal_connect(G_OBJECT(self->addimbutton), "clicked", G_CALLBACK(_fcitx_im_widget_addim_button_clicked), self);
     g_signal_connect(G_OBJECT(self->delimbutton), "clicked", G_CALLBACK(_fcitx_im_widget_delim_button_clicked), self);
@@ -205,9 +151,6 @@ fcitx_im_widget_init(FcitxImWidget* self)
     g_signal_connect(G_OBJECT(self->configurebutton), "clicked", G_CALLBACK(_fcitx_im_widget_configure_button_clicked), self);
     g_signal_connect(G_OBJECT(self->default_layout_button), "clicked", G_CALLBACK(_fcitx_im_widget_default_layout_button_clicked), self);
     g_signal_connect(G_OBJECT(self->imview), "row-activated", G_CALLBACK(_fcitx_im_widget_row_activated), self);
-
-
-    _fcitx_im_widget_connect(self);
 }
 
 GtkWidget*
@@ -308,6 +251,16 @@ void _fcitx_inputmethod_insert_foreach_cb(gpointer data,
         gtk_list_store_append(self->imstore, &iter);
         gtk_list_store_set(self->imstore, &iter, IM_LIST_IM_STRING, item->name, -1);
         gtk_list_store_set(self->imstore, &iter, IM_LIST_IM, item, -1);
+        char* lang = NULL;
+        if (strlen(item->langcode) != 0)
+            lang = gdm_get_language_from_name(item->langcode, NULL);
+        if (!lang) {
+            if (strcmp(item->langcode, "*") == 0)
+                lang = g_strdup_printf("%s", _("Unknown"));
+            else
+                lang = g_strdup_printf("%s", _("Unknown"));
+        }
+        gtk_list_store_set(self->imstore, &iter, IM_LIST_IM_LANGUAGE, lang, -1);
         if (self->focus == NULL || strcmp(self->focus, item->unique_name) == 0)
             context->iter = iter;
     }

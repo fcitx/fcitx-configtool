@@ -23,6 +23,7 @@
 #include <libintl.h>
 #include <fcitx/addon.h>
 #include <glib.h>
+#include "config.h"
 
 #define _(x) gettext(x)
 

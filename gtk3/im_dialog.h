@@ -48,14 +48,17 @@ typedef struct _FcitxImDialogClass FcitxImDialogClass;
 
 struct _FcitxImDialog {
     GtkDialog parent;
-    GtkListStore* availimstore;
-    GtkWidget* availimview;
     FcitxInputMethod* improxy;
     GPtrArray* array;
+    GtkListStore* availimstore;
+    GtkWidget* availimview;
     GtkWidget* filterentry;
     GtkTreeModel* filtermodel;
     GtkWidget* onlycurlangcheckbox;
     GtkTreeModel* sortmodel;
+    GtkBuilder* builder;
+    GHashTable* langset;
+    gchar* language;
 };
 
 struct _FcitxImDialogClass {
