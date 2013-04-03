@@ -51,6 +51,12 @@ typedef struct {
     int j;
 } HashForeachContext;
 
+
+enum {
+    CONFIG_WIDGET_CHANGED,
+    LAST_SIGNAL
+};
+
 enum {
     PROP_0,
 
@@ -59,6 +65,7 @@ enum {
     PROP_NAME,
     PROP_SUBCONFIG
 };
+static gint config_widget_signals[LAST_SIGNAL] = { 0 };
 
 static void
 fcitx_config_widget_set_property(GObject      *gobject,
@@ -90,6 +97,13 @@ fcitx_config_widget_class_init(FcitxConfigWidgetClass *klass)
     GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
     gobject_class->set_property = fcitx_config_widget_set_property;
     gobject_class->dispose = fcitx_config_widget_dispose;
+    config_widget_signals[CONFIG_WIDGET_CHANGED] = g_signal_new("changed",
+            G_TYPE_FROM_CLASS(gobject_class),
+            G_SIGNAL_RUN_FIRST,
+            0,
+            NULL, NULL,
+            g_cclosure_marshal_VOID__VOID,
+            G_TYPE_NONE, 0, NULL);
     g_object_class_install_property(gobject_class,
                                     PROP_CONFIG_DESC,
                                     g_param_spec_pointer("cfdesc",
@@ -141,6 +155,22 @@ sync_hotkey(KeyGrabButton* button, gpointer user_data)
         keygrab_button_set_key(KEYGRAB_BUTTON(user_data), key1, mod1);
 }
 
+
+static void
+_fcitx_config_widget_hotkey_changed(KeyGrabButton* button, gpointer user_data)
+{
+    FcitxConfigWidget* self = FCITX_CONFIG_WIDGET(user_data);
+    g_signal_emit(self, config_widget_signals[CONFIG_WIDGET_CHANGED], 0);
+}
+
+static void  _fcitx_config_widget_changed              (GObject    *gobject,
+                                                        GParamSpec *pspec,
+                                                        gpointer    user_data)
+{
+    FcitxConfigWidget* self = FCITX_CONFIG_WIDGET(user_data);
+    g_signal_emit(self, config_widget_signals[CONFIG_WIDGET_CHANGED], 0);
+}
+
 static void
 fcitx_config_widget_create_option_widget(
     FcitxConfigWidget *self,
@@ -177,27 +207,30 @@ fcitx_config_widget_create_option_widget(
         g_object_set(*inputWidget, "hexpand", TRUE, NULL);
         if (oldarg) {
             g_object_bind_property(*inputWidget, "value", oldarg, "value", G_BINDING_BIDIRECTIONAL);
-        }
-        else
+        } else {
+            g_signal_connect(*inputWidget, "notify::value", (GCallback) _fcitx_config_widget_changed, self);
             argument = *inputWidget;
+        }
         break;
     case T_Color:
         *inputWidget = gtk_color_button_new();
         g_object_set(*inputWidget, "hexpand", TRUE, NULL);
         if (oldarg) {
             g_object_bind_property(*inputWidget, "color", oldarg, "color", G_BINDING_BIDIRECTIONAL);
-        }
-        else
+        } else {
+            g_signal_connect(*inputWidget, "notify::color", (GCallback) _fcitx_config_widget_changed, self);
             argument = *inputWidget;
+        }
         break;
     case T_Boolean:
         *inputWidget = gtk_check_button_new();
         g_object_set(*inputWidget, "hexpand", TRUE, NULL);
         if (oldarg) {
             g_object_bind_property(*inputWidget, "active", oldarg, "active", G_BINDING_BIDIRECTIONAL);
-        }
-        else
+        } else {
+            g_signal_connect(*inputWidget, "notify::active", (GCallback) _fcitx_config_widget_changed, self);
             argument = *inputWidget;
+        }
         break;
     case T_Font: {
         *inputWidget = gtk_grid_new();
@@ -212,9 +245,10 @@ fcitx_config_widget_create_option_widget(
         g_signal_connect(G_OBJECT(button), "clicked", (GCallback) set_none_font_clicked, arg);
         if (oldarg) {
             g_object_bind_property(arg, "font-name", oldarg, "font-name", G_BINDING_BIDIRECTIONAL);
-        }
-        else
+        } else {
+            g_signal_connect(arg, "notify::font-name", (GCallback) _fcitx_config_widget_changed, self);
             argument = arg;
+        }
     }
     break;
     case T_Enum: {
@@ -227,9 +261,10 @@ fcitx_config_widget_create_option_widget(
         g_object_set(*inputWidget, "hexpand", TRUE, NULL);
         if (oldarg) {
             g_object_bind_property(*inputWidget, "active", oldarg, "active", G_BINDING_BIDIRECTIONAL);
-        }
-        else
+        } else {
+            g_signal_connect(*inputWidget, "notify::active", (GCallback) _fcitx_config_widget_changed, self);
             argument = *inputWidget;
+        }
     }
     break;
     case T_Hotkey: {
@@ -252,8 +287,11 @@ fcitx_config_widget_create_option_widget(
         }
         else {
             argument = g_array_new(FALSE, FALSE, sizeof(void*));
-            g_array_append_val(argument, button[0]);
-            g_array_append_val(argument, button[1]);
+            int j;
+            for (j = 0; j < 2; j ++) {
+                g_signal_connect(button[j], "changed", (GCallback) _fcitx_config_widget_hotkey_changed, self);
+                g_array_append_val(argument, button[j]);
+            }
         }
     }
     break;
@@ -264,9 +302,10 @@ fcitx_config_widget_create_option_widget(
         g_object_set(*inputWidget, "hexpand", TRUE, NULL);
         if (oldarg) {
             g_object_bind_property(*inputWidget, "text", oldarg, "text", G_BINDING_BIDIRECTIONAL);
-        }
-        else
+        } else {
+            g_signal_connect(*inputWidget, "notify::text", (GCallback) _fcitx_config_widget_changed, self);
             argument = *inputWidget;
+        }
         break;
     default:
         break;

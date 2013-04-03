@@ -73,9 +73,6 @@ static void _fcitx_main_window_name_data_func(GtkCellLayout   *cell_layout,
         GtkTreeIter     *iter,
         gpointer         user_data);
 
-static void _fcitx_main_window_apply_button_clicked(GtkButton *button,
-        gpointer   user_data);
-
 static void _fcitx_main_window_toggled_cb(GtkCellRenderer *renderer,
         gchar* str_path,
         gpointer         user_data);
@@ -178,6 +175,11 @@ void _fcitx_main_window_addon_row_activated(GtkTreeView* tree_view, GtkTreePath*
     }
 }
 
+static void
+_fcitx_main_window_config_widget_changed(FcitxConfigWidget* widget, gpointer user_data)
+{
+    fcitx_config_widget_response(widget, CONFIG_WIDGET_SAVE);
+}
 
 void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self)
 {
@@ -196,10 +198,7 @@ void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self)
     gtk_box_pack_start(GTK_BOX(vbox), hbuttonbox, FALSE, TRUE, 0);
     g_object_set(G_OBJECT(hbuttonbox), "margin", 5, NULL);
 
-    GtkWidget* applybutton = gtk_button_new_from_stock(GTK_STOCK_APPLY);
-    gtk_box_pack_start(GTK_BOX(hbuttonbox), applybutton, TRUE, TRUE, 0);
-    g_signal_connect(G_OBJECT(applybutton), "clicked", G_CALLBACK(_fcitx_main_window_apply_button_clicked), config_widget);
-
+    g_signal_connect(config_widget, "changed", (GCallback) _fcitx_main_window_config_widget_changed, NULL);
 
     _fcitx_main_window_add_page(self, _("Global Config"), vbox, GTK_STOCK_PREFERENCES);
 }
@@ -252,7 +251,7 @@ gboolean _filter_addon_func(GtkTreeModel *model,
 void _fcitx_main_window_checkbox_changed(GtkToggleButton* button, gpointer user_data)
 {
     FcitxMainWindow* self = user_data;
-    gtk_cell_renderer_toggle_set_activatable(GTK_CELL_RENDERER_TOGGLE(self->togglecell), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->advancecheckbox)));
+    gtk_tree_view_column_set_visible(self->checkboxcolumn, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self->advancecheckbox)));
     gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(self->filtermodel));
 }
 
@@ -295,7 +294,6 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     gtk_entry_set_placeholder_text(GTK_ENTRY (self->filterentry), _("Search Addon"));
 #endif
     g_signal_connect(G_OBJECT(self->filterentry), "icon-press", G_CALLBACK (icon_press_cb), NULL);
-    gtk_box_pack_start(GTK_BOX(vbox), self->filterentry, FALSE, TRUE, 5);
 
     /* list view */
     self->addonstore = gtk_list_store_new(N_COLUMNS, G_TYPE_POINTER);
@@ -317,15 +315,14 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
 
     /* add column check box */
     self->togglecell = gtk_cell_renderer_toggle_new();
-    gtk_cell_renderer_toggle_set_activatable(GTK_CELL_RENDERER_TOGGLE(self->togglecell), FALSE);
     self->checkboxcolumn = gtk_tree_view_column_new_with_attributes("Enable", self->togglecell, NULL);
+    gtk_tree_view_column_set_visible(self->checkboxcolumn, FALSE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(self->addonview), self->checkboxcolumn);
     gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(self->checkboxcolumn),
                                        self->togglecell,
                                        _fcitx_main_window_enabled_data_func,
                                        NULL,
                                        NULL);
-    gtk_cell_renderer_toggle_set_activatable(GTK_CELL_RENDERER_TOGGLE(self->togglecell), FALSE);
 
     /* add column text */
     GtkCellRenderer* renderer = gtk_cell_renderer_text_new();
@@ -350,6 +347,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
 
     gtk_box_pack_start(GTK_BOX(vbox), self->advancecheckbox, FALSE, TRUE, 0);
     g_object_set(G_OBJECT(self->advancecheckbox), "margin-left", 5, "margin-right", 5, NULL);
+    gtk_box_pack_start(GTK_BOX(vbox), self->filterentry, FALSE, TRUE, 5);
 
     /* configure button */
     GtkWidget* hbuttonbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
@@ -447,13 +445,6 @@ _fcitx_main_window_name_data_func(GtkCellLayout   *cell_layout,
                  NULL);
 
     g_free(string);
-}
-
-
-void _fcitx_main_window_apply_button_clicked(GtkButton* button, gpointer user_data)
-{
-    FcitxConfigWidget* config_widget = user_data;
-    fcitx_config_widget_response(config_widget, CONFIG_WIDGET_SAVE);
 }
 
 void _fcitx_main_window_configure_button_clicked(GtkButton* button, gpointer data)

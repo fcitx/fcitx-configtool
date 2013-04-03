@@ -147,7 +147,7 @@ void keygrab_button_set_key(KeyGrabButton* self, guint key, GdkModifierType mods
     if (self->key != key || self->mods != mods) {
         self->key = key;
         self->mods = mods;
-        g_signal_emit_by_name(G_OBJECT(self), "changed", self->key, self->mods);
+        g_signal_emit(G_OBJECT(self), keygrab_button_signals[KEYGRAB_BUTTON_CHANGED], 0);
     }
     else {
         return;
