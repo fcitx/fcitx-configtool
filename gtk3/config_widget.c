@@ -426,7 +426,7 @@ fcitx_config_widget_create_simple_ui(FcitxConfigWidget* self, gboolean skipAdvan
         GHashTable* subconfigs = self->parser->subconfigs;
         if (g_hash_table_size(subconfigs) != 0) {
             GtkWidget *plabel = gtk_label_new(NULL);
-            gchar* markup = g_strdup_printf("<b>%s</b>", "Other");
+            gchar* markup = g_strdup_printf("<b>%s</b>", _("Other"));
             gtk_label_set_markup(GTK_LABEL(plabel), markup);
             g_free(markup);
             g_object_set(plabel, "xalign", 0.0f, NULL);
