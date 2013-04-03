@@ -11,6 +11,9 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkTreeModelFilter" id="filtermodel">
+    <property name="child_model">availimstore</property>
+  </object>
   <object class="GtkDialog" id="dialog1">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -94,7 +97,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="onlycurlangcheckbox">
-                <property name="label" translatable="yes">Show Only Current Language</property>
+                <property name="label" translatable="yes">Only Show Current Language</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -120,7 +123,6 @@
                 <property name="margin_right">5</property>
                 <property name="invisible_char">●</property>
                 <property name="secondary_icon_stock">gtk-clear</property>
-                <property name="placeholder_text">Search Input Method</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -137,9 +139,6 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkTreeModelFilter" id="filtermodel">
-    <property name="child_model">availimstore</property>
   </object>
   <object class="GtkTreeModelSort" id="sortmodel">
     <property name="model">filtermodel</property>

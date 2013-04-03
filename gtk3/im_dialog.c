@@ -165,6 +165,8 @@ fcitx_im_dialog_init(FcitxImDialog* self)
     _GET_OBJECT(onlycurlangcheckbox)
     _GET_OBJECT(sortmodel)
 
+    gtk_entry_set_placeholder_text(GTK_ENTRY(self->filterentry), _("Search Input Method"));
+
     gtk_widget_set_size_request(GTK_WIDGET(self), 400, 300);
 
     gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(self->filtermodel),

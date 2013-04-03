@@ -35,7 +35,7 @@ set(fcitx_config_gtk3_headers
   sub_config_widget.h
   )
 
-fcitx_translate_add_sources(${fcitx_config_gtk3_sources}
+fcitx_translate_add_sources(${fcitx_config_gtk3_sources} i18n_dummy.c
   ${fcitx_config_gtk3_headers})
 
 if(NOT ENABLE_GTK3)

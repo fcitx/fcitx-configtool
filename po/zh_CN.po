@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-02-27 09:06-0500\n"
+"POT-Creation-Date: 2013-04-03 06:15-0400\n"
 "PO-Revision-Date: 2013-02-27 09:06-0500\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-china@kde.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: gtk3/im_dialog.c:64
+#: gtk3/im_dialog.c:123
 msgid "Add input method"
 msgstr "添加输入法"
 
-#: gtk3/main_window.c:376 gtk/main_window.c:375
+#: gtk3/main_window.c:374 gtk/main_window.c:375
 msgid "Addon"
 msgstr "附加组件"
 
-#: gtk3/main_window.c:284
+#: gtk3/main_window.c:283
 msgid "Advance"
 msgstr "高级"
 
-#: gtk3/main_window.c:222
+#: gtk3/main_window.c:221
 msgid "Appearance"
 msgstr "外观"
 
@@ -42,11 +42,11 @@ msgstr "可用的输入法"
 msgid "Cannot load currently used user interface info"
 msgstr "无法加载当前用户界面信息"
 
-#: gtk3/config_widget.c:206 gtk/config_widget.c:192
+#: gtk3/config_widget.c:239 gtk/config_widget.c:192
 msgid "Clear font setting"
 msgstr "清除字体设置"
 
-#: gtk3/main_window.c:359 gtk/main_window.c:360
+#: gtk3/main_window.c:357 gtk/main_window.c:360
 msgid "Configure"
 msgstr "配置 "
 
@@ -66,16 +66,16 @@ msgstr "默认键盘布局"
 msgid "Empty"
 msgstr "空"
 
-#: gtk3/main_window.c:204 gtk/main_window.c:294
+#: gtk3/main_window.c:203 gtk/main_window.c:294
 msgid "Global Config"
 msgstr "全局配置"
 
-#: gtk3/im_dialog.c:101 gtk3/im_widget.c:92 gtk3/main_window.c:210
-#: gtk/im_widget.c:102 gtk/im_widget.c:153 gtk/main_window.c:300
+#: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
+#: gtk/main_window.c:300
 msgid "Input Method"
 msgstr "输入法"
 
-#: gtk3/main_window.c:109 gtk/main_window.c:149
+#: gtk3/main_window.c:106 gtk/main_window.c:149
 msgid "Input Method Configuration"
 msgstr "输入法配置"
 
@@ -100,11 +100,11 @@ msgstr "键盘布局："
 msgid "No configuration option for %s."
 msgstr "%s 无配置选项。"
 
-#: gtk3/im_dialog.c:118 gtk/im_widget.c:115
+#: gtk3/i18n_dummy.c:4 gtk/im_widget.c:115
 msgid "Only Show Current Language"
 msgstr "仅显示当前语言"
 
-#: gtk3/config_widget.c:479 gtk/config_widget.c:270
+#: gtk3/config_widget.c:518 gtk/config_widget.c:270
 msgid "Other"
 msgstr "其他"
 
@@ -112,19 +112,19 @@ msgstr "其他"
 msgid "Please press the new key combination"
 msgstr "请按下新按键组合"
 
-#: gtk3/main_window.c:295
+#: gtk3/main_window.c:294
 msgid "Search Addon"
 msgstr "搜索附加组件"
 
-#: gtk3/im_dialog.c:128
+#: gtk3/im_dialog.c:168
 msgid "Search Input Method"
 msgstr "搜索输入法"
 
-#: gtk3/config_widget.c:564
+#: gtk3/config_widget.c:603
 msgid "Show Advance Option"
 msgstr "显示高级选项"
 
-#: gtk3/im_widget.c:188 gtk/im_widget.c:192
+#: gtk3/i18n_dummy.c:2 gtk/im_widget.c:192
 msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
@@ -132,7 +132,8 @@ msgstr ""
 "第一个输入法将作为非激活状态。通常您需要将<b>键盘</b>或<b>键盘 - <i>布局名称"
 "</i></b>放在第一个。"
 
-#: gtk/im_widget.c:314 gtk/im_widget.c:316
+#: gtk3/im_dialog.c:256 gtk3/im_dialog.c:258 gtk3/im_widget.c:259
+#: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
 msgid "Unknown"
 msgstr "未知"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-02-27 09:06-0500\n"
+"POT-Creation-Date: 2013-04-03 06:15-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,20 +17,30 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gtk3/config_widget.c:206 gtk/config_widget.c:192
+#: gtk3/config_widget.c:239 gtk/config_widget.c:192
 msgid "Clear font setting"
 msgstr ""
 
-#: gtk3/config_widget.c:479 gtk/config_widget.c:270
+#: gtk3/config_widget.c:518 gtk/config_widget.c:270
 msgid "Other"
 msgstr ""
 
-#: gtk3/config_widget.c:564
+#: gtk3/config_widget.c:603
 msgid "Show Advance Option"
 msgstr ""
 
 #: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
 msgid "Unspecified"
+msgstr ""
+
+#: gtk3/i18n_dummy.c:2 gtk/im_widget.c:192
+msgid ""
+"The first input method will be inactive state. Usually you need to put "
+"<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
+msgstr ""
+
+#: gtk3/i18n_dummy.c:4 gtk/im_widget.c:115
+msgid "Only Show Current Language"
 msgstr ""
 
 #: gtk3/im_config_dialog.c:132
@@ -57,27 +67,17 @@ msgstr ""
 msgid "Input method settings:"
 msgstr ""
 
-#: gtk3/im_dialog.c:64
+#: gtk3/im_dialog.c:123
 msgid "Add input method"
 msgstr ""
 
-#: gtk3/im_dialog.c:101 gtk3/im_widget.c:92 gtk3/main_window.c:210
-#: gtk/im_widget.c:102 gtk/im_widget.c:153 gtk/main_window.c:300
-msgid "Input Method"
-msgstr ""
-
-#: gtk3/im_dialog.c:118 gtk/im_widget.c:115
-msgid "Only Show Current Language"
-msgstr ""
-
-#: gtk3/im_dialog.c:128
+#: gtk3/im_dialog.c:168
 msgid "Search Input Method"
 msgstr ""
 
-#: gtk3/im_widget.c:188 gtk/im_widget.c:192
-msgid ""
-"The first input method will be inactive state. Usually you need to put "
-"<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
+#: gtk3/im_dialog.c:256 gtk3/im_dialog.c:258 gtk3/im_widget.c:259
+#: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
+msgid "Unknown"
 msgstr ""
 
 #: gtk3/keygrab.c:64 gtk3/keygrab.c:159 gtk/keygrab.c:138
@@ -88,31 +88,36 @@ msgstr ""
 msgid "Please press the new key combination"
 msgstr ""
 
-#: gtk3/main_window.c:109 gtk/main_window.c:149
+#: gtk3/main_window.c:106 gtk/main_window.c:149
 msgid "Input Method Configuration"
 msgstr ""
 
-#: gtk3/main_window.c:204 gtk/main_window.c:294
+#: gtk3/main_window.c:203 gtk/main_window.c:294
 msgid "Global Config"
 msgstr ""
 
-#: gtk3/main_window.c:222
+#: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
+#: gtk/main_window.c:300
+msgid "Input Method"
+msgstr ""
+
+#: gtk3/main_window.c:221
 msgid "Appearance"
 msgstr ""
 
-#: gtk3/main_window.c:284
+#: gtk3/main_window.c:283
 msgid "Advance"
 msgstr ""
 
-#: gtk3/main_window.c:295
+#: gtk3/main_window.c:294
 msgid "Search Addon"
 msgstr ""
 
-#: gtk3/main_window.c:359 gtk/main_window.c:360
+#: gtk3/main_window.c:357 gtk/main_window.c:360
 msgid "Configure"
 msgstr ""
 
-#: gtk3/main_window.c:376 gtk/main_window.c:375
+#: gtk3/main_window.c:374 gtk/main_window.c:375
 msgid "Addon"
 msgstr ""
 
@@ -131,8 +136,4 @@ msgstr ""
 
 #: gtk/im_widget.c:146
 msgid "Current Input Method"
-msgstr ""
-
-#: gtk/im_widget.c:314 gtk/im_widget.c:316
-msgid "Unknown"
 msgstr ""
