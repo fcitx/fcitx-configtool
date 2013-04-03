@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-04-03 06:15-0400\n"
+"POT-Creation-Date: 2013-04-03 09:10-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,26 +21,16 @@ msgstr ""
 msgid "Clear font setting"
 msgstr ""
 
-#: gtk3/config_widget.c:518 gtk/config_widget.c:270
+#: gtk3/config_widget.c:430 gtk3/config_widget.c:519 gtk/config_widget.c:270
 msgid "Other"
 msgstr ""
 
-#: gtk3/config_widget.c:603
+#: gtk3/config_widget.c:604
 msgid "Show Advance Option"
 msgstr ""
 
 #: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
 msgid "Unspecified"
-msgstr ""
-
-#: gtk3/i18n_dummy.c:2 gtk/im_widget.c:192
-msgid ""
-"The first input method will be inactive state. Usually you need to put "
-"<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
-msgstr ""
-
-#: gtk3/i18n_dummy.c:4 gtk/im_widget.c:115
-msgid "Only Show Current Language"
 msgstr ""
 
 #: gtk3/im_config_dialog.c:132
@@ -97,7 +87,7 @@ msgid "Global Config"
 msgstr ""
 
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
-#: gtk/main_window.c:300
+#: gtk/main_window.c:300 gtk3/im_dialog.ui:68 gtk3/im_widget.ui:63
 msgid "Input Method"
 msgstr ""
 
@@ -134,6 +124,20 @@ msgstr ""
 msgid "Available Input Method"
 msgstr ""
 
+#: gtk/im_widget.c:115 gtk3/im_dialog.ui:100
+msgid "Only Show Current Language"
+msgstr ""
+
 #: gtk/im_widget.c:146
 msgid "Current Input Method"
+msgstr ""
+
+#: gtk/im_widget.c:192 gtk3/im_widget.ui:115
+msgid ""
+"The first input method will be inactive state. Usually you need to put "
+"<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
+msgstr ""
+
+#: gtk3/im_dialog.ui:80 gtk3/im_widget.ui:75
+msgid "Language"
 msgstr ""
