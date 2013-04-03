@@ -23,6 +23,9 @@ _pkgconfig_invoke("iso-codes" ISO_CODES PREFIX "" "--variable=prefix")
 
 find_package(Fcitx 4.2.7 REQUIRED)
 _fcitx_add_uninstall_target()
+_fcitx_translate_add_handler(
+  "${PROJECT_SOURCE_DIR}/cmake/fcitx-extract-glade.sh" glade)
+
 add_definitions("-D_GNU_SOURCE")
 set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-sign-compare -Wno-unused-parameter -fvisibility=hidden ${CMAKE_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-sign-compare -Wno-unused-parameter -fvisibility=hidden ${CMAKE_CXX_FLAGS}")

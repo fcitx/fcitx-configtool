@@ -1,6 +1,7 @@
 include(gresource)
 
-gresource(${CMAKE_CURRENT_SOURCE_DIR} fcitx-config-gtk3.gresource.xml ${CMAKE_CURRENT_BINARY_DIR} RESOURCE_FILE RESOURCE_HEADER)
+gresource(${CMAKE_CURRENT_SOURCE_DIR} fcitx-config-gtk3.gresource.xml
+  ${CMAKE_CURRENT_BINARY_DIR} RESOURCE_FILE RESOURCE_HEADER)
 
 set(fcitx_config_gtk3_sources
   sub_config_parser.c
@@ -35,8 +36,10 @@ set(fcitx_config_gtk3_headers
   sub_config_widget.h
   )
 
-fcitx_translate_add_sources(${fcitx_config_gtk3_sources} i18n_dummy.c
+fcitx_translate_add_sources(${fcitx_config_gtk3_sources}
   ${fcitx_config_gtk3_headers})
+fcitx_translate_add_sources(EXTRACT_TYPE glade
+  im_dialog.ui im_widget.ui)
 
 if(NOT ENABLE_GTK3)
   return()

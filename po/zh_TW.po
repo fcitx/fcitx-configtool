@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-04-03 06:15-0400\n"
+"POT-Creation-Date: 2013-04-03 09:08-0400\n"
 "PO-Revision-Date: 2013-02-27 09:06-0500\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-china@kde.org>\n"
@@ -73,7 +73,7 @@ msgid "Global Config"
 msgstr "全域設定"
 
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
-#: gtk/main_window.c:300
+#: gtk/main_window.c:300 gtk3/im_dialog.ui:68 gtk3/im_widget.ui:63
 msgid "Input Method"
 msgstr "輸入法"
 
@@ -97,16 +97,20 @@ msgstr ""
 msgid "Keyboard layout:"
 msgstr "鍵盤配置："
 
+#: gtk3/im_dialog.ui:80 gtk3/im_widget.ui:75
+msgid "Language"
+msgstr ""
+
 #: gtk3/ui_widget.c:106
 #, c-format
 msgid "No configuration option for %s."
 msgstr "%s 無設定選項。"
 
-#: gtk3/i18n_dummy.c:4 gtk/im_widget.c:115
+#: gtk/im_widget.c:115 gtk3/im_dialog.ui:100
 msgid "Only Show Current Language"
 msgstr "僅顯示目前的語言"
 
-#: gtk3/config_widget.c:518 gtk/config_widget.c:270
+#: gtk3/config_widget.c:430 gtk3/config_widget.c:519 gtk/config_widget.c:270
 msgid "Other"
 msgstr "其他"
 
@@ -122,11 +126,11 @@ msgstr "搜索附加元件"
 msgid "Search Input Method"
 msgstr "搜尋輸入法"
 
-#: gtk3/config_widget.c:603
+#: gtk3/config_widget.c:604
 msgid "Show Advance Option"
 msgstr "顯示進階選項"
 
-#: gtk3/i18n_dummy.c:2 gtk/im_widget.c:192
+#: gtk/im_widget.c:192 gtk3/im_widget.ui:115
 msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
