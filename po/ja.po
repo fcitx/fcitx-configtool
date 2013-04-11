@@ -3,19 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-#   <hiunnhue108@ymail.com>, 2012.
-#  <wengxt@gmail.com>, 2013.
-# Weng Xuetian <wengxt@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
 "POT-Creation-Date: 2013-04-11 15:19-0400\n"
-"PO-Revision-Date: 2013-04-11 19:15+0000\n"
-"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/fcitx/"
-"language/zh_TW/)\n"
-"Language: zh_TW\n"
+"PO-Revision-Date: 2013-04-06 09:07+0000\n"
+"Last-Translator: いくや あわしろ <ikunya@gmail.com>\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/fcitx/language/"
+"ja/)\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,31 +20,31 @@ msgstr ""
 
 #: gtk3/im_dialog.c:123
 msgid "Add input method"
-msgstr "新增輸入法"
+msgstr "入力メソッドの追加"
 
 #: gtk3/main_window.c:374 gtk/main_window.c:375
 msgid "Addon"
-msgstr "附加元件"
+msgstr "アドオン"
 
 #: gtk3/main_window.c:283
 msgid "Advance"
-msgstr "進階"
+msgstr "拡張"
 
 #: gtk3/main_window.c:221
 msgid "Appearance"
-msgstr "外觀"
+msgstr "外観"
 
 #: gtk/im_widget.c:92
 msgid "Available Input Method"
-msgstr "可用的輸入法"
+msgstr "存在する入力メソッド"
 
 #: gtk3/ui_widget.c:48
 msgid "Cannot load currently used user interface info"
-msgstr "無法載入目前使用者界面訊息"
+msgstr "現在のユーザーインターフェース設定が読み込めません"
 
 #: gtk3/config_widget.c:239 gtk/config_widget.c:192
 msgid "Clear font setting"
-msgstr "清除字體設定"
+msgstr "フォント設定のクリア"
 
 #: gtk3/main_window.c:357 gtk/main_window.c:360
 msgid "Configure"
@@ -55,15 +52,15 @@ msgstr "設定"
 
 #: gtk/im_widget.c:146
 msgid "Current Input Method"
-msgstr "目前的輸入法"
+msgstr "現在のインプットメソッド"
 
 #: gtk3/im_config_dialog.c:164
 msgid "Default"
-msgstr "預設"
+msgstr "既定"
 
 #: gtk3/im_config_dialog.c:132
 msgid "Default keyboard layout"
-msgstr "預設鍵盤配置"
+msgstr "既定のキーボードレイアウト"
 
 #: gtk3/keygrab.c:64 gtk3/keygrab.c:159 gtk/keygrab.c:138
 msgid "Empty"
@@ -71,79 +68,79 @@ msgstr "空"
 
 #: gtk3/main_window.c:203 gtk/main_window.c:294
 msgid "Global Config"
-msgstr "全域設定"
+msgstr "全体の設定"
 
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
 #: gtk/main_window.c:300 gtk3/im_dialog.ui:68 gtk3/im_widget.ui:63
 msgid "Input Method"
-msgstr "輸入法"
+msgstr "入力メソッド"
 
 #: gtk3/main_window.c:106 gtk/main_window.c:149
 msgid "Input Method Configuration"
-msgstr "輸入法設定"
+msgstr "入力メソッドの設定"
 
 #: gtk3/im_config_dialog.c:164
 msgid "Input Method Default"
-msgstr "輸入法預設"
+msgstr "既定の入力メソッド"
 
 #: gtk3/im_config_dialog.c:209
 msgid "Input method settings:"
-msgstr "輸入法設定："
+msgstr "入力メソッドの設定:"
 
 #: gtk3/im_config_dialog.c:192
 msgid "Keyboard layout to use when no input window:"
-msgstr "無可輸入窗口時使用的鍵盤配置："
+msgstr "入力ウィンドウがない場合のキーボードレイアウト"
 
 #: gtk3/im_config_dialog.c:192
 msgid "Keyboard layout:"
-msgstr "鍵盤配置："
+msgstr "キーボードレイアウト:"
 
 #: gtk3/im_dialog.ui:80 gtk3/im_widget.ui:75
 msgid "Language"
-msgstr "語言"
+msgstr ""
 
 #: gtk3/ui_widget.c:106
 #, c-format
 msgid "No configuration option for %s."
-msgstr "%s 無設定選項。"
+msgstr "%s に設定オプションはありません"
 
 #: gtk/im_widget.c:115 gtk3/im_dialog.ui:100
 msgid "Only Show Current Language"
-msgstr "僅顯示目前的語言"
+msgstr "現在の言語のみ表示"
 
 #: gtk3/config_widget.c:430 gtk3/config_widget.c:519 gtk/config_widget.c:270
 msgid "Other"
-msgstr "其他"
+msgstr "その他"
 
 #: gtk3/keygrab.c:78 gtk/keygrab.c:74
 msgid "Please press the new key combination"
-msgstr "請按下新按鍵組合"
+msgstr "新しいキーの組み合わせを入力してください"
 
 #: gtk3/main_window.c:294
 msgid "Search Addon"
-msgstr "搜索附加元件"
+msgstr "アドオンの検索"
 
 #: gtk3/im_dialog.c:168
 msgid "Search Input Method"
-msgstr "搜尋輸入法"
+msgstr "入力メソッドの検索"
 
 #: gtk3/config_widget.c:604
 msgid "Show Advance Option"
-msgstr "顯示進階選項"
+msgstr "拡張オプションの表示"
 
 #: gtk/im_widget.c:192 gtk3/im_widget.ui:115
 msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
 msgstr ""
-"第一個輸入法將作為非激活狀態。通常您需要將<b>鍵盤<b>或者<b>鍵盤 - <i>配置名稱"
-"</i></b>放到第一個。"
+"最初の入力メソッドは無効の状態で使用されます。たいてい最初の<b>キーボード</b>"
+"または<b>キーボード -<i>レイアウト名</i></b>で追加できます。"
 
 #: gtk3/im_dialog.c:256 gtk3/im_dialog.c:258 gtk3/im_widget.c:259
 #: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
 msgid "Unknown"
-msgstr "未知"
+msgstr "不明"
 
 #: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
 msgid "Unspecified"
-msgstr "未指定"
+msgstr "特定しない"
