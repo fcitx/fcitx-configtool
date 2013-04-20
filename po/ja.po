@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-04-20 13:24-0400\n"
+"POT-Creation-Date: 2013-04-20 14:01-0400\n"
 "PO-Revision-Date: 2013-04-17 15:34+0000\n"
 "Last-Translator: いくや あわしろ <ikunya@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/fcitx/language/"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Add input method"
 msgstr "入力メソッドの追加"
 
-#: gtk3/main_window.c:374 gtk/main_window.c:375
+#: gtk/main_window.c:375 gtk3/main_window.c:374
 msgid "Addon"
 msgstr "アドオン"
 
@@ -43,11 +43,11 @@ msgstr "存在する入力メソッド"
 msgid "Cannot load currently used user interface info"
 msgstr "現在のユーザーインターフェース設定が読み込めません"
 
-#: gtk3/config_widget.c:239 gtk/config_widget.c:192
+#: gtk/config_widget.c:192 gtk3/config_widget.c:239
 msgid "Clear font setting"
 msgstr "設定をクリア"
 
-#: gtk3/main_window.c:357 gtk/main_window.c:360
+#: gtk/main_window.c:360 gtk3/main_window.c:357
 msgid "Configure"
 msgstr "設定"
 
@@ -63,20 +63,20 @@ msgstr "既定"
 msgid "Default keyboard layout"
 msgstr "既定のキーボードレイアウト"
 
-#: gtk3/keygrab.c:64 gtk3/keygrab.c:159 gtk/keygrab.c:138
+#: gtk/keygrab.c:138 gtk3/keygrab.c:64 gtk3/keygrab.c:159
 msgid "Empty"
 msgstr "空"
 
-#: gtk3/main_window.c:203 gtk/main_window.c:294
+#: gtk/main_window.c:294 gtk3/main_window.c:203
 msgid "Global Config"
 msgstr "全体の設定"
 
-#: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
-#: gtk/main_window.c:300 gtk3/im_dialog.ui:68 gtk3/im_widget.ui:63
+#: gtk/im_widget.c:102 gtk/im_widget.c:153 gtk/main_window.c:300
+#: gtk3/main_window.c:209 gtk3/im_dialog.ui:68 gtk3/im_widget.ui:63
 msgid "Input Method"
 msgstr "入力メソッド"
 
-#: gtk3/main_window.c:106 gtk/main_window.c:149
+#: gtk/main_window.c:149 gtk3/main_window.c:106
 msgid "Input Method Configuration"
 msgstr "入力メソッドの設定"
 
@@ -109,11 +109,11 @@ msgstr "%s に設定オプションはありません"
 msgid "Only Show Current Language"
 msgstr "現在の言語のみ表示"
 
-#: gtk3/config_widget.c:430 gtk3/config_widget.c:519 gtk/config_widget.c:270
+#: gtk/config_widget.c:270 gtk3/config_widget.c:430 gtk3/config_widget.c:519
 msgid "Other"
 msgstr "その他"
 
-#: gtk3/keygrab.c:78 gtk/keygrab.c:74
+#: gtk/keygrab.c:74 gtk3/keygrab.c:78
 msgid "Please press the new key combination"
 msgstr "設定したいキーの組み合わせを押してください"
 
@@ -137,11 +137,11 @@ msgstr ""
 "最初の入力メソッドは [直接入力] のときに使用されます。通常は <b>キーボード</"
 "b> または <b>キーボード-<i>レイアウト名</i></b> を最上段に指定してください。"
 
-#: gtk3/im_dialog.c:256 gtk3/im_dialog.c:258 gtk3/im_widget.c:259
-#: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
+#: gtk/im_widget.c:314 gtk/im_widget.c:316 gtk3/im_dialog.c:256
+#: gtk3/im_dialog.c:258 gtk3/im_widget.c:259 gtk3/im_widget.c:261
 msgid "Unknown"
 msgstr "不明"
 
-#: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
+#: gtk/gdm-languages.c:697 gtk3/gdm-languages.c:697
 msgid "Unspecified"
 msgstr "特定しない"
