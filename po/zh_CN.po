@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-04-20 14:01-0400\n"
+"POT-Creation-Date: 2013-04-21 20:16-0400\n"
 "PO-Revision-Date: 2013-04-11 19:14+0000\n"
 "Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) <fcitx-dev@googlegroups.com>\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Add input method"
 msgstr "添加输入法"
 
-#: gtk/main_window.c:375 gtk3/main_window.c:374
+#: gtk3/main_window.c:374 gtk/main_window.c:375
 msgid "Addon"
 msgstr "附加组件"
 
@@ -44,11 +44,11 @@ msgstr "可用的输入法"
 msgid "Cannot load currently used user interface info"
 msgstr "无法加载当前用户界面信息"
 
-#: gtk/config_widget.c:192 gtk3/config_widget.c:239
+#: gtk3/config_widget.c:239 gtk/config_widget.c:192
 msgid "Clear font setting"
 msgstr "清除字体设置"
 
-#: gtk/main_window.c:360 gtk3/main_window.c:357
+#: gtk3/main_window.c:357 gtk/main_window.c:360
 msgid "Configure"
 msgstr "配置 "
 
@@ -64,20 +64,20 @@ msgstr "默认"
 msgid "Default keyboard layout"
 msgstr "默认键盘布局"
 
-#: gtk/keygrab.c:138 gtk3/keygrab.c:64 gtk3/keygrab.c:159
+#: gtk3/keygrab.c:64 gtk3/keygrab.c:159 gtk/keygrab.c:138
 msgid "Empty"
 msgstr "空"
 
-#: gtk/main_window.c:294 gtk3/main_window.c:203
+#: gtk3/main_window.c:203 gtk/main_window.c:294
 msgid "Global Config"
 msgstr "全局配置"
 
-#: gtk/im_widget.c:102 gtk/im_widget.c:153 gtk/main_window.c:300
-#: gtk3/main_window.c:209 gtk3/im_dialog.ui:68 gtk3/im_widget.ui:63
+#: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
+#: gtk/main_window.c:300 gtk3/im_dialog.ui:68 gtk3/im_widget.ui:63
 msgid "Input Method"
 msgstr "输入法"
 
-#: gtk/main_window.c:149 gtk3/main_window.c:106
+#: gtk3/main_window.c:106 gtk/main_window.c:149
 msgid "Input Method Configuration"
 msgstr "输入法配置"
 
@@ -110,11 +110,11 @@ msgstr "%s 无配置选项。"
 msgid "Only Show Current Language"
 msgstr "仅显示当前语言"
 
-#: gtk/config_widget.c:270 gtk3/config_widget.c:430 gtk3/config_widget.c:519
+#: gtk3/config_widget.c:430 gtk3/config_widget.c:519 gtk/config_widget.c:270
 msgid "Other"
 msgstr "其他"
 
-#: gtk/keygrab.c:74 gtk3/keygrab.c:78
+#: gtk3/keygrab.c:78 gtk/keygrab.c:74
 msgid "Please press the new key combination"
 msgstr "请按下新按键组合"
 
@@ -138,11 +138,11 @@ msgstr ""
 "第一个输入法将作为非激活状态。通常您需要将<b>键盘</b>或<b>键盘 - <i>布局名称"
 "</i></b>放在第一个。"
 
-#: gtk/im_widget.c:314 gtk/im_widget.c:316 gtk3/im_dialog.c:256
-#: gtk3/im_dialog.c:258 gtk3/im_widget.c:259 gtk3/im_widget.c:261
+#: gtk3/im_dialog.c:256 gtk3/im_dialog.c:258 gtk3/im_widget.c:259
+#: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
 msgid "Unknown"
 msgstr "未知"
 
-#: gtk/gdm-languages.c:697 gtk3/gdm-languages.c:697
+#: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
 msgid "Unspecified"
 msgstr "未指定"
