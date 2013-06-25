@@ -146,3 +146,58 @@ msgstr "未知"
 #: gtk/gdm-languages.c:697 gtk3/gdm-languages.c:697
 msgid "Unspecified"
 msgstr "未指定"
+
+msgid "Step 1"
+msgstr "欢迎使用设置向导"
+
+msgid "Step 2"
+msgstr "输入法引擎选择"
+
+msgid "Step 3"
+msgstr "个性皮肤选择"
+
+msgid "Step 4"
+msgstr "候选词设置"
+
+msgid "Step 5"
+msgstr "快捷键设置"
+
+msgid "Step 6"
+msgstr "向导设置完成"
+
+msgid "Fcitx Configure Assistant"
+msgstr "Fcitx配置向导"
+
+msgid "<b>Welcome to use the configure assistant!</b>"
+msgstr "<b>欢迎使用个性化设置向导！</b>"
+
+msgid "<b>Congratulations! You are finished configuring the settings for the Fcitx!</b>"
+msgstr "<b>个性化设置向导完成，欢迎下次使用！</b>"
+
+msgid "default"
+msgstr "默认"
+
+msgid "classic"
+msgstr "经典"
+
+msgid "dark"
+msgstr "墨黑"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
