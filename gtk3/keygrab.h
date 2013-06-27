@@ -33,6 +33,8 @@ struct _KeyGrabButton {
     gulong handler;
     guint key;
     GdkModifierType mods;
+    gboolean disallow_modifier_less;
+    gboolean allow_modifier_only;
 };
 struct _KeyGrabButtonClass {
     GtkButtonClass parent_class;
@@ -40,6 +42,8 @@ struct _KeyGrabButtonClass {
 
 GType keygrab_button_get_type(void);
 GtkWidget* keygrab_button_new(void);
+void keygrab_button_set_allow_modifier_only(KeyGrabButton* self, gboolean allow);
+void keygrab_button_set_disallow_modifier_less(KeyGrabButton* self, gboolean disallow);
 gchar *accelerator_to_fcitx_hotkey(const gchar* str);
 void keygrab_button_set_key(KeyGrabButton* self, guint key, GdkModifierType mods);
 void keygrab_button_get_key(KeyGrabButton* self, guint* key, GdkModifierType* mods);

@@ -269,8 +269,12 @@ fcitx_config_widget_create_option_widget(
     break;
     case T_Hotkey: {
         GtkWidget *button[2];
-        button[0] = keygrab_button_new();
-        button[1] = keygrab_button_new();
+        int j;
+        for (j = 0; j < 2; j ++) {
+            button[j] = keygrab_button_new();
+            keygrab_button_set_allow_modifier_only(KEYGRAB_BUTTON(button[j]), codesc2->constrain.hotkeyConstrain.allowModifierOnly);
+            keygrab_button_set_disallow_modifier_less(KEYGRAB_BUTTON(button[j]), codesc2->constrain.hotkeyConstrain.disallowNoModifer);
+        }
         *inputWidget = gtk_grid_new();
         gtk_grid_attach(GTK_GRID(*inputWidget), button[0], 0, 0, 1, 1);
         gtk_grid_attach(GTK_GRID(*inputWidget), button[1], 1, 0, 2, 1);
@@ -278,7 +282,6 @@ fcitx_config_widget_create_option_widget(
         g_object_set(G_OBJECT(button[1]), "hexpand", TRUE, NULL);
         if (oldarg) {
             GArray* array = oldarg;
-            int j;
             for (j = 0; j < 2; j ++) {
                 GtkWidget *oldbutton = g_array_index(array, GtkWidget*, j);
                 g_signal_connect(oldbutton, "changed", (GCallback) sync_hotkey, button[j]);
@@ -287,7 +290,6 @@ fcitx_config_widget_create_option_widget(
         }
         else {
             argument = g_array_new(FALSE, FALSE, sizeof(void*));
-            int j;
             for (j = 0; j < 2; j ++) {
                 g_signal_connect(button[j], "changed", (GCallback) _fcitx_config_widget_hotkey_changed, self);
                 g_array_append_val(argument, button[j]);

@@ -21,14 +21,14 @@ endif()
 pkg_check_modules(ISO_CODES "iso-codes" REQUIRED)
 _pkgconfig_invoke("iso-codes" ISO_CODES PREFIX "" "--variable=prefix")
 
-find_package(Fcitx 4.2.7 REQUIRED)
+find_package(Fcitx 4.2.8 REQUIRED)
 _fcitx_add_uninstall_target()
 _fcitx_translate_add_handler(
   "${PROJECT_SOURCE_DIR}/cmake/fcitx-extract-glade.sh" glade)
 
 add_definitions("-D_GNU_SOURCE")
-set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-sign-compare -Wno-unused-parameter -fvisibility=hidden ${CMAKE_C_FLAGS}")
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-sign-compare -Wno-unused-parameter -fvisibility=hidden ${CMAKE_CXX_FLAGS}")
+set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-sign-compare -Wno-unused-local-typedefs -Wno-unused-parameter -fvisibility=hidden ${CMAKE_C_FLAGS}")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-sign-compare -Wno-unused-local-typedefs -Wno-unused-parameter -fvisibility=hidden ${CMAKE_CXX_FLAGS}")
 set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined,--as-needed ${CMAKE_SHARED_LINKER_FLAGS}")
 set(CMAKE_MODULE_LINKER_FLAGS "-Wl,--no-undefined,--as-needed ${CMAKE_MODULE_LINKER_FLAGS}")
 

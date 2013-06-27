@@ -37,12 +37,14 @@ static void keygrab_button_class_init(KeyGrabButtonClass *keygrabbuttonclass);
 static void begin_key_grab(KeyGrabButton* self, gpointer v);
 static void end_key_grab(KeyGrabButton *self);
 static GtkWidget* popup_new(GtkWidget* parent, const gchar* text, gboolean mouse);
-static void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v);
+static void on_key_release_event(GtkWidget *self, GdkEventKey *event, gpointer v);
 
 G_DEFINE_TYPE(KeyGrabButton, keygrab_button, GTK_TYPE_BUTTON)
 
 static void keygrab_button_init(KeyGrabButton *self)
 {
+    self->allow_modifier_only = FALSE;
+    self->disallow_modifier_less = FALSE;
 }
 
 static void keygrab_button_class_init(KeyGrabButtonClass *keygrabbuttonclass)
@@ -79,7 +81,7 @@ void begin_key_grab(KeyGrabButton* self, gpointer v)
     gtk_widget_add_events(GTK_WIDGET(b->popup), GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK);
     gtk_widget_show_all(b->popup);
     gtk_window_present(GTK_WINDOW(b->popup));
-    b->handler = g_signal_connect(G_OBJECT(b->popup), "key-press-event", (GCallback)on_key_press_event, b);
+    b->handler = g_signal_connect(G_OBJECT(b->popup), "key-release-event", (GCallback)on_key_release_event, b);
 
     GdkWindow* window = gtk_widget_get_window(GTK_WIDGET(b->popup));
     GdkDisplay* display = gdk_window_get_display (window);
@@ -110,7 +112,7 @@ void end_key_grab(KeyGrabButton *self)
     gtk_widget_destroy(b->popup);
 }
 
-void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v)
+void on_key_release_event(GtkWidget *self, GdkEventKey *event, gpointer v)
 {
     KeyGrabButton* b = KEYGRAB_BUTTON(v);
     guint key;
@@ -127,14 +129,34 @@ void on_key_press_event(GtkWidget *self, GdkEventKey *event, gpointer v)
     if (key == GDK_KEY_ISO_Left_Tab)
         key = GDK_KEY_Tab;
 
-    if (gtk_accelerator_valid(key, mods)
-            || (key == GDK_KEY_Tab && mods)) {
-        keygrab_button_set_key(b, key, mods);
-        end_key_grab(b);
+    if (b->disallow_modifier_less && mods == 0) {
+        return;
+    }
+
+    if (!b->allow_modifier_only &&
+        (key == GDK_KEY_Shift_L
+      || key == GDK_KEY_Shift_R
+      || key == GDK_KEY_Control_L
+      || key == GDK_KEY_Control_R
+      || key == GDK_KEY_Alt_L
+      || key == GDK_KEY_Alt_R
+      || key == GDK_KEY_Super_L
+      || key == GDK_KEY_Shift_R)) {
         return;
     }
 
     keygrab_button_set_key(b, key, mods);
+    end_key_grab(b);
+}
+
+void keygrab_button_set_allow_modifier_only(KeyGrabButton* self, gboolean allow)
+{
+    self->allow_modifier_only = allow;
+}
+
+void keygrab_button_set_disallow_modifier_less(KeyGrabButton* self, gboolean disallow)
+{
+    self->disallow_modifier_less = disallow;
 }
 
 void keygrab_button_set_key(KeyGrabButton* self, guint key, GdkModifierType mods)
@@ -153,7 +175,7 @@ void keygrab_button_set_key(KeyGrabButton* self, guint key, GdkModifierType mods
         return;
     }
 
-    label = FcitxHotkeyGetKeyString(key, mods);
+    label = FcitxHotkeyGetReadableKeyString(key, mods);
 
     if (label == NULL || strlen(label) == 0) {
         gtk_button_set_label(GTK_BUTTON(self), _("Empty"));
