@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-06-03 14:02-0400\n"
+"POT-Creation-Date: 2013-06-29 18:02-0400\n"
 "PO-Revision-Date: 2013-06-01 10:02+0000\n"
 "Last-Translator: mar well <marwell.1980@freenet.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/fcitx/language/"
@@ -63,7 +63,11 @@ msgstr "Standard"
 msgid "Default keyboard layout"
 msgstr "Standard Tastaturlayout"
 
-#: gtk3/keygrab.c:64 gtk3/keygrab.c:159 gtk/keygrab.c:138
+#: gtk3/sub_config_widget.c:287
+msgid "Didn't install related component."
+msgstr ""
+
+#: gtk3/keygrab.c:66 gtk3/keygrab.c:181 gtk/keygrab.c:138
 msgid "Empty"
 msgstr "Leer"
 
@@ -109,11 +113,11 @@ msgstr "Für %s sind keine Einstellmöglichkeiten vorhanden"
 msgid "Only Show Current Language"
 msgstr "Nur gegenwärtige Sprache anzeigen"
 
-#: gtk3/config_widget.c:430 gtk3/config_widget.c:519 gtk/config_widget.c:270
+#: gtk3/config_widget.c:432 gtk3/config_widget.c:521 gtk/config_widget.c:270
 msgid "Other"
 msgstr "Andere"
 
-#: gtk3/keygrab.c:78 gtk/keygrab.c:74
+#: gtk3/keygrab.c:80 gtk/keygrab.c:74
 msgid "Please press the new key combination"
 msgstr "Bitte die neue Tastenkombination drücken"
 
@@ -125,7 +129,7 @@ msgstr "Addons suchen"
 msgid "Search Input Method"
 msgstr "Eingabemethode suchen"
 
-#: gtk3/config_widget.c:604
+#: gtk3/config_widget.c:606
 msgid "Show Advance Option"
 msgstr "Erweiterte Einstellungen anzeigen"
 
