@@ -49,6 +49,9 @@ static SubConfigType parse_type(const gchar* str)
     if (strcmp(str, "program") == 0) {
         return SC_Program;
     }
+    if (strcmp(str, "plugin") == 0) {
+        return SC_Plugin;
+    }
     return SC_None;
 }
 
@@ -89,7 +92,12 @@ FcitxSubConfigParser* sub_config_parser_new(const gchar* subconfig)
                 goto end;
             if (strlen(items[2]) == 0 || items[2][0] == '/')
                 goto end;
-        } else if (type == SC_NativeFile || type == SC_Program) {
+        } else if (type == SC_NativeFile) {
+            if (g_strv_length(items) < 3)
+                goto end;
+            if (strchr(items[2], '*') != NULL)
+                goto end;
+        } else if (type == SC_Program || type == SC_Plugin) {
             if (g_strv_length(items) != 3)
                 goto end;
             if (strchr(items[2], '*') != NULL)
@@ -119,7 +127,7 @@ FcitxSubConfigParser* sub_config_parser_new(const gchar* subconfig)
         pattern->patternlist = paths;
         if (type == SC_ConfigFile)
             pattern->configdesc = g_strdup(items[3]);
-        else if (type == SC_NativeFile)
+        else if (type == SC_NativeFile || type == SC_Plugin)
             pattern->nativepath = g_strdup(items[2]);
         else if (type == SC_Program)
             pattern->path = g_strdup(items[2]);

@@ -25,7 +25,8 @@ typedef enum {
     SC_None,
     SC_ConfigFile,
     SC_Program,
-    SC_NativeFile
+    SC_NativeFile,
+    SC_Plugin
 } SubConfigType;
 
 typedef struct {

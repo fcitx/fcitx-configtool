@@ -30,6 +30,7 @@ G_DEFINE_TYPE(FcitxSubConfigWidget, fcitx_sub_config_widget, GTK_TYPE_BOX)
 static void open_subconfig_file(GtkButton *button, gpointer user_data);
 static void open_native_file(GtkButton *button, gpointer user_data);
 static void run_program(GtkButton *button, gpointer user_data);
+static void run_plugin(GtkButton* button, gpointer user_data);
 static void push_into_store_cb(gpointer data, gpointer value, gpointer user_data);
 
 static void
@@ -129,6 +130,13 @@ fcitx_sub_config_widget_new(FcitxSubConfig* subconfig)
         GtkWidget* button = gtk_button_new();
         gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_BUTTON));
         g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(run_program), widget);
+        gtk_box_pack_start(GTK_BOX(widget), button, FALSE, FALSE, 0);
+    }
+    break;
+    case SC_Plugin: {
+        GtkWidget* button = gtk_button_new();
+        gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_BUTTON));
+        g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(run_plugin), widget);
         gtk_box_pack_start(GTK_BOX(widget), button, FALSE, FALSE, 0);
     }
     break;
@@ -241,6 +249,44 @@ void run_program(GtkButton* button, gpointer user_data)
     char*args[] = {widget->subconfig->path};
     fcitx_utils_start_process(args);
 
+}
+
+void run_plugin(GtkButton* button, gpointer user_data)
+{
+    FcitxSubConfigWidget* widget = (FcitxSubConfigWidget*) user_data;
+    char *newpath = NULL;
+    char* qtguiwrapper = fcitx_utils_get_fcitx_path_with_filename ("libdir", "fcitx/libexec/fcitx-qt-gui-wrapper");
+    if (qtguiwrapper) {
+        gchar* argv[4];
+        argv[0] = qtguiwrapper;
+        argv[1] = "--test";
+        argv[2] = widget->subconfig->nativepath;
+        argv[3] = 0;
+        int exit_status = 1;
+        g_spawn_sync(NULL, argv, NULL, 0, NULL, NULL, NULL, NULL, &exit_status, NULL);
+
+        if (exit_status == 0) {
+            gchar* argv2[3];
+            argv2[0] = qtguiwrapper;
+            argv2[1] = widget->subconfig->nativepath;
+            argv2[2] = 0;
+            g_spawn_async(NULL, argv2, NULL, 0, NULL, NULL, NULL, NULL);
+            free(newpath);
+        }
+        g_free(qtguiwrapper);
+
+        if (exit_status == 0) {
+            return;
+        }
+    }
+
+    GtkWidget* dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET(widget))),
+                                                GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                GTK_MESSAGE_ERROR,
+                                                GTK_BUTTONS_CLOSE,
+                                                "%s", _("Didn't install related component."));
+    gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy (dialog);
 }
 
 void push_into_store_cb(gpointer       data,
