@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-06-29 18:02-0400\n"
-"PO-Revision-Date: 2013-04-29 10:04+0000\n"
+"POT-Creation-Date: 2013-06-30 00:02-0400\n"
+"PO-Revision-Date: 2013-06-30 02:40+0000\n"
 "Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) <fcitx-dev@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -66,7 +66,7 @@ msgstr "默认键盘布局"
 
 #: gtk3/sub_config_widget.c:287
 msgid "Didn't install related component."
-msgstr ""
+msgstr "未安装相关组件。"
 
 #: gtk3/keygrab.c:66 gtk3/keygrab.c:181 gtk/keygrab.c:138
 msgid "Empty"
