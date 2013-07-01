@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/fcitx/fcitx-config-gtk3">
+    <file preprocess="xml-stripblanks">im_dialog.ui</file>
+    <file preprocess="xml-stripblanks">wizard_im_widget.ui</file>
+    <file preprocess="xml-stripblanks">wizard_skin_widget.ui</file>
+  </gresource>
+</gresources>
+

@@ -3,6 +3,47 @@ include(gresource)
 gresource(${CMAKE_CURRENT_SOURCE_DIR} fcitx-config-gtk3.gresource.xml
   ${CMAKE_CURRENT_BINARY_DIR} RESOURCE_FILE RESOURCE_HEADER)
 
+gresource(${CMAKE_CURRENT_SOURCE_DIR} fcitx-config-wizard-gtk3.gresource.xml
+  ${CMAKE_CURRENT_BINARY_DIR} WIZARD_RESOURCE_FILE WIZARD_RESOURCE_HEADER)
+
+set(fcitx_config_wizard_gtk3_sources
+  wizard_main.c
+  wizard_assistant_window.c
+  wizard_im_widget.c
+  wizard_skin_widget.c
+  wizard_candidate_widget.c
+  wizard_hotkey_widget.c
+  wizard_im_dialog.c
+  gdm-languages.c
+  configdesc.c
+  sub_config_parser.c
+  dummy_config.c
+  keygrab.c
+  fcitx-config-wizard-gtk3-resources.c
+  )
+set(fcitx_config_wizard_gtk3_headers
+  wizard_assistant_window.h
+  wizard_im_widget.h
+  wizard_skin_widget.h
+  wizard_candidate_widget.h
+  wizard_hotkey_widget.H
+  wizard_config_widget.h
+  keygrab.h
+  common.h
+  configdesc.h
+  configdesc.h
+  dummy_config.h
+  gdm-languages.h
+  im_config_dialog.h
+  im_dialog.h
+  ui_widget.h
+  im_widget.h
+  keygrab.h
+  locarchive.h
+  sub_config_parser.h
+  sub_config_widget.h
+  )
+ 
 set(fcitx_config_gtk3_sources
   sub_config_parser.c
   sub_config_widget.c
@@ -18,6 +59,7 @@ set(fcitx_config_gtk3_sources
   common.c
   im_config_dialog.c
   dummy_config.c
+  fcitx-config-gtk3-resources.c
   )
 set(fcitx_config_gtk3_headers
   common.h
@@ -40,6 +82,11 @@ fcitx_translate_add_sources(${fcitx_config_gtk3_sources}
   ${fcitx_config_gtk3_headers})
 fcitx_translate_add_sources(EXTRACT_TYPE glade
   im_dialog.ui im_widget.ui)
+
+fcitx_translate_add_sources(${fcitx_config_wizard_gtk3_sources}
+  ${fcitx_config_wizard_gtk3_headers})
+fcitx_translate_add_sources(EXTRACT_TYPE glade
+  im_dialog.ui wizard_im_widget.ui)
 
 if(NOT ENABLE_GTK3)
   return()
@@ -75,3 +122,19 @@ target_link_libraries (fcitx-config-gtk3
   ${FCITX4_FCITX_LIBRARIES}
   ${FCITX_GCLIENT_LIBRARIES}
   )
+
+add_executable(fcitx-config-wizard-gtk3 ${fcitx_config_wizard_gtk3_sources}
+  ${WIZARD_RESOURCE_FILE}
+  ${WIZARD_RESOURCE_HEADER})
+
+install(TARGETS fcitx-config-wizard-gtk3 RUNTIME DESTINATION bin)
+install(DIRECTORY picture DESTINATION bin)
+
+target_link_libraries (fcitx-config-wizard-gtk3
+  ${GTK3_LIBRARIES}
+  ${FCITX4_FCITX_UTILS_LIBRARIES}
+  ${FCITX4_FCITX_CONFIG_LIBRARIES}
+  ${FCITX4_FCITX_LIBRARIES}
+  ${FCITX_GCLIENT_LIBRARIES}
+  )
+
