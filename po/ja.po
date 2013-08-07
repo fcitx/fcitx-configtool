@@ -4,13 +4,14 @@
 #
 # Translators:
 # しろう <>, 2013
+# しろう, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-06-29 18:02-0400\n"
-"PO-Revision-Date: 2013-04-29 10:04+0000\n"
-"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2013-08-07 12:02-0400\n"
+"PO-Revision-Date: 2013-08-07 14:57+0000\n"
+"Last-Translator: しろう\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/fcitx/language/"
 "ja/)\n"
 "Language: ja\n"
@@ -65,7 +66,7 @@ msgstr "既定のキーボードレイアウト"
 
 #: gtk3/sub_config_widget.c:287
 msgid "Didn't install related component."
-msgstr ""
+msgstr "関連コンポーネントがインストールされていません"
 
 #: gtk3/keygrab.c:66 gtk3/keygrab.c:181 gtk/keygrab.c:138
 msgid "Empty"
