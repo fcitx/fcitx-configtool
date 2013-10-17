@@ -110,7 +110,7 @@ fcitx_sub_config_widget_new(FcitxSubConfig* subconfig)
         g_hash_table_foreach(widget->subconfig->filelist, push_into_store_cb, store);
 
         GtkWidget* button = gtk_button_new();
-        gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_stock(GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_BUTTON));
+        gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("preferences-system"), GTK_ICON_SIZE_BUTTON));
         g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(open_subconfig_file), widget);
         GtkWidget* hbuttonbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
         g_object_set(G_OBJECT(hbuttonbox), "margin", 5, NULL);
@@ -121,21 +121,21 @@ fcitx_sub_config_widget_new(FcitxSubConfig* subconfig)
     break;
     case SC_NativeFile: {
         GtkWidget* button = gtk_button_new();
-        gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_stock(GTK_STOCK_OPEN, GTK_ICON_SIZE_BUTTON));
+        gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("document-open"), GTK_ICON_SIZE_BUTTON));
         g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(open_native_file), widget);
         gtk_box_pack_start(GTK_BOX(widget), button, FALSE, FALSE, 0);
     }
     break;
     case SC_Program: {
         GtkWidget* button = gtk_button_new();
-        gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_BUTTON));
+        gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("system-run"), GTK_ICON_SIZE_BUTTON));
         g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(run_program), widget);
         gtk_box_pack_start(GTK_BOX(widget), button, FALSE, FALSE, 0);
     }
     break;
     case SC_Plugin: {
         GtkWidget* button = gtk_button_new();
-        gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_BUTTON));
+        gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("system-run"), GTK_ICON_SIZE_BUTTON));
         g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(run_plugin), widget);
         gtk_box_pack_start(GTK_BOX(widget), button, FALSE, FALSE, 0);
     }
@@ -165,10 +165,10 @@ void open_subconfig_file(GtkButton *button,
             GtkWidget* dialog = gtk_dialog_new_with_buttons(configfile,
                                 GTK_WINDOW(gtk_widget_get_ancestor(GTK_WIDGET(widget), GTK_TYPE_WINDOW)),
                                 GTK_DIALOG_MODAL,
-                                GTK_STOCK_OK,
-                                GTK_RESPONSE_OK,
-                                GTK_STOCK_CANCEL,
+                                _("_Cancel"),
                                 GTK_RESPONSE_CANCEL,
+                                _("_OK"),
+                                GTK_RESPONSE_OK,
                                 NULL
                                                            );
             FcitxConfigWidget* config_widget = fcitx_config_widget_new(cfdesc, "", configfile, NULL);

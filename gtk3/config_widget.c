@@ -926,9 +926,9 @@ GtkWidget* fcitx_config_dialog_new(FcitxAddon* addon, GtkWindow* parent)
     GtkWidget* dialog = gtk_dialog_new_with_buttons(addon->generalname,
                                                     parent,
                                                     GTK_DIALOG_MODAL,
-                                                    GTK_STOCK_CANCEL,
+                                                    _("_Cancel"),
                                                     GTK_RESPONSE_CANCEL,
-                                                    GTK_STOCK_OK,
+                                                    _("_OK"),
                                                     GTK_RESPONSE_OK,
                                                     NULL
                                                 );

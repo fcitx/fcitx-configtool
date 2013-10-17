@@ -70,9 +70,9 @@ fcitx_im_config_dialog_init(FcitxImConfigDialog* self)
     gtk_window_set_modal(GTK_WINDOW(self), TRUE);
 
     gtk_dialog_add_buttons(GTK_DIALOG(self),
-                           GTK_STOCK_CANCEL,
+                           _("_Cancel"),
                            GTK_RESPONSE_CANCEL,
-                           GTK_STOCK_OK,
+                           _("_OK"),
                            GTK_RESPONSE_OK,
                            NULL
                           );

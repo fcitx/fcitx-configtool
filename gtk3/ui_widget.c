@@ -32,7 +32,7 @@ G_DEFINE_TYPE(FcitxUIWidget, fcitx_ui_widget, GTK_TYPE_BOX)
 
 static void fcitx_ui_widget_dispose(GObject* object);
 static void _fcitx_ui_widget_load(FcitxUIWidget* self, const gchar* uiname);
-static void _fcitx_ui_widget_apply_button_clicked(GtkButton* button, gpointer user_data);
+static void _fcitx_ui_widget_config_widget_changed(FcitxConfigWidget* widget, gpointer user_data);
 
 static void
 fcitx_ui_widget_class_init(FcitxUIWidgetClass *klass)
@@ -120,15 +120,12 @@ void _fcitx_ui_widget_load(FcitxUIWidget* self, const gchar* uiname)
         gtk_box_pack_start(GTK_BOX(self), hbuttonbox, FALSE, TRUE, 0);
         g_object_set(G_OBJECT(hbuttonbox), "margin", 5, NULL);
 
-        GtkWidget* applybutton = gtk_button_new_from_stock(GTK_STOCK_APPLY);
-        gtk_box_pack_start(GTK_BOX(hbuttonbox), applybutton, TRUE, TRUE, 0);
-        g_signal_connect(G_OBJECT(applybutton), "clicked", G_CALLBACK(_fcitx_ui_widget_apply_button_clicked), config_widget);
+        g_signal_connect(config_widget, "changed", (GCallback) _fcitx_ui_widget_config_widget_changed, NULL);
         gtk_widget_show_all(GTK_WIDGET(self));
     }
 }
 
-void _fcitx_ui_widget_apply_button_clicked(GtkButton* button, gpointer user_data)
+void _fcitx_ui_widget_config_widget_changed(FcitxConfigWidget* widget, gpointer user_data)
 {
-    FcitxConfigWidget* config_widget = user_data;
-    fcitx_config_widget_response(config_widget, CONFIG_WIDGET_SAVE);
+    fcitx_config_widget_response(widget, CONFIG_WIDGET_SAVE);
 }

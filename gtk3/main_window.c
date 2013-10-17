@@ -50,7 +50,7 @@ static void _fcitx_main_window_add_im_page(FcitxMainWindow* self);
 
 static void _fcitx_main_window_add_ui_page(FcitxMainWindow* self);
 
-void _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget, const char* stock);
+void _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget);
 
 static void _fcitx_main_window_addon_selection_changed(GtkTreeSelection *selection, gpointer data);
 
@@ -124,7 +124,7 @@ void fcitx_main_window_finalize(GObject* object)
     G_OBJECT_CLASS (fcitx_main_window_parent_class)->finalize (object);
 }
 
-void _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget, const char* stock)
+void _fcitx_main_window_add_page(FcitxMainWindow* self, const char* name, GtkWidget* widget)
 {
     gtk_widget_show_all(widget);
 
@@ -200,13 +200,13 @@ void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self)
 
     g_signal_connect(config_widget, "changed", (GCallback) _fcitx_main_window_config_widget_changed, NULL);
 
-    _fcitx_main_window_add_page(self, _("Global Config"), vbox, GTK_STOCK_PREFERENCES);
+    _fcitx_main_window_add_page(self, _("Global Config"), vbox);
 }
 
 void _fcitx_main_window_add_im_page(FcitxMainWindow* self)
 {
     GtkWidget* imwidget = fcitx_im_widget_new();
-    _fcitx_main_window_add_page(self, _("Input Method"), imwidget, GTK_STOCK_EDIT);
+    _fcitx_main_window_add_page(self, _("Input Method"), imwidget);
 }
 
 gboolean _ui_connect(gpointer user_data)
@@ -218,7 +218,7 @@ gboolean _ui_connect(gpointer user_data)
 void _fcitx_main_window_add_ui_page(FcitxMainWindow* self)
 {
     GtkWidget* uiwidget = fcitx_ui_widget_new();
-    _fcitx_main_window_add_page(self, _("Appearance"), uiwidget, GTK_STOCK_ABOUT);
+    _fcitx_main_window_add_page(self, _("Appearance"), uiwidget);
 
     g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, (GSourceFunc)_ui_connect, g_object_ref(uiwidget), (GDestroyNotify) g_object_unref);
 }
@@ -286,9 +286,9 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
 
     /* filter entry */
     self->filterentry = gtk_entry_new();
-    gtk_entry_set_icon_from_stock (GTK_ENTRY (self->filterentry),
+    gtk_entry_set_icon_from_gicon (GTK_ENTRY (self->filterentry),
                                     GTK_ENTRY_ICON_SECONDARY,
-                                    GTK_STOCK_CLEAR);
+                                    g_themed_icon_new_with_default_fallbacks("edit-clear"));
     g_object_set(G_OBJECT(self->filterentry), "margin", 5, NULL);
 #if GTK_CHECK_VERSION(3,2,0)
     gtk_entry_set_placeholder_text(GTK_ENTRY (self->filterentry), _("Search Addon"));
@@ -356,7 +356,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
 
     self->button = gtk_button_new_with_label(_("Configure"));
     gtk_widget_set_sensitive(self->button, FALSE);
-    gtk_button_set_image(GTK_BUTTON(self->button), gtk_image_new_from_stock(GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_BUTTON));
+    gtk_button_set_image(GTK_BUTTON(self->button), gtk_image_new_from_gicon(g_themed_icon_new_with_default_fallbacks("preferences-system"), GTK_ICON_SIZE_BUTTON));
     gtk_box_pack_start(GTK_BOX(hbuttonbox), self->button, TRUE, TRUE, 0);
     g_signal_connect(G_OBJECT(self->button), "clicked", G_CALLBACK(_fcitx_main_window_configure_button_clicked), self);
 
@@ -371,7 +371,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
                      "row-activated",
                      G_CALLBACK(_fcitx_main_window_addon_row_activated), self);
 
-    _fcitx_main_window_add_page(self, _("Addon"), vbox, GTK_STOCK_ADD);
+    _fcitx_main_window_add_page(self, _("Addon"), vbox);
 }
 
 static void
