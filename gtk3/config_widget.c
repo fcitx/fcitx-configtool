@@ -483,7 +483,15 @@ fcitx_config_widget_create_full_ui(FcitxConfigWidget* self)
             g_object_set(G_OBJECT(scrollwnd), "shadow-type", GTK_SHADOW_NONE, NULL);
 
             gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwnd), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
+#if ((GTK_MAJOR_VERSION == 3 && GTK_MINOR_VERSION < 7) || (GTK_MAJOR_VERSION == 3 && GTK_MINOR_VERSION == 7 && GTK_MICRO_VERSION < 8))
+            /* http://developer.gnome.org/gtk3/unstable/GtkScrolledWindow.html#gtk-scrolled-window-add-with-viewport */
+            /* gtk_scrolled_window_add_with_viewport has been deprecated since version 3.8 and should not be used in newly-written code. */
             gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwnd), grid);
+#else
+            /* gtk_container_add() will now automatically add a GtkViewport if the child doesn't implement GtkScrollable. */
+            gtk_container_add(GTK_CONTAINER(scrollwnd), grid);
+#endif
             gtk_notebook_append_page(GTK_NOTEBOOK(configNotebook),
                                      scrollwnd,
                                      plabel);
