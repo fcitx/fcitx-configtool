@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-06-29 18:02-0400\n"
+"POT-Creation-Date: 2013-10-18 03:07-0400\n"
 "PO-Revision-Date: 2013-06-01 10:02+0000\n"
 "Last-Translator: mar well <marwell.1980@freenet.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/fcitx/language/"
@@ -76,7 +76,7 @@ msgid "Global Config"
 msgstr "Globale Einstellungen"
 
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
-#: gtk/main_window.c:300 gtk3/im_dialog.ui:68 gtk3/im_widget.ui:63
+#: gtk/main_window.c:300 gtk3/im_dialog.ui:74 gtk3/im_widget.ui:63
 msgid "Input Method"
 msgstr "Eingabemethode"
 
@@ -100,7 +100,7 @@ msgstr "Ohne aktives Fenster verwendetes Tastaturlayout"
 msgid "Keyboard layout:"
 msgstr "Tastaturlayout:"
 
-#: gtk3/im_dialog.ui:80 gtk3/im_widget.ui:75
+#: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
 msgid "Language"
 msgstr "Sprache"
 
@@ -109,11 +109,11 @@ msgstr "Sprache"
 msgid "No configuration option for %s."
 msgstr "Für %s sind keine Einstellmöglichkeiten vorhanden"
 
-#: gtk/im_widget.c:115 gtk3/im_dialog.ui:100
+#: gtk/im_widget.c:115 gtk3/im_dialog.ui:106
 msgid "Only Show Current Language"
 msgstr "Nur gegenwärtige Sprache anzeigen"
 
-#: gtk3/config_widget.c:432 gtk3/config_widget.c:521 gtk/config_widget.c:270
+#: gtk3/config_widget.c:432 gtk3/config_widget.c:529 gtk/config_widget.c:270
 msgid "Other"
 msgstr "Andere"
 
@@ -129,7 +129,7 @@ msgstr "Addons suchen"
 msgid "Search Input Method"
 msgstr "Eingabemethode suchen"
 
-#: gtk3/config_widget.c:606
+#: gtk3/config_widget.c:614
 msgid "Show Advance Option"
 msgstr "Erweiterte Einstellungen anzeigen"
 
@@ -150,3 +150,13 @@ msgstr "Unbekannt"
 #: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
 msgid "Unspecified"
 msgstr "Nicht angegeben"
+
+#: gtk3/config_widget.c:937 gtk3/im_config_dialog.c:73 gtk3/im_dialog.c:127
+#: gtk3/sub_config_widget.c:168
+msgid "_Cancel"
+msgstr ""
+
+#: gtk3/config_widget.c:939 gtk3/im_config_dialog.c:75 gtk3/im_dialog.c:129
+#: gtk3/sub_config_widget.c:170
+msgid "_OK"
+msgstr ""

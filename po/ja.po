@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-08-07 12:02-0400\n"
+"POT-Creation-Date: 2013-10-18 03:07-0400\n"
 "PO-Revision-Date: 2013-08-07 14:57+0000\n"
 "Last-Translator: しろう\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/fcitx/language/"
@@ -77,7 +77,7 @@ msgid "Global Config"
 msgstr "全体の設定"
 
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
-#: gtk/main_window.c:300 gtk3/im_dialog.ui:68 gtk3/im_widget.ui:63
+#: gtk/main_window.c:300 gtk3/im_dialog.ui:74 gtk3/im_widget.ui:63
 msgid "Input Method"
 msgstr "入力メソッド"
 
@@ -101,7 +101,7 @@ msgstr "入力ウィンドウがない場合のキーボードレイアウト"
 msgid "Keyboard layout:"
 msgstr "キーボードレイアウト:"
 
-#: gtk3/im_dialog.ui:80 gtk3/im_widget.ui:75
+#: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
 msgid "Language"
 msgstr "言語"
 
@@ -110,11 +110,11 @@ msgstr "言語"
 msgid "No configuration option for %s."
 msgstr "%s に設定オプションはありません"
 
-#: gtk/im_widget.c:115 gtk3/im_dialog.ui:100
+#: gtk/im_widget.c:115 gtk3/im_dialog.ui:106
 msgid "Only Show Current Language"
 msgstr "現在の言語のみ表示"
 
-#: gtk3/config_widget.c:432 gtk3/config_widget.c:521 gtk/config_widget.c:270
+#: gtk3/config_widget.c:432 gtk3/config_widget.c:529 gtk/config_widget.c:270
 msgid "Other"
 msgstr "その他"
 
@@ -130,7 +130,7 @@ msgstr "アドオンの検索"
 msgid "Search Input Method"
 msgstr "入力メソッドの検索"
 
-#: gtk3/config_widget.c:606
+#: gtk3/config_widget.c:614
 msgid "Show Advance Option"
 msgstr "拡張オプションの表示"
 
@@ -150,3 +150,13 @@ msgstr "不明"
 #: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
 msgid "Unspecified"
 msgstr "特定しない"
+
+#: gtk3/config_widget.c:937 gtk3/im_config_dialog.c:73 gtk3/im_dialog.c:127
+#: gtk3/sub_config_widget.c:168
+msgid "_Cancel"
+msgstr ""
+
+#: gtk3/config_widget.c:939 gtk3/im_config_dialog.c:75 gtk3/im_dialog.c:129
+#: gtk3/sub_config_widget.c:170
+msgid "_OK"
+msgstr ""
