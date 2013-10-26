@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Seneca, 2013
 # mar well <marwell.1980@freenet.de>, 2013
+# Xuetian Weng <wengxt@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-10-18 03:07-0400\n"
-"PO-Revision-Date: 2013-06-01 10:02+0000\n"
-"Last-Translator: mar well <marwell.1980@freenet.de>\n"
+"POT-Creation-Date: 2013-10-26 14:42-0400\n"
+"PO-Revision-Date: 2013-10-26 18:34+0000\n"
+"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/fcitx/language/"
 "de/)\n"
 "Language: de\n"
@@ -45,7 +47,7 @@ msgstr "Die Info zur aktuellen Oberfläche kann nicht geladen werden"
 
 #: gtk3/config_widget.c:239 gtk/config_widget.c:192
 msgid "Clear font setting"
-msgstr "Font Einstellungen zurücksetzen"
+msgstr "Font-Einstellungen zurücksetzen"
 
 #: gtk3/main_window.c:357 gtk/main_window.c:360
 msgid "Configure"
@@ -65,7 +67,7 @@ msgstr "Standard Tastaturlayout"
 
 #: gtk3/sub_config_widget.c:287
 msgid "Didn't install related component."
-msgstr ""
+msgstr "Die verwandte Komponente wurde nicht installiert."
 
 #: gtk3/keygrab.c:66 gtk3/keygrab.c:181 gtk/keygrab.c:138
 msgid "Empty"
@@ -86,7 +88,7 @@ msgstr "Eingabemethode Konfiguration"
 
 #: gtk3/im_config_dialog.c:164
 msgid "Input Method Default"
-msgstr "Standard Eingabemethode"
+msgstr "Standard-Eingabemethode"
 
 #: gtk3/im_config_dialog.c:209
 msgid "Input method settings:"
@@ -154,9 +156,9 @@ msgstr "Nicht angegeben"
 #: gtk3/config_widget.c:937 gtk3/im_config_dialog.c:73 gtk3/im_dialog.c:127
 #: gtk3/sub_config_widget.c:168
 msgid "_Cancel"
-msgstr ""
+msgstr "_Abbrechen"
 
 #: gtk3/config_widget.c:939 gtk3/im_config_dialog.c:75 gtk3/im_dialog.c:129
 #: gtk3/sub_config_widget.c:170
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
