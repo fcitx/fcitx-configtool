@@ -4,15 +4,15 @@
 #
 # Translators:
 # Seneca, 2013
-# mar well <marwell.1980@freenet.de>, 2013
+# mar well <m.wellendorf@gmx.de>, 2013-2014
 # Xuetian Weng <wengxt@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2014-02-04 12:26+0000\n"
-"PO-Revision-Date: 2013-10-31 02:47+0000\n"
-"Last-Translator: mar well <marwell.1980@freenet.de>\n"
+"POT-Creation-Date: 2014-03-01 06:01+0000\n"
+"PO-Revision-Date: 2014-03-01 00:52+0000\n"
+"Last-Translator: mar well <m.wellendorf@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/fcitx/language/"
 "de/)\n"
 "Language: de\n"
@@ -141,8 +141,8 @@ msgid ""
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
 msgstr ""
 "Die erste Eingabemethode wird von Fcitx im inaktiven Zustand verwendet. "
-"Normalerweise wird es nötig sein <b>Tastatur</b> or <b>Tastatur - <i>Layout "
-"Name</i></b> an der ersten Stelle einzufügen."
+"Normalerweise wird es nötig sein <b>Tastatur</b> oder <b>Tastatur - "
+"<i>Layout Name</i></b> an der ersten Stelle einzufügen."
 
 #: gtk3/im_dialog.c:256 gtk3/im_dialog.c:258 gtk3/im_widget.c:259
 #: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
