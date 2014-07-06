@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2013-10-18 03:07-0400\n"
+"POT-Creation-Date: 2014-07-06 10:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -97,7 +97,7 @@ msgid "Global Config"
 msgstr ""
 
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
-#: gtk/main_window.c:300 gtk3/im_dialog.ui:74 gtk3/im_widget.ui:63
+#: gtk/main_window.c:300
 msgid "Input Method"
 msgstr ""
 
@@ -138,7 +138,7 @@ msgstr ""
 msgid "Available Input Method"
 msgstr ""
 
-#: gtk/im_widget.c:115 gtk3/im_dialog.ui:106
+#: gtk/im_widget.c:115
 msgid "Only Show Current Language"
 msgstr ""
 
@@ -146,12 +146,8 @@ msgstr ""
 msgid "Current Input Method"
 msgstr ""
 
-#: gtk/im_widget.c:192 gtk3/im_widget.ui:115
+#: gtk/im_widget.c:192
 msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
-msgstr ""
-
-#: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
-msgid "Language"
 msgstr ""
