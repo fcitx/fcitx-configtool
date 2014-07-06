@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Xuetian Weng <wengxt@gmail.com>, 2013
-# Xuetian Weng <wengxt@gmail.com>, 2010-2012
-# Xuetian Weng <wengxt@gmail.com>, 2013
+# csslayer <wengxt@gmail.com>, 2013
+# csslayer <wengxt@gmail.com>, 2010-2012
+# csslayer <wengxt@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2014-07-06 10:03+0200\n"
+"POT-Creation-Date: 2014-07-06 10:09+0200\n"
 "PO-Revision-Date: 2013-10-18 08:07+0000\n"
-"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
+"Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/fcitx/"
 "language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -78,7 +78,7 @@ msgid "Global Config"
 msgstr "全局配置"
 
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
-#: gtk/main_window.c:300
+#: gtk/main_window.c:300 gtk3/im_dialog.ui:74 gtk3/im_widget.ui:63
 msgid "Input Method"
 msgstr "输入法"
 
@@ -102,12 +102,16 @@ msgstr "无输入窗口时的使用的键盘布局:"
 msgid "Keyboard layout:"
 msgstr "键盘布局："
 
+#: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
+msgid "Language"
+msgstr "语言"
+
 #: gtk3/ui_widget.c:106
 #, c-format
 msgid "No configuration option for %s."
 msgstr "%s 无配置选项。"
 
-#: gtk/im_widget.c:115
+#: gtk/im_widget.c:115 gtk3/im_dialog.ui:106
 msgid "Only Show Current Language"
 msgstr "仅显示当前语言"
 
@@ -131,7 +135,7 @@ msgstr "搜索输入法"
 msgid "Show Advance Option"
 msgstr "显示高级选项"
 
-#: gtk/im_widget.c:192
+#: gtk/im_widget.c:192 gtk3/im_widget.ui:115
 msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
@@ -157,6 +161,3 @@ msgstr "取消(_C)"
 #: gtk3/sub_config_widget.c:170
 msgid "_OK"
 msgstr "确认(_O)"
-
-#~ msgid "Language"
-#~ msgstr "语言"

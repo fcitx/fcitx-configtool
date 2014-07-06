@@ -4,15 +4,15 @@
 #
 # Translators:
 # しろう <>, 2013
-# shirou - しろう, 2013
-# Xuetian Weng <wengxt@gmail.com>, 2013
+# WAKAYAMA Shirou <shirou.faw@gmail.com>, 2013
+# csslayer <wengxt@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2014-07-06 10:03+0200\n"
+"POT-Creation-Date: 2014-07-06 10:09+0200\n"
 "PO-Revision-Date: 2013-10-26 23:48+0000\n"
-"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
+"Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/fcitx/language/"
 "ja/)\n"
 "Language: ja\n"
@@ -78,7 +78,7 @@ msgid "Global Config"
 msgstr "全体の設定"
 
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
-#: gtk/main_window.c:300
+#: gtk/main_window.c:300 gtk3/im_dialog.ui:74 gtk3/im_widget.ui:63
 msgid "Input Method"
 msgstr "入力メソッド"
 
@@ -102,12 +102,16 @@ msgstr "入力ウィンドウがない場合のキーボードレイアウト"
 msgid "Keyboard layout:"
 msgstr "キーボードレイアウト:"
 
+#: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
+msgid "Language"
+msgstr "言語"
+
 #: gtk3/ui_widget.c:106
 #, c-format
 msgid "No configuration option for %s."
 msgstr "%s に設定オプションはありません"
 
-#: gtk/im_widget.c:115
+#: gtk/im_widget.c:115 gtk3/im_dialog.ui:106
 msgid "Only Show Current Language"
 msgstr "現在の言語のみ表示"
 
@@ -131,7 +135,7 @@ msgstr "入力メソッドの検索"
 msgid "Show Advance Option"
 msgstr "拡張オプションの表示"
 
-#: gtk/im_widget.c:192
+#: gtk/im_widget.c:192 gtk3/im_widget.ui:115
 msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
@@ -157,6 +161,3 @@ msgstr "キャンセル(_C)"
 #: gtk3/sub_config_widget.c:170
 msgid "_OK"
 msgstr "OK(_O)"
-
-#~ msgid "Language"
-#~ msgstr "言語"
