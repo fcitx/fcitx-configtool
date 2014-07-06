@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2014-07-06 10:09+0200\n"
-"PO-Revision-Date: 2013-10-26 18:35+0000\n"
+"POT-Creation-Date: 2014-07-06 11:07+0200\n"
+"PO-Revision-Date: 2014-07-06 08:10+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/fcitx/"
 "language/zh_TW/)\n"
@@ -104,7 +104,7 @@ msgstr "鍵盤配置："
 
 #: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
 msgid "Language"
-msgstr "語言"
+msgstr ""
 
 #: gtk3/ui_widget.c:106
 #, c-format
