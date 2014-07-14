@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# marguerite su <i@marguerite.su>, 2014
 # csslayer <wengxt@gmail.com>, 2013
 # csslayer <wengxt@gmail.com>, 2010-2012
 # csslayer <wengxt@gmail.com>, 2013
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2014-07-06 11:07+0200\n"
-"PO-Revision-Date: 2014-07-06 08:10+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2014-07-14 12:02+0200\n"
+"PO-Revision-Date: 2014-07-14 09:35+0000\n"
+"Last-Translator: marguerite su <i@marguerite.su>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/fcitx/"
 "language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -39,11 +40,11 @@ msgstr "外观"
 
 #: gtk/im_widget.c:92
 msgid "Available Input Method"
-msgstr "可用的输入法"
+msgstr "可用输入法"
 
 #: gtk3/ui_widget.c:48
 msgid "Cannot load currently used user interface info"
-msgstr "无法加载当前用户界面信息"
+msgstr "无法加载当前所用用户界面信息"
 
 #: gtk3/config_widget.c:239 gtk/config_widget.c:192
 msgid "Clear font setting"
@@ -55,7 +56,7 @@ msgstr "配置 "
 
 #: gtk/im_widget.c:146
 msgid "Current Input Method"
-msgstr "当前的输入法"
+msgstr "当前输入法"
 
 #: gtk3/im_config_dialog.c:164
 msgid "Default"
@@ -96,7 +97,7 @@ msgstr "输入法设置："
 
 #: gtk3/im_config_dialog.c:192
 msgid "Keyboard layout to use when no input window:"
-msgstr "无输入窗口时的使用的键盘布局:"
+msgstr "无输入窗口时使用的键盘布局:"
 
 #: gtk3/im_config_dialog.c:192
 msgid "Keyboard layout:"
@@ -104,7 +105,7 @@ msgstr "键盘布局："
 
 #: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
 msgid "Language"
-msgstr ""
+msgstr "语言"
 
 #: gtk3/ui_widget.c:106
 #, c-format
@@ -117,7 +118,7 @@ msgstr "仅显示当前语言"
 
 #: gtk3/config_widget.c:432 gtk3/config_widget.c:529 gtk/config_widget.c:270
 msgid "Other"
-msgstr "其他"
+msgstr "其它"
 
 #: gtk3/keygrab.c:80 gtk/keygrab.c:74
 msgid "Please press the new key combination"
@@ -140,8 +141,8 @@ msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
 msgstr ""
-"第一个输入法将作为非激活状态。通常您需要将<b>键盘</b>或<b>键盘 - <i>布局名称"
-"</i></b>放在第一个。"
+"第一个输入法将为非激活状态。通常您需要将<b>键盘</b>或<b>键盘 - <i>布局名称</"
+"i></b>放在第一位。"
 
 #: gtk3/im_dialog.c:256 gtk3/im_dialog.c:258 gtk3/im_widget.c:259
 #: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
