@@ -206,10 +206,7 @@ GtkWidget* popup_new(GtkWidget* parent, const gchar* text, gboolean mouse)
     gtk_window_set_decorated(GTK_WINDOW(w), TRUE);
     if (text) {
         GtkWidget* label = gtk_label_new(text);
-        GtkWidget* align = gtk_alignment_new(0, 0, 1, 1);
-        gtk_alignment_set_padding(GTK_ALIGNMENT(align), 20, 20, 20, 20);
-        gtk_container_add(GTK_CONTAINER(align), label);
-        gtk_container_add(GTK_CONTAINER(w), align);
+        gtk_container_add(GTK_CONTAINER(w), label);
     }
 
     return w;

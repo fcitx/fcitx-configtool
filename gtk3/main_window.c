@@ -290,9 +290,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
                                     GTK_ENTRY_ICON_SECONDARY,
                                     g_themed_icon_new_with_default_fallbacks("edit-clear"));
     g_object_set(G_OBJECT(self->filterentry), "margin", 5, NULL);
-#if GTK_CHECK_VERSION(3,2,0)
     gtk_entry_set_placeholder_text(GTK_ENTRY (self->filterentry), _("Search Addon"));
-#endif
     g_signal_connect(G_OBJECT(self->filterentry), "icon-press", G_CALLBACK (icon_press_cb), NULL);
 
     /* list view */

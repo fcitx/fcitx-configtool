@@ -76,10 +76,6 @@ fcitx_im_config_dialog_init(FcitxImConfigDialog* self)
                            GTK_RESPONSE_OK,
                            NULL
                           );
-    gtk_dialog_set_alternative_button_order (GTK_DIALOG (self),
-                                         GTK_RESPONSE_OK,
-                                         GTK_RESPONSE_CANCEL,
-                                         -1);
 
     self->kbd = fcitx_kbd_new(G_BUS_TYPE_SESSION, G_DBUS_PROXY_FLAGS_NONE, fcitx_utils_get_display_number(), NULL, NULL);
 

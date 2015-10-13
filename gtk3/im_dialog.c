@@ -82,7 +82,8 @@ fcitx_im_dialog_constructor   (GType                  gtype,
     widget = GTK_WIDGET(gtk_builder_get_object (self->builder,
                                                 "im_dialog"));
 
-    gtk_widget_reparent (widget, gtk_dialog_get_content_area(GTK_DIALOG(self)));
+    GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG(self));
+    gtk_container_add (GTK_CONTAINER (content_area), widget);
 
     _fcitx_im_dialog_connect(self);
 
@@ -130,10 +131,6 @@ fcitx_im_dialog_init(FcitxImDialog* self)
                            GTK_RESPONSE_OK,
                            NULL
                           );
-    gtk_dialog_set_alternative_button_order (GTK_DIALOG (self),
-                                         GTK_RESPONSE_OK,
-                                         GTK_RESPONSE_CANCEL,
-                                         -1);
 
     g_signal_connect(self, "response",
                     G_CALLBACK(_fcitx_im_dialog_response_cb),

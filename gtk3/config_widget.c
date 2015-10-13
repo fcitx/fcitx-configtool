@@ -474,7 +474,7 @@ fcitx_config_widget_create_full_ui(FcitxConfigWidget* self)
                 continue;
 
             GtkWidget *grid = gtk_grid_new();
-            gtk_widget_set_margin_left(grid, 12);
+            gtk_widget_set_margin_start(grid, 12);
             gtk_widget_set_margin_top(grid, 6);
             gtk_grid_set_row_spacing(GTK_GRID(grid), 12);
             gtk_grid_set_column_spacing(GTK_GRID(grid), 6);
@@ -695,11 +695,7 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
             snprintf(scolor, 8 , "#%02X%02X%02X", r, g, b);
             GdkRGBA color;
             gdk_rgba_parse(&color, scolor);
-#if GTK_CHECK_VERSION(3,3,0)
             gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(arg), &color);
-#else
-            gtk_color_button_set_rgba(GTK_COLOR_BUTTON(arg), &color);
-#endif
             break;
         }
         case T_Boolean: {
@@ -752,11 +748,7 @@ void sync_filter(FcitxGenericConfig* gconfig, FcitxConfigGroup *group, FcitxConf
         }
         case T_Color: {
             GdkRGBA color;
-#if GTK_CHECK_VERSION(3,3,0)
             gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(arg), &color);
-#else
-            gtk_color_button_get_rgba(GTK_COLOR_BUTTON(arg), &color);
-#endif
             FcitxConfigColor* rawcolor = (FcitxConfigColor*) value;
             rawcolor->r = color.red;
             rawcolor->g = color.green;
@@ -941,10 +933,6 @@ GtkWidget* fcitx_config_dialog_new(FcitxAddon* addon, GtkWindow* parent)
                                                     NULL
                                                 );
 
-    gtk_dialog_set_alternative_button_order (GTK_DIALOG (dialog),
-                                         GTK_RESPONSE_OK,
-                                         GTK_RESPONSE_CANCEL,
-                                         -1);
     gchar* config_file_name = g_strdup_printf("%s.config", addon->name);
     FcitxConfigWidget* config_widget = fcitx_config_widget_new(cfdesc, "conf", config_file_name, addon->subconfig);
     GtkWidget* content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));

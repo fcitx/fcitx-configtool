@@ -98,7 +98,7 @@ fcitx_im_widget_constructor   (GType                  gtype,
     widget = GTK_WIDGET(gtk_builder_get_object (self->builder,
                                                 "im_widget"));
 
-    gtk_widget_reparent (widget, GTK_WIDGET(self));
+    gtk_container_add (GTK_CONTAINER (self), widget);
 
     _fcitx_im_widget_connect(self);
 
