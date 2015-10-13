@@ -576,10 +576,10 @@ _fcitx_config_widget_toggle_simple_full(GtkToggleButton* button, gpointer user_d
 static void
 fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
 {
-    self->config = dummy_config_new(self->cfdesc);
     fcitx_config_widget_check_can_use_simple(self);
 
     if (self->cfdesc) {
+        self->config = dummy_config_new(self->cfdesc);
         bindtextdomain(self->cfdesc->domain, LOCALEDIR);
         bind_textdomain_codeset(self->cfdesc->domain, "UTF-8");
         FILE *fp;
