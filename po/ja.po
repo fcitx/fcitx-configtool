@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # しろう <>, 2013
 # AWASHIRO Ikuya <ikunya@gmail.com>, 2014
@@ -11,146 +11,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2015-08-03 18:01+0200\n"
+"POT-Creation-Date: 2014-07-06 10:09+0200\n"
 "PO-Revision-Date: 2014-07-06 08:33+0000\n"
 "Last-Translator: AWASHIRO Ikuya <ikunya@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/fcitx/fcitx/language/ja/)\n"
-"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: gtk3/im_dialog.c:123
-msgid "Add input method"
-msgstr "入力メソッドの追加"
-
-#: gtk3/main_window.c:374 gtk/main_window.c:375
-msgid "Addon"
-msgstr "アドオン"
-
-#: gtk3/main_window.c:283
-msgid "Advance"
-msgstr "拡張"
-
-#: gtk3/main_window.c:221
-msgid "Appearance"
-msgstr "外観"
-
-#: gtk/im_widget.c:92
-msgid "Available Input Method"
-msgstr "存在する入力メソッド"
-
-#: gtk3/ui_widget.c:48
-msgid "Cannot load currently used user interface info"
-msgstr "現在のユーザーインターフェース設定が読み込めません"
 
 #: gtk3/config_widget.c:239 gtk/config_widget.c:192
 msgid "Clear font setting"
 msgstr "設定をクリア"
 
-#: gtk3/main_window.c:357 gtk/main_window.c:360
-msgid "Configure"
-msgstr "設定"
-
-#: gtk/im_widget.c:146
-msgid "Current Input Method"
-msgstr "現在の入力メソッド"
-
-#: gtk3/im_config_dialog.c:164
-msgid "Default"
-msgstr "既定"
-
-#: gtk3/im_config_dialog.c:132
-msgid "Default keyboard layout"
-msgstr "既定のキーボードレイアウト"
-
-#: gtk3/sub_config_widget.c:287
-msgid "Didn't install related component."
-msgstr "関連コンポーネントがインストールされていません"
-
-#: gtk3/keygrab.c:66 gtk3/keygrab.c:181 gtk/keygrab.c:138
-msgid "Empty"
-msgstr "空"
-
-#: gtk3/main_window.c:203 gtk/main_window.c:294
-msgid "Global Config"
-msgstr "全体の設定"
-
-#: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
-#: gtk/main_window.c:300 gtk3/im_dialog.ui:74 gtk3/im_widget.ui:63
-msgid "Input Method"
-msgstr "入力メソッド"
-
-#: gtk3/main_window.c:106 gtk/main_window.c:149
-msgid "Input Method Configuration"
-msgstr "入力メソッドの設定"
-
-#: gtk3/im_config_dialog.c:164
-msgid "Input Method Default"
-msgstr "既定の入力メソッド"
-
-#: gtk3/im_config_dialog.c:209
-msgid "Input method settings:"
-msgstr "入力メソッドの設定:"
-
-#: gtk3/im_config_dialog.c:192
-msgid "Keyboard layout to use when no input window:"
-msgstr "入力ウィンドウがない場合のキーボードレイアウト"
-
-#: gtk3/im_config_dialog.c:192
-msgid "Keyboard layout:"
-msgstr "キーボードレイアウト:"
-
-#: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
-msgid "Language"
-msgstr "言語"
-
-#: gtk3/ui_widget.c:106
-#, c-format
-msgid "No configuration option for %s."
-msgstr "%s に設定オプションはありません"
-
-#: gtk/im_widget.c:115 gtk3/im_dialog.ui:106
-msgid "Only Show Current Language"
-msgstr "現在の言語のみ表示"
-
 #: gtk3/config_widget.c:432 gtk3/config_widget.c:529 gtk/config_widget.c:270
 msgid "Other"
 msgstr "その他"
 
-#: gtk3/keygrab.c:80 gtk/keygrab.c:74
-msgid "Please press the new key combination"
-msgstr "設定したいキーの組み合わせを押してください"
-
-#: gtk3/main_window.c:294
-msgid "Search Addon"
-msgstr "アドオンの検索"
-
-#: gtk3/im_dialog.c:168
-msgid "Search Input Method"
-msgstr "入力メソッドの検索"
-
 #: gtk3/config_widget.c:614
 msgid "Show Advance Option"
 msgstr "拡張オプションの表示"
-
-#: gtk/im_widget.c:192 gtk3/im_widget.ui:115
-msgid ""
-"The first input method will be inactive state. Usually you need to put "
-"<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
-msgstr ""
-"最初の入力メソッドは [直接入力] のときに使用されます。通常は <b>キーボード</"
-"b> または <b>キーボード-<i>レイアウト名</i></b> を最上段に指定してください。"
-
-#: gtk3/im_dialog.c:256 gtk3/im_dialog.c:258 gtk3/im_widget.c:259
-#: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
-msgid "Unknown"
-msgstr "不明"
-
-#: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
-msgid "Unspecified"
-msgstr "特定しない"
 
 #: gtk3/config_widget.c:937 gtk3/im_config_dialog.c:73 gtk3/im_dialog.c:127
 #: gtk3/sub_config_widget.c:168
@@ -161,3 +42,120 @@ msgstr "キャンセル(_C)"
 #: gtk3/sub_config_widget.c:170
 msgid "_OK"
 msgstr "OK(_O)"
+
+#: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
+msgid "Unspecified"
+msgstr "特定しない"
+
+#: gtk3/im_config_dialog.c:132
+msgid "Default keyboard layout"
+msgstr "既定のキーボードレイアウト"
+
+#: gtk3/im_config_dialog.c:164
+msgid "Input Method Default"
+msgstr "既定の入力メソッド"
+
+#: gtk3/im_config_dialog.c:164
+msgid "Default"
+msgstr "既定"
+
+#: gtk3/im_config_dialog.c:192
+msgid "Keyboard layout:"
+msgstr "キーボードレイアウト:"
+
+#: gtk3/im_config_dialog.c:192
+msgid "Keyboard layout to use when no input window:"
+msgstr "入力ウィンドウがない場合のキーボードレイアウト"
+
+#: gtk3/im_config_dialog.c:209
+msgid "Input method settings:"
+msgstr "入力メソッドの設定:"
+
+#: gtk3/im_dialog.c:123
+msgid "Add input method"
+msgstr "入力メソッドの追加"
+
+#: gtk3/im_dialog.c:168
+msgid "Search Input Method"
+msgstr "入力メソッドの検索"
+
+#: gtk3/im_dialog.c:256 gtk3/im_dialog.c:258 gtk3/im_widget.c:259
+#: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
+msgid "Unknown"
+msgstr "不明"
+
+#: gtk3/keygrab.c:66 gtk3/keygrab.c:181 gtk/keygrab.c:138
+msgid "Empty"
+msgstr "空"
+
+#: gtk3/keygrab.c:80 gtk/keygrab.c:74
+msgid "Please press the new key combination"
+msgstr "設定したいキーの組み合わせを押してください"
+
+#: gtk3/main_window.c:106 gtk/main_window.c:149
+msgid "Input Method Configuration"
+msgstr "入力メソッドの設定"
+
+#: gtk3/main_window.c:203 gtk/main_window.c:294
+msgid "Global Config"
+msgstr "全体の設定"
+
+#: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
+#: gtk/main_window.c:300 gtk3/im_dialog.ui:74 gtk3/im_widget.ui:63
+msgid "Input Method"
+msgstr "入力メソッド"
+
+#: gtk3/main_window.c:221
+msgid "Appearance"
+msgstr "外観"
+
+#: gtk3/main_window.c:283
+msgid "Advance"
+msgstr "拡張"
+
+#: gtk3/main_window.c:294
+msgid "Search Addon"
+msgstr "アドオンの検索"
+
+#: gtk3/main_window.c:357 gtk/main_window.c:360
+msgid "Configure"
+msgstr "設定"
+
+#: gtk3/main_window.c:374 gtk/main_window.c:375
+msgid "Addon"
+msgstr "アドオン"
+
+#: gtk3/sub_config_widget.c:287
+msgid "Didn't install related component."
+msgstr "関連コンポーネントがインストールされていません"
+
+#: gtk3/ui_widget.c:48
+msgid "Cannot load currently used user interface info"
+msgstr "現在のユーザーインターフェース設定が読み込めません"
+
+#: gtk3/ui_widget.c:106
+#, c-format
+msgid "No configuration option for %s."
+msgstr "%s に設定オプションはありません"
+
+#: gtk/im_widget.c:92
+msgid "Available Input Method"
+msgstr "存在する入力メソッド"
+
+#: gtk/im_widget.c:115 gtk3/im_dialog.ui:106
+msgid "Only Show Current Language"
+msgstr "現在の言語のみ表示"
+
+#: gtk/im_widget.c:146
+msgid "Current Input Method"
+msgstr "現在の入力メソッド"
+
+#: gtk/im_widget.c:192 gtk3/im_widget.ui:115
+msgid ""
+"The first input method will be inactive state. Usually you need to put "
+"<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
+msgstr "最初の入力メソッドは [直接入力] のときに使用されます。通常は <b>キーボード</b> または <b>キーボード-<i>レイアウト名</i></b> を最上段に指定してください。"
+
+#: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
+msgid "Language"
+msgstr "言語"
