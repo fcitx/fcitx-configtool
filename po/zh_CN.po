@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # marguerite su <i@marguerite.su>, 2014
 # csslayer <wengxt@gmail.com>, 2013
@@ -11,151 +11,154 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2014-07-06 10:09+0200\n"
+"POT-Creation-Date: 2015-12-11 23:17-0800\n"
 "PO-Revision-Date: 2014-07-14 09:35+0000\n"
 "Last-Translator: marguerite su <i@marguerite.su>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/fcitx/fcitx/language/zh_CN/)\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/fcitx/fcitx/"
+"language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: gtk3/im_dialog.c:124
+msgid "Add input method"
+msgstr "添加输入法"
+
+#: gtk3/main_window.c:372 gtk/main_window.c:375
+msgid "Addon"
+msgstr "附加组件"
+
+#: gtk3/main_window.c:283
+msgid "Advance"
+msgstr "高级"
+
+#: gtk3/main_window.c:221
+msgid "Appearance"
+msgstr "外观"
+
+#: gtk/im_widget.c:92
+msgid "Available Input Method"
+msgstr "可用输入法"
+
+#: gtk3/ui_widget.c:48
+msgid "Cannot load currently used user interface info"
+msgstr "无法加载当前所用用户界面信息"
 
 #: gtk3/config_widget.c:239 gtk/config_widget.c:192
 msgid "Clear font setting"
 msgstr "清除字体设置"
 
-#: gtk3/config_widget.c:432 gtk3/config_widget.c:529 gtk/config_widget.c:270
-msgid "Other"
-msgstr "其它"
+#: gtk3/main_window.c:355 gtk/main_window.c:360
+msgid "Configure"
+msgstr "配置 "
 
-#: gtk3/config_widget.c:614
-msgid "Show Advance Option"
-msgstr "显示高级选项"
+#: gtk/im_widget.c:146
+msgid "Current Input Method"
+msgstr "当前输入法"
 
-#: gtk3/config_widget.c:937 gtk3/im_config_dialog.c:73 gtk3/im_dialog.c:127
-#: gtk3/sub_config_widget.c:168
-msgid "_Cancel"
-msgstr "取消(_C)"
-
-#: gtk3/config_widget.c:939 gtk3/im_config_dialog.c:75 gtk3/im_dialog.c:129
-#: gtk3/sub_config_widget.c:170
-msgid "_OK"
-msgstr "确认(_O)"
-
-#: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
-msgid "Unspecified"
-msgstr "未指定"
-
-#: gtk3/im_config_dialog.c:132
-msgid "Default keyboard layout"
-msgstr "默认键盘布局"
-
-#: gtk3/im_config_dialog.c:164
-msgid "Input Method Default"
-msgstr "输入法默认"
-
-#: gtk3/im_config_dialog.c:164
+#: gtk3/im_config_dialog.c:160
 msgid "Default"
 msgstr "默认"
 
-#: gtk3/im_config_dialog.c:192
-msgid "Keyboard layout:"
-msgstr "键盘布局："
+#: gtk3/im_config_dialog.c:128
+msgid "Default keyboard layout"
+msgstr "默认键盘布局"
 
-#: gtk3/im_config_dialog.c:192
-msgid "Keyboard layout to use when no input window:"
-msgstr "无输入窗口时使用的键盘布局:"
-
-#: gtk3/im_config_dialog.c:209
-msgid "Input method settings:"
-msgstr "输入法设置："
-
-#: gtk3/im_dialog.c:123
-msgid "Add input method"
-msgstr "添加输入法"
-
-#: gtk3/im_dialog.c:168
-msgid "Search Input Method"
-msgstr "搜索输入法"
-
-#: gtk3/im_dialog.c:256 gtk3/im_dialog.c:258 gtk3/im_widget.c:259
-#: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
-msgid "Unknown"
-msgstr "未知"
+#: gtk3/sub_config_widget.c:287
+msgid "Didn't install related component."
+msgstr "未安装相关组件。"
 
 #: gtk3/keygrab.c:66 gtk3/keygrab.c:181 gtk/keygrab.c:138
 msgid "Empty"
 msgstr "空"
-
-#: gtk3/keygrab.c:80 gtk/keygrab.c:74
-msgid "Please press the new key combination"
-msgstr "请按下新按键组合"
-
-#: gtk3/main_window.c:106 gtk/main_window.c:149
-msgid "Input Method Configuration"
-msgstr "输入法配置"
 
 #: gtk3/main_window.c:203 gtk/main_window.c:294
 msgid "Global Config"
 msgstr "全局配置"
 
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
-#: gtk/main_window.c:300 gtk3/im_dialog.ui:74 gtk3/im_widget.ui:63
+#: gtk/main_window.c:300 gtk3/im_dialog.ui:46 gtk3/im_widget.ui:35
 msgid "Input Method"
 msgstr "输入法"
 
-#: gtk3/main_window.c:221
-msgid "Appearance"
-msgstr "外观"
+#: gtk3/main_window.c:106 gtk/main_window.c:149
+msgid "Input Method Configuration"
+msgstr "输入法配置"
 
-#: gtk3/main_window.c:283
-msgid "Advance"
-msgstr "高级"
+#: gtk3/im_config_dialog.c:160
+msgid "Input Method Default"
+msgstr "输入法默认"
 
-#: gtk3/main_window.c:294
-msgid "Search Addon"
-msgstr "搜索附加组件"
+#: gtk3/im_config_dialog.c:205
+msgid "Input method settings:"
+msgstr "输入法设置："
 
-#: gtk3/main_window.c:357 gtk/main_window.c:360
-msgid "Configure"
-msgstr "配置 "
+#: gtk3/im_config_dialog.c:188
+msgid "Keyboard layout to use when no input window:"
+msgstr "无输入窗口时使用的键盘布局:"
 
-#: gtk3/main_window.c:374 gtk/main_window.c:375
-msgid "Addon"
-msgstr "附加组件"
+#: gtk3/im_config_dialog.c:188
+msgid "Keyboard layout:"
+msgstr "键盘布局："
 
-#: gtk3/sub_config_widget.c:287
-msgid "Didn't install related component."
-msgstr "未安装相关组件。"
-
-#: gtk3/ui_widget.c:48
-msgid "Cannot load currently used user interface info"
-msgstr "无法加载当前所用用户界面信息"
+#: gtk3/im_dialog.ui:58 gtk3/im_widget.ui:47
+msgid "Language"
+msgstr "语言"
 
 #: gtk3/ui_widget.c:106
 #, c-format
 msgid "No configuration option for %s."
 msgstr "%s 无配置选项。"
 
-#: gtk/im_widget.c:92
-msgid "Available Input Method"
-msgstr "可用输入法"
-
-#: gtk/im_widget.c:115 gtk3/im_dialog.ui:106
+#: gtk/im_widget.c:115 gtk3/im_dialog.ui:78
 msgid "Only Show Current Language"
 msgstr "仅显示当前语言"
 
-#: gtk/im_widget.c:146
-msgid "Current Input Method"
-msgstr "当前输入法"
+#: gtk3/config_widget.c:432 gtk3/config_widget.c:529 gtk/config_widget.c:270
+msgid "Other"
+msgstr "其它"
 
-#: gtk/im_widget.c:192 gtk3/im_widget.ui:115
+#: gtk3/keygrab.c:80 gtk/keygrab.c:74
+msgid "Please press the new key combination"
+msgstr "请按下新按键组合"
+
+#: gtk3/main_window.c:293
+msgid "Search Addon"
+msgstr "搜索附加组件"
+
+#: gtk3/im_dialog.c:165
+msgid "Search Input Method"
+msgstr "搜索输入法"
+
+#: gtk3/config_widget.c:614
+msgid "Show Advance Option"
+msgstr "显示高级选项"
+
+#: gtk/im_widget.c:192 gtk3/im_widget.ui:87
 msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
-msgstr "第一个输入法将为非激活状态。通常您需要将<b>键盘</b>或<b>键盘 - <i>布局名称</i></b>放在第一位。"
+msgstr ""
+"第一个输入法将为非激活状态。通常您需要将<b>键盘</b>或<b>键盘 - <i>布局名称</"
+"i></b>放在第一位。"
 
-#: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
-msgid "Language"
-msgstr "语言"
+#: gtk3/im_dialog.c:253 gtk3/im_dialog.c:255 gtk3/im_widget.c:259
+#: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
+msgid "Unknown"
+msgstr "未知"
+
+#: gtk3/gdm-languages.c:697 gtk/gdm-languages.c:697
+msgid "Unspecified"
+msgstr "未指定"
+
+#: gtk3/config_widget.c:929 gtk3/im_config_dialog.c:73 gtk3/im_dialog.c:128
+#: gtk3/sub_config_widget.c:168
+msgid "_Cancel"
+msgstr "取消(_C)"
+
+#: gtk3/config_widget.c:931 gtk3/im_config_dialog.c:75 gtk3/im_dialog.c:130
+#: gtk3/sub_config_widget.c:170
+msgid "_OK"
+msgstr "确认(_O)"
