@@ -30,7 +30,7 @@ msgid "Addon"
 msgstr "アドオン"
 
 #: gtk3/main_window.c:283
-msgid "Advance"
+msgid "Advanced"
 msgstr "拡張"
 
 #: gtk3/main_window.c:221
@@ -132,7 +132,7 @@ msgid "Search Input Method"
 msgstr "入力メソッドの検索"
 
 #: gtk3/config_widget.c:614
-msgid "Show Advance Option"
+msgid "Show Advanced Options"
 msgstr "拡張オプションの表示"
 
 #: gtk/im_widget.c:192 gtk3/im_widget.ui:87

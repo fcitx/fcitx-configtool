@@ -280,7 +280,7 @@ void _fcitx_main_window_add_addon_page(FcitxMainWindow* self)
     GtkWidget* vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     /* advance check box */
-    self->advancecheckbox = gtk_check_button_new_with_label(_("Advance"));
+    self->advancecheckbox = gtk_check_button_new_with_label(_("Advanced"));
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->advancecheckbox), FALSE);
     g_signal_connect(G_OBJECT(self->advancecheckbox), "toggled", G_CALLBACK(_fcitx_main_window_checkbox_changed), self);
 

@@ -611,7 +611,7 @@ fcitx_config_widget_setup_ui(FcitxConfigWidget *self)
         self->advanceCheckBox = gtk_check_button_new();
         gtk_grid_attach(GTK_GRID(self), self->advanceCheckBox, 0, 1, 1, 1);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->advanceCheckBox), FALSE);
-        gtk_button_set_label(GTK_BUTTON(self->advanceCheckBox), _("Show Advance Option"));
+        gtk_button_set_label(GTK_BUTTON(self->advanceCheckBox), _("Show Advanced Options"));
         g_signal_connect(self->advanceCheckBox, "toggled", (GCallback) _fcitx_config_widget_toggle_simple_full, self);
         _fcitx_config_widget_toggle_simple_full(GTK_TOGGLE_BUTTON(self->advanceCheckBox), self);
     }
