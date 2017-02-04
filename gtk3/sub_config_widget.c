@@ -189,32 +189,44 @@ void open_native_file(GtkButton *button,
                       gpointer   user_data)
 {
     FcitxSubConfigWidget* widget = (FcitxSubConfigWidget*) user_data;
-    char *newpath = NULL;
-    char* qtguiwrapper = fcitx_utils_get_fcitx_path_with_filename ("libdir", "fcitx/libexec/fcitx-qt-gui-wrapper");
-    if (qtguiwrapper) {
-        gchar* argv[4];
-        argv[0] = qtguiwrapper;
-        argv[1] = "--test";
-        argv[2] = widget->subconfig->nativepath;
-        argv[3] = 0;
-        int exit_status = 1;
-        g_spawn_sync(NULL, argv, NULL, 0, NULL, NULL, NULL, NULL, &exit_status, NULL);
-
-        if (exit_status == 0) {
-            gchar* argv2[3];
-            argv2[0] = qtguiwrapper;
-            argv2[1] = widget->subconfig->nativepath;
-            argv2[2] = 0;
-            g_spawn_async(NULL, argv2, NULL, 0, NULL, NULL, NULL, NULL);
-            free(newpath);
-        }
-        g_free(qtguiwrapper);
-
-        if (exit_status == 0) {
-            return;
+    char* qtguiwrapper[] = {
+        fcitx_utils_get_fcitx_path_with_filename ("libdir", "fcitx/libexec/fcitx-qt-gui-wrapper"),
+        fcitx_utils_get_fcitx_path_with_filename ("libdir", "fcitx/libexec/fcitx-qt5-gui-wrapper")
+    };
+    char* wrapper = NULL;
+    for (int i = 0; i < FCITX_ARRAY_SIZE(qtguiwrapper); i++) {
+        if (qtguiwrapper[i]) {
+            gchar* argv[4];
+            argv[0] = qtguiwrapper[i];
+            argv[1] = "--test";
+            argv[2] = widget->subconfig->nativepath;
+            argv[3] = 0;
+            int exit_status = 1;
+            g_spawn_sync(NULL, argv, NULL, 0, NULL, NULL, NULL, NULL, &exit_status, NULL);
+            if (exit_status == 0) {
+                wrapper = qtguiwrapper[i];
+                break;
+            }
         }
     }
 
+    if (wrapper) {
+        gchar* argv2[3];
+        argv2[0] = wrapper;
+        argv2[1] = widget->subconfig->nativepath;
+        argv2[2] = 0;
+        g_spawn_async(NULL, argv2, NULL, 0, NULL, NULL, NULL, NULL);
+    }
+
+    for (int i = 0; i < FCITX_ARRAY_SIZE(qtguiwrapper); i++) {
+        free(qtguiwrapper[i]);
+    }
+
+    if (wrapper) {
+        return;
+    }
+
+    char *newpath = NULL;
     if (g_hash_table_size(widget->subconfig->filelist) > 0) {
         GHashTableIter iter;
         g_hash_table_iter_init(&iter, widget->subconfig->filelist);
@@ -254,30 +266,41 @@ void run_program(GtkButton* button, gpointer user_data)
 void run_plugin(GtkButton* button, gpointer user_data)
 {
     FcitxSubConfigWidget* widget = (FcitxSubConfigWidget*) user_data;
-    char *newpath = NULL;
-    char* qtguiwrapper = fcitx_utils_get_fcitx_path_with_filename ("libdir", "fcitx/libexec/fcitx-qt-gui-wrapper");
-    if (qtguiwrapper) {
-        gchar* argv[4];
-        argv[0] = qtguiwrapper;
-        argv[1] = "--test";
-        argv[2] = widget->subconfig->nativepath;
-        argv[3] = 0;
-        int exit_status = 1;
-        g_spawn_sync(NULL, argv, NULL, 0, NULL, NULL, NULL, NULL, &exit_status, NULL);
-
-        if (exit_status == 0) {
-            gchar* argv2[3];
-            argv2[0] = qtguiwrapper;
-            argv2[1] = widget->subconfig->nativepath;
-            argv2[2] = 0;
-            g_spawn_async(NULL, argv2, NULL, 0, NULL, NULL, NULL, NULL);
-            free(newpath);
+    char* qtguiwrapper[] = {
+        fcitx_utils_get_fcitx_path_with_filename ("libdir", "fcitx/libexec/fcitx-qt-gui-wrapper"),
+        fcitx_utils_get_fcitx_path_with_filename ("libdir", "fcitx/libexec/fcitx-qt5-gui-wrapper")
+    };
+    char* wrapper = NULL;
+    for (int i = 0; i < FCITX_ARRAY_SIZE(qtguiwrapper); i++) {
+        if (qtguiwrapper[i]) {
+            gchar* argv[4];
+            argv[0] = qtguiwrapper[i];
+            argv[1] = "--test";
+            argv[2] = widget->subconfig->nativepath;
+            argv[3] = 0;
+            int exit_status = 1;
+            g_spawn_sync(NULL, argv, NULL, 0, NULL, NULL, NULL, NULL, &exit_status, NULL);
+            if (exit_status == 0) {
+                wrapper = qtguiwrapper[i];
+                break;
+            }
         }
-        g_free(qtguiwrapper);
+    }
 
-        if (exit_status == 0) {
-            return;
-        }
+    if (wrapper) {
+        gchar* argv2[3];
+        argv2[0] = wrapper;
+        argv2[1] = widget->subconfig->nativepath;
+        argv2[2] = 0;
+        g_spawn_async(NULL, argv2, NULL, 0, NULL, NULL, NULL, NULL);
+    }
+
+    for (int i = 0; i < FCITX_ARRAY_SIZE(qtguiwrapper); i++) {
+        free(qtguiwrapper[i]);
+    }
+
+    if (wrapper) {
+        return;
     }
 
     GtkWidget* dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET(widget))),
