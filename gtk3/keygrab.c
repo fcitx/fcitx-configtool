@@ -85,17 +85,10 @@ void begin_key_grab(KeyGrabButton* self, gpointer v)
 
     GdkWindow* window = gtk_widget_get_window(GTK_WIDGET(b->popup));
     GdkDisplay* display = gdk_window_get_display (window);
-    GdkDeviceManager* device_manager = gdk_display_get_device_manager (display);
-    GdkDevice* pointer = gdk_device_manager_get_client_pointer (device_manager);
-    GdkDevice* keyboard = gdk_device_get_associated_device (pointer);
-
-    while (gdk_device_grab(
-        keyboard,
-        window,
-        GDK_OWNERSHIP_WINDOW, TRUE,
-        GDK_KEY_PRESS | GDK_KEY_RELEASE,
-        NULL,
-        GDK_CURRENT_TIME) != GDK_GRAB_SUCCESS)
+    GdkSeat* seat = gdk_display_get_default_seat (display);
+    while (gdk_seat_grab (seat, window,
+                     GDK_SEAT_CAPABILITY_ALL, FALSE,
+                     NULL, NULL, NULL, NULL) != GDK_GRAB_SUCCESS)
         usleep(100);
 }
 
@@ -104,10 +97,8 @@ void end_key_grab(KeyGrabButton *self)
     KeyGrabButton* b = KEYGRAB_BUTTON(self);
     GdkWindow* window = gtk_widget_get_window(GTK_WIDGET(b->popup));
     GdkDisplay* display = gdk_window_get_display (window);
-    GdkDeviceManager* device_manager = gdk_display_get_device_manager (display);
-    GdkDevice* pointer = gdk_device_manager_get_client_pointer (device_manager);
-    GdkDevice* keyboard = gdk_device_get_associated_device (pointer);
-    gdk_device_ungrab(keyboard, gtk_get_current_event_time());
+    GdkSeat* seat = gdk_display_get_default_seat (display);
+    gdk_seat_ungrab(seat);
     g_signal_handler_disconnect(b->popup, b->handler);
     gtk_widget_destroy(b->popup);
 }
