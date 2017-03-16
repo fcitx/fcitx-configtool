@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.6)
 
 project(fcitx-configtool)
 
+set(CMAKE_C_STANDARD_REQUIRED TRUE)
+set(CMAKE_C_STANDARD 99)
+
 option(ENABLE_GTK2 "Enable GTK2 Version" Off)
 option(ENABLE_GTK3 "Enable GTK3 Version" On)
 
@@ -11,7 +14,7 @@ find_package(PkgConfig REQUIRED)
 
 if(ENABLE_GTK3)
   pkg_check_modules(FCITX_GCLIENT "fcitx-gclient>=4.2.6" REQUIRED)
-  pkg_check_modules(GTK3 "gtk+-3.0>=3.12" REQUIRED)
+  pkg_check_modules(GTK3 "gtk+-3.0>=3.20" REQUIRED)
 endif()
 
 if(ENABLE_GTK2)
