@@ -26,7 +26,7 @@ msgid "Other"
 msgstr ""
 
 #: gtk3/config_widget.c:614
-msgid "Show Advance Option"
+msgid "Show Advanced Options"
 msgstr ""
 
 #: gtk3/config_widget.c:937 gtk3/im_config_dialog.c:73 gtk3/im_dialog.c:127
@@ -106,7 +106,7 @@ msgid "Appearance"
 msgstr ""
 
 #: gtk3/main_window.c:283
-msgid "Advance"
+msgid "Advanced"
 msgstr ""
 
 #: gtk3/main_window.c:294

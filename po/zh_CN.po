@@ -31,7 +31,7 @@ msgid "Addon"
 msgstr "附加组件"
 
 #: gtk3/main_window.c:283
-msgid "Advance"
+msgid "Advanced"
 msgstr "高级"
 
 #: gtk3/main_window.c:221
@@ -133,7 +133,7 @@ msgid "Search Input Method"
 msgstr "搜索输入法"
 
 #: gtk3/config_widget.c:614
-msgid "Show Advance Option"
+msgid "Show Advanced Options"
 msgstr "显示高级选项"
 
 #: gtk/im_widget.c:192 gtk3/im_widget.ui:87
