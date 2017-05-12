@@ -4,16 +4,16 @@
 #
 # Translators:
 # しろう <>, 2013
-# AWASHIRO Ikuya <ikunya@gmail.com>, 2014
-# WAKAYAMA Shirou <shirou.faw@gmail.com>, 2013
+# あわしろいくや <ikunya@gmail.com>, 2014
+# shirou - しろう <shirou.faw@gmail.com>, 2013
 # csslayer <wengxt@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2015-12-11 23:17-0800\n"
-"PO-Revision-Date: 2014-07-06 08:33+0000\n"
-"Last-Translator: AWASHIRO Ikuya <ikunya@gmail.com>\n"
+"POT-Creation-Date: 2017-05-11 19:02-0700\n"
+"PO-Revision-Date: 2017-05-12 01:02+0000\n"
+"Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/fcitx/fcitx/language/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "アドオン"
 
 #: gtk3/main_window.c:283
 msgid "Advanced"
-msgstr "拡張"
+msgstr ""
 
 #: gtk3/main_window.c:221
 msgid "Appearance"
@@ -65,11 +65,11 @@ msgstr "既定"
 msgid "Default keyboard layout"
 msgstr "既定のキーボードレイアウト"
 
-#: gtk3/sub_config_widget.c:287
+#: gtk3/sub_config_widget.c:310
 msgid "Didn't install related component."
 msgstr "関連コンポーネントがインストールされていません"
 
-#: gtk3/keygrab.c:66 gtk3/keygrab.c:181 gtk/keygrab.c:138
+#: gtk3/keygrab.c:66 gtk3/keygrab.c:172 gtk/keygrab.c:138
 msgid "Empty"
 msgstr "空"
 
@@ -133,7 +133,7 @@ msgstr "入力メソッドの検索"
 
 #: gtk3/config_widget.c:614
 msgid "Show Advanced Options"
-msgstr "拡張オプションの表示"
+msgstr ""
 
 #: gtk/im_widget.c:192 gtk3/im_widget.ui:87
 msgid ""

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2015-12-11 23:17-0800\n"
-"PO-Revision-Date: 2014-12-09 09:47+0000\n"
-"Last-Translator: mar well <m.wellendorf@gmx.de>\n"
+"POT-Creation-Date: 2017-05-11 19:02-0700\n"
+"PO-Revision-Date: 2017-05-12 01:02+0000\n"
+"Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/fcitx/fcitx/language/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "Addon"
 
 #: gtk3/main_window.c:283
 msgid "Advanced"
-msgstr "Fortschritt"
+msgstr ""
 
 #: gtk3/main_window.c:221
 msgid "Appearance"
@@ -65,11 +65,11 @@ msgstr "Standard"
 msgid "Default keyboard layout"
 msgstr "Standard Tastaturlayout"
 
-#: gtk3/sub_config_widget.c:287
+#: gtk3/sub_config_widget.c:310
 msgid "Didn't install related component."
 msgstr "Die verwandte Komponente wurde nicht installiert."
 
-#: gtk3/keygrab.c:66 gtk3/keygrab.c:181 gtk/keygrab.c:138
+#: gtk3/keygrab.c:66 gtk3/keygrab.c:172 gtk/keygrab.c:138
 msgid "Empty"
 msgstr "Leer"
 
@@ -133,7 +133,7 @@ msgstr "Eingabemethode suchen"
 
 #: gtk3/config_widget.c:614
 msgid "Show Advanced Options"
-msgstr "Erweiterte Einstellungen anzeigen"
+msgstr ""
 
 #: gtk/im_widget.c:192 gtk3/im_widget.ui:87
 msgid ""

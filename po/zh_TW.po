@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2015-12-11 23:17-0800\n"
-"PO-Revision-Date: 2015-09-28 14:16+0000\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"POT-Creation-Date: 2017-05-11 19:02-0700\n"
+"PO-Revision-Date: 2017-05-12 01:02+0000\n"
+"Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/fcitx/fcitx/"
 "language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -32,7 +32,7 @@ msgstr "附加元件"
 
 #: gtk3/main_window.c:283
 msgid "Advanced"
-msgstr "進階"
+msgstr ""
 
 #: gtk3/main_window.c:221
 msgid "Appearance"
@@ -66,11 +66,11 @@ msgstr "預設"
 msgid "Default keyboard layout"
 msgstr "預設鍵盤配置"
 
-#: gtk3/sub_config_widget.c:287
+#: gtk3/sub_config_widget.c:310
 msgid "Didn't install related component."
 msgstr "沒有安裝相關組件。"
 
-#: gtk3/keygrab.c:66 gtk3/keygrab.c:181 gtk/keygrab.c:138
+#: gtk3/keygrab.c:66 gtk3/keygrab.c:172 gtk/keygrab.c:138
 msgid "Empty"
 msgstr "空"
 
@@ -134,7 +134,7 @@ msgstr "搜尋輸入法"
 
 #: gtk3/config_widget.c:614
 msgid "Show Advanced Options"
-msgstr "顯示進階選項"
+msgstr ""
 
 #: gtk/im_widget.c:192 gtk3/im_widget.ui:87
 msgid ""
