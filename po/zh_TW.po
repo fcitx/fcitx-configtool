@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# PHLin <Cypressyew@gmail.com>, 2017
 # Hiunn-hué <hiunnhue108@ymail.com>, 2012
 # Jeff Huang <s8321414@gmail.com>, 2015
 # csslayer <wengxt@gmail.com>, 2013
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-05-11 19:02-0700\n"
-"PO-Revision-Date: 2017-05-12 01:02+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2017-07-12 10:02-0700\n"
+"PO-Revision-Date: 2017-07-12 16:35+0000\n"
+"Last-Translator: PHLin <Cypressyew@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/fcitx/fcitx/"
 "language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -134,7 +135,7 @@ msgstr "搜尋輸入法"
 
 #: gtk3/config_widget.c:614
 msgid "Show Advanced Options"
-msgstr ""
+msgstr "顯示進階設定選項"
 
 #: gtk/im_widget.c:192 gtk3/im_widget.ui:87
 msgid ""
