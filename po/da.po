@@ -4,12 +4,13 @@
 # 
 # Translators:
 # scootergrisen, 2017
+# scootergrisen, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
 "POT-Creation-Date: 2014-07-06 10:09+0200\n"
-"PO-Revision-Date: 2017-07-14 16:35+0000\n"
+"PO-Revision-Date: 2017-07-21 13:07+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/fcitx/fcitx/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +25,7 @@ msgstr "Ryd skrifttypeindstilling"
 
 #: gtk3/config_widget.c:432 gtk3/config_widget.c:529 gtk/config_widget.c:270
 msgid "Other"
-msgstr "Andre"
+msgstr "Andet"
 
 #: gtk3/config_widget.c:614
 msgid "Show Advanced Options"
@@ -151,7 +152,7 @@ msgstr "Nuværende inputmetode"
 msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
-msgstr "Den første inputmetode vil være inaktiv tilstand. Typisk skal du først putte <b>Tastatur</b> eller <b>Tastatur - <i>layoutnavn</i></b>."
+msgstr "Den første inputmetode vil være i inaktiv tilstand. Typisk skal der først stå <b>Tastatur</b> eller <b>Tastatur - <i>layoutnavn</i></b>."
 
 #: gtk3/im_dialog.ui:86 gtk3/im_widget.ui:75
 msgid "Language"
