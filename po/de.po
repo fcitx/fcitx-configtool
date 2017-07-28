@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-07-28 04:02-0700\n"
-"PO-Revision-Date: 2017-07-28 10:40+0000\n"
+"POT-Creation-Date: 2017-07-28 06:02-0700\n"
+"PO-Revision-Date: 2017-07-28 12:36+0000\n"
 "Last-Translator: mar well <m.wellendorf@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/fcitx/fcitx/language/de/)\n"
 "Language: de\n"
@@ -67,7 +67,7 @@ msgstr "Standard Tastaturlayout"
 
 #: gtk3/sub_config_widget.c:310
 msgid "Didn't install related component."
-msgstr "Die verwandte Komponente wurde nicht installiert."
+msgstr "Die betreffende Komponente wurde nicht installiert."
 
 #: gtk3/keygrab.c:66 gtk3/keygrab.c:172 gtk/keygrab.c:138
 msgid "Empty"
