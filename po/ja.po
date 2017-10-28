@@ -5,15 +5,16 @@
 # Translators:
 # しろう <>, 2013
 # あわしろいくや <ikunya@gmail.com>, 2014
+# あわしろいくや <ikunya@gmail.com>, 2017
 # shirou - しろう <shirou.faw@gmail.com>, 2013
 # csslayer <wengxt@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-05-11 19:02-0700\n"
-"PO-Revision-Date: 2017-05-12 01:02+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2017-10-28 08:03-0700\n"
+"PO-Revision-Date: 2017-10-28 08:05+0000\n"
+"Last-Translator: あわしろいくや <ikunya@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/fcitx/fcitx/language/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +32,7 @@ msgstr "アドオン"
 
 #: gtk3/main_window.c:283
 msgid "Advanced"
-msgstr ""
+msgstr "拡張"
 
 #: gtk3/main_window.c:221
 msgid "Appearance"
@@ -133,7 +134,7 @@ msgstr "入力メソッドの検索"
 
 #: gtk3/config_widget.c:614
 msgid "Show Advanced Options"
-msgstr ""
+msgstr "拡張オプションの表示"
 
 #: gtk/im_widget.c:192 gtk3/im_widget.ui:87
 msgid ""
