@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-10-20 00:03-0700\n"
-"PO-Revision-Date: 2017-10-19 23:42+0000\n"
+"POT-Creation-Date: 2017-11-10 16:03-0800\n"
+"PO-Revision-Date: 2017-11-10 21:24+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/fcitx/fcitx/language/da/)\n"
 "Language: da\n"
@@ -70,7 +70,7 @@ msgstr "Installerede ikke relaterede komponent."
 
 #: gtk3/keygrab.c:66 gtk3/keygrab.c:172 gtk/keygrab.c:138
 msgid "Empty"
-msgstr "Tøm"
+msgstr "Tom"
 
 #: gtk3/main_window.c:203 gtk/main_window.c:294
 msgid "Global Config"
