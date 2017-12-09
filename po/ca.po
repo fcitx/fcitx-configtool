@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017
 # Walter Garcia-Fontes <walter.garcia@upf.edu>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-09-14 16:02-0700\n"
-"PO-Revision-Date: 2017-08-03 16:57+0000\n"
-"Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
+"POT-Creation-Date: 2017-12-09 00:03-0800\n"
+"PO-Revision-Date: 2017-12-08 18:40+0000\n"
+"Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/fcitx/fcitx/language/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +41,8 @@ msgstr "Mètode d'entrada disponible"
 
 #: gtk3/ui_widget.c:48
 msgid "Cannot load currently used user interface info"
-msgstr "No es pot carregar la informació de la interfície usada actualment"
+msgstr ""
+"No es pot carregar la informació de la interfície utilitzada actualment"
 
 #: gtk3/config_widget.c:239 gtk/config_widget.c:192
 msgid "Clear font setting"
@@ -93,7 +95,8 @@ msgstr "Configuració del mètode d'entrada:"
 
 #: gtk3/im_config_dialog.c:188
 msgid "Keyboard layout to use when no input window:"
-msgstr "Disposició de teclat a usar quan no hi ha finestra d'entrada:"
+msgstr ""
+"Disposició de teclat que s'ha d'utilitzar quan no hi ha finestra d'entrada:"
 
 #: gtk3/im_config_dialog.c:188
 msgid "Keyboard layout:"
