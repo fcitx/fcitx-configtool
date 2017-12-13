@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include <fcitx-config/xdg.h>
+#include <fcitx-utils/utils.h>
 #include <stdlib.h>
 
 #include "sub_config_widget.h"
