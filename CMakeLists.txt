@@ -13,7 +13,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 find_package(PkgConfig REQUIRED)
 
 if(ENABLE_GTK3)
-  pkg_check_modules(FCITX_GCLIENT "fcitx-gclient>=4.2.6" REQUIRED)
+  pkg_check_modules(FCITX_GCLIENT "fcitx-gclient>=4.2.9" REQUIRED)
   pkg_check_modules(GTK3 "gtk+-3.0>=3.20" REQUIRED)
 endif()
 
