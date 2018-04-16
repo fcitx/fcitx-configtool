@@ -358,11 +358,13 @@ gboolean _fcitx_im_dialog_filter_func(GtkTreeModel *model,
     gboolean flag = TRUE;
     if (item) {
         if (strcmp(item->unique_name, "fcitx-keyboard-us") != 0) {
+            const char* language = gdm_get_language_from_name(item->langcode, NULL);
             flag = flag && (
                         strlen(filter_text) == 0
                      || strstr(item->name, filter_text)
                      || strstr(item->unique_name, filter_text)
-                     || strstr(item->langcode, filter_text));
+                     || strstr(item->langcode, filter_text)
+                     || (language && strstr(language, filter_text)));
 
             gchar temp[3] = {0, 0, 0};
             strncpy(temp, item->langcode, 2);
