@@ -361,10 +361,10 @@ gboolean _fcitx_im_dialog_filter_func(GtkTreeModel *model,
             const char* language = gdm_get_language_from_name(item->langcode, NULL);
             flag = flag && (
                         strlen(filter_text) == 0
-                     || strstr(item->name, filter_text)
-                     || strstr(item->unique_name, filter_text)
-                     || strstr(item->langcode, filter_text)
-                     || (language && strstr(language, filter_text)));
+                     || strcasestr(item->name, filter_text)
+                     || strcasestr(item->unique_name, filter_text)
+                     || strcasestr(item->langcode, filter_text)
+                     || (language && strcasestr(language, filter_text)));
 
             gchar temp[3] = {0, 0, 0};
             strncpy(temp, item->langcode, 2);
