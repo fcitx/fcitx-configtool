@@ -3,18 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# byStarTW (pan93412) <pan93412@gmail.com>, 2019
+# csslayer <wengxt@gmail.com>, 2013
 # PHLin <Cypressyew@gmail.com>, 2017
 # Hiunn-hué <hiunnhue108@ymail.com>, 2012
-# Jeff Huang <s8321414@gmail.com>, 2015
+# Hiunn-hué <hiunnhue108@ymail.com>, 2012
+# 黃柏諺 <s8321414@gmail.com>, 2015
+# PHLin <Cypressyew@gmail.com>, 2017
+# Walter Cheuk <wwycheuk@gmail.com>, 2019
 # csslayer <wengxt@gmail.com>, 2013
 # csslayer <wengxt@gmail.com>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-07-12 10:02-0700\n"
-"PO-Revision-Date: 2017-07-12 16:35+0000\n"
-"Last-Translator: PHLin <Cypressyew@gmail.com>\n"
+"POT-Creation-Date: 2020-03-08 00:02-0800\n"
+"PO-Revision-Date: 2019-12-10 02:15+0000\n"
+"Last-Translator: Walter Cheuk <wwycheuk@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/fcitx/fcitx/"
 "language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -33,7 +38,7 @@ msgstr "附加元件"
 
 #: gtk3/main_window.c:283
 msgid "Advanced"
-msgstr ""
+msgstr "進階"
 
 #: gtk3/main_window.c:221
 msgid "Appearance"
@@ -67,7 +72,7 @@ msgstr "預設"
 msgid "Default keyboard layout"
 msgstr "預設鍵盤配置"
 
-#: gtk3/sub_config_widget.c:310
+#: gtk3/sub_config_widget.c:311
 msgid "Didn't install related component."
 msgstr "沒有安裝相關組件。"
 
@@ -142,8 +147,8 @@ msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
 msgstr ""
-"第一個輸入法將作為非激活狀態。通常您需要將<b>鍵盤<b>或者<b>鍵盤 - <i>配置名稱"
-"</i></b>放到第一個。"
+"第一個輸入法將作為非激活狀態。通常您要將<b>鍵盤</b>或者<b>鍵盤 - <i>配置名稱"
+"</i></b> 放在第一位。"
 
 #: gtk3/im_dialog.c:253 gtk3/im_dialog.c:255 gtk3/im_widget.c:259
 #: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
@@ -155,11 +160,11 @@ msgid "Unspecified"
 msgstr "未指定"
 
 #: gtk3/config_widget.c:929 gtk3/im_config_dialog.c:73 gtk3/im_dialog.c:128
-#: gtk3/sub_config_widget.c:168
+#: gtk3/sub_config_widget.c:169
 msgid "_Cancel"
 msgstr "取消(_C)"
 
 #: gtk3/config_widget.c:931 gtk3/im_config_dialog.c:75 gtk3/im_dialog.c:130
-#: gtk3/sub_config_widget.c:170
+#: gtk3/sub_config_widget.c:171
 msgid "_OK"
 msgstr "確定(_O)"
