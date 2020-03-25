@@ -4,13 +4,14 @@
 #
 # Translators:
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
+# MarongHappy <daemul72@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-09-14 16:02-0700\n"
-"PO-Revision-Date: 2017-08-03 16:57+0000\n"
-"Last-Translator: Bon Keun Seo <scobyseo@gmail.com>\n"
+"POT-Creation-Date: 2020-03-25 00:02-0700\n"
+"PO-Revision-Date: 2020-03-24 16:55+0000\n"
+"Last-Translator: MarongHappy <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/fcitx/fcitx/language/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +37,7 @@ msgstr "모양새"
 
 #: gtk/im_widget.c:92
 msgid "Available Input Method"
-msgstr "사용가능한 입력 방법"
+msgstr "사용가능한 입력기"
 
 #: gtk3/ui_widget.c:48
 msgid "Cannot load currently used user interface info"
@@ -52,7 +53,7 @@ msgstr "설정"
 
 #: gtk/im_widget.c:146
 msgid "Current Input Method"
-msgstr "현재 입력 방법"
+msgstr "현재 입력기"
 
 #: gtk3/im_config_dialog.c:160
 msgid "Default"
@@ -60,9 +61,9 @@ msgstr "기본"
 
 #: gtk3/im_config_dialog.c:128
 msgid "Default keyboard layout"
-msgstr "기본 키보드 배열"
+msgstr "기본 키보드 자판"
 
-#: gtk3/sub_config_widget.c:310
+#: gtk3/sub_config_widget.c:311
 msgid "Didn't install related component."
 msgstr "관련 구성요소 설치하지 않음"
 
@@ -77,11 +78,11 @@ msgstr "전역 설정"
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
 #: gtk/main_window.c:300 gtk3/im_dialog.ui:46 gtk3/im_widget.ui:35
 msgid "Input Method"
-msgstr "입력 방법"
+msgstr "입력기"
 
 #: gtk3/main_window.c:106 gtk/main_window.c:149
 msgid "Input Method Configuration"
-msgstr "입력기 설정"
+msgstr "입력기 환경설정"
 
 #: gtk3/im_config_dialog.c:160
 msgid "Input Method Default"
@@ -93,11 +94,11 @@ msgstr "입력기 설정:"
 
 #: gtk3/im_config_dialog.c:188
 msgid "Keyboard layout to use when no input window:"
-msgstr "입력창이 없을 때 사용할 키보드 배열:"
+msgstr "입력창이 없을 때 사용할 키보드 자판:"
 
 #: gtk3/im_config_dialog.c:188
 msgid "Keyboard layout:"
-msgstr "키보드 배열:"
+msgstr "키보드 자판:"
 
 #: gtk3/im_dialog.ui:58 gtk3/im_widget.ui:47
 msgid "Language"
@@ -106,7 +107,7 @@ msgstr "언어"
 #: gtk3/ui_widget.c:106
 #, c-format
 msgid "No configuration option for %s."
-msgstr "%s에 대한 설정이 없음"
+msgstr "%s에 대한 환경설정이 없음"
 
 #: gtk/im_widget.c:115 gtk3/im_dialog.ui:78
 msgid "Only Show Current Language"
@@ -130,15 +131,15 @@ msgstr "입력기 검색"
 
 #: gtk3/config_widget.c:614
 msgid "Show Advanced Options"
-msgstr "추가 설정 보기"
+msgstr "고급 옵션 표시"
 
 #: gtk/im_widget.c:192 gtk3/im_widget.ui:87
 msgid ""
 "The first input method will be inactive state. Usually you need to put "
 "<b>Keyboard</b> or <b>Keyboard - <i>layout name</i></b> in the first place."
 msgstr ""
-"첫 입력 방법이 비활성화 상태입니다. 대체로 <b>키보드</b> 또는 <b>키보드 - "
-"<i> 배열명 </i> </b>를 첫 항목으로 하여야 합니다."
+"첫번째 입력기가 비활성화 상태입니다. 대체로 <b>키보드</b> 또는 <b>키보드 - "
+"<i> 자판명 </i> </b>을 첫 항목으로 하여야 합니다."
 
 #: gtk3/im_dialog.c:253 gtk3/im_dialog.c:255 gtk3/im_widget.c:259
 #: gtk3/im_widget.c:261 gtk/im_widget.c:314 gtk/im_widget.c:316
@@ -150,11 +151,11 @@ msgid "Unspecified"
 msgstr "미정"
 
 #: gtk3/config_widget.c:929 gtk3/im_config_dialog.c:73 gtk3/im_dialog.c:128
-#: gtk3/sub_config_widget.c:168
+#: gtk3/sub_config_widget.c:169
 msgid "_Cancel"
 msgstr "취소(_C)"
 
 #: gtk3/config_widget.c:931 gtk3/im_config_dialog.c:75 gtk3/im_dialog.c:130
-#: gtk3/sub_config_widget.c:170
+#: gtk3/sub_config_widget.c:171
 msgid "_OK"
 msgstr "선택(_O)"
