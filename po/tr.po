@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# abc Def <hdogan1974@gmail.com>, 2020
 # Gökhan Kalayci <gkmediagokhan@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-09-14 16:02-0700\n"
-"PO-Revision-Date: 2017-08-03 16:57+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2020-05-06 00:02-0700\n"
+"PO-Revision-Date: 2020-05-05 21:12+0000\n"
+"Last-Translator: abc Def <hdogan1974@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/fcitx/fcitx/language/tr/)\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +29,7 @@ msgstr "Eklenti"
 
 #: gtk3/main_window.c:283
 msgid "Advanced"
-msgstr ""
+msgstr "Gelişmiş"
 
 #: gtk3/main_window.c:221
 msgid "Appearance"
@@ -62,7 +63,7 @@ msgstr "Varsayılan"
 msgid "Default keyboard layout"
 msgstr "Varsayılan klavye düzeni"
 
-#: gtk3/sub_config_widget.c:310
+#: gtk3/sub_config_widget.c:311
 msgid "Didn't install related component."
 msgstr "İlgili bileşen yüklemedi."
 
@@ -130,7 +131,7 @@ msgstr "Giriş Yöntemi Ara"
 
 #: gtk3/config_widget.c:614
 msgid "Show Advanced Options"
-msgstr ""
+msgstr "Gelişmiş Seçenekleri Göster"
 
 #: gtk/im_widget.c:192 gtk3/im_widget.ui:87
 msgid ""
@@ -150,11 +151,11 @@ msgid "Unspecified"
 msgstr "Belirtilmemiş"
 
 #: gtk3/config_widget.c:929 gtk3/im_config_dialog.c:73 gtk3/im_dialog.c:128
-#: gtk3/sub_config_widget.c:168
+#: gtk3/sub_config_widget.c:169
 msgid "_Cancel"
 msgstr "_İptal"
 
 #: gtk3/config_widget.c:931 gtk3/im_config_dialog.c:75 gtk3/im_dialog.c:130
-#: gtk3/sub_config_widget.c:170
+#: gtk3/sub_config_widget.c:171
 msgid "_OK"
 msgstr "_OK"
