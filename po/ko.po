@@ -4,14 +4,15 @@
 #
 # Translators:
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# MarongHappy <daemul72@gmail.com>, 2020
+# JungHee Lee <daemul72@gmail.com>, 2020
+# JungHee Lee <daemul72@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-25 00:02-0700\n"
-"PO-Revision-Date: 2020-03-24 16:55+0000\n"
-"Last-Translator: MarongHappy <daemul72@gmail.com>\n"
+"POT-Creation-Date: 2020-08-01 00:02-0700\n"
+"PO-Revision-Date: 2020-08-01 06:36+0000\n"
+"Last-Translator: JungHee Lee <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/fcitx/fcitx/language/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +50,7 @@ msgstr "글꼴 설정 초기화"
 
 #: gtk3/main_window.c:355 gtk/main_window.c:360
 msgid "Configure"
-msgstr "설정"
+msgstr "구성하기"
 
 #: gtk/im_widget.c:146
 msgid "Current Input Method"
