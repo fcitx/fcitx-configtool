@@ -40,6 +40,17 @@ enum {
 
 G_DEFINE_TYPE(FcitxMainWindow, fcitx_main_window, GTK_TYPE_WINDOW)
 
+gboolean reboot_fcitx(GtkApplication *self, GdkEvent *event, gpointer data)
+{
+    GError* error;
+    gchar* argv[3];
+    argv[0] = EXEC_PREFIX "/bin/fcitx";
+    argv[1] = "-r";
+    argv[2] = 0;
+    g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error);
+    return FALSE;
+}
+
 static void fcitx_main_window_finalize(GObject* object);
 
 static void _fcitx_main_window_add_config_file_page(FcitxMainWindow* self);
@@ -104,6 +115,8 @@ fcitx_main_window_init(FcitxMainWindow* self)
     gtk_container_add(GTK_CONTAINER(self), vbox);
     gtk_window_set_icon_name(GTK_WINDOW(self), "fcitx");
     gtk_window_set_title(GTK_WINDOW(self), _("Input Method Configuration"));
+
+    g_signal_connect(self, "delete_event", G_CALLBACK(reboot_fcitx), NULL);
 }
 
 GtkWidget*
