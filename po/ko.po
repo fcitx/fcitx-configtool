@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-01 00:02-0700\n"
-"PO-Revision-Date: 2020-08-01 06:36+0000\n"
+"POT-Creation-Date: 2020-09-15 00:02-0700\n"
+"PO-Revision-Date: 2020-09-15 00:02+0000\n"
 "Last-Translator: JungHee Lee <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/fcitx/fcitx/language/ko/)\n"
 "Language: ko\n"
@@ -46,7 +46,7 @@ msgstr "현재 사용된 사용자 인터페이스 정보를 불러올 수 없�
 
 #: gtk3/config_widget.c:239 gtk/config_widget.c:192
 msgid "Clear font setting"
-msgstr "글꼴 설정 초기화"
+msgstr "글꼴 설정 지우기"
 
 #: gtk3/main_window.c:355 gtk/main_window.c:360
 msgid "Configure"
