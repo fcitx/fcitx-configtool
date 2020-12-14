@@ -44,6 +44,17 @@ enum {
     PAGE_N_COLUMNS
 };
 
+gboolean reboot_fcitx(GtkApplication *self, GdkEvent *event, gpointer data)
+{
+    GError* error;
+    gchar* argv[3];
+    argv[0] = EXEC_PREFIX "/bin/fcitx";
+    argv[1] = "-r";
+    argv[2] = 0;
+    g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error);
+    return FALSE;
+}
+
 G_DEFINE_TYPE(FcitxMainWindow, fcitx_main_window, GTK_TYPE_WINDOW)
 
 static void fcitx_main_window_finalize(GObject* object);
@@ -140,6 +151,8 @@ fcitx_main_window_init(FcitxMainWindow* self)
     g_signal_connect_swapped(G_OBJECT(self), "destroy", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(self->pageview), "selection-changed",
                      G_CALLBACK(_fcitx_main_window_selection_changed_cb), self);
+    
+    g_signal_connect(G_OBJECT(self), "delete_event", G_CALLBACK(reboot_fcitx), NULL);
 
     GtkTreePath* path = gtk_tree_model_get_path(GTK_TREE_MODEL(self->pagestore), &self->impage->iter);
     gtk_icon_view_select_path(GTK_ICON_VIEW(self->pageview), path);
