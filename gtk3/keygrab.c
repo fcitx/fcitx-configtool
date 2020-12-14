@@ -87,7 +87,7 @@ void begin_key_grab(KeyGrabButton* self, gpointer v)
     GdkDisplay* display = gdk_window_get_display (window);
     GdkSeat* seat = gdk_display_get_default_seat (display);
     while (gdk_seat_grab (seat, window,
-                     GDK_SEAT_CAPABILITY_ALL, FALSE,
+                     GDK_SEAT_CAPABILITY_KEYBOARD, FALSE,
                      NULL, NULL, NULL, NULL) != GDK_GRAB_SUCCESS)
         usleep(100);
 }
