@@ -4,15 +4,16 @@
 #
 # Translators:
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# JungHee Lee <daemul72@gmail.com>, 2020
-# JungHee Lee <daemul72@gmail.com>, 2020
+# Bruce Lee <daemul72@gmail.com>, 2021
+# Bruce Lee <daemul72@gmail.com>, 2020
+# Bruce Lee <daemul72@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-09-15 00:02-0700\n"
-"PO-Revision-Date: 2020-09-15 00:02+0000\n"
-"Last-Translator: JungHee Lee <daemul72@gmail.com>\n"
+"POT-Creation-Date: 2021-02-10 20:26+0000\n"
+"PO-Revision-Date: 2021-02-10 14:01+0000\n"
+"Last-Translator: Bruce Lee <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/fcitx/fcitx/language/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +27,7 @@ msgstr "입력기 추가"
 
 #: gtk3/main_window.c:372 gtk/main_window.c:375
 msgid "Addon"
-msgstr "부가기능"
+msgstr "애드온"
 
 #: gtk3/main_window.c:283
 msgid "Advanced"
@@ -124,7 +125,7 @@ msgstr "새 키 조합을 입력하세요"
 
 #: gtk3/main_window.c:293
 msgid "Search Addon"
-msgstr "부가기능 검색"
+msgstr "애드온 검색"
 
 #: gtk3/im_dialog.c:165
 msgid "Search Input Method"
