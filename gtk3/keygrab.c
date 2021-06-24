@@ -191,6 +191,7 @@ GtkWidget* popup_new(GtkWidget* parent, const gchar* text, gboolean mouse)
     GtkWidget* w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_type_hint(GTK_WINDOW(w), GDK_WINDOW_TYPE_HINT_UTILITY);
     gtk_window_set_position(GTK_WINDOW(w), mouse ? GTK_WIN_POS_MOUSE : GTK_WIN_POS_CENTER_ALWAYS);
+    gtk_window_set_default_size(GTK_WINDOW(w), 200, 35);
     if (parent)
         gtk_window_set_transient_for(GTK_WINDOW(w), GTK_WINDOW(gtk_widget_get_toplevel(parent)));
     gtk_window_set_modal(GTK_WINDOW(w), TRUE);
