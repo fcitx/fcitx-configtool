@@ -17,6 +17,7 @@
  *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
  ***************************************************************************/
 
+#include <fcitx-config/fcitx-config.h>
 #include <fcitx-gclient/fcitxkbd.h>
 
 #include "common.h"
@@ -119,12 +120,10 @@ int fcitx_im_config_thirdpart(FcitxConfigFileDesc *cdesc)
     HASH_FOREACH(groupdesc, cdesc->groupsDesc, FcitxConfigGroupDesc) {
         HASH_FOREACH(optiondesc, groupdesc->optionsDesc, FcitxConfigOptionDesc) {
             if (optiondesc->desc && strlen(optiondesc->desc) != 0) {
-                if (0 == strcmp(optiondesc->optionName, "Setting") && 10 == optiondesc->type) {
-                    //printf("%s:%d\tDONE! [%s]\n", __FILE__, __LINE__, optiondesc->rawDefaultValue);
+                if (0 == strcmp(optiondesc->optionName, "Setting") && T_ExternalOption == optiondesc->type) {
                     comd = optiondesc->rawDefaultValue;
                 }
                 if (0 == strcmp(optiondesc->optionName, "Parameter") && 2 == optiondesc->type) {
-                    printf("%s:%d\tDONE! [%s]\n", __FILE__, __LINE__, optiondesc->rawDefaultValue);
                     para = optiondesc->rawDefaultValue;
                     if((NULL != comd) && (0 == strcmp("",para))){
                         char*args[] = {comd,NULL};
