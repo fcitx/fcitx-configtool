@@ -4,16 +4,16 @@
 #
 # Translators:
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# Bruce Lee <daemul72@gmail.com>, 2021
-# Bruce Lee <daemul72@gmail.com>, 2020
-# Bruce Lee <daemul72@gmail.com>, 2020
+# JungHee Lee <daemul72@gmail.com>, 2021
+# JungHee Lee <daemul72@gmail.com>, 2020
+# JungHee Lee <daemul72@gmail.com>, 2020,2022
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-02-10 20:26+0000\n"
-"PO-Revision-Date: 2021-02-10 14:01+0000\n"
-"Last-Translator: Bruce Lee <daemul72@gmail.com>\n"
+"POT-Creation-Date: 2022-03-01 20:27+0000\n"
+"PO-Revision-Date: 2022-03-01 15:04+0000\n"
+"Last-Translator: JungHee Lee <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/fcitx/fcitx/language/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr "비어있음"
 
 #: gtk3/main_window.c:203 gtk/main_window.c:294
 msgid "Global Config"
-msgstr "전역 설정"
+msgstr "전역 구성"
 
 #: gtk3/main_window.c:209 gtk/im_widget.c:102 gtk/im_widget.c:153
 #: gtk/main_window.c:300 gtk3/im_dialog.ui:46 gtk3/im_widget.ui:35
@@ -84,7 +84,7 @@ msgstr "입력기"
 
 #: gtk3/main_window.c:106 gtk/main_window.c:149
 msgid "Input Method Configuration"
-msgstr "입력기 환경설정"
+msgstr "입력기 구성"
 
 #: gtk3/im_config_dialog.c:160
 msgid "Input Method Default"
@@ -109,7 +109,7 @@ msgstr "언어"
 #: gtk3/ui_widget.c:106
 #, c-format
 msgid "No configuration option for %s."
-msgstr "%s에 대한 환경설정이 없음"
+msgstr "%s에 대한 구성 옵션이 없습니다."
 
 #: gtk/im_widget.c:115 gtk3/im_dialog.ui:78
 msgid "Only Show Current Language"
