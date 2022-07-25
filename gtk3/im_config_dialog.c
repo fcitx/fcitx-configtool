@@ -17,6 +17,7 @@
  *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
  ***************************************************************************/
 
+#include <fcitx-config/fcitx-config.h>
 #include <fcitx-gclient/fcitxkbd.h>
 
 #include "common.h"
@@ -111,6 +112,35 @@ layout_foreach_cb(gpointer data, gpointer user_data)
     }
 }
 
+//If is third part im. Use their own config-UI
+int fcitx_im_config_thirdpart(FcitxConfigFileDesc *cdesc)
+{
+    char* comd = NULL;
+    char* para = NULL;
+    HASH_FOREACH(groupdesc, cdesc->groupsDesc, FcitxConfigGroupDesc) {
+        HASH_FOREACH(optiondesc, groupdesc->optionsDesc, FcitxConfigOptionDesc) {
+            if (optiondesc->desc && strlen(optiondesc->desc) != 0) {
+                if (0 == strcmp(optiondesc->optionName, "Setting") && T_ExternalOption == optiondesc->type) {
+                    comd = optiondesc->rawDefaultValue;
+                }
+                if (0 == strcmp(optiondesc->optionName, "Parameter") && 2 == optiondesc->type) {
+                    para = optiondesc->rawDefaultValue;
+                    if((NULL != comd) && (0 == strcmp("",para))){
+                        char*args[] = {comd,NULL};
+                        fcitx_utils_start_process(args);
+                        return 1;
+                    } else if((NULL != comd)&&(NULL != para)) {
+                        printf("%s:%d\tDONE! [%s][%s]\n", __FILE__, __LINE__, comd , para);
+                        char*args[] = {comd,para,NULL};
+                        fcitx_utils_start_process(args);
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
 
 GtkWidget* fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gchar* imname)
 {
@@ -137,6 +167,10 @@ GtkWidget* fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gcha
         cfdesc = get_config_desc(config_desc_name);
         g_free(config_desc_name);
         configurable = (gboolean)(cfdesc != NULL || strlen(addon->subconfig) != 0);
+    }
+
+    if (NULL != cfdesc && fcitx_im_config_thirdpart(cfdesc)) {
+        return NULL;
     }
 
     do {

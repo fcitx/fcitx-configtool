@@ -60,6 +60,8 @@ struct _FcitxImConfigDialogClass {
     GtkDialogClass parent_class;
 };
 
+int fcitx_im_config_thirdpart(FcitxConfigFileDesc *cdesc);
+
 GtkWidget*
 fcitx_im_config_dialog_new(GtkWindow* parent, FcitxAddon* addon, gchar* imname);
 
